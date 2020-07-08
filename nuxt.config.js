@@ -35,7 +35,8 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module
-    '@nuxtjs/stylelint-module'
+    '@nuxtjs/stylelint-module',
+    '@nuxtjs/style-resources'
   ],
   /*
    ** Nuxt.js modules
@@ -49,6 +50,9 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
+  styleResources: {
+    scss: '~/scss/*.scss'
+  },
   /*
    ** Build configuration
    */
