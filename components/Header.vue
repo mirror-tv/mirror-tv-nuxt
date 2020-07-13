@@ -89,6 +89,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   &__bottom-wrapper {
