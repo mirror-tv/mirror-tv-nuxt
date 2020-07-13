@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header class="header" />
     <nuxt />
   </div>
 </template>
@@ -14,3 +14,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  @include media-breakpoint-up(xl) {
+    position: static;
+  }
+}
+</style>
