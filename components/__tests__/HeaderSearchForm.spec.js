@@ -15,3 +15,14 @@ test('Should emit "submit" event while submit button clicked', function() {
   submit.trigger('click')
   expect(wrapper.emitted('submit')).toHaveLength(1)
 })
+
+test('Should binding proper placeholder via props on input', function() {
+  const placeholderMock = 'placeholderMock'
+  const wrapper = shallowMount(HeaderSearchForm, {
+    propsData: {
+      placeholder: placeholderMock
+    }
+  })
+  const input = wrapper.find('input')
+  expect(input.attributes().placeholder).toBe(placeholderMock)
+})

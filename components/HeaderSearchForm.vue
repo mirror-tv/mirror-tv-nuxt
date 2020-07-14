@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent>
-    <input type="text" @input="handleInputChange" />
+    <input type="text" :placeholder="placeholder" @input="handleInputChange" />
     <button @click="$emit('submit')">
       <img
         class="search-icon"
@@ -13,6 +13,12 @@
 
 <script>
 export default {
+  props: {
+    placeholder: {
+      type: String,
+      default: ''
+    }
+  },
   methods: {
     handleInputChange(e) {
       this.$emit('update:input', e.target.value)
@@ -24,13 +30,14 @@ export default {
 <style lang="scss" scoped>
 form {
   display: flex;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
   align-items: center;
 }
 
 input {
   border: 1px solid #c1c2c2;
   height: 30px;
+  flex: 1 1 auto;
 }
 
 button {
