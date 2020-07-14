@@ -36,7 +36,7 @@
       <div class="bottom-wrapper__navs navs">
         <nav
           v-for="category in categories"
-          :key="`category-nav-${category}`"
+          :key="`category-nav-${category}-1`"
           class="navs__category-nav category-nav"
         >
           <nuxt-link
@@ -46,7 +46,7 @@
         </nav>
         <nav
           v-for="category in categories"
-          :key="`category-nav-${category}`"
+          :key="`category-nav-${category}-2`"
           class="navs__category-nav category-nav"
         >
           <nuxt-link
