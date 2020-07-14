@@ -1,15 +1,18 @@
 <template>
   <div class="container">
     <IframeFacebookPagePlugin />
+    <H1Bordered :text="'最新文章'" />
   </div>
 </template>
 
 <script>
 import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
+import H1Bordered from '~/components/H1Bordered'
 
 export default {
   components: {
-    IframeFacebookPagePlugin
+    IframeFacebookPagePlugin,
+    H1Bordered
   }
 }
 </script>
