@@ -1,9 +1,17 @@
 <template>
-  <div class="container"></div>
+  <div class="container">
+    <IframeFacebookPagePlugin />
+  </div>
 </template>
 
 <script>
-export default {}
+import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
+
+export default {
+  components: {
+    IframeFacebookPagePlugin
+  }
+}
 </script>
 
 <style>
