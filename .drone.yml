@@ -33,8 +33,8 @@ pipeline:
     - gcloud source repos clone configs ../configs
     - cp ../configs/mirror-tv-nuxt/dev/config.js ./configs/config.js
     when:
-      #event: [push]
-      #branch: [dev]
+      event: [] #[push]
+      branch: [] #[dev]
   
   build:
     image: node:12.16.2-slim
