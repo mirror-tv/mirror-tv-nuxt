@@ -1,0 +1,330 @@
+<template functional>
+  <footer class="footer">
+    <div class="footer__top-wrapper top-wrapper">
+      <div class="top-wrapper__left left">
+        <img class="logo" src="~/assets/img/Mnews_Logo_white.svg" alt="" />
+        <nav
+          class="left__social-network-services-nav social-network-services-nav"
+        >
+          <a href="" target="_blank" rel="noreferrer noopener">
+            <img
+              class="social-network-service-img"
+              src="~/assets/img/flogo.svg"
+              alt="facebook"
+            />
+          </a>
+          <a href="" target="_blank" rel="noreferrer noopener">
+            <img
+              class="social-network-service-img"
+              src="~/assets/img/LINE_logo.png"
+              alt="line"
+            />
+          </a>
+          <a href="" target="_blank" rel="noreferrer noopener">
+            <img
+              class="social-network-service-img"
+              src="~/assets/img/IG-logo.svg"
+              alt="instagram"
+            />
+          </a>
+        </nav>
+      </div>
+      <div class="top-wrapper__middle middle">
+        <div class="info-wrapper">
+          <p class="info-wrapper__info">
+            <span>鏡電視客服: </span>
+            <span>0809-009-995</span>
+          </p>
+          <p class="info-wrapper__info">
+            <span>客服信箱: </span>
+            <a href="mailto:service@nexttv.com.tw" rel="noreferrer noopener">
+              service@nexttv.com.tw
+            </a>
+          </p>
+        </div>
+        <div class="info-wrapper">
+          <p class="info-wrapper__info">
+            <span>鏡電視客服: </span>
+            <span>(02)7737-4681</span>
+          </p>
+          <p class="info-wrapper__info">
+            <span>客服信箱: </span>
+            <a href="mailto:webservice@nexttv.com.tw" rel="noreferrer noopener">
+              webservice@nexttv.com.tw
+            </a>
+          </p>
+        </div>
+        <div class="info-wrapper">
+          <p class="info-wrapper__info">
+            <span>鏡電視客服: </span>
+            <span>(02)7737-4683</span>
+          </p>
+          <p class="info-wrapper__info">
+            <span>客服信箱: </span>
+            <a
+              href="mailto:movieservice@nexttv.com.tw"
+              rel="noreferrer noopener"
+            >
+              movieservice@nexttv.com.tw
+            </a>
+          </p>
+        </div>
+      </div>
+      <div class="top-wrapper__right right">
+        <a href="/aboutus">關於我們</a>
+        <a href="/privacy">隱私權政策</a>
+      </div>
+    </div>
+    <div class="footer__bottom-wrapper bottom-wrapper">
+      <div class="icons">
+        <a
+          class="icons__readr"
+          href="https://www.readr.tw"
+          target="_blank"
+          rel="noreferer noopener"
+        >
+          <img
+            class="mirror-img"
+            src="~/assets/img/READrlogo-01.svg"
+            alt="readr"
+          />
+        </a>
+        <a
+          class="icons__mirror-media"
+          href="https://www.mirrormedia.mg"
+          target="_blank"
+          rel="noreferer noopener"
+        >
+          <img
+            class="mirror-img"
+            src="~/assets/img/鏡mirrormedia-RGB.svg"
+            alt="mirror-media"
+          />
+        </a>
+        <a
+          class="icons__mirror-fiction"
+          href="https://www.mirrorfiction.com"
+          target="_blank"
+          rel="noreferer noopener"
+        >
+          <img
+            class="mirror-img"
+            src="~/assets/img/mirrorfiction.png"
+            alt="mirror-fiction"
+          />
+        </a>
+        <a
+          class="icons__mirror-voice"
+          href="https://voice.mirrorfiction.com"
+          target="_blank"
+          rel="noreferer noopener"
+        >
+          <img
+            class="mirror-img"
+            src="~/assets/img/mirrorvoice.png"
+            alt="mirror-voice"
+          />
+        </a>
+      </div>
+      <div class="bottom-wrapper__texts texts">
+        <p class="copyright">
+          <span>©Mirror TV BROCASTING LTD.</span>
+          <span>All Rights Reserved.</span>
+          <span>鏡電視股份有限公司 版權所有</span>
+        </p>
+      </div>
+    </div>
+  </footer>
+</template>
+
+<style lang="scss" scoped>
+.top-wrapper {
+  background-color: #014db8;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  @include media-breakpoint-up(xl) {
+    padding: 22px 0;
+    padding-left: calc((100vw - 1000px) / 2);
+    padding-right: calc((100vw - 1000px) / 2);
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+  }
+  &__middle {
+    margin: 30px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      margin: 0 0 0 30px;
+    }
+  }
+  &__right {
+    margin: 30px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      margin: 0 0 0 30px;
+      position: absolute;
+      right: calc((100vw - 1000px) / 2);
+      height: calc(100% - 22px * 2);
+    }
+  }
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__social-network-services-nav {
+    margin: 14px 0 0 0;
+  }
+}
+
+.logo {
+  width: 200px;
+}
+
+.social-network-services-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a + a {
+    margin: 0 0 0 10px;
+  }
+}
+
+.social-network-service-img {
+  opacity: 0.6;
+  &[alt='facebook'],
+  &[alt='instagram'] {
+    height: 20px;
+  }
+  &[alt='line'] {
+    height: 12px;
+  }
+}
+
+.info-wrapper {
+  color: white;
+  font-size: 14px;
+  line-height: 2;
+  letter-spacing: 0.5px;
+  @include media-breakpoint-up(xl) {
+    display: flex;
+  }
+  &__info {
+    @include media-breakpoint-up(xl) {
+      & + & {
+        margin: 0 0 0 5px;
+      }
+    }
+  }
+}
+
+.right {
+  padding: 30px 0 0 0;
+  border-top: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 14px;
+  line-height: 2;
+  letter-spacing: 0.5px;
+  @include media-breakpoint-up(xl) {
+    padding: 0 0 0 30px;
+    border-top: none;
+    border-left: 1px solid white;
+  }
+}
+
+.bottom-wrapper {
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__texts {
+    margin: 30px 0 0 0;
+  }
+}
+
+.icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @include media-breakpoint-up(xl) {
+    flex-direction: row;
+  }
+  &__readr {
+    @include media-breakpoint-up(xl) {
+      order: 4;
+      margin: 0 0 0 16px;
+    }
+  }
+  &__mirror-media {
+    margin: 10px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      order: 1;
+      margin: 0;
+    }
+  }
+  &__mirror-fiction {
+    margin: 16px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      order: 2;
+      margin: 0 0 0 16px;
+    }
+  }
+  &__mirror-voice {
+    margin: 16px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      order: 3;
+      margin: 0 0 0 16px;
+    }
+  }
+}
+
+.mirror-img {
+  &[alt='readr'] {
+    width: 37px;
+    @include media-breakpoint-up(xl) {
+      width: auto;
+      height: 37px;
+    }
+  }
+  &[alt='mirror-media'] {
+    width: 133px;
+    @include media-breakpoint-up(xl) {
+      width: auto;
+      height: 44px;
+    }
+  }
+  &[alt='mirror-fiction'] {
+    width: 133px;
+    @include media-breakpoint-up(xl) {
+      width: auto;
+      height: 37px;
+    }
+  }
+  &[alt='mirror-voice'] {
+    width: 133px;
+    @include media-breakpoint-up(xl) {
+      width: auto;
+      height: 37px;
+    }
+  }
+}
+
+.copyright {
+  color: #014db8;
+  font-size: 14px;
+  line-height: 2;
+  letter-spacing: 0.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @include media-breakpoint-up(xl) {
+    color: #003366;
+    flex-direction: row;
+    span + span {
+      margin: 0 0 0 5px;
+    }
+  }
+}
+</style>
