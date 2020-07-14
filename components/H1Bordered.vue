@@ -17,6 +17,7 @@ export default {
 
 <style lang="scss" scoped>
 .h1-bordered-wrapper {
+  display: inline-block;
   padding: 2px 10px;
   border: 3px solid;
   border-image: linear-gradient(
