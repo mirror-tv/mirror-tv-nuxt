@@ -21,10 +21,21 @@
         >
           <span class="hamburger-icon" />
         </button>
-        <button class="buttons-wrapper__search">
+        <button
+          class="buttons-wrapper__search-button search-button"
+          @click="handleClickSearchButton"
+        >
           <img class="search-icon" src="~/assets/img/search.svg" alt="search" />
         </button>
       </div>
+    </div>
+    <div
+      :class="[
+        'search-form-wrapper-mobile',
+        { 'search-form-wrapper-mobile--visible': showSearchFormWrapper }
+      ]"
+    >
+      <HeaderSearchForm :placeholder="'輸入關鍵字'" />
     </div>
     <div
       :class="[
@@ -68,7 +79,8 @@ export default {
   },
   data() {
     return {
-      showCategories: false
+      showCategories: false,
+      showSearchFormWrapper: false
     }
   },
   computed: {
@@ -79,6 +91,15 @@ export default {
   methods: {
     handleClickHamburgerButton() {
       this.showCategories = !this.showCategories
+      if (this.showCategories === true) {
+        this.showSearchFormWrapper = false
+      }
+    },
+    handleClickSearchButton() {
+      this.showSearchFormWrapper = !this.showSearchFormWrapper
+      if (this.showSearchFormWrapper === true) {
+        this.showCategories = false
+      }
     },
     truncate(text) {
       return text.substring(0, 5)
@@ -135,7 +156,7 @@ export default {
 .buttons-wrapper {
   display: flex;
   align-items: center;
-  &__search {
+  &__search-button {
     margin: 0 0 0 20px;
   }
   @include media-breakpoint-up(xl) {
@@ -168,6 +189,18 @@ export default {
 
 .search-icon {
   height: 30px;
+}
+
+.search-form-wrapper-mobile {
+  background-color: white;
+  padding: 20px;
+  display: none;
+  &--visible {
+    display: initial;
+    @include media-breakpoint-up(xl) {
+      display: none;
+    }
+  }
 }
 
 .bottom-wrapper {

@@ -21,16 +21,65 @@ describe('Features about the top of the header', function() {
     expect(logo.props().to).toBe('/')
   })
 
-  test('Should have class "rotated" after we click hamburger icon', async function() {
-    expect.assertions(2)
+  test('Should have modifier "rotated" on hamburger icon and not have "hide" on bottom wrapper after we click hamburger icon', async function() {
+    expect.assertions(4)
     const wrapper = createWrapper(Header)
     const hamburger = wrapper.find('.hamburger-button')
+    const headerBottomWrapper = wrapper.find('.header__bottom-wrapper')
     hamburger.trigger('click')
     await wrapper.vm.$nextTick()
     expect(hamburger.classes()).toContain('hamburger-button--rotated')
+    expect(headerBottomWrapper.classes()).not.toContain(
+      'header__bottom-wrapper--hide'
+    )
     hamburger.trigger('click')
     await wrapper.vm.$nextTick()
     expect(hamburger.classes()).not.toContain('hamburger-button--rotated')
+    expect(headerBottomWrapper.classes()).toContain(
+      'header__bottom-wrapper--hide'
+    )
+  })
+
+  test('Should have modifier "visible" on HeaderSearchForm in mobile after we click search icon', async function() {
+    const wrapper = createWrapper(Header)
+    const searchIcon = wrapper.find('.search-button')
+    const searchFormWrapperMobile = wrapper.find('.search-form-wrapper-mobile')
+    searchIcon.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(searchFormWrapperMobile.classes()).toContain(
+      'search-form-wrapper-mobile--visible'
+    )
+    searchIcon.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(searchFormWrapperMobile.classes()).not.toContain(
+      'search-form-wrapper-mobile--visible'
+    )
+  })
+
+  test('Should hide bottom wrapper if search form wrapper was shown, vice versa', async function() {
+    const wrapper = createWrapper(Header)
+
+    // buttons
+    const hamburger = wrapper.find('.hamburger-button')
+    const searchIcon = wrapper.find('.search-button')
+    // wrappers
+    const headerBottomWrapper = wrapper.find('.header__bottom-wrapper')
+    const searchFormWrapperMobile = wrapper.find('.search-form-wrapper-mobile')
+
+    hamburger.trigger('click')
+    await wrapper.vm.$nextTick()
+
+    searchIcon.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(headerBottomWrapper.classes()).toContain(
+      'header__bottom-wrapper--hide'
+    )
+
+    hamburger.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(searchFormWrapperMobile.classes()).not.toContain(
+      'search-form-wrapper-mobile--visible'
+    )
   })
 })
 
