@@ -282,6 +282,7 @@ export default {
       }
     }
     @include media-breakpoint-up(xl) {
+      margin: 0;
       &:nth-child(3n),
       &:nth-child(4n),
       &:nth-child(6n) {
