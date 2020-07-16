@@ -6,9 +6,9 @@
           <H1Bordered :text="'最新文章'" />
           <ol class="list-latest">
             <li v-for="item in 12" :key="item">
-              <ArticleCardArrowBar
+              <ArticleCardWithLabelTitle
                 :href="articleLatestsMock.href"
-                :barTitle="articleLatestsMock.barTitle"
+                :labelTitle="articleLatestsMock.labelTitle"
                 :articleImgURL="articleLatestsMock.articleImgURL"
                 :articleTitle="articleLatestsMock.articleTitle"
                 :articleDate="articleLatestsMock.articleDate"
@@ -27,19 +27,19 @@
 <script>
 import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
 import H1Bordered from '~/components/H1Bordered'
-import ArticleCardArrowBar from '~/components/ArticleCardArrowBar'
+import ArticleCardWithLabelTitle from '~/components/ArticleCardWithLabelTitle'
 
 export default {
   components: {
     IframeFacebookPagePlugin,
     H1Bordered,
-    ArticleCardArrowBar
+    ArticleCardWithLabelTitle
   },
   data() {
     return {
       articleLatestsMock: {
         href: 'https://www.mirrormedia.mg/story/20200715edi026/',
-        barTitle: '生活',
+        labelTitle: '生活',
         articleImgURL:
           'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
         articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',

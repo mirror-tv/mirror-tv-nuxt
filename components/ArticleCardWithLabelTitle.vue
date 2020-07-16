@@ -6,10 +6,9 @@
     rel="noreferrer noopener"
   >
     <span class="top-wrapper">
-      <span class="top-wrapper__bar-title-wrapper bar-title-wrapper">
-        <span class="bar-title" v-text="props.barTitle" />
+      <span class="top-wrapper__label-title-wrapper label-title-wrapper">
+        <span class="label-title" v-text="props.labelTitle" />
       </span>
-      <span class="top-wrapper__arrow-icon arrow-icon" />
     </span>
     <span class="bottom-wrapper">
       <img v-lazy="props.articleImgURL" class="article-img" alt="article-img" />
@@ -33,7 +32,7 @@ export default {
       type: String,
       default: ''
     },
-    barTitle: {
+    labelTitle: {
       type: String,
       default: ''
     },
@@ -69,45 +68,21 @@ export default {
 .top-wrapper {
   display: flex;
   width: 100%;
-  &__bar-title-wrapper {
-    flex: 1 1 auto;
-    width: 0;
-  }
 }
 
-.bar-title-wrapper {
+.label-title-wrapper {
   height: 20px;
-  background-color: #ffcc01;
+  background-color: #e7e7e7;
   padding: 0 10px;
   display: flex;
 }
 
-.bar-title {
+.label-title {
   font-size: 14px;
   color: #003366;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.arrow-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-  background-color: #003366;
-  &:after {
-    content: '';
-    width: 10px;
-    height: 10px;
-    display: block;
-    border-top: 1px solid white;
-    border-right: 1px solid white;
-    transform: rotate(45deg);
-    position: relative;
-    right: 2px;
-  }
 }
 
 .bottom-wrapper {

@@ -1,22 +1,22 @@
 import { shallowMount } from '@vue/test-utils'
-import ArticleCardArrowBar from '../ArticleCardArrowBar'
+import ArticleCardWithLabelTitle from '../ArticleCardWithLabelTitle'
 
 describe('props', function() {
-  test('Should render text by "barTitle" props', function() {
-    const barTitleMock = 'barTitleMock'
-    const wrapper = shallowMount(ArticleCardArrowBar, {
+  test('Should render text by "labelTitle" props', function() {
+    const labelTitleMock = 'labelTitleMock'
+    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
       propsData: {
-        barTitle: barTitleMock
+        labelTitle: labelTitleMock
       }
     })
-    const barTitle = wrapper.find('.bar-title')
-    expect(barTitle.text()).toBe(barTitleMock)
+    const barTitle = wrapper.find('.label-title')
+    expect(barTitle.text()).toBe(labelTitleMock)
   })
 
   test('Should render text by "articleImgURL" props', async function() {
     expect.assertions(1)
     const articleImgURLMock = 'articleImgURLMock'
-    const wrapper = await shallowMount(ArticleCardArrowBar, {
+    const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
       propsData: {
         articleImgURL: articleImgURLMock
       }
@@ -27,7 +27,7 @@ describe('props', function() {
 
   test('Should render text by "articleTitle" props', function() {
     const articleTitleMock = 'articleTitleMock'
-    const wrapper = shallowMount(ArticleCardArrowBar, {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
       propsData: {
         articleTitle: articleTitleMock
       }
@@ -39,7 +39,7 @@ describe('props', function() {
   test('Should render text by "articleDate" props', function() {
     const articleDateMockString = '2020/01/02 03:04'
     const articleDateMock = new Date(2020, 0, 2, 3, 4)
-    const wrapper = shallowMount(ArticleCardArrowBar, {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
       propsData: {
         articleDate: articleDateMock
       }
@@ -50,7 +50,7 @@ describe('props', function() {
 
   test('Should render href by "href" props', function() {
     const hrefMock = 'https://www.google.com'
-    const wrapper = shallowMount(ArticleCardArrowBar, {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
       propsData: {
         href: hrefMock
       }
@@ -60,10 +60,10 @@ describe('props', function() {
 })
 
 test('snapshot test', async function() {
-  const wrapper = await shallowMount(ArticleCardArrowBar, {
+  const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
     propsData: {
       href: 'https://www.mirrormedia.mg/story/20200715edi026/',
-      barTitle: '生活',
+      labelTitle: '生活',
       articleImgURL:
         'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
       articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',
