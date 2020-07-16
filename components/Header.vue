@@ -44,8 +44,8 @@
         { 'header__bottom-wrapper--hide': !showCategories }
       ]"
     >
-      <div class="bottom-wrapper__navs navs">
-        <nav
+      <nav class="bottom-wrapper__navs navs">
+        <div
           v-for="category in categories"
           :key="`category-nav-${category}-1`"
           class="navs__category-nav category-nav"
@@ -54,8 +54,8 @@
             :to="`/category/${category}`"
             v-text="truncate(category)"
           />
-        </nav>
-        <nav
+        </div>
+        <div
           v-for="category in categories"
           :key="`category-nav-${category}-2`"
           class="navs__category-nav category-nav"
@@ -64,8 +64,8 @@
             :to="`/category/${category}`"
             v-text="truncate(category)"
           />
-        </nav>
-      </div>
+        </div>
+      </nav>
     </div>
   </header>
 </template>
