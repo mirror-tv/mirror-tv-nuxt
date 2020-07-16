@@ -105,7 +105,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 11px 0 0 20px;
+  padding: 0 0 0 20px;
   @include media-breakpoint-up(xl) {
     padding: 11px 0 0 0;
   }
