@@ -94,6 +94,7 @@ export default {
 
 .article-img {
   width: 46%;
+  height: 100%;
   object-fit: cover;
   @include media-breakpoint-up(xl) {
     width: 100%;
