@@ -50,3 +50,148 @@ exports[`snapshot test 1`] = `
   </span>
 </a>
 `;
+
+exports[`snapshot tests Usage with not provided labelTitle 1`] = `
+<a
+  class="article-card-arrow-bar"
+  href="https://www.mirrormedia.mg/story/20200715edi026/"
+  rel="noreferrer noopener"
+  target="_blank"
+>
+  <span
+    class="top-wrapper"
+  >
+    <!---->
+  </span>
+   
+  <span
+    class="bottom-wrapper row-mobile"
+  >
+    <img
+      alt="article-img"
+      class="article-img shrink"
+      data-src="https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg"
+      lazy="loading"
+      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+    />
+     
+    <span
+      class="bottom-wrapper__info-wrapper bottom-wrapper__info-wrapper--margin-left info-wrapper"
+    >
+      <span
+        class="article-title"
+      >
+        振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子
+      </span>
+       
+      <span
+        class="info-wrapper__article-date article-date"
+      >
+        2020/01/02 03:04
+      </span>
+    </span>
+  </span>
+</a>
+`;
+
+exports[`snapshot tests Usage with provided labelTitle 1`] = `
+<a
+  class="article-card-arrow-bar"
+  href="https://www.mirrormedia.mg/story/20200715edi026/"
+  rel="noreferrer noopener"
+  target="_blank"
+>
+  <span
+    class="top-wrapper"
+  >
+    <span
+      class="top-wrapper__label-title-wrapper label-title-wrapper"
+    >
+      <span
+        class="label-title"
+      >
+        生活
+      </span>
+    </span>
+  </span>
+   
+  <span
+    class="bottom-wrapper row-mobile"
+  >
+    <img
+      alt="article-img"
+      class="article-img shrink"
+      data-src="https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg"
+      lazy="loading"
+      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+    />
+     
+    <span
+      class="bottom-wrapper__info-wrapper bottom-wrapper__info-wrapper--margin-left info-wrapper"
+    >
+      <span
+        class="article-title"
+      >
+        振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子
+      </span>
+       
+      <span
+        class="info-wrapper__article-date article-date"
+      >
+        2020/01/02 03:04
+      </span>
+    </span>
+  </span>
+</a>
+`;
+
+exports[`snapshot tests Usage with provided mobileLayoutDirection 1`] = `
+<a
+  class="article-card-arrow-bar"
+  href="https://www.mirrormedia.mg/story/20200715edi026/"
+  rel="noreferrer noopener"
+  target="_blank"
+>
+  <span
+    class="top-wrapper"
+  >
+    <span
+      class="top-wrapper__label-title-wrapper label-title-wrapper"
+    >
+      <span
+        class="label-title"
+      >
+        生活
+      </span>
+    </span>
+  </span>
+   
+  <span
+    class="bottom-wrapper column-mobile"
+  >
+    <img
+      alt="article-img"
+      class="article-img stretch"
+      data-src="https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg"
+      lazy="loading"
+      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+    />
+     
+    <span
+      class="bottom-wrapper__info-wrapper bottom-wrapper__info-wrapper--margin-right info-wrapper"
+    >
+      <span
+        class="article-title"
+      >
+        振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子
+      </span>
+       
+      <span
+        class="info-wrapper__article-date article-date"
+      >
+        2020/01/02 03:04
+      </span>
+    </span>
+  </span>
+</a>
+`;

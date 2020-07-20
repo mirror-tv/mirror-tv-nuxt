@@ -2,6 +2,12 @@ import { shallowMount } from '@vue/test-utils'
 import ArticleCardWithLabelTitle from '../ArticleCardWithLabelTitle'
 
 describe('props', function() {
+  test('Should hide .label-title-wrapper if we did not provide "labelTitle" props', function() {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle)
+    const labelTitleWrapper = wrapper.find('.label-title-wrapper')
+    expect(labelTitleWrapper.exists()).toBe(false)
+  })
+
   test('Should render text by "labelTitle" props', function() {
     const labelTitleMock = 'labelTitleMock'
     const wrapper = shallowMount(ArticleCardWithLabelTitle, {
@@ -57,18 +63,101 @@ describe('props', function() {
     })
     expect(wrapper.attributes().href).toBe(hrefMock)
   })
+
+  test('Should have class "row-mobile" on .bottom-wrapper if we did not provide "mobileLayoutDirection" props', function() {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle)
+    const bottomWrapper = wrapper.find('.bottom-wrapper')
+    expect(bottomWrapper.classes()).toContain('row-mobile')
+  })
+
+  test('Should have class "shrink" on .article-img if we did not provide "mobileLayoutDirection" props', function() {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle)
+    const articleImage = wrapper.find('.article-img')
+    expect(articleImage.classes()).toContain('shrink')
+  })
+
+  test('Should have modifier "margin-left" on .bottom-wrapper__info-wrapper if we did not provide "mobileLayoutDirection" props', function() {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle)
+    const infoWrapper = wrapper.find('.bottom-wrapper__info-wrapper')
+    expect(infoWrapper.classes()).toContain(
+      'bottom-wrapper__info-wrapper--margin-left'
+    )
+  })
+
+  test('Should have class "column-mobile" on .bottom-wrapper if we provide "column" to "mobileLayoutDirection" props', function() {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+      propsData: {
+        mobileLayoutDirection: 'column'
+      }
+    })
+    const bottomWrapper = wrapper.find('.bottom-wrapper')
+    expect(bottomWrapper.classes()).toContain('column-mobile')
+  })
+
+  test('Should have class "stretch" on .article-img if we provide "column" to "mobileLayoutDirection" props', function() {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+      propsData: {
+        mobileLayoutDirection: 'column'
+      }
+    })
+    const articleImage = wrapper.find('.article-img')
+    expect(articleImage.classes()).toContain('stretch')
+  })
+
+  test('Should have modifier "margin-right" on .bottom-wrapper__info-wrapper if we provide "column" to "mobileLayoutDirection" props', function() {
+    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+      propsData: {
+        mobileLayoutDirection: 'column'
+      }
+    })
+    const infoWrapper = wrapper.find('.bottom-wrapper__info-wrapper')
+    expect(infoWrapper.classes()).toContain(
+      'bottom-wrapper__info-wrapper--margin-right'
+    )
+  })
 })
 
-test('snapshot test', async function() {
-  const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
-    propsData: {
-      href: 'https://www.mirrormedia.mg/story/20200715edi026/',
-      labelTitle: '生活',
-      articleImgURL:
-        'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
-      articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',
-      articleDate: new Date(2020, 0, 2, 3, 4, 5)
-    }
+describe('snapshot tests', function() {
+  test('Usage with provided labelTitle', async function() {
+    const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
+      propsData: {
+        href: 'https://www.mirrormedia.mg/story/20200715edi026/',
+        labelTitle: '生活',
+        articleImgURL:
+          'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
+        articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',
+        articleDate: new Date(2020, 0, 2, 3, 4, 5)
+      }
+    })
+    expect(wrapper.element).toMatchSnapshot()
   })
-  expect(wrapper.element).toMatchSnapshot()
+
+  test('Usage with not provided labelTitle', async function() {
+    const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
+      propsData: {
+        href: 'https://www.mirrormedia.mg/story/20200715edi026/',
+        // labelTitle: '生活',
+        articleImgURL:
+          'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
+        articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',
+        articleDate: new Date(2020, 0, 2, 3, 4, 5)
+      }
+    })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  test('Usage with provided mobileLayoutDirection', async function() {
+    const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
+      propsData: {
+        href: 'https://www.mirrormedia.mg/story/20200715edi026/',
+        labelTitle: '生活',
+        articleImgURL:
+          'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
+        articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',
+        articleDate: new Date(2020, 0, 2, 3, 4, 5),
+        mobileLayoutDirection: 'column'
+      }
+    })
+    expect(wrapper.element).toMatchSnapshot()
+  })
 })
