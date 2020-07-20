@@ -6,7 +6,7 @@
           <H1Bordered :text="'最新文章'" />
           <ol class="list-latest">
             <li v-for="item in 12" :key="item">
-              <ArticleCardWithLabelTitle
+              <ArticleCard
                 :href="articleLatestsMock.href"
                 :labelTitle="articleLatestsMock.labelTitle"
                 :articleImgURL="articleLatestsMock.articleImgURL"
@@ -27,13 +27,13 @@
 <script>
 import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
 import H1Bordered from '~/components/H1Bordered'
-import ArticleCardWithLabelTitle from '~/components/ArticleCardWithLabelTitle'
+import ArticleCard from '~/components/ArticleCard'
 
 export default {
   components: {
     IframeFacebookPagePlugin,
     H1Bordered,
-    ArticleCardWithLabelTitle
+    ArticleCard
   },
   data() {
     return {

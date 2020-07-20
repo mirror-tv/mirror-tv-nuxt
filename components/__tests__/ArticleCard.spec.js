@@ -1,16 +1,16 @@
 import { shallowMount } from '@vue/test-utils'
-import ArticleCardWithLabelTitle from '../ArticleCardWithLabelTitle'
+import ArticleCard from '../ArticleCard'
 
 describe('props', function() {
   test('Should hide .label-title-wrapper if we did not provide "labelTitle" props', function() {
-    const wrapper = shallowMount(ArticleCardWithLabelTitle)
+    const wrapper = shallowMount(ArticleCard)
     const labelTitleWrapper = wrapper.find('.label-title-wrapper')
     expect(labelTitleWrapper.exists()).toBe(false)
   })
 
   test('Should render text by "labelTitle" props', function() {
     const labelTitleMock = 'labelTitleMock'
-    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = shallowMount(ArticleCard, {
       propsData: {
         labelTitle: labelTitleMock
       }
@@ -22,7 +22,7 @@ describe('props', function() {
   test('Should render text by "articleImgURL" props', async function() {
     expect.assertions(1)
     const articleImgURLMock = 'articleImgURLMock'
-    const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = await shallowMount(ArticleCard, {
       propsData: {
         articleImgURL: articleImgURLMock
       }
@@ -33,7 +33,7 @@ describe('props', function() {
 
   test('Should render text by "articleTitle" props', function() {
     const articleTitleMock = 'articleTitleMock'
-    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = shallowMount(ArticleCard, {
       propsData: {
         articleTitle: articleTitleMock
       }
@@ -45,7 +45,7 @@ describe('props', function() {
   test('Should render text by "articleDate" props', function() {
     const articleDateMockString = '2020/01/02 03:04'
     const articleDateMock = new Date(2020, 0, 2, 3, 4)
-    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = shallowMount(ArticleCard, {
       propsData: {
         articleDate: articleDateMock
       }
@@ -56,7 +56,7 @@ describe('props', function() {
 
   test('Should render href by "href" props', function() {
     const hrefMock = 'https://www.google.com'
-    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = shallowMount(ArticleCard, {
       propsData: {
         href: hrefMock
       }
@@ -65,19 +65,19 @@ describe('props', function() {
   })
 
   test('Should have class "row-mobile" on .bottom-wrapper if we did not provide "mobileLayoutDirection" props', function() {
-    const wrapper = shallowMount(ArticleCardWithLabelTitle)
+    const wrapper = shallowMount(ArticleCard)
     const bottomWrapper = wrapper.find('.bottom-wrapper')
     expect(bottomWrapper.classes()).toContain('row-mobile')
   })
 
   test('Should have class "shrink" on .article-img if we did not provide "mobileLayoutDirection" props', function() {
-    const wrapper = shallowMount(ArticleCardWithLabelTitle)
+    const wrapper = shallowMount(ArticleCard)
     const articleImage = wrapper.find('.article-img')
     expect(articleImage.classes()).toContain('shrink')
   })
 
   test('Should have modifier "margin-left" on .bottom-wrapper__info-wrapper if we did not provide "mobileLayoutDirection" props', function() {
-    const wrapper = shallowMount(ArticleCardWithLabelTitle)
+    const wrapper = shallowMount(ArticleCard)
     const infoWrapper = wrapper.find('.bottom-wrapper__info-wrapper')
     expect(infoWrapper.classes()).toContain(
       'bottom-wrapper__info-wrapper--margin-left'
@@ -85,7 +85,7 @@ describe('props', function() {
   })
 
   test('Should have class "column-mobile" on .bottom-wrapper if we provide "column" to "mobileLayoutDirection" props', function() {
-    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = shallowMount(ArticleCard, {
       propsData: {
         mobileLayoutDirection: 'column'
       }
@@ -95,7 +95,7 @@ describe('props', function() {
   })
 
   test('Should have class "stretch" on .article-img if we provide "column" to "mobileLayoutDirection" props', function() {
-    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = shallowMount(ArticleCard, {
       propsData: {
         mobileLayoutDirection: 'column'
       }
@@ -105,7 +105,7 @@ describe('props', function() {
   })
 
   test('Should have modifier "margin-right" on .bottom-wrapper__info-wrapper if we provide "column" to "mobileLayoutDirection" props', function() {
-    const wrapper = shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = shallowMount(ArticleCard, {
       propsData: {
         mobileLayoutDirection: 'column'
       }
@@ -119,7 +119,7 @@ describe('props', function() {
 
 describe('snapshot tests', function() {
   test('Usage with provided labelTitle', async function() {
-    const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = await shallowMount(ArticleCard, {
       propsData: {
         href: 'https://www.mirrormedia.mg/story/20200715edi026/',
         labelTitle: '生活',
@@ -133,7 +133,7 @@ describe('snapshot tests', function() {
   })
 
   test('Usage with not provided labelTitle', async function() {
-    const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = await shallowMount(ArticleCard, {
       propsData: {
         href: 'https://www.mirrormedia.mg/story/20200715edi026/',
         // labelTitle: '生活',
@@ -147,7 +147,7 @@ describe('snapshot tests', function() {
   })
 
   test('Usage with provided mobileLayoutDirection', async function() {
-    const wrapper = await shallowMount(ArticleCardWithLabelTitle, {
+    const wrapper = await shallowMount(ArticleCard, {
       propsData: {
         href: 'https://www.mirrormedia.mg/story/20200715edi026/',
         labelTitle: '生活',

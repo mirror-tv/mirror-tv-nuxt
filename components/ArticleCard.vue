@@ -1,6 +1,6 @@
 <template functional>
   <a
-    class="article-card-arrow-bar"
+    class="article-card"
     :href="props.href"
     target="_blank"
     rel="noreferrer noopener"
@@ -106,7 +106,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.article-card-arrow-bar {
+.article-card {
   display: block;
   @include media-breakpoint-up(xl) {
     width: 180px;
