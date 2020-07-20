@@ -22,7 +22,7 @@
     </span>
   </a>
 </template>
-c
+
 <script>
 import dayjs from 'dayjs'
 
