@@ -68,6 +68,8 @@ export default {
       type: Date,
       default: () => new Date()
     },
+
+    // Differentiate two usages in / and /category/:name pages
     mobileLayoutDirection: {
       type: String,
       default: 'row',
