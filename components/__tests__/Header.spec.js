@@ -12,8 +12,14 @@ const createWrapper = createWrapperHelper({
   },
   stubs: {
     'nuxt-link': RouterLinkStub
+  },
+  data() {
+    return {
+      allCategories: [{ title: 'title' }]
+    }
   }
 })
+
 describe('Features about the top of the header', function() {
   test('Navigate to home page while logo was clicked', function() {
     const wrapper = createWrapper(Header)
@@ -79,6 +85,26 @@ describe('Features about the top of the header', function() {
     await wrapper.vm.$nextTick()
     expect(searchFormWrapperMobile.classes()).not.toContain(
       'search-form-wrapper-mobile--visible'
+    )
+  })
+
+  test('Should hide bottom wrapper after category link was clicked', async function() {
+    expect.assertions(2)
+    const wrapper = createWrapper(Header)
+
+    const hamburger = wrapper.find('.hamburger-button')
+    hamburger.trigger('click')
+    await wrapper.vm.$nextTick()
+    const headerBottomWrapper = wrapper.find('.header__bottom-wrapper')
+    expect(headerBottomWrapper.classes()).not.toContain(
+      'header__bottom-wrapper--hide'
+    )
+
+    const link = wrapper.find('.category-nav').find(RouterLinkStub)
+    link.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(headerBottomWrapper.classes()).toContain(
+      'header__bottom-wrapper--hide'
     )
   })
 })

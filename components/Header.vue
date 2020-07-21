@@ -52,6 +52,7 @@
         >
           <nuxt-link
             :to="`/category/${category.title}`"
+            @click.native="closeHamburgerButton"
             v-text="truncate(category.title)"
           />
         </div>
@@ -90,6 +91,9 @@ export default {
       if (this.showCategories === true) {
         this.showSearchFormWrapper = false
       }
+    },
+    closeHamburgerButton() {
+      this.showCategories = false
     },
     handleClickSearchButton() {
       this.showSearchFormWrapper = !this.showSearchFormWrapper
