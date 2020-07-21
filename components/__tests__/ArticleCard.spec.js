@@ -19,7 +19,7 @@ describe('props', function() {
     expect(barTitle.text()).toBe(labelTitleMock)
   })
 
-  test('Should render text by "articleImgURL" props', async function() {
+  test('Should render image src by "articleImgURL" props', async function() {
     expect.assertions(1)
     const articleImgURLMock = 'articleImgURLMock'
     const wrapper = await shallowMount(ArticleCard, {
