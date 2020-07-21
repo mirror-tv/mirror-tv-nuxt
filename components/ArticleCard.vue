@@ -160,7 +160,7 @@ export default {
   }
 }
 
-.article-img.shrink {
+.article-img {
   &.shrink {
     width: 46%;
     height: 100%;
