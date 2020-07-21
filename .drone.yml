@@ -31,6 +31,8 @@ pipeline:
     secrets: [google_credentials]
     commands:
     - gcloud source repos clone configs ../configs
+    - cd ..
+    - ls
     - cp ../configs/mirror-tv-nuxt/dev/config.js ./configs/config.js
     when:
       event: [push]
