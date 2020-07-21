@@ -111,34 +111,34 @@ describe('Features about the top of the header', function() {
 
 describe('Features about the bottom of the header', function() {
   test('Should render proper navs with category data', function() {
-    const mockCategories = ['one', 'two', 'three']
+    const mockCategories = [
+      { title: 'one' },
+      { title: 'two' },
+      { title: 'three' }
+    ]
     const wrapper = createWrapper(Header, {
-      mocks: {
-        $store: {
-          state: {
-            categories: mockCategories
-          }
+      data() {
+        return {
+          allCategories: mockCategories
         }
       }
     })
     const navs = wrapper.findAll('.category-nav')
-    mockCategories.forEach(function assertTextContent(categoryTitle, i) {
+    mockCategories.forEach(function assertTextContent(category, i) {
       const nav = navs.at(i)
-      expect(nav.text()).toBe(categoryTitle)
+      expect(nav.text()).toBe(category.title)
       expect(nav.find(RouterLinkStub).props().to).toBe(
-        `/category/${categoryTitle}`
+        `/category/${category.title}`
       )
     })
   })
 
   test('Should truncate textContent in nav if more than five character', function() {
-    const mockCategories = ['123456789moreThanfiveCharacter']
+    const mockCategories = [{ title: '123456789moreThanfiveCharacter' }]
     const wrapper = createWrapper(Header, {
-      mocks: {
-        $store: {
-          state: {
-            categories: mockCategories
-          }
+      data() {
+        return {
+          allCategories: mockCategories
         }
       }
     })
