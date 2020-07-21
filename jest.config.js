@@ -7,7 +7,8 @@ module.exports = {
   moduleFileExtensions: ['js', 'vue', 'json'],
   transform: {
     '^.+\\.js$': 'babel-jest',
-    '.*\\.(vue)$': 'vue-jest'
+    '.*\\.(vue)$': 'vue-jest',
+    '\\.(gql|graphql)$': 'jest-transform-graphql'
   },
   collectCoverage: true,
   collectCoverageFrom: [
