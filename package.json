@@ -22,7 +22,9 @@
     }
   },
   "dependencies": {
+    "@nuxtjs/apollo": "^4.0.1-rc.1",
     "@nuxtjs/axios": "^5.3.6",
+    "core-js": "^2.6.5",
     "cross-env": "^5.2.0",
     "dayjs": "^1.8.29",
     "express": "^4.16.4",

@@ -46,23 +46,13 @@
     >
       <nav class="bottom-wrapper__navs navs">
         <div
-          v-for="category in categories"
-          :key="`category-nav-${category}-1`"
+          v-for="category in allCategories"
+          :key="`category-nav-${category.title}`"
           class="navs__category-nav category-nav"
         >
           <nuxt-link
-            :to="`/category/${category}`"
-            v-text="truncate(category)"
-          />
-        </div>
-        <div
-          v-for="category in categories"
-          :key="`category-nav-${category}-2`"
-          class="navs__category-nav category-nav"
-        >
-          <nuxt-link
-            :to="`/category/${category}`"
-            v-text="truncate(category)"
+            :to="`/category/${category.title}`"
+            v-text="truncate(category.title)"
           />
         </div>
       </nav>
@@ -72,8 +62,14 @@
 
 <script>
 import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
+import allCategories from '~/apollo/queries/allCategories.gql'
 
 export default {
+  apollo: {
+    allCategories: {
+      query: allCategories
+    }
+  },
   components: {
     HeaderSearchForm
   },
