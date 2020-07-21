@@ -1,6 +1,6 @@
-<template functional>
+<template>
   <div class="h1-bordered-wrapper">
-    <h1 v-text="props.text" />
+    <h1 v-text="text" />
   </div>
 </template>
 
@@ -33,6 +33,7 @@ export default {
     font-weight: 500;
     letter-spacing: 0.5px;
     color: #014db8;
+    text-align: center;
   }
 }
 </style>
