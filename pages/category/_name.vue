@@ -5,8 +5,21 @@
         <div>
           <H1Bordered class="list-latest-title" :text="pageName" />
           <ol class="list-latest">
-            <li v-for="item in 12" :key="item">
+            <li
+              v-for="(item, i) in 13"
+              :key="item"
+              class="list-latest__list-item list-latest-list-item"
+            >
+              <ArticleCardFeatured
+                v-if="i === 0"
+                class="list-latest-list-item__featured"
+                :href="articleLatestsMock.href"
+                :articleImgURL="articleLatestsMock.articleImgURL"
+                :articleTitle="articleLatestsMock.articleTitle"
+                :articleDate="articleLatestsMock.articleDate"
+              />
               <ArticleCard
+                v-else
                 :href="articleLatestsMock.href"
                 :articleImgURL="articleLatestsMock.articleImgURL"
                 :articleTitle="articleLatestsMock.articleTitle"
@@ -24,11 +37,13 @@
 
 <script>
 import H1Bordered from '~/components/H1Bordered'
+import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 
 export default {
   components: {
     H1Bordered,
+    ArticleCardFeatured,
     ArticleCard
   },
   data() {
@@ -93,6 +108,15 @@ main {
     margin: 0 0 20px 0;
     @include media-breakpoint-up(xl) {
       margin: 0 0 26px 21px;
+    }
+    &:first-child {
+      width: 100vw;
+      position: relative;
+      left: -20px;
+      @include media-breakpoint-up(xl) {
+        width: auto;
+        left: 0;
+      }
     }
   }
 }
