@@ -13,7 +13,13 @@
         <span class="label-title" v-text="props.labelTitle" />
       </span>
     </span>
-    <span :class="['bottom-wrapper', `${props.mobileLayoutDirection}-mobile`]">
+    <span
+      :class="[
+        'article-card__bottom-wrapper',
+        'bottom-wrapper',
+        `${props.mobileLayoutDirection}-mobile`
+      ]"
+    >
       <span
         :class="[
           'article-img-wrapper',
@@ -113,9 +119,16 @@ export default {
 
 <style lang="scss" scoped>
 .article-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   @include media-breakpoint-up(xl) {
     width: 180px;
+  }
+  &__bottom-wrapper {
+    @include media-breakpoint-up(xl) {
+      flex: 1 1 auto;
+    }
   }
 }
 
@@ -156,10 +169,14 @@ export default {
       margin: 0 0 0 20px;
       @include media-breakpoint-up(xl) {
         margin: 11px 0 0 0;
+        flex: 1 1 auto;
       }
     }
     &--margin-right {
       margin: 11px 0 0 0;
+      @include media-breakpoint-up(xl) {
+        flex: 1 1 auto;
+      }
     }
   }
 }

@@ -14,7 +14,7 @@ exports[`snapshot tests Usage with not provided labelTitle 1`] = `
   </span>
    
   <span
-    class="bottom-wrapper row-mobile"
+    class="article-card__bottom-wrapper bottom-wrapper row-mobile"
   >
     <span
       class="article-img-wrapper shrink"
@@ -69,7 +69,7 @@ exports[`snapshot tests Usage with provided labelTitle 1`] = `
   </span>
    
   <span
-    class="bottom-wrapper row-mobile"
+    class="article-card__bottom-wrapper bottom-wrapper row-mobile"
   >
     <span
       class="article-img-wrapper shrink"
@@ -124,7 +124,7 @@ exports[`snapshot tests Usage with provided mobileLayoutDirection 1`] = `
   </span>
    
   <span
-    class="bottom-wrapper column-mobile"
+    class="article-card__bottom-wrapper bottom-wrapper column-mobile"
   >
     <span
       class="article-img-wrapper stretch"
