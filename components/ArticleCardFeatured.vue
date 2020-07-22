@@ -8,7 +8,7 @@
     <span class="article-img-wrapper">
       <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
     </span>
-    <span class="info-wrapper">
+    <span class="article-card__info-wrapper info-wrapper">
       <span class="article-title" v-text="articleTitle" />
       <span
         class="info-wrapper__article-date article-date"
@@ -59,6 +59,11 @@ export default {
   @include media-breakpoint-up(xl) {
     width: 581px;
     flex-direction: row;
+  }
+  &__info-wrapper {
+    @include media-breakpoint-up(xl) {
+      flex: 1 1 auto;
+    }
   }
 }
 
