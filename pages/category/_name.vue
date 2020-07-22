@@ -6,24 +6,24 @@
           <H1Bordered class="list-latest-title" :text="pageName" />
           <ol class="list-latest">
             <li
-              v-for="(post, i) in allPosts"
+              v-for="(post, i) in listArticleMainData"
               :key="post.id"
               class="list-latest__list-item list-latest-list-item"
             >
               <ArticleCardFeatured
                 v-if="i === 0"
                 class="list-latest-list-item__featured"
-                :href="reducerArticleCard(post).href"
-                :articleImgURL="reducerArticleCard(post).articleImgURL"
-                :articleTitle="reducerArticleCard(post).articleTitle"
-                :articleDate="reducerArticleCard(post).articleDate"
+                :href="post.href"
+                :articleImgURL="post.articleImgURL"
+                :articleTitle="post.articleTitle"
+                :articleDate="post.articleDate"
               />
               <ArticleCard
                 v-else
-                :href="reducerArticleCard(post).href"
-                :articleImgURL="reducerArticleCard(post).articleImgURL"
-                :articleTitle="reducerArticleCard(post).articleTitle"
-                :articleDate="reducerArticleCard(post).articleDate"
+                :href="post.href"
+                :articleImgURL="post.articleImgURL"
+                :articleTitle="post.articleTitle"
+                :articleDate="post.articleDate"
                 :mobileLayoutDirection="'column'"
               />
             </li>
@@ -40,12 +40,12 @@ import H1Bordered from '~/components/H1Bordered'
 import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 
-import publishedPostsByCategoryTitle from '~/apollo/queries/publishedPostsByCategoryTitle.gql'
+import allPublishedPostsByCategoryTitle from '~/apollo/queries/allPublishedPostsByCategoryTitle.gql'
 
 export default {
   apollo: {
-    allPosts: {
-      query: publishedPostsByCategoryTitle,
+    allPostsCategory: {
+      query: allPublishedPostsByCategoryTitle,
       variables() {
         return {
           categoryTitle: this.pageName
@@ -61,6 +61,10 @@ export default {
   computed: {
     pageName() {
       return this.$route.params.name
+    },
+
+    listArticleMainData() {
+      return this.allPostsCategory.map((post) => this.reducerArticleCard(post))
     }
   },
   methods: {

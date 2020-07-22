@@ -1,5 +1,5 @@
-query publishedPostsByCategoryTitle($categoryTitle: String!) {
-  allPosts(
+query allPublishedPostsByCategoryTitle($categoryTitle: String!) {
+  allPostsCategory: allPosts(
     sortBy: publishTime_DESC,
     where: {
       Category_some: {
