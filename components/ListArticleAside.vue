@@ -10,7 +10,7 @@
         />
       </li>
     </ol>
-    <nuxt-link v-if="!!moreTo" :to="moreTo" />
+    <nuxt-link v-if="!!moreTo" :to="moreTo">more</nuxt-link>
   </div>
 </template>
 
@@ -33,7 +33,8 @@ export default {
       required: true
     },
     moreTo: {
-      type: String
+      type: String,
+      default: ''
     }
   }
 }
