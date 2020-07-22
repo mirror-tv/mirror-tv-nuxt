@@ -1,5 +1,5 @@
 query allCategories {
-  allCategories {
+  allCategories(sortBy: id_DESC) {
     title
   }
 }
