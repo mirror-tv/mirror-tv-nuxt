@@ -5,13 +5,13 @@
         <div>
           <H1Bordered :text="'最新文章'" />
           <ol class="list-latest">
-            <li v-for="post in allPublishedPosts" :key="post.id">
+            <li v-for="post in latestPosts" :key="post.id">
               <ArticleCard
-                :href="reducerArticleCard(post).href"
-                :labelTitle="reducerArticleCard(post).labelTitle"
-                :articleImgURL="reducerArticleCard(post).articleImgURL"
-                :articleTitle="reducerArticleCard(post).articleTitle"
-                :articleDate="reducerArticleCard(post).articleDate"
+                :href="post.href"
+                :labelTitle="post.labelTitle"
+                :articleImgURL="post.articleImgURL"
+                :articleTitle="post.articleTitle"
+                :articleDate="post.articleDate"
               />
             </li>
           </ol>
@@ -41,9 +41,15 @@ export default {
     H1Bordered,
     ArticleCard
   },
+  computed: {
+    latestPosts() {
+      return this.allPublishedPosts.map((post) => this.reducerArticleCard(post))
+    }
+  },
   methods: {
     reducerArticleCard(post) {
       return {
+        id: post.id,
         href: `/story/${post.slug}`,
         labelTitle: post.Category?.[0]?.title ?? ' ',
         articleImgURL: post.heroImage?.urlMobileSized,
