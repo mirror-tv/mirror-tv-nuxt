@@ -50,7 +50,8 @@ module.exports = {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: require('./configs/config').GRAPHQL_ENDPOINT
+        httpEndpoint: require('./configs/config').GRAPHQL_ENDPOINT_PRIVATE,
+        browserHttpEndpoint: require('./configs/config').GRAPHQL_ENDPOINT
       }
     }
   },
