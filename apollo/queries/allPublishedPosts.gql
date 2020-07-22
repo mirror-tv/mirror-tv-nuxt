@@ -1,0 +1,19 @@
+query allPublishedPosts {
+  allPublishedPosts: allPosts(
+    sortBy: publishTime_DESC,
+    where: {
+      state: published
+    }
+  ) {
+    id
+    title
+    slug
+    publishTime
+    Category {
+      title
+    }
+    heroImage {
+      urlMobileSized
+    }
+  }
+}

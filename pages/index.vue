@@ -5,13 +5,13 @@
         <div>
           <H1Bordered :text="'最新文章'" />
           <ol class="list-latest">
-            <li v-for="item in 12" :key="item">
+            <li v-for="post in allPublishedPosts" :key="post.id">
               <ArticleCard
-                :href="articleLatestsMock.href"
-                :labelTitle="articleLatestsMock.labelTitle"
-                :articleImgURL="articleLatestsMock.articleImgURL"
-                :articleTitle="articleLatestsMock.articleTitle"
-                :articleDate="articleLatestsMock.articleDate"
+                :href="reducerArticleCard(post).href"
+                :labelTitle="reducerArticleCard(post).labelTitle"
+                :articleImgURL="reducerArticleCard(post).articleImgURL"
+                :articleTitle="reducerArticleCard(post).articleTitle"
+                :articleDate="reducerArticleCard(post).articleDate"
               />
             </li>
           </ol>
@@ -28,8 +28,14 @@
 import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
 import H1Bordered from '~/components/H1Bordered'
 import ArticleCard from '~/components/ArticleCard'
+import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 
 export default {
+  apollo: {
+    allPublishedPosts: {
+      query: allPublishedPosts
+    }
+  },
   components: {
     IframeFacebookPagePlugin,
     H1Bordered,
@@ -44,6 +50,17 @@ export default {
           'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
         articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',
         articleDate: new Date(2020, 0, 2, 3, 4, 5)
+      }
+    }
+  },
+  methods: {
+    reducerArticleCard(post) {
+      return {
+        href: `/story/${post.slug}`,
+        labelTitle: post.Category?.[0]?.title ?? ' ',
+        articleImgURL: post.heroImage?.urlMobileSized,
+        articleTitle: post.title,
+        articleDate: new Date(post.publishTime)
       }
     }
   }
