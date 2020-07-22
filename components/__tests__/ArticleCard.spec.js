@@ -72,7 +72,7 @@ describe('props', function() {
 
   test('Should have class "shrink" on .article-img if we did not provide "mobileLayoutDirection" props', function() {
     const wrapper = shallowMount(ArticleCard)
-    const articleImage = wrapper.find('.article-img')
+    const articleImage = wrapper.find('.article-img-wrapper')
     expect(articleImage.classes()).toContain('shrink')
   })
 
@@ -100,7 +100,7 @@ describe('props', function() {
         mobileLayoutDirection: 'column'
       }
     })
-    const articleImage = wrapper.find('.article-img')
+    const articleImage = wrapper.find('.article-img-wrapper')
     expect(articleImage.classes()).toContain('stretch')
   })
 

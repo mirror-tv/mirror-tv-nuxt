@@ -16,13 +16,17 @@ exports[`snapshot tests Usage with not provided labelTitle 1`] = `
   <span
     class="bottom-wrapper row-mobile"
   >
-    <img
-      alt="article-img"
-      class="article-img shrink"
-      data-src="https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg"
-      lazy="loading"
-      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-    />
+    <span
+      class="article-img-wrapper shrink"
+    >
+      <img
+        alt="article-img"
+        class="article-img"
+        data-src="https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg"
+        lazy="loading"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      />
+    </span>
      
     <span
       class="bottom-wrapper__info-wrapper bottom-wrapper__info-wrapper--margin-left info-wrapper"
@@ -67,13 +71,17 @@ exports[`snapshot tests Usage with provided labelTitle 1`] = `
   <span
     class="bottom-wrapper row-mobile"
   >
-    <img
-      alt="article-img"
-      class="article-img shrink"
-      data-src="https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg"
-      lazy="loading"
-      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-    />
+    <span
+      class="article-img-wrapper shrink"
+    >
+      <img
+        alt="article-img"
+        class="article-img"
+        data-src="https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg"
+        lazy="loading"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      />
+    </span>
      
     <span
       class="bottom-wrapper__info-wrapper bottom-wrapper__info-wrapper--margin-left info-wrapper"
@@ -118,13 +126,17 @@ exports[`snapshot tests Usage with provided mobileLayoutDirection 1`] = `
   <span
     class="bottom-wrapper column-mobile"
   >
-    <img
-      alt="article-img"
-      class="article-img stretch"
-      data-src="https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg"
-      lazy="loading"
-      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-    />
+    <span
+      class="article-img-wrapper stretch"
+    >
+      <img
+        alt="article-img"
+        class="article-img"
+        data-src="https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg"
+        lazy="loading"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      />
+    </span>
      
     <span
       class="bottom-wrapper__info-wrapper bottom-wrapper__info-wrapper--margin-right info-wrapper"
