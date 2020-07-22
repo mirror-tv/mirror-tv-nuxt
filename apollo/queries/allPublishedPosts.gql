@@ -1,9 +1,11 @@
-query allPublishedPosts {
+query allPublishedPosts($first: Int = 12, $skip: Int = 0) {
   allPublishedPosts: allPosts(
     sortBy: publishTime_DESC,
     where: {
       state: published
-    }
+    },
+    first: $first,
+    skip: $skip
   ) {
     id
     title
@@ -15,5 +17,14 @@ query allPublishedPosts {
     heroImage {
       urlMobileSized
     }
+  }
+
+  meta: _allPostsMeta(
+    sortBy: publishTime_DESC,
+    where: {
+      state: published
+    }
+  ) {
+    count
   }
 }
