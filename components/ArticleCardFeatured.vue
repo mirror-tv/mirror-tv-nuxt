@@ -5,7 +5,9 @@
     target="_blank"
     rel="noreferrer noopener"
   >
-    <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
+    <span class="article-img-wrapper">
+      <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
+    </span>
     <span class="info-wrapper">
       <span class="article-title" v-text="articleTitle" />
       <span
@@ -52,21 +54,36 @@ export default {
 
 <style lang="scss" scoped>
 .article-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   @include media-breakpoint-up(xl) {
     width: 581px;
-    display: flex;
+    flex-direction: row;
+  }
+}
+
+.article-img-wrapper {
+  display: inline-block;
+  width: 100%;
+  height: 0;
+  padding-top: 66.66%;
+  position: relative;
+  @include media-breakpoint-up(xl) {
+    padding-top: 0;
+    width: 381px;
+    min-width: 381px;
+    height: 254px;
+    min-height: 254px;
   }
 }
 
 .article-img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  @include media-breakpoint-up(xl) {
-    width: 381px;
-    min-width: 381px;
-  }
 }
 
 .info-wrapper {

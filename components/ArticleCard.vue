@@ -14,16 +14,20 @@
       </span>
     </span>
     <span :class="['bottom-wrapper', `${props.mobileLayoutDirection}-mobile`]">
-      <img
-        v-lazy="props.articleImgURL"
+      <span
         :class="[
-          'article-img',
+          'article-img-wrapper',
           $options.methods.getArticleImgExpandModeByDirection(
             props.mobileLayoutDirection
           )
         ]"
-        alt="article-img"
-      />
+      >
+        <img
+          v-lazy="props.articleImgURL"
+          class="article-img"
+          alt="article-img"
+        />
+      </span>
       <span
         :class="[
           'bottom-wrapper__info-wrapper',
@@ -160,19 +164,43 @@ export default {
   }
 }
 
-.article-img {
+.article-img-wrapper {
   &.shrink {
-    width: 46%;
-    height: 100%;
-    object-fit: cover;
+    display: inline-block;
+    width: 130px;
+    min-width: 130px;
+    height: 130px;
+    min-height: 130px;
+    position: relative;
     @include media-breakpoint-up(xl) {
-      width: 100%;
+      width: 180px;
+      min-width: 180px;
+      height: 120px;
+      min-height: 120px;
     }
   }
   &.stretch {
+    display: inline-block;
     width: 100%;
-    object-fit: cover;
+    height: 0;
+    padding-top: 66.66%;
+    position: relative;
+    @include media-breakpoint-up(xl) {
+      width: 180px;
+      min-width: 180px;
+      height: 120px;
+      min-height: 120px;
+    }
   }
+}
+
+.article-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .info-wrapper {
