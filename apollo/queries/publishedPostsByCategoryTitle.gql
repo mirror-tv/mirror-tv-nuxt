@@ -1,0 +1,19 @@
+query publishedPostsByCategoryTitle($categoryTitle: String!) {
+  allPosts(
+    sortBy: publishTime_DESC,
+    where: {
+      Category_some: {
+        title: $categoryTitle
+      },
+      state: published
+    }
+  ) {
+    id
+    title
+    slug
+    publishTime
+    heroImage {
+      urlMobileSized
+    }
+  }
+}

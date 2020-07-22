@@ -6,24 +6,24 @@
           <H1Bordered class="list-latest-title" :text="pageName" />
           <ol class="list-latest">
             <li
-              v-for="(item, i) in 13"
-              :key="item"
+              v-for="(post, i) in allPosts"
+              :key="post.id"
               class="list-latest__list-item list-latest-list-item"
             >
               <ArticleCardFeatured
                 v-if="i === 0"
                 class="list-latest-list-item__featured"
-                :href="articleLatestsMock.href"
-                :articleImgURL="articleLatestsMock.articleImgURL"
-                :articleTitle="articleLatestsMock.articleTitle"
-                :articleDate="articleLatestsMock.articleDate"
+                :href="reducerArticleCard(post).href"
+                :articleImgURL="reducerArticleCard(post).articleImgURL"
+                :articleTitle="reducerArticleCard(post).articleTitle"
+                :articleDate="reducerArticleCard(post).articleDate"
               />
               <ArticleCard
                 v-else
-                :href="articleLatestsMock.href"
-                :articleImgURL="articleLatestsMock.articleImgURL"
-                :articleTitle="articleLatestsMock.articleTitle"
-                :articleDate="articleLatestsMock.articleDate"
+                :href="reducerArticleCard(post).href"
+                :articleImgURL="reducerArticleCard(post).articleImgURL"
+                :articleTitle="reducerArticleCard(post).articleTitle"
+                :articleDate="reducerArticleCard(post).articleDate"
                 :mobileLayoutDirection="'column'"
               />
             </li>
@@ -40,7 +40,19 @@ import H1Bordered from '~/components/H1Bordered'
 import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 
+import publishedPostsByCategoryTitle from '~/apollo/queries/publishedPostsByCategoryTitle.gql'
+
 export default {
+  apollo: {
+    allPosts: {
+      query: publishedPostsByCategoryTitle,
+      variables() {
+        return {
+          categoryTitle: this.pageName
+        }
+      }
+    }
+  },
   components: {
     H1Bordered,
     ArticleCardFeatured,
@@ -60,6 +72,16 @@ export default {
   computed: {
     pageName() {
       return this.$route.params.name
+    }
+  },
+  methods: {
+    reducerArticleCard(post) {
+      return {
+        href: `/story/${post.slug}`,
+        articleImgURL: post.heroImage?.urlMobileSized,
+        articleTitle: post.title,
+        articleDate: new Date(post.publishTime)
+      }
     }
   }
 }
