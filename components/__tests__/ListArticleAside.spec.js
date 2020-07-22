@@ -2,6 +2,7 @@ import { RouterLinkStub } from '@vue/test-utils'
 import ListArticleAside from '../ListArticleAside'
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
 import ArticleCardAside from '~/components/ArticleCardAside'
+import H1Bordered from '~/components/H1Bordered'
 
 const createWrapper = createWrapperHelper({
   propsData: {
@@ -21,8 +22,8 @@ describe('props', function() {
         listTitle: titleMock
       }
     })
-    const title = wrapper.find('.list-title')
-    expect(title.text()).toBe(titleMock)
+    const title = wrapper.findComponent(H1Bordered)
+    expect(title.props().text).toBe(titleMock)
   })
 
   test('Should render ArticleCardAside within list items by "listData" props', function() {
