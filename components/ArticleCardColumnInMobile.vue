@@ -1,0 +1,149 @@
+<template>
+  <a
+    class="article-card"
+    :href="href"
+    target="_blank"
+    rel="noreferrer noopener"
+  >
+    <span
+      :class="[
+        'article-card__bottom-wrapper',
+        'bottom-wrapper',
+        'column-mobile'
+      ]"
+    >
+      <span :class="['article-img-wrapper', 'stretch']">
+        <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
+      </span>
+      <span
+        :class="[
+          'bottom-wrapper__info-wrapper',
+          'bottom-wrapper__info-wrapper--margin-right',
+          'info-wrapper'
+        ]"
+      >
+        <span class="article-title" v-text="articleTitle" />
+        <span
+          class="info-wrapper__article-date article-date"
+          v-text="formatDate(articleDate)"
+        />
+      </span>
+    </span>
+  </a>
+</template>
+
+<script>
+import dayjs from 'dayjs'
+
+export default {
+  props: {
+    href: {
+      type: String,
+      default: ''
+    },
+    articleImgURL: {
+      type: String,
+      default: require('~/assets/img/default image-2.jpg')
+    },
+    articleTitle: {
+      type: String,
+      default: ''
+    },
+    articleDate: {
+      type: Date,
+      default: () => new Date()
+    }
+  },
+  methods: {
+    formatDate(date) {
+      return dayjs(date).format('YYYY/MM/DD HH:mm')
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.article-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  @include media-breakpoint-up(xl) {
+    width: 180px;
+  }
+  &__bottom-wrapper {
+    @include media-breakpoint-up(xl) {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+.bottom-wrapper {
+  &.column-mobile {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__info-wrapper {
+    &--margin-right {
+      margin: 11px 0 0 0;
+      @include media-breakpoint-up(xl) {
+        flex: 1 1 auto;
+      }
+    }
+  }
+}
+
+.article-img-wrapper {
+  &.stretch {
+    display: inline-block;
+    width: 100%;
+    height: 0;
+    padding-top: 66.66%;
+    position: relative;
+    @include media-breakpoint-up(xl) {
+      width: 180px;
+      min-width: 180px;
+      height: 120px;
+      min-height: 120px;
+    }
+  }
+}
+
+.article-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  &__article-date {
+    margin: 11px 0 0 0;
+  }
+}
+
+.article-title {
+  font-size: 16px;
+  color: #4a4a4a;
+  text-align: justify;
+  word-wrap: break-word;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  @include media-breakpoint-up(xl) {
+    -webkit-line-clamp: 3;
+  }
+}
+
+.article-date {
+  font-size: 14px;
+  color: #9b9b9b;
+}
+</style>
