@@ -64,7 +64,8 @@ export default {
     },
 
     listArticleMainData() {
-      return this.allPostsCategory.map((post) => this.reducerArticleCard(post))
+      const listData = this.allPostsCategory ?? []
+      return listData.map((post) => this.reducerArticleCard(post))
     }
   },
   methods: {

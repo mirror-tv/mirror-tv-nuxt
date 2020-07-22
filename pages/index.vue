@@ -43,7 +43,8 @@ export default {
   },
   computed: {
     latestPosts() {
-      return this.allPublishedPosts.map((post) => this.reducerArticleCard(post))
+      const listData = this.allPublishedPosts ?? []
+      return listData.map((post) => this.reducerArticleCard(post))
     }
   },
   methods: {
