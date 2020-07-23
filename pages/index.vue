@@ -1,9 +1,12 @@
 <template>
   <section class="page">
     <div class="max-width-wrapper">
-      <main>
-        <div>
-          <H1Bordered :text="'最新文章'" />
+      <main class="main">
+        <div class="list-latest-wrapper">
+          <H1Bordered
+            class="list-latest-wrapper__list-title"
+            :text="'最新文章'"
+          />
           <ol class="list-latest">
             <li v-for="post in latestPosts" :key="post.id">
               <ArticleCard
@@ -15,9 +18,14 @@
               />
             </li>
           </ol>
+          <ButtonLoadmore
+            v-show="showLoadMoreButton"
+            class="list-latest-wrapper__button-load-more button-load-more"
+            @click.native="handleClickMore"
+          />
         </div>
       </main>
-      <aside>
+      <aside class="max-width-wrapper__aside aside">
         <IframeFacebookPagePlugin />
       </aside>
     </div>
@@ -28,23 +36,43 @@
 import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
 import H1Bordered from '~/components/H1Bordered'
 import ArticleCard from '~/components/ArticleCard'
+import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
+
+const pageSize = 12
 
 export default {
   apollo: {
     allPublishedPosts: {
-      query: allPublishedPosts
+      query: allPublishedPosts,
+      variables: {
+        first: pageSize,
+        skip: 0
+      }
+    },
+    allPublishedPostsMeta: {
+      query: allPublishedPosts,
+      update: (data) => data.meta
     }
   },
   components: {
     IframeFacebookPagePlugin,
     H1Bordered,
-    ArticleCard
+    ArticleCard,
+    ButtonLoadmore
+  },
+  data() {
+    return {
+      page: 0
+    }
   },
   computed: {
     latestPosts() {
       const listData = this.allPublishedPosts ?? []
       return listData.map((post) => this.reducerArticleCard(post))
+    },
+    showLoadMoreButton() {
+      return pageSize * (this.page + 1) < this.allPublishedPostsMeta.count
     }
   },
   methods: {
@@ -57,6 +85,24 @@ export default {
         articleTitle: post.title,
         articleDate: new Date(post.publishTime)
       }
+    },
+    handleClickMore() {
+      this.page += 1
+      this.$apollo.queries.allPublishedPosts.fetchMore({
+        variables: {
+          first: pageSize,
+          skip: pageSize * this.page
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newPosts = fetchMoreResult.allPublishedPosts
+          return {
+            allPublishedPosts: [
+              ...previousResult.allPublishedPosts,
+              ...newPosts
+            ]
+          }
+        }
+      })
     }
   }
 }
@@ -81,12 +127,30 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     margin: 0 auto;
     flex-direction: row;
   }
+  &__aside {
+    margin: 40px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      margin: 0;
+    }
+  }
 }
 
-main {
+.main {
   @include media-breakpoint-up(xl) {
     width: #{$mainWidthDesktop}px;
     padding: 60px 0 50px 0;
+  }
+}
+
+.list-latest-wrapper {
+  display: flex;
+  flex-direction: column;
+  &__list-title {
+    width: max-content;
+  }
+  &__button-load-more {
+    align-self: center;
+    margin: 20px 0 0 0;
   }
 }
 
@@ -105,7 +169,7 @@ main {
   }
 }
 
-aside {
+.aside {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,6 +177,13 @@ aside {
     width: #{$asideWidthDesktop}px;
     padding: 60px 40px;
     background-color: #e7e7e7;
+  }
+}
+
+.button-load-more {
+  width: 100%;
+  @include media-breakpoint-up(xl) {
+    width: 300px;
   }
 }
 </style>
