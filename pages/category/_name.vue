@@ -1,7 +1,7 @@
 <template>
   <section class="page">
     <div class="max-width-wrapper">
-      <main>
+      <main class="main">
         <div>
           <H1Bordered class="list-latest-title" :text="pageName" />
           <ol class="list-latest">
@@ -30,7 +30,14 @@
           </ol>
         </div>
       </main>
-      <aside></aside>
+      <aside class="aside">
+        <ListArticleAside
+          class="aside__list-latest"
+          :listTitle="'最新文章'"
+          :listData="listArticleAsideLatestData"
+          :moreTo="listArticleAsideLatestMoreTo"
+        />
+      </aside>
     </div>
   </section>
 </template>
@@ -39,8 +46,10 @@
 import H1Bordered from '~/components/H1Bordered'
 import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
+import ListArticleAside from '~/components/ListArticleAside'
 
 import allPublishedPostsByCategoryTitle from '~/apollo/queries/allPublishedPostsByCategoryTitle.gql'
+import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 
 export default {
   apollo: {
@@ -51,12 +60,24 @@ export default {
           categoryTitle: this.pageName
         }
       }
+    },
+    allPostsLatest: {
+      query: allPublishedPosts,
+      variables: {
+        first: 5
+      },
+      update: (data) => data.allPublishedPosts
+    },
+    allPostsLatestMeta: {
+      query: allPublishedPosts,
+      update: (data) => data.meta
     }
   },
   components: {
     H1Bordered,
     ArticleCardFeatured,
-    ArticleCard
+    ArticleCard,
+    ListArticleAside
   },
   computed: {
     pageName() {
@@ -65,6 +86,17 @@ export default {
 
     listArticleMainData() {
       const listData = this.allPostsCategory ?? []
+      return listData.map((post) => this.reducerArticleCard(post))
+    },
+
+    showListArticleAsideLatest() {
+      return this.allPostsLatestMeta.count > 5
+    },
+    listArticleAsideLatestMoreTo() {
+      return this.showListArticleAsideLatest ? '/' : undefined
+    },
+    listArticleAsideLatestData() {
+      const listData = this.allPostsLatest ?? []
       return listData.map((post) => this.reducerArticleCard(post))
     }
   },
@@ -102,7 +134,7 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
   }
 }
 
-main {
+.main {
   @include media-breakpoint-up(xl) {
     width: #{$mainWidthDesktop}px;
     padding: 60px 0 50px 0;
@@ -137,14 +169,19 @@ main {
   }
 }
 
-aside {
+.aside {
   display: flex;
   flex-direction: column;
   align-items: center;
   @include media-breakpoint-up(xl) {
     width: #{$asideWidthDesktop}px;
-    padding: 60px 40px;
-    /*background-color: #e7e7e7;*/
+    padding: 60px 0;
+  }
+  &__list-latest {
+    margin: 30px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      margin: 0;
+    }
   }
 }
 </style>
