@@ -58,9 +58,7 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background-image: url('~assets/img/default image-2.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+  @include default-background-image;
 }
 
 .article-title {
