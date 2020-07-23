@@ -8,7 +8,7 @@
     <span class="article-img-wrapper">
       <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
     </span>
-    <span :class="['bottom-wrapper__info-wrapper', 'info-wrapper']">
+    <span :class="['article-card__info-wrapper', 'info-wrapper']">
       <span class="article-title" v-text="articleTitle" />
     </span>
   </a>
@@ -33,4 +33,45 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.article-card {
+  display: flex;
+  &__info-wrapper {
+    margin: 0 0 0 20px;
+  }
+}
+
+.article-img-wrapper {
+  width: 130px;
+  min-width: 130px;
+  height: 87px;
+  min-height: 87px;
+  @include media-breakpoint-up(xl) {
+    width: 150px;
+    min-width: 150px;
+    height: 100px;
+    min-height: 100px;
+  }
+}
+
+.article-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-image: url('~assets/img/default image-2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.article-title {
+  font-size: 16px;
+  color: #4a4a4a;
+  text-align: justify;
+  line-height: 1.3;
+  word-wrap: break-word;
+  -webkit-line-clamp: 4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>
