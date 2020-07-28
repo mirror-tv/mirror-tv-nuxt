@@ -1,0 +1,18 @@
+query allPublishedEditorChoices {
+  allPublishedEditorChoices: allEditorChoices(
+    sortBy: id_DESC,
+    where: {
+      state: published
+    }
+  ) {
+    id
+    choice {
+      id
+      title
+      slug
+      heroImage {
+        urlMobileSized
+      }
+    }
+  }
+}

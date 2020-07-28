@@ -2,7 +2,17 @@
   <section class="page">
     <div class="max-width-wrapper">
       <main class="main">
-        <div class="list-latest-wrapper">
+        <div class="editor-choices-wrapper">
+          <H1Bordered
+            class="editor-choices-wrapper__list-title"
+            :text="'編輯精選'"
+          />
+          <Swiper
+            class="editor-choices-wrapper__swiper"
+            :slidesData="editorChoices"
+          />
+        </div>
+        <div class="main__list-latest-wrapper list-latest-wrapper">
           <H1Bordered
             class="list-latest-wrapper__list-title"
             :text="'最新文章'"
@@ -33,16 +43,21 @@
 </template>
 
 <script>
+import Swiper from '~/components/Swiper'
 import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
 import H1Bordered from '~/components/H1Bordered'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
+import allPublishedEditorChoices from '~/apollo/queries/allPublishedEditorChoices.gql'
 
 const pageSize = 12
 
 export default {
   apollo: {
+    allPublishedEditorChoices: {
+      query: allPublishedEditorChoices
+    },
     allPublishedPosts: {
       query: allPublishedPosts,
       variables: {
@@ -56,6 +71,7 @@ export default {
     }
   },
   components: {
+    Swiper,
     IframeFacebookPagePlugin,
     H1Bordered,
     ArticleCard,
@@ -67,6 +83,12 @@ export default {
     }
   },
   computed: {
+    editorChoices() {
+      const listData = this.allPublishedEditorChoices ?? []
+      return listData
+        .map((post) => post.choice ?? {})
+        .map((post) => this.reducerArticleCard(post))
+    },
     latestPosts() {
       const listData = this.allPublishedPosts ?? []
       return listData.map((post) => this.reducerArticleCard(post))
@@ -139,6 +161,31 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
   @include media-breakpoint-up(xl) {
     width: #{$mainWidthDesktop}px;
     padding: 60px 0 50px 0;
+  }
+  &__list-latest-wrapper {
+    margin: 50px 0 0 0;
+  }
+}
+
+.editor-choices-wrapper {
+  display: flex;
+  flex-direction: column;
+  &__list-title {
+    display: none;
+    @include media-breakpoint-up(xl) {
+      display: initial;
+      width: max-content;
+    }
+  }
+  &__swiper {
+    width: 100vw;
+    position: relative;
+    left: -20px;
+    @include media-breakpoint-up(xl) {
+      margin: 13px 0 0 0;
+      width: 582px;
+      left: 0;
+    }
   }
 }
 

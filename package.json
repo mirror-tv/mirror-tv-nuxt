@@ -30,6 +30,8 @@
     "express": "^4.16.4",
     "lodash": "^4.17.19",
     "nuxt": "^2.0.0",
+    "swiper": "^6.0.4",
+    "vue-awesome-swiper": "^4.1.1",
     "vue-lazyload": "^1.3.3"
   },
   "devDependencies": {
