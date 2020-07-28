@@ -2,7 +2,10 @@
   <section class="page">
     <div class="max-width-wrapper">
       <main class="main">
-        <div class="editor-choices-wrapper">
+        <div
+          v-if="showEditorChoices"
+          class="main__editor-choices-wrapper editor-choices-wrapper"
+        >
           <H1Bordered
             class="editor-choices-wrapper__list-title"
             :text="'編輯精選'"
@@ -83,6 +86,9 @@ export default {
     }
   },
   computed: {
+    showEditorChoices() {
+      return (this.allPublishedEditorChoices?.length ?? 0) > 0
+    },
     editorChoices() {
       const listData = this.allPublishedEditorChoices ?? []
       return listData
@@ -148,6 +154,7 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     max-width: #{$maxWidthDesktop}px;
     margin: 0 auto;
     flex-direction: row;
+    min-height: 100vh;
   }
   &__aside {
     margin: 40px 0 0 0;
@@ -162,8 +169,16 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     width: #{$mainWidthDesktop}px;
     padding: 60px 0 50px 0;
   }
+  &__editor-choices-wrapper {
+    @include media-breakpoint-up(xl) {
+      margin: 0 0 50px 0;
+    }
+  }
   &__list-latest-wrapper {
-    margin: 50px 0 0 0;
+    margin: 40px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      margin: 0;
+    }
   }
 }
 
