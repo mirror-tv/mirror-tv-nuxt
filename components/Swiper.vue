@@ -30,7 +30,6 @@
 import { Swiper as SwiperClass, Autoplay, Pagination } from 'swiper/swiper.esm'
 import getAwesomeSwiper from 'vue-awesome-swiper/dist/exporter'
 import ArticleCardSwiper from '~/components/ArticleCardSwiper'
-import 'swiper/swiper-bundle.css'
 SwiperClass.use([Autoplay, Pagination])
 const { directive } = getAwesomeSwiper(SwiperClass)
 
