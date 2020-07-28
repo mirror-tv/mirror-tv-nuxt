@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     showEditorChoices() {
-      return (this.allPublishedEditorChoices?.length ?? 0) > 0
+      return (this.allPublishedEditorChoices ?? []).length > 0
     },
     editorChoices() {
       const listData = this.allPublishedEditorChoices ?? []
