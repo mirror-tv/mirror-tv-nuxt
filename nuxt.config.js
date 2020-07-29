@@ -24,7 +24,7 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: ['~/css/base.css', 'swiper/swiper-bundle.css'],
+  css: ['~/css/base.css'],
   /*
    ** Plugins to load before mounting the App
    */

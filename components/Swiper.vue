@@ -76,6 +76,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import 'swiper/swiper-bundle.css';
+
 .swiper {
   width: 100%;
   margin: 0;
