@@ -8,6 +8,8 @@ const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
 
 async function start() {
+  app.use('/api/graphql', require('./graphql'))
+
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
