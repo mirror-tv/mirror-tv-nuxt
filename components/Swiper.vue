@@ -61,7 +61,7 @@ export default {
     },
     swiperOption() {
       return {
-        loop: true,
+        loop: this.isMultipleSlides,
         spaceBetween: 0,
         centeredSlides: true,
         autoplay: this.swiperOptionAutoplay,
@@ -77,11 +77,6 @@ export default {
 
 <style lang="scss" scoped>
 @import 'swiper/swiper-bundle.css';
-
-.swiper {
-  width: 100%;
-  margin: 0;
-}
 
 .swiper-slide {
   display: flex;

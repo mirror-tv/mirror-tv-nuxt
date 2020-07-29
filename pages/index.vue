@@ -186,9 +186,9 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
   display: flex;
   flex-direction: column;
   &__list-title {
-    display: none;
+    display: none !important;
     @include media-breakpoint-up(xl) {
-      display: initial;
+      display: inline-block !important;
       width: max-content;
     }
   }
@@ -197,7 +197,7 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     position: relative;
     left: -20px;
     @include media-breakpoint-up(xl) {
-      margin: 13px 0 0 0;
+      margin: 13px 0 0 0 !important;
       width: 582px;
       left: 0;
     }
