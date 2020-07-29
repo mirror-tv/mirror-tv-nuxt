@@ -295,6 +295,7 @@ export default {
       }
       &:last-child {
         &:after {
+          @include separator_line;
           background-color: #979797;
         }
       }
