@@ -51,6 +51,7 @@
           class="navs__category-nav category-nav"
         >
           <nuxt-link
+            class="category-nav__link"
             :to="`/category/${category.title}`"
             @click.native="closeHamburgerButton"
             v-text="truncate(category.title)"
@@ -221,7 +222,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   margin-top: 32px;
-  /*margin-bottom: calc(30px - 32px);*/
   margin-left: calc((100vw - 81px * 3) / 2);
   margin-right: calc((100vw - 81px * 3) / 2);
   @include media-breakpoint-between(md, lg) {
@@ -267,6 +267,11 @@ export default {
           @include separator_line;
         }
       }
+      &:last-child {
+        &:after {
+          @include separator_line;
+        }
+      }
     }
     @include media-breakpoint-between(lg, xl) {
       &:nth-child(3n),
@@ -276,6 +281,11 @@ export default {
         }
       }
       &:nth-child(6n) {
+        &:after {
+          @include separator_line;
+        }
+      }
+      &:last-child {
         &:after {
           @include separator_line;
         }
@@ -313,11 +323,6 @@ export default {
       border-bottom: 2px solid transparent;
       box-shadow: none;
     }
-    a {
-      padding: 0 24px;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-    }
     @include media-breakpoint-up(xl) {
       &:hover {
         border-bottom: 2px solid #ffcc01;
@@ -326,6 +331,20 @@ export default {
       a {
         padding: 0 15px;
       }
+    }
+  }
+
+  .category-nav__link {
+    padding: 0 10px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    width: 77px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    @include media-breakpoint-up(xl) {
+      width: auto;
     }
   }
 }
