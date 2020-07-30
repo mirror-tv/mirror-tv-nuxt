@@ -108,7 +108,7 @@ export default {
       return {
         id: post.id,
         href: `/story/${post.slug}`,
-        labelTitle: post.Category?.[0]?.title ?? ' ',
+        labelTitle: post.categories?.[0]?.title ?? ' ',
         articleImgURL: post.heroImage?.urlMobileSized,
         articleTitle: post.title,
         articleDate: new Date(post.publishTime)
