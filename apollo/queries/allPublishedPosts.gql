@@ -11,7 +11,7 @@ query allPublishedPosts($first: Int = 12, $skip: Int = 0) {
     title
     slug
     publishTime
-    Category {
+    categories {
       title
     }
     heroImage {
