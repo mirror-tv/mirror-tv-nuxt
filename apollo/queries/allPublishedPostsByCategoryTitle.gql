@@ -2,7 +2,7 @@ query allPublishedPostsByCategoryTitle($categoryTitle: String!) {
   allPostsCategory: allPosts(
     sortBy: publishTime_DESC,
     where: {
-      Category_some: {
+      categories_some: {
         title: $categoryTitle
       },
       state: published
