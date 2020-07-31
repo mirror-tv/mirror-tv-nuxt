@@ -64,9 +64,10 @@ export default {
 .article-title {
   font-size: 16px;
   color: #4a4a4a;
-  text-align: justify;
+  text-align: left;
   line-height: 1.3;
   word-wrap: break-word;
+  word-break: break-all;
   -webkit-line-clamp: 4;
   display: -webkit-box;
   -webkit-box-orient: vertical;
