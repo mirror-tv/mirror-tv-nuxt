@@ -98,6 +98,10 @@ export default {
   background-color: #e7e7e7;
   padding: 0 10px;
   display: flex;
+  max-width: calc(130px / 2);
+  @include media-breakpoint-up(xl) {
+    max-width: 50%;
+  }
 }
 
 .label-title {
