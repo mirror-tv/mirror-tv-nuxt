@@ -2,7 +2,7 @@
   <section class="page">
     <div class="max-width-wrapper">
       <main class="main">
-        <div>
+        <div class="list-latest-wrapper">
           <H1Bordered class="list-latest-title" :text="pageName" />
           <ol class="list-latest">
             <li
@@ -28,6 +28,11 @@
               />
             </li>
           </ol>
+          <ButtonLoadmore
+            v-show="showLoadMoreButton"
+            class="list-latest-wrapper__button-load-more button-load-more"
+            @click.native="handleClickMore"
+          />
         </div>
       </main>
       <aside class="aside">
@@ -46,10 +51,13 @@
 import H1Bordered from '~/components/H1Bordered'
 import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
+import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import ListArticleAside from '~/components/ListArticleAside'
 
 import allPublishedPostsByCategoryTitle from '~/apollo/queries/allPublishedPostsByCategoryTitle.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
+
+const pageSize = 13
 
 export default {
   apollo: {
@@ -57,9 +65,20 @@ export default {
       query: allPublishedPostsByCategoryTitle,
       variables() {
         return {
-          categoryTitle: this.pageName
+          categoryTitle: this.pageName,
+          first: pageSize,
+          skip: 0
         }
       }
+    },
+    allPostsCategoryMeta: {
+      query: allPublishedPostsByCategoryTitle,
+      variables() {
+        return {
+          categoryTitle: this.pageName
+        }
+      },
+      update: (data) => data.meta
     },
     allPostsLatest: {
       query: allPublishedPosts,
@@ -77,7 +96,13 @@ export default {
     H1Bordered,
     ArticleCardFeatured,
     ArticleCard,
+    ButtonLoadmore,
     ListArticleAside
+  },
+  data() {
+    return {
+      page: 0
+    }
   },
   computed: {
     pageName() {
@@ -98,6 +123,10 @@ export default {
     listArticleAsideLatestData() {
       const listData = this.allPostsLatest ?? []
       return listData.map((post) => this.reducerArticleCard(post))
+    },
+
+    showLoadMoreButton() {
+      return pageSize * (this.page + 1) < this.allPostsCategoryMeta.count
     }
   },
   methods: {
@@ -108,6 +137,22 @@ export default {
         articleTitle: post.title,
         articleDate: new Date(post.publishTime)
       }
+    },
+    handleClickMore() {
+      this.page += 1
+      this.$apollo.queries.allPostsCategory.fetchMore({
+        variables: {
+          categoryTitle: this.pageName,
+          first: pageSize,
+          skip: pageSize * this.page
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newPosts = fetchMoreResult.allPostsCategory
+          return {
+            allPostsCategory: [...previousResult.allPostsCategory, ...newPosts]
+          }
+        }
+      })
     }
   }
 }
@@ -125,7 +170,7 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
 .max-width-wrapper {
   display: flex;
   flex-direction: column;
-  padding: 50px 20px;
+  padding: 80px 20px 50px 20px;
   @include media-breakpoint-up(xl) {
     padding: 0;
     max-width: #{$maxWidthDesktop}px;
@@ -141,8 +186,21 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
   }
 }
 
+.list-latest-wrapper {
+  display: flex;
+  flex-direction: column;
+  &__button-load-more {
+    align-self: center;
+    margin: 30px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      margin: 110px 0 0 0;
+    }
+  }
+}
+
 .list-latest-title {
   min-width: 110px;
+  width: max-content;
 }
 
 .list-latest {
@@ -166,6 +224,13 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
         left: 0;
       }
     }
+  }
+}
+
+.button-load-more {
+  width: 100%;
+  @include media-breakpoint-up(xl) {
+    width: 300px;
   }
 }
 

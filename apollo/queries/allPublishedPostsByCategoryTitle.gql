@@ -1,4 +1,4 @@
-query allPublishedPostsByCategoryTitle($categoryTitle: String!) {
+query allPublishedPostsByCategoryTitle($categoryTitle: String!, $first: Int = 13, $skip: Int = 0) {
   allPostsCategory: allPosts(
     sortBy: publishTime_DESC,
     where: {
@@ -6,7 +6,9 @@ query allPublishedPostsByCategoryTitle($categoryTitle: String!) {
         title: $categoryTitle
       },
       state: published
-    }
+    },
+    first: $first,
+    skip: $skip
   ) {
     id
     title
@@ -15,5 +17,17 @@ query allPublishedPostsByCategoryTitle($categoryTitle: String!) {
     heroImage {
       urlMobileSized
     }
+  }
+
+  meta: _allPostsMeta(
+    sortBy: publishTime_DESC,
+    where: {
+      categories_some: {
+        title: $categoryTitle
+      },
+      state: published
+    }
+  ) {
+    count
   }
 }
