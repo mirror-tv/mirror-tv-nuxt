@@ -100,7 +100,7 @@ export default {
       return listData.map((post) => this.reducerArticleCard(post))
     },
     showLoadMoreButton() {
-      return pageSize * (this.page + 1) < this.allPublishedPostsMeta.count
+      return pageSize * (this.page + 1) < this.allPublishedPostsMeta?.count
     }
   },
   methods: {
