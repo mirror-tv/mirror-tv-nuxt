@@ -1,0 +1,39 @@
+query postPublished($slug: String!) {
+  postPublished: allPosts(
+    where: {
+      state: published,
+      slug: $slug,
+    }
+  ) {
+    title
+    brief
+    content
+    publishTime
+    heroImage {
+      mobile: urlMobileSized
+      desktop: urlDesktopSized
+    }
+    heroCaption
+    categories {
+      title
+    }
+    writers {
+      name
+    }
+    photographers {
+      name
+    }
+    cameraOperators {
+      name
+    }
+    designers {
+      name
+    }
+    engineers {
+     name 
+    }
+    vocals {
+      name
+    }
+  }
+}
