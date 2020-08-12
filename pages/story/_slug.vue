@@ -369,8 +369,10 @@ $asideWidthDesktop: 380;
     background-color: #e7e7e7;
   }
   &__list-latest {
-    padding: 0 30px;
-    border: none;
+    @include media-breakpoint-up(xl) {
+      padding: 0 30px !important;
+      border: none !important;
+    }
   }
 }
 </style>
