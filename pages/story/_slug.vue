@@ -24,6 +24,10 @@
           <p v-if="engineers">工程｜{{ engineers }}</p>
           <p v-if="vocals">主播｜{{ vocals }}</p>
         </div>
+        <div class="post__social-media-share">
+          <ShareFacebook />
+          <ShareLine />
+        </div>
         <div v-if="brief" class="post__brief" v-html="brief" />
         <article class="post__content">
           <ArticleContentParagraph
@@ -76,6 +80,8 @@ import ArticleContentParagraph from '~/components/ArticleContentParagraph.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
 import HeadingBordered from '~/components/HeadingBordered'
 import ListArticleAside from '~/components/ListArticleAside'
+import ShareFacebook from '~/components/ShareFacebook'
+import ShareLine from '~/components/ShareLine'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import postPublished from '~/apollo/queries/postPublished.gql'
@@ -106,7 +112,9 @@ export default {
     ArticleContentParagraph,
     ArticleTag,
     HeadingBordered,
-    ListArticleAside
+    ListArticleAside,
+    ShareFacebook,
+    ShareLine
   },
   computed: {
     brief() {
@@ -296,6 +304,14 @@ $asideWidthDesktop: 380;
       + p {
         margin-left: 10px;
       }
+    }
+  }
+  &__social-media-share {
+    display: flex;
+    align-items: center;
+    margin: 10px 0 0;
+    .share + .share {
+      margin-left: 10px;
     }
   }
   &__brief {
