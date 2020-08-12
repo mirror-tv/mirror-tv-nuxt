@@ -6,7 +6,7 @@
           v-if="showEditorChoices"
           class="main__editor-choices-wrapper editor-choices-wrapper"
         >
-          <H1Bordered
+          <HeadingBordered
             class="editor-choices-wrapper__list-title"
             :text="'編輯精選'"
           />
@@ -16,7 +16,7 @@
           />
         </div>
         <div class="main__list-latest-wrapper list-latest-wrapper">
-          <H1Bordered
+          <HeadingBordered
             class="list-latest-wrapper__list-title"
             :text="'最新文章'"
           />
@@ -48,7 +48,7 @@
 <script>
 import Swiper from '~/components/Swiper'
 import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
-import H1Bordered from '~/components/H1Bordered'
+import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
@@ -76,7 +76,7 @@ export default {
   components: {
     Swiper,
     IframeFacebookPagePlugin,
-    H1Bordered,
+    HeadingBordered,
     ArticleCard,
     ButtonLoadmore
   },

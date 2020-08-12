@@ -1,6 +1,6 @@
 <template>
-  <div class="h1-bordered-wrapper">
-    <h1 v-text="text" />
+  <div class="heading-bordered-wrapper">
+    <span v-text="text" />
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.h1-bordered-wrapper {
+.heading-bordered-wrapper {
   display: inline-block;
   padding: 2px 10px;
   border: 3px solid;
@@ -28,7 +28,8 @@ export default {
       #014db8 65%
     )
     5;
-  h1 {
+  span {
+    display: block;
     font-size: 20px;
     font-weight: 500;
     letter-spacing: 0.5px;

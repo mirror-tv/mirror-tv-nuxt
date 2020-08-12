@@ -3,7 +3,7 @@
     <div class="max-width-wrapper">
       <main class="main">
         <div class="list-latest-wrapper">
-          <H1Bordered class="list-latest-title" :text="pageName" />
+          <HeadingBordered class="list-latest-title" :text="pageName" />
           <ol class="list-latest">
             <li
               v-for="(post, i) in listArticleMainData"
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import H1Bordered from '~/components/H1Bordered'
+import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
@@ -93,7 +93,7 @@ export default {
     }
   },
   components: {
-    H1Bordered,
+    HeadingBordered,
     ArticleCardFeatured,
     ArticleCard,
     ButtonLoadmore,

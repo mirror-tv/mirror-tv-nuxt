@@ -1,9 +1,9 @@
 import { shallowMount } from '@vue/test-utils'
-import H1Bordered from '../H1Bordered.vue'
+import HeadingBordered from '../HeadingBordered.vue'
 
 test('Should render props "text"', function() {
   const textMock = 'textMock'
-  const wrapper = shallowMount(H1Bordered, {
+  const wrapper = shallowMount(HeadingBordered, {
     propsData: {
       text: textMock
     }

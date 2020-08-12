@@ -2,7 +2,7 @@ import { RouterLinkStub } from '@vue/test-utils'
 import ListArticleAside from '../ListArticleAside'
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
 import ArticleCardAside from '~/components/ArticleCardAside'
-import H1Bordered from '~/components/H1Bordered'
+import HeadingBordered from '~/components/HeadingBordered'
 
 const createWrapper = createWrapperHelper({
   propsData: {
@@ -22,7 +22,7 @@ describe('props', function() {
         listTitle: titleMock
       }
     })
-    const title = wrapper.findComponent(H1Bordered)
+    const title = wrapper.findComponent(HeadingBordered)
     expect(title.props().text).toBe(titleMock)
   })
 

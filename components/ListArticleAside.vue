@@ -1,6 +1,9 @@
 <template>
   <div class="list-wrapper">
-    <H1Bordered class="list-wrapper__list-title list-title" :text="listTitle" />
+    <HeadingBordered
+      class="list-wrapper__list-title list-title"
+      :text="listTitle"
+    />
     <ol class="list-wrapper__list list">
       <li
         v-for="(item, i) in listData"
@@ -24,12 +27,12 @@
 </template>
 
 <script>
-import H1Bordered from './H1Bordered.vue'
+import HeadingBordered from './HeadingBordered.vue'
 import ArticleCardAside from './ArticleCardAside.vue'
 
 export default {
   components: {
-    H1Bordered,
+    HeadingBordered,
     ArticleCardAside
   },
   props: {
