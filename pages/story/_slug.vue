@@ -4,10 +4,10 @@
       <main class="main">
         <figure class="post__image">
           <img
-            :src="image.mobile"
+            v-lazy="image.mobile"
             :alt="imageCaption"
+            :data-srcset="`${image.mobile} 0w, ${image.desktop} 1200vw`"
             sizes="(max-width: 1199px) 100vw, 500px"
-            :srcset="`${image.mobile} 0w, ${image.desktop} 1200vw`"
           />
           <figcaption v-text="imageCaption" />
         </figure>
@@ -25,6 +25,21 @@
           <p v-if="vocals">主播｜{{ vocals }}</p>
         </div>
         <div class="post__brief" v-html="brief" />
+        <article class="post__content">
+          <ArticleContentParagraph
+            v-for="paragraph in content"
+            :key="paragraph.id"
+            :paragraph="paragraph"
+          />
+        </article>
+        <div v-if="hasTags" class="post__tags">
+          <ArticleTag
+            v-for="tag in tags"
+            :key="tag.name"
+            :tag="tag"
+            class="post__tag"
+          />
+        </div>
       </main>
       <aside class="aside"></aside>
     </div>
@@ -33,6 +48,9 @@
 
 <script>
 import dayjs from 'dayjs'
+import ArticleContentParagraph from '~/components/ArticleContentParagraph.vue'
+import ArticleTag from '~/components/ArticleTag.vue'
+
 import postPublished from '~/apollo/queries/postPublished.gql'
 
 export default {
@@ -45,6 +63,10 @@ export default {
         }
       }
     }
+  },
+  components: {
+    ArticleContentParagraph,
+    ArticleTag
   },
   computed: {
     brief() {
@@ -81,6 +103,9 @@ export default {
         .map((item) => item.name)
         .join('、')
     },
+    hasTags() {
+      return this.tags.length > 0
+    },
     image() {
       return this.postPublished?.[0]?.heroImage
     },
@@ -94,6 +119,9 @@ export default {
       return this.postPublished?.[0]?.photographers
         .map((item) => item.name)
         .join('、')
+    },
+    tags() {
+      return this.postPublished?.[0]?.tags
     },
     title() {
       return this.postPublished?.[0]?.title
@@ -218,6 +246,22 @@ $asideWidthDesktop: 380;
         #014db8 80%
       )
       5;
+  }
+  &__content {
+    margin: 30px 0 0;
+  }
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% + 10px);
+    margin-top: 25px;
+    transform: translateX(-5px);
+    + * {
+      margin-top: 35px;
+    }
+  }
+  &__tag {
+    margin: 5px;
   }
 }
 
