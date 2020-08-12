@@ -2,7 +2,7 @@
   <section class="page">
     <div class="max-width-wrapper">
       <main class="main">
-        <figure class="post__image">
+        <figure v-if="image.mobile" class="post__image">
           <img
             v-lazy="image.mobile"
             :alt="imageCaption"
@@ -24,7 +24,7 @@
           <p v-if="engineers">工程｜{{ engineers }}</p>
           <p v-if="vocals">主播｜{{ vocals }}</p>
         </div>
-        <div class="post__brief" v-html="brief" />
+        <div v-if="brief" class="post__brief" v-html="brief" />
         <article class="post__content">
           <ArticleContentParagraph
             v-for="paragraph in content"
@@ -40,8 +40,32 @@
             class="post__tag"
           />
         </div>
+        <div v-if="hasRelatedPosts" class="post__related-posts">
+          <HeadingBordered text="相關文章" />
+          <ul>
+            <li
+              v-for="post in relatedPosts"
+              :key="post.slug"
+              class="post__related"
+            >
+              <a
+                :href="`/story/${post.slug}`"
+                target="_blank"
+                rel="noopener noreferrer"
+                v-text="post.title"
+              />
+            </li>
+          </ul>
+        </div>
       </main>
-      <aside class="aside"></aside>
+      <aside class="aside">
+        <ListArticleAside
+          class="aside__list-latest"
+          :listTitle="'最新文章'"
+          :listData="listArticleAsideLatestData"
+          :moreTo="listArticleAsideLatestMoreTo"
+        />
+      </aside>
     </div>
   </section>
 </template>
@@ -50,7 +74,10 @@
 import dayjs from 'dayjs'
 import ArticleContentParagraph from '~/components/ArticleContentParagraph.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
+import HeadingBordered from '~/components/HeadingBordered'
+import ListArticleAside from '~/components/ListArticleAside'
 
+import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import postPublished from '~/apollo/queries/postPublished.gql'
 
 export default {
@@ -62,11 +89,24 @@ export default {
           slug: this.$route.params.slug
         }
       }
+    },
+    allPostsLatest: {
+      query: allPublishedPosts,
+      variables: {
+        first: 5
+      },
+      update: (data) => data.allPublishedPosts
+    },
+    allPostsLatestMeta: {
+      query: allPublishedPosts,
+      update: (data) => data.meta
     }
   },
   components: {
     ArticleContentParagraph,
-    ArticleTag
+    ArticleTag,
+    HeadingBordered,
+    ListArticleAside
   },
   computed: {
     brief() {
@@ -103,14 +143,30 @@ export default {
         .map((item) => item.name)
         .join('、')
     },
+    hasPostsLatest() {
+      return this.allPostsLatest.length > 0
+    },
+    hasPostsLatestMore() {
+      return this.allPostsLatestMeta.count > 5
+    },
+    hasRelatedPosts() {
+      return this.relatedPosts?.length > 0
+    },
     hasTags() {
-      return this.tags.length > 0
+      return this.tags?.length > 0
     },
     image() {
-      return this.postPublished?.[0]?.heroImage
+      return this.postPublished?.[0]?.heroImage ?? {}
     },
     imageCaption() {
       return this.postPublished?.[0]?.heroCaption
+    },
+    listArticleAsideLatestData() {
+      const listData = this.allPostsLatest ?? []
+      return listData.map((post) => this.reducerArticleCard(post))
+    },
+    listArticleAsideLatestMoreTo() {
+      return this.hasPostsLatestMore ? '/latest' : undefined
     },
     publishTime() {
       return this.postPublished?.[0]?.publishTime
@@ -119,6 +175,9 @@ export default {
       return this.postPublished?.[0]?.photographers
         .map((item) => item.name)
         .join('、')
+    },
+    relatedPosts() {
+      return this.postPublished?.[0]?.relatedPosts
     },
     tags() {
       return this.postPublished?.[0]?.tags
@@ -138,6 +197,14 @@ export default {
   methods: {
     formatDate(date) {
       return dayjs(date).format('YYYY.MM.DD HH:mm')
+    },
+    reducerArticleCard(post) {
+      return {
+        href: `/story/${post.slug}`,
+        articleImgURL: post.heroImage?.urlMobileSized,
+        articleTitle: post.title,
+        articleDate: new Date(post.publishTime)
+      }
     }
   }
 }
@@ -162,11 +229,14 @@ $asideWidthDesktop: 380;
 }
 
 .main {
+  + * {
+    margin-top: 40px;
+  }
   @include media-breakpoint-up(xl) {
     width: 500px;
     padding: 50px 0;
     + aside {
-      margin-left: 118px;
+      margin: 0 0 0 118px;
     }
   }
 }
@@ -263,6 +333,33 @@ $asideWidthDesktop: 380;
   &__tag {
     margin: 5px;
   }
+  &__related-posts {
+    ul {
+      margin-top: 12px;
+    }
+  }
+  &__related {
+    position: relative;
+    padding: 8px 0 8px 20px;
+    border-bottom: 1px solid #d8d8d8;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 0;
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background-color: #d8d8d8;
+      border-radius: 50%;
+    }
+    a {
+      color: #4a4a4a;
+      font-size: 16px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+  }
 }
 
 .aside {
@@ -270,6 +367,10 @@ $asideWidthDesktop: 380;
     width: #{$asideWidthDesktop}px;
     padding: 50px 0;
     background-color: #e7e7e7;
+  }
+  &__list-latest {
+    padding: 0 30px;
+    border: none;
   }
 }
 </style>

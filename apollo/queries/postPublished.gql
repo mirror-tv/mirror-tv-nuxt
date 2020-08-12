@@ -38,5 +38,9 @@ query postPublished($slug: String!) {
     tags {
       name
     }
+    relatedPosts {
+      slug
+      title
+    }
   }
 }

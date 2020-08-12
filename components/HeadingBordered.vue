@@ -23,8 +23,8 @@ export default {
   border-image: linear-gradient(
       to bottom,
       #014db8 35%,
-      white 35%,
-      white 65%,
+      transparent 35%,
+      transparent 65%,
       #014db8 65%
     )
     5;
