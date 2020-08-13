@@ -17,12 +17,19 @@
         </div>
         <h1 class="post__title" v-text="title" />
         <div class="post__credit">
-          <p v-if="writers">作者｜{{ writers }}</p>
-          <p v-if="photographers">攝影｜{{ photographers }}</p>
-          <p v-if="cameraOperators">影音｜{{ cameraOperators }}</p>
-          <p v-if="designers">設計｜{{ designers }}</p>
-          <p v-if="engineers">工程｜{{ engineers }}</p>
-          <p v-if="vocals">主播｜{{ vocals }}</p>
+          <ArticleCredit contactType="writers" :contacts="writers" />
+          <ArticleCredit
+            contactType="photographers"
+            :contacts="photographers"
+          />
+          <ArticleCredit
+            contactType="cameraOperators"
+            :contacts="cameraOperators"
+          />
+          <ArticleCredit contactType="designers" :contacts="designers" />
+          <ArticleCredit contactType="engineers" :contacts="engineers" />
+          <ArticleCredit contactType="vocals" :contacts="vocals" />
+          <ArticleCredit :contacts="postPublished.otherbyline" />
         </div>
         <div class="post__social-media-share">
           <ShareFacebook />
@@ -77,6 +84,7 @@
 <script>
 import dayjs from 'dayjs'
 import ArticleContentParagraph from '~/components/ArticleContentParagraph.vue'
+import ArticleCredit from '~/components/ArticleCredit.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
 import HeadingBordered from '~/components/HeadingBordered'
 import ListArticleAside from '~/components/ListArticleAside'
@@ -94,7 +102,8 @@ export default {
         return {
           slug: this.$route.params.slug
         }
-      }
+      },
+      update: (data) => data.postPublished?.[0]
     },
     allPostsLatest: {
       query: allPublishedPosts,
@@ -110,6 +119,7 @@ export default {
   },
   components: {
     ArticleContentParagraph,
+    ArticleCredit,
     ArticleTag,
     HeadingBordered,
     ListArticleAside,
@@ -119,37 +129,31 @@ export default {
   computed: {
     brief() {
       try {
-        const brief = JSON.parse(this.postPublished?.[0]?.brief)
+        const brief = JSON.parse(this.postPublished?.brief)
         return brief?.html
       } catch {
         return ''
       }
     },
     categoryTitle() {
-      return this.postPublished?.[0]?.categories?.[0]?.title
+      return this.postPublished?.categories?.[0]?.title
     },
     cameraOperators() {
-      return this.postPublished?.[0]?.cameraOperators
-        .map((item) => item.name)
-        .join('、')
+      return this.postPublished?.cameraOperators
     },
     content() {
       try {
-        const content = JSON.parse(this.postPublished?.[0]?.content)
+        const content = JSON.parse(this.postPublished?.content)
         return content.apiData.filter((item) => item)
       } catch {
         return []
       }
     },
     designers() {
-      return this.postPublished?.[0]?.designers
-        .map((item) => item.name)
-        .join('、')
+      return this.postPublished?.designers
     },
     engineers() {
-      return this.postPublished?.[0]?.engineers
-        .map((item) => item.name)
-        .join('、')
+      return this.postPublished?.engineers
     },
     hasPostsLatest() {
       return this.allPostsLatest.length > 0
@@ -164,10 +168,10 @@ export default {
       return this.tags?.length > 0
     },
     image() {
-      return this.postPublished?.[0]?.heroImage ?? {}
+      return this.postPublished?.heroImage ?? {}
     },
     imageCaption() {
-      return this.postPublished?.[0]?.heroCaption
+      return this.postPublished?.heroCaption
     },
     listArticleAsideLatestData() {
       const listData = this.allPostsLatest ?? []
@@ -177,29 +181,25 @@ export default {
       return this.hasPostsLatestMore ? '/latest' : undefined
     },
     publishTime() {
-      return this.postPublished?.[0]?.publishTime
+      return this.postPublished?.publishTime
     },
     photographers() {
-      return this.postPublished?.[0]?.photographers
-        .map((item) => item.name)
-        .join('、')
+      return this.postPublished?.photographers
     },
     relatedPosts() {
-      return this.postPublished?.[0]?.relatedPosts
+      return this.postPublished?.relatedPosts
     },
     tags() {
-      return this.postPublished?.[0]?.tags
+      return this.postPublished?.tags
     },
     title() {
-      return this.postPublished?.[0]?.title
+      return this.postPublished?.title
     },
     vocals() {
-      return this.postPublished?.[0]?.vocals.map((item) => item.name).join('、')
+      return this.postPublished?.vocals
     },
     writers() {
-      return this.postPublished?.[0]?.writers
-        .map((item) => item.name)
-        .join('、')
+      return this.postPublished?.writers
     }
   },
   methods: {

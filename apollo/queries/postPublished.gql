@@ -35,6 +35,7 @@ query postPublished($slug: String!) {
     vocals {
       name
     }
+    otherbyline
     tags {
       name
     }
