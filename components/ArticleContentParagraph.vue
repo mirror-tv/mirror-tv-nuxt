@@ -1,10 +1,10 @@
 <template>
   <div :class="type" class="paragraph">
     <h1 v-if="type === 'header-one'" v-html="content" />
-    <h2 v-else-if="type === 'header-two'" v-html="content" />
-    <p v-else-if="type === 'unstyled'" v-html="content" />
-    <span v-else-if="type === 'quoteby'" v-text="content.quote" />
-    <IframeYoutube v-else-if="type === 'youtube'" :videoId="content.id" />
+    <h2 v-if="type === 'header-two'" v-html="content" />
+    <p v-if="type === 'unstyled'" v-html="content" />
+    <span v-if="type === 'quoteby'" v-text="content.quote" />
+    <IframeYoutube v-if="type === 'youtube'" :videoId="content.id" />
   </div>
 </template>
 
