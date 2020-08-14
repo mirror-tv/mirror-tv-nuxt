@@ -51,23 +51,7 @@
             class="post__tag"
           />
         </div>
-        <div v-if="hasRelatedPosts" class="post__related-posts">
-          <HeadingBordered text="相關文章" />
-          <ul>
-            <li
-              v-for="post in relatedPosts"
-              :key="post.slug"
-              class="post__related"
-            >
-              <a
-                :href="`/story/${post.slug}`"
-                target="_blank"
-                rel="noopener noreferrer"
-                v-text="post.title"
-              />
-            </li>
-          </ul>
-        </div>
+        <ListArticleRelated :listData="relatedPosts" />
       </main>
       <aside class="aside">
         <ListArticleAside
@@ -86,8 +70,8 @@ import dayjs from 'dayjs'
 import ArticleContentParagraph from '~/components/ArticleContentParagraph.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
-import HeadingBordered from '~/components/HeadingBordered'
 import ListArticleAside from '~/components/ListArticleAside'
+import ListArticleRelated from '~/components/ListArticleRelated'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
 
@@ -121,8 +105,8 @@ export default {
     ArticleContentParagraph,
     ArticleCredit,
     ArticleTag,
-    HeadingBordered,
     ListArticleAside,
+    ListArticleRelated,
     ShareFacebook,
     ShareLine
   },
@@ -348,33 +332,6 @@ $asideWidthDesktop: 380;
   }
   &__tag {
     margin: 5px;
-  }
-  &__related-posts {
-    ul {
-      margin-top: 12px;
-    }
-  }
-  &__related {
-    position: relative;
-    padding: 8px 0 8px 20px;
-    border-bottom: 1px solid #d8d8d8;
-    &::before {
-      content: '';
-      position: absolute;
-      top: 18px;
-      left: 0;
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      background-color: #d8d8d8;
-      border-radius: 50%;
-    }
-    a {
-      color: #4a4a4a;
-      font-size: 16px;
-      word-break: break-word;
-      overflow-wrap: break-word;
-    }
   }
 }
 
