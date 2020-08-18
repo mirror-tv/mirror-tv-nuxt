@@ -4,6 +4,7 @@
     <h2 v-if="type === 'header-two'" v-html="content" />
     <p v-if="type === 'unstyled'" v-html="content" />
     <span v-if="type === 'quoteby'" v-text="content.quote" />
+    <div v-if="type === 'embeddedcode'" v-html="content.embeddedCode" />
     <IframeYoutube v-if="type === 'youtube'" :videoId="content.id" />
   </div>
 </template>
@@ -53,6 +54,11 @@ export default {
   a {
     color: #014db8;
     font-weight: 500;
+  }
+  &.embeddedcode {
+    ::v-deep iframe {
+      max-width: 100%;
+    }
   }
   &.quoteby {
     position: relative;
