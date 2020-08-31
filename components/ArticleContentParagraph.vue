@@ -6,14 +6,20 @@
     <span v-if="type === 'quoteby'" v-text="content.quote" />
     <div v-if="type === 'embeddedcode'" v-html="content.embeddedCode" />
     <IframeYoutube v-if="type === 'youtube'" :videoId="content.id" />
+    <ArticleContentVideo v-if="type === 'video'" :video="content" />
+    <ArticleContentAudio v-if="type === 'audio'" :audio="content" />
   </div>
 </template>
 
 <script>
+import ArticleContentAudio from '~/components/ArticleContentAudio'
+import ArticleContentVideo from '~/components/ArticleContentVideo'
 import IframeYoutube from '~/components/IframeYoutube'
 
 export default {
   components: {
+    ArticleContentAudio,
+    ArticleContentVideo,
     IframeYoutube
   },
   props: {
