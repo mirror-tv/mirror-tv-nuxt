@@ -5,6 +5,7 @@
     <p v-if="type === 'unstyled'" v-html="content" />
     <span v-if="type === 'quoteby'" v-text="content.quote" />
     <div v-if="type === 'embeddedcode'" v-html="content.embeddedCode" />
+    <ArticleContentInfobox v-if="type === 'infobox'" :infobox="content" />
     <IframeYoutube v-if="type === 'youtube'" :videoId="content.id" />
     <ArticleContentVideo v-if="type === 'video'" :video="content" />
     <ArticleContentAudio v-if="type === 'audio'" :audio="content" />
@@ -13,12 +14,14 @@
 
 <script>
 import ArticleContentAudio from '~/components/ArticleContentAudio'
+import ArticleContentInfobox from '~/components/ArticleContentInfobox'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
 import IframeYoutube from '~/components/IframeYoutube'
 
 export default {
   components: {
     ArticleContentAudio,
+    ArticleContentInfobox,
     ArticleContentVideo,
     IframeYoutube
   },
