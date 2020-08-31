@@ -1,121 +1,160 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
 workspace:
   path: /mirror-tv-nuxt
-pipeline:
-  startSlack:
+
+steps:
+  - name: startSlack
+    pull: if-not-exists
     image: plugins/slack
-    channel: jenkins
-    secrets: [slack_webhook]
-    username: drone
-    icon_url: https://avatars2.githubusercontent.com/u/2181346?s=200&v=4
-    template: >
-      *start* building *{{repo.name}}* <${DRONE_BUILD_LINK}|#{{build.number}}>.
-      Someone gave *{{build.branch}}* a little push.
+    settings:
+      channel: jenkins
+      icon_url: https://avatars2.githubusercontent.com/u/2181346?s=200&v=4
+      template: "*start* building *{{repo.name}}* <${DRONE_BUILD_LINK}|#{{build.number}}>. Someone gave *{{build.branch}}* a little push.\n"
+      username: drone
+    environment:
+      SLACK_WEBHOOK:
+        from_secret: slack_webhook
     when:
-      event: [push]
-      branch: [dev, master]
+      branch:
+        - dev
+        - master
+      event:
+        - push
 
-  restoreCache:
+  - name: restoreCache
+    pull: if-not-exists
     image: drillster/drone-volume-cache
-    restore: true
-    mount:
-      - ./.yarn-cache
-      - ./node_modules
+    settings:
+      mount:
+        - ./.yarn-cache
+        - ./node_modules
+      restore: true
     volumes:
-      - /tmp/cache:/cache
+      - name: 2f746d702f6361636865
+        path: /cache
     when:
-      event: [push]
-      branch: [dev, master]
+      branch:
+        - dev
+        - master
+      event:
+        - push
 
-  getDevConfig:
+  - name: getDevConfig
+    pull: if-not-exists
     image: gcr.io/mirror-tv-275709/drone-cloud-sdk:latest
-    secrets: [google_credentials]
     commands:
       - gcloud source repos clone configs ../configs
       - cp ../configs/mirror-tv-nuxt/dev/config.js ./configs/config.js
+    environment:
+      GOOGLE_CREDENTIALS:
+        from_secret: google_credentials
     when:
-      event: [push]
-      branch: [dev]
+      branch:
+        - dev
+      event:
+        - push
 
-  build:
+  - name: build
+    pull: if-not-exists
     image: node:12.16.2-slim
     commands:
       - apt-get update && apt-get install -y node-gyp
       - yarn install
       - yarn run build
     when:
-      event: [push]
-      branch: [dev, master]
+      branch:
+        - dev
+        - master
+      event:
+        - push
 
-  publish:
+  - name: publish
+    pull: if-not-exists
     image: plugins/gcr
-    repo: mirror-tv-275709/${DRONE_REPO_NAME}
-    tag: ${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}
+    settings:
+      repo: mirror-tv-275709/${DRONE_REPO_NAME}
+      tag: ${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}
     environment:
-      - DOCKER_LAUNCH_DEBUG=true
-    secrets: [google_credentials]
+      DOCKER_LAUNCH_DEBUG: 'true'
+      GOOGLE_CREDENTIALS:
+        from_secret: google_credentials
     when:
-      event: [push]
-      branch: [dev, master]
+      branch:
+        - dev
+        - master
+      event:
+        - push
 
-  deployDev:
+  - name: deployTVDev
+    pull: if-not-exists
     image: nytimes/drone-gke
-    zone: asia-east1-a
-    cluster: dev
-    namespace: default
-    verbose: true
-    secrets:
-      - source: google_credentials
-        target: token
-    vars:
-      image: gcr.io/mirror-tv-275709/${DRONE_REPO_NAME}:${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}
-      app: ${DRONE_REPO_NAME}
-      tier: frontend
+    settings:
+      cluster: tv-dev
+      namespace: default
+      vars:
+        app: ${DRONE_REPO_NAME}
+        image: gcr.io/mirror-tv-275709/${DRONE_REPO_NAME}:${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}
+        tier: frontend
+      verbose: true
+      zone: asia-east1-c
+    environment:
+      TOKEN:
+        from_secret: google_credentials
     when:
-      event: [push]
-      branch: [dev]
+      branch:
+        - dev
+      event:
+        - push
 
-  deployTVDev:
-    image: nytimes/drone-gke
-    zone: asia-east1-c
-    cluster: tv-dev
-    namespace: default
-    verbose: true
-    secrets:
-      - source: google_credentials
-        target: token
-    vars:
-      image: gcr.io/mirror-tv-275709/${DRONE_REPO_NAME}:${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}
-      app: ${DRONE_REPO_NAME}
-      tier: frontend
-    when:
-      event: [push]
-      branch: [dev]
-
-  rebuildCache:
+  - name: rebuildCache
+    pull: if-not-exists
     image: drillster/drone-volume-cache
-    rebuild: true
-    mount:
-      - ./.yarn-cache
-      - ./node_modules
+    settings:
+      mount:
+        - ./.yarn-cache
+        - ./node_modules
+      rebuild: true
     volumes:
-      - /tmp/cache:/cache
+      - name: 2f746d702f6361636865
+        path: /cache
     when:
-      branch: [dev, master]
+      branch:
+        - dev
+        - master
 
-  finishSlack:
+  - name: finishSlack
+    pull: if-not-exists
     image: plugins/slack
-    channel: jenkins
-    secrets: [slack_webhook]
-    username: drone
-    icon_url: https://avatars2.githubusercontent.com/u/2181346?s=200&v=4
+    settings:
+      channel: jenkins
+      icon_url: https://avatars2.githubusercontent.com/u/2181346?s=200&v=4
+      template: "{{#success build.status}}\n  *success* ${DRONE_REPO_NAME}:${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER} was well served.\n  Check out our new <https://dev.mnews.tw|mirror-tv-nuxt>.\n{{else}}\n  Houston, we have a problem. Build <${DRONE_BUILD_LINK}|#{{build.number}}> failed.\n{{/success}}\n"
+      username: drone
+    environment:
+      SLACK_WEBHOOK:
+        from_secret: slack_webhook
     when:
-      status: [success, failure]
-      event: [push]
-      branch: [dev, master]
-    template: >
-      {{#success build.status}}
-        *success* ${DRONE_REPO_NAME}:${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER} was well served.
-        Check out our new <https://www.google.com|mirror-tv-nuxt>.
-      {{else}}
-        Houston, we have a problem. Build <${DRONE_BUILD_LINK}|#{{build.number}}> failed.
-      {{/success}}
+      branch:
+        - dev
+        - master
+      event:
+        - push
+      status:
+        - success
+        - failure
+
+volumes:
+  - name: 2f746d702f6361636865
+    host:
+      path: /tmp/cache
+
+image_pull_secrets:
+  - gcr_docker_config
