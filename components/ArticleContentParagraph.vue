@@ -9,12 +9,17 @@
     <IframeYoutube v-if="type === 'youtube'" :videoId="content.id" />
     <ArticleContentVideo v-if="type === 'video'" :video="content" />
     <ArticleContentAudio v-if="type === 'audio'" :audio="content" />
+    <ArticleContentSlideshow
+      v-if="type === 'slideshow'"
+      :items="paragraph.content"
+    />
   </div>
 </template>
 
 <script>
 import ArticleContentAudio from '~/components/ArticleContentAudio'
 import ArticleContentInfobox from '~/components/ArticleContentInfobox'
+import ArticleContentSlideshow from '~/components/ArticleContentSlideshow'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
 import IframeYoutube from '~/components/IframeYoutube'
 
@@ -22,6 +27,7 @@ export default {
   components: {
     ArticleContentAudio,
     ArticleContentInfobox,
+    ArticleContentSlideshow,
     ArticleContentVideo,
     IframeYoutube
   },
