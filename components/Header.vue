@@ -18,6 +18,7 @@
             { 'hamburger-button--rotated': showCategories }
           ]"
           @click="handleClickHamburgerButton"
+          aria-label="hamburger-button"
         >
           <span class="hamburger-icon" />
         </button>
