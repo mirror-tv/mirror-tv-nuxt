@@ -23,7 +23,11 @@
           <span class="hamburger-icon" />
         </button>
         <button
-          class="buttons-wrapper__search-button search-button"
+          :class="[
+            'buttons-wrapper__search-button',
+            'search-button',
+            { 'search-button--translucent': showSearchFormWrapper }
+          ]"
           @click="handleClickSearchButton"
         >
           <img class="search-icon" src="~/assets/img/search.svg" alt="search" />
@@ -186,6 +190,12 @@ export default {
     width: 100%;
     height: 3px;
     background-color: white;
+  }
+}
+
+.search-button {
+  &--translucent {
+    opacity: 0.3;
   }
 }
 

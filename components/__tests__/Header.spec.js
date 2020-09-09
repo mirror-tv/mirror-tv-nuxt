@@ -62,6 +62,17 @@ describe('Features about the top of the header', function() {
     )
   })
 
+  test('Should have modifier "translucent" on search button in mobile after we click search icon', async () => {
+    const wrapper = createWrapper(Header)
+    const searchIcon = wrapper.find('.search-button')
+    searchIcon.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(searchIcon.classes()).toContain('search-button--translucent')
+    searchIcon.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(searchIcon.classes()).not.toContain('search-button--translucent')
+  })
+
   test('Should hide bottom wrapper if search form wrapper was shown, vice versa', async function() {
     const wrapper = createWrapper(Header)
 
