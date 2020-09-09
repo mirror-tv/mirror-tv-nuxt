@@ -1,13 +1,14 @@
 <template>
-  <form @submit.prevent>
+  <!-- reason why action="." exist: https://stackoverflow.com/questions/4864167/show-search-button-in-iphone-ipad-safari-keyboard -->
+  <form action="." @submit.prevent>
     <input
-      type="text"
+      ref="input"
+      type="search"
       :placeholder="placeholder"
       :value="input"
       @input="handleInputChange"
       @focus="handleInputFocus"
       @blur="handleInputBlur"
-      ref="input"
     />
     <button
       :class="[
