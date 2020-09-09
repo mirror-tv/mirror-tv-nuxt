@@ -13,6 +13,7 @@
       <HeaderSearchForm
         class="top-wrapper__search-form"
         :input.sync="searchKeyword"
+        @submit="handleSearchFormSubmit"
       />
       <div class="top-wrapper__buttons-wrapper buttons-wrapper">
         <button
@@ -46,6 +47,7 @@
       <HeaderSearchForm
         :placeholder="'輸入關鍵字'"
         :input.sync="searchKeyword"
+        @submit="handleSearchFormSubmit"
       />
     </div>
     <div
@@ -116,6 +118,9 @@ export default {
     },
     truncate(text) {
       return text.substring(0, 5)
+    },
+    handleSearchFormSubmit() {
+      this.$router.push(`/search/${this.searchKeyword}`)
     }
   }
 }
