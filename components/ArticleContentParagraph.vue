@@ -13,10 +13,15 @@
       v-if="type === 'slideshow'"
       :items="paragraph.content"
     />
+    <ArticleContentAnnotationHandler
+      v-if="type === 'annotation'"
+      :content="content"
+    />
   </div>
 </template>
 
 <script>
+import ArticleContentAnnotationHandler from '~/components/ArticleContentAnnotationHandler'
 import ArticleContentAudio from '~/components/ArticleContentAudio'
 import ArticleContentInfobox from '~/components/ArticleContentInfobox'
 import ArticleContentSlideshow from '~/components/ArticleContentSlideshow'
@@ -25,6 +30,7 @@ import IframeYoutube from '~/components/IframeYoutube'
 
 export default {
   components: {
+    ArticleContentAnnotationHandler,
     ArticleContentAudio,
     ArticleContentInfobox,
     ArticleContentSlideshow,
@@ -107,6 +113,10 @@ export default {
       background-position: center center;
       transform: rotate(180deg);
     }
+  }
+  &.annotation {
+    text-align: justify;
+    line-height: 1.75;
   }
 }
 </style>
