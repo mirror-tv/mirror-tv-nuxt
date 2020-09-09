@@ -30,7 +30,6 @@ export default {
 <style lang="scss" scoped>
 form {
   display: flex;
-  /*justify-content: space-between;*/
   align-items: center;
 }
 
