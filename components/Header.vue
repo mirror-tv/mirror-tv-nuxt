@@ -10,15 +10,18 @@
           <img src="~/assets/img/Mnews_Logo_mobile-white.svg" alt="logo" />
         </picture>
       </nuxt-link>
-      <HeaderSearchForm class="top-wrapper__search-form" />
+      <HeaderSearchForm
+        class="top-wrapper__search-form"
+        :input.sync="searchKeyword"
+      />
       <div class="top-wrapper__buttons-wrapper buttons-wrapper">
         <button
           :class="[
             'hamburger-button',
             { 'hamburger-button--rotated': showCategories }
           ]"
-          @click="handleClickHamburgerButton"
           aria-label="hamburger-button"
+          @click="handleClickHamburgerButton"
         >
           <span class="hamburger-icon" />
         </button>
@@ -40,7 +43,10 @@
         { 'search-form-wrapper-mobile--visible': showSearchFormWrapper }
       ]"
     >
-      <HeaderSearchForm :placeholder="'輸入關鍵字'" />
+      <HeaderSearchForm
+        :placeholder="'輸入關鍵字'"
+        :input.sync="searchKeyword"
+      />
     </div>
     <div
       :class="[
@@ -83,7 +89,8 @@ export default {
   data() {
     return {
       showCategories: false,
-      showSearchFormWrapper: false
+      showSearchFormWrapper: false,
+      searchKeyword: ''
     }
   },
   computed: {
@@ -204,7 +211,7 @@ export default {
 }
 
 .search-form-wrapper-mobile {
-  background-color: white;
+  background-color: #e7e7e7;
   padding: 20px;
   display: none;
   &--visible {
