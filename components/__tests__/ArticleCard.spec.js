@@ -54,7 +54,7 @@ describe('props', function() {
     expect(articleDescription.text()).toBe(articleDescriptionMock)
   })
 
-  test('Should render text by "articleDescription" props if more than 45 words, only in mobileLayoutDirection: column', function() {
+  test('Should render truncated text by "articleDescription" props if more than 45 words, only in mobileLayoutDirection: column', function() {
     const articleDescriptionMock =
       '1234567890123456789012345678901234567890123456'
     const wrapper = mount(ArticleCard, {
