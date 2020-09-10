@@ -118,6 +118,27 @@ describe('Features about the top of the header', function() {
       'header__bottom-wrapper--hide'
     )
   })
+
+  test('Should hide search form wrapper after we click the dimmed background', async function() {
+    expect.assertions(2)
+
+    const wrapper = createWrapper(Header)
+    const searchIcon = wrapper.find('.search-button')
+    const searchFormWrapperMobile = wrapper.find('.search-form-wrapper-mobile')
+    searchIcon.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(searchFormWrapperMobile.classes()).toContain(
+      'search-form-wrapper-mobile--visible'
+    )
+    const dimmedBackground = wrapper.find(
+      '.search-form-wrapper-mobile__dimmed-background'
+    )
+    dimmedBackground.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(searchFormWrapperMobile.classes()).not.toContain(
+      'search-form-wrapper-mobile--visible'
+    )
+  })
 })
 
 describe('Features about the bottom of the header', function() {

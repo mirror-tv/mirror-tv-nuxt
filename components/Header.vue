@@ -49,6 +49,10 @@
         :input.sync="searchKeyword"
         @submit="handleSearchFormSubmit"
       />
+      <div
+        class="search-form-wrapper-mobile__dimmed-background"
+        @click="handleCloseSearchButton"
+      />
     </div>
     <div
       :class="[
@@ -115,6 +119,9 @@ export default {
       if (this.showSearchFormWrapper === true) {
         this.showCategories = false
       }
+    },
+    handleCloseSearchButton() {
+      this.showSearchFormWrapper = false
     },
     truncate(text) {
       return text.substring(0, 5)
@@ -224,6 +231,16 @@ export default {
     @include media-breakpoint-up(xl) {
       display: none;
     }
+  }
+  &__dimmed-background {
+    content: '';
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: -1;
   }
 }
 
