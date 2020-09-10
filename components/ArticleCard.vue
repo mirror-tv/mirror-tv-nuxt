@@ -29,6 +29,10 @@ export default {
       type: String,
       default: ''
     },
+    articleTitleStyle: {
+      type: String,
+      default: 'normal'
+    },
     articleImgURL: {
       type: String,
       default: require('~/assets/img/default image-2.jpg')

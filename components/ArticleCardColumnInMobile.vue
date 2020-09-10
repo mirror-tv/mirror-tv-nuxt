@@ -22,7 +22,11 @@
           'info-wrapper'
         ]"
       >
-        <span class="article-title" v-text="articleTitle" />
+        <span
+          class="article-title"
+          :style="{ fontWeight: articleTitleStyle }"
+          v-text="articleTitle"
+        />
         <span
           class="article-description"
           v-text="articleDescriptionTruncated"
@@ -52,6 +56,10 @@ export default {
     articleTitle: {
       type: String,
       default: ''
+    },
+    articleTitleStyle: {
+      type: String,
+      default: 'normal'
     },
     articleDescription: {
       type: String,

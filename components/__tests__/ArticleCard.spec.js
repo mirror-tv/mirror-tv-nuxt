@@ -42,6 +42,19 @@ describe('props', function() {
     expect(articleTitle.text()).toBe(articleTitleMock)
   })
 
+  test('Should render bold text by "articleTitle" props, only in mobileLayoutDirection: column', function() {
+    const articleTitleMock = 'articleTitleMock'
+    const wrapper = mount(ArticleCard, {
+      propsData: {
+        articleTitle: articleTitleMock,
+        mobileLayoutDirection: 'column',
+        articleTitleStyle: 'bold'
+      }
+    })
+    const articleTitle = wrapper.find('.article-title')
+    expect(articleTitle.element.style.fontWeight).toBe('bold')
+  })
+
   test('Should render text by "articleDescription" props if less than 45 words, only in mobileLayoutDirection: column', function() {
     const articleDescriptionMock = 'lessthan45words'
     const wrapper = mount(ArticleCard, {

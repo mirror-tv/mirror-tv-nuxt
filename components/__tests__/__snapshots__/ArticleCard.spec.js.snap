@@ -4,6 +4,7 @@ exports[`snapshot tests Usage with not provided labelTitle 1`] = `
 <div>
   <a
     articledescription=""
+    articletitlestyle="normal"
     class="article-card"
     href="https://www.mirrormedia.mg/story/20200715edi026/"
     mobilelayoutdirection="row"
@@ -55,6 +56,7 @@ exports[`snapshot tests Usage with provided labelTitle 1`] = `
 <div>
   <a
     articledescription=""
+    articletitlestyle="normal"
     class="article-card"
     href="https://www.mirrormedia.mg/story/20200715edi026/"
     mobilelayoutdirection="row"
@@ -140,6 +142,7 @@ exports[`snapshot tests Usage with provided mobileLayoutDirection 1`] = `
       >
         <span
           class="article-title"
+          style="font-weight: normal;"
         >
           振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子
         </span>

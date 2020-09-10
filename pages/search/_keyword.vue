@@ -12,6 +12,7 @@
               :href="post.href"
               :articleImgURL="post.articleImgURL"
               :articleTitle="post.articleTitle"
+              :articleTitleStyle="'bold'"
               :articleDescription="post.articleDescription"
               :articleDate="post.articleDate"
               :mobileLayoutDirection="'column'"
