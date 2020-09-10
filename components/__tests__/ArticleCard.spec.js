@@ -42,6 +42,34 @@ describe('props', function() {
     expect(articleTitle.text()).toBe(articleTitleMock)
   })
 
+  test('Should render text by "articleDescription" props if less than 45 words, only in mobileLayoutDirection: column', function() {
+    const articleDescriptionMock = 'lessthan45words'
+    const wrapper = mount(ArticleCard, {
+      propsData: {
+        articleDescription: articleDescriptionMock,
+        mobileLayoutDirection: 'column'
+      }
+    })
+    const articleDescription = wrapper.find('.article-description')
+    expect(articleDescription.text()).toBe(articleDescriptionMock)
+  })
+
+  test('Should render text by "articleDescription" props if more than 45 words, only in mobileLayoutDirection: column', function() {
+    const articleDescriptionMock =
+      '1234567890123456789012345678901234567890123456'
+    const wrapper = mount(ArticleCard, {
+      propsData: {
+        articleDescription: articleDescriptionMock,
+        mobileLayoutDirection: 'column'
+      }
+    })
+    const articleDescription = wrapper.find('.article-description')
+    expect(articleDescription.text()).not.toBe(articleDescriptionMock)
+    expect(articleDescription.text()).toBe(
+      '123456789012345678901234567890123456789012345...'
+    )
+  })
+
   test('Should render text by "articleDate" props', function() {
     const articleDateMockString = '2020/01/02 03:04'
     const articleDateMock = new Date(2020, 0, 2, 3, 4)

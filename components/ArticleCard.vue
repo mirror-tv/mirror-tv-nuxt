@@ -37,6 +37,10 @@ export default {
       type: String,
       default: ''
     },
+    articleDescription: {
+      type: String,
+      default: ''
+    },
     articleDate: {
       type: Date,
       default: () => new Date()

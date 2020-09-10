@@ -24,6 +24,10 @@
       >
         <span class="article-title" v-text="articleTitle" />
         <span
+          class="article-description"
+          v-text="articleDescriptionTruncated"
+        />
+        <span
           class="info-wrapper__article-date article-date"
           v-text="formatDate(articleDate)"
         />
@@ -49,9 +53,22 @@ export default {
       type: String,
       default: ''
     },
+    articleDescription: {
+      type: String,
+      default: ''
+    },
     articleDate: {
       type: Date,
       default: () => new Date()
+    }
+  },
+  computed: {
+    articleDescriptionTruncated() {
+      const limit = 45
+      if (this.articleDescription.length <= limit) {
+        return this.articleDescription
+      }
+      return this.articleDescription.substring(0, limit).concat('...')
     }
   },
   methods: {
@@ -142,6 +159,15 @@ export default {
   @include media-breakpoint-up(xl) {
     -webkit-line-clamp: 3;
   }
+}
+
+.article-description {
+  font-size: 16px;
+  color: #4a4a4a;
+  text-align: left;
+  word-wrap: break-word;
+  word-break: break-all;
+  margin: 10px 0 0 0;
 }
 
 .article-date {

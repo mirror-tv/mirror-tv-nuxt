@@ -12,6 +12,7 @@
               :href="post.href"
               :articleImgURL="post.articleImgURL"
               :articleTitle="post.articleTitle"
+              :articleDescription="post.articleDescription"
               :articleDate="post.articleDate"
               :mobileLayoutDirection="'column'"
             />
@@ -38,6 +39,8 @@ export default {
           'https://www.mirrormedia.com.tw/assets/images/20200910143758-5922a65dde1d9db47e15efa484ab879a-mobile.jpg',
         articleTitle:
           '【灣區樂活特輯】台南安平好fun鬆　字很多僅限兩行字很多僅限兩行字很多僅限兩行字很多僅限兩行字很多僅限兩行',
+        articleDescription:
+          '使用者可以看到與搜尋關鍵字高度相關文章之首圖、標題、分類標籤、內容節錄使用者可以看到與搜尋關鍵字高度相關文章之首圖、標題、分類標籤、內容節錄',
         articleDate: new Date()
       })
     }
