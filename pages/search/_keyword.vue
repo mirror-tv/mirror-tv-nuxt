@@ -2,6 +2,7 @@
   <section class="page">
     <div class="max-width-wrapper">
       <div class="list-latest-wrapper">
+        <h1 class="title" v-text="$route.params.keyword" />
         <ol class="list-latest">
           <li
             v-for="post in listArticleMainData"
@@ -35,7 +36,7 @@ export default {
     return {
       listArticleMainData: new Array(12).fill({
         id: 'id',
-        href: '/post/test',
+        href: '/story/test',
         articleImgURL:
           'https://www.mirrormedia.com.tw/assets/images/20200910143758-5922a65dde1d9db47e15efa484ab879a-mobile.jpg',
         articleTitle:
@@ -61,10 +62,21 @@ export default {
   padding: 0 20px 50px 20px;
   padding-top: calc(130px + 13px);
   @include media-breakpoint-up(xl) {
-    padding: 0;
+    padding: 30px 0 60px 0;
     max-width: calc(180px * 4 + 21px * 3);
     margin: 0 auto;
     flex-direction: row;
+  }
+}
+
+.title {
+  display: none;
+  @include media-breakpoint-up(xl) {
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.48px;
+    color: #014db8;
   }
 }
 
