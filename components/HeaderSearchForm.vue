@@ -6,6 +6,7 @@
       type="search"
       :placeholder="placeholder"
       :value="input"
+      autofocus
       @input="handleInputChange"
       @focus="handleInputFocus"
       @blur="handleInputBlur"

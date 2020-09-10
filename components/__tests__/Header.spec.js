@@ -8,6 +8,12 @@ const createWrapper = createWrapperHelper({
       state: {
         categories: ['']
       }
+    },
+    $route: {
+      name: '',
+      params: {
+        keyword: ''
+      }
     }
   },
   stubs: {

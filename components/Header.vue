@@ -41,7 +41,9 @@
     <div
       :class="[
         'search-form-wrapper-mobile',
-        { 'search-form-wrapper-mobile--visible': showSearchFormWrapper }
+        {
+          'search-form-wrapper-mobile--visible': showSearchFormWrapper
+        }
       ]"
     >
       <HeaderSearchForm
@@ -50,6 +52,7 @@
         @submit="handleSearchFormSubmit"
       />
       <div
+        v-show="!isCurrentPageOnSearch"
         class="search-form-wrapper-mobile__dimmed-background"
         @click="handleCloseSearchButton"
       />
@@ -95,13 +98,16 @@ export default {
   data() {
     return {
       showCategories: false,
-      showSearchFormWrapper: false,
-      searchKeyword: ''
+      showSearchFormWrapper: this.$route.name === 'search-keyword',
+      searchKeyword: this.$route.params.keyword
     }
   },
   computed: {
     categories() {
       return this.$store.state.categories
+    },
+    isCurrentPageOnSearch() {
+      return this.$route.name === 'search-keyword'
     }
   },
   methods: {
