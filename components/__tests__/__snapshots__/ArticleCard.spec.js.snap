@@ -4,6 +4,7 @@ exports[`snapshot tests Usage with not provided labelTitle 1`] = `
 <div>
   <a
     articledescription=""
+    articletitlehighlighttext=""
     articletitlestyle="normal"
     class="article-card"
     href="https://www.mirrormedia.mg/story/20200715edi026/"
@@ -56,6 +57,7 @@ exports[`snapshot tests Usage with provided labelTitle 1`] = `
 <div>
   <a
     articledescription=""
+    articletitlehighlighttext=""
     articletitlestyle="normal"
     class="article-card"
     href="https://www.mirrormedia.mg/story/20200715edi026/"

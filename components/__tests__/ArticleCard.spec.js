@@ -105,6 +105,20 @@ describe('props', function() {
     expect(wrapper.props().href).toBe(hrefMock)
   })
 
+  test('Should render highlighted text on title by "articleTitleHighlightText" props, only in mobileLayoutDirection: column', function() {
+    const articleTitleHighlightTextMock = 'keywordWeWantToHightlight'
+    const wrapper = mount(ArticleCard, {
+      propsData: {
+        articleTitle: `something ${articleTitleHighlightTextMock} something`,
+        articleTitleHighlightText: articleTitleHighlightTextMock,
+        mobileLayoutDirection: 'column'
+      }
+    })
+    expect(wrapper.html()).toContain(
+      `something <span style="color: #014db8">${articleTitleHighlightTextMock}</span> something`
+    )
+  })
+
   test('Should have class "row-mobile" on .bottom-wrapper if we did not provide "mobileLayoutDirection" props', function() {
     const wrapper = mount(ArticleCard)
     const bottomWrapper = wrapper.find('.bottom-wrapper')

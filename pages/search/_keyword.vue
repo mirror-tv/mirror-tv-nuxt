@@ -14,6 +14,7 @@
               :articleImgURL="post.articleImgURL"
               :articleTitle="post.articleTitle"
               :articleTitleStyle="'bold'"
+              :articleTitleHighlightText="$route.params.keyword"
               :articleDescription="post.articleDescription"
               :articleDate="post.articleDate"
               :mobileLayoutDirection="'column'"

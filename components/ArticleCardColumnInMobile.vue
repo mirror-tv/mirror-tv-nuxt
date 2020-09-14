@@ -25,7 +25,7 @@
         <span
           class="article-title"
           :style="{ fontWeight: articleTitleStyle }"
-          v-text="articleTitle"
+          v-html="articleTitleProcessed"
         />
         <span
           class="article-description"
@@ -61,6 +61,10 @@ export default {
       type: String,
       default: 'normal'
     },
+    articleTitleHighlightText: {
+      type: String,
+      default: ''
+    },
     articleDescription: {
       type: String,
       default: ''
@@ -77,6 +81,17 @@ export default {
         return this.articleDescription
       }
       return this.articleDescription.substring(0, limit).concat('...')
+    },
+    articleTitleProcessed() {
+      if (!this.articleTitleHighlightText) {
+        return this.articleTitle
+      }
+
+      const re = new RegExp(this.articleTitleHighlightText, 'g')
+      return this.articleTitle.replace(
+        re,
+        `<span style="color: #014db8">${this.articleTitleHighlightText}</span>`
+      )
     }
   },
   methods: {
