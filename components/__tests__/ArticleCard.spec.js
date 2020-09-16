@@ -106,16 +106,18 @@ describe('props', function() {
   })
 
   test('Should render highlighted text on title by "articleTitleHighlightText" props, only in mobileLayoutDirection: column', function() {
-    const articleTitleHighlightTextMock = 'keywordWeWantToHightlight'
+    const articleTitleHighlightTextMockFirst = 'keywordWeWantToHightlightFirst'
+    const articleTitleHighlightTextMockSecond =
+      'keywordWeWantToHightlightSecond'
     const wrapper = mount(ArticleCard, {
       propsData: {
-        articleTitle: `something ${articleTitleHighlightTextMock} something`,
-        articleTitleHighlightText: articleTitleHighlightTextMock,
+        articleTitle: `something ${articleTitleHighlightTextMockFirst} something ${articleTitleHighlightTextMockSecond}`,
+        articleTitleHighlightText: `${articleTitleHighlightTextMockFirst} ${articleTitleHighlightTextMockSecond}`, // split by empty space
         mobileLayoutDirection: 'column'
       }
     })
     expect(wrapper.html()).toContain(
-      `something <span style="color: #014db8">${articleTitleHighlightTextMock}</span> something`
+      `something <span style="color: #014db8">${articleTitleHighlightTextMockFirst}</span> something <span style="color: #014db8">${articleTitleHighlightTextMockSecond}</span>`
     )
   })
 

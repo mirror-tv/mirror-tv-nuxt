@@ -87,11 +87,16 @@ export default {
         return this.articleTitle
       }
 
-      const re = new RegExp(this.articleTitleHighlightText, 'g')
-      return this.articleTitle.replace(
-        re,
-        `<span style="color: #014db8">${this.articleTitleHighlightText}</span>`
+      const hightlightTextMapping = Object.fromEntries(
+        this.articleTitleHighlightText
+          .split(' ')
+          .map((text) => [text, `<span style="color: #014db8">${text}</span>`])
       )
+
+      const re = new RegExp(Object.keys(hightlightTextMapping).join('|'), 'gi')
+      return this.articleTitle.replace(re, function(matched) {
+        return hightlightTextMapping[matched]
+      })
     }
   },
   methods: {
