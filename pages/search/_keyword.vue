@@ -96,7 +96,7 @@ export default {
       const query = this.keywordDecoded
       const response = await this.$axios.post('/api/search', {
         query,
-        from: this.listDataMaxResults * this.listDataCurrentPage - 1,
+        from: this.listDataMaxResults * this.listDataCurrentPage,
         size: this.listDataMaxResults
       })
       this.setListData(response)
