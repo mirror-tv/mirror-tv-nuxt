@@ -5,7 +5,7 @@
         <h1 class="title" v-text="$route.params.keyword" />
         <ol class="list-latest">
           <li
-            v-for="post in listArticleMainData"
+            v-for="post in listData"
             :key="post.id"
             class="list-latest__list-item list-latest-list-item"
           >
@@ -33,19 +33,43 @@ export default {
   components: {
     ArticleCard
   },
+  async fetch() {
+    const query = this.$route.params.keyword
+    const response = await this.$axios.post('/api/search', { query })
+    this.setListData(response)
+    this.setListDataTotal(response)
+    this.listDataCurrentPage += 1
+  },
   data() {
     return {
-      listArticleMainData: new Array(12).fill({
-        id: 'id',
-        href: '/story/test',
-        articleImgURL:
-          'https://www.mirrormedia.com.tw/assets/images/20200910143758-5922a65dde1d9db47e15efa484ab879a-mobile.jpg',
-        articleTitle:
-          '【灣區樂活特輯】台南安平好fun鬆　字很多僅限兩行字很多僅限兩行字很多僅限兩行字很多僅限兩行字很多僅限兩行',
-        articleDescription:
-          '使用者可以看到與搜尋關鍵字高度相關文章之首圖、標題、分類標籤、內容節錄使用者可以看到與搜尋關鍵字高度相關文章之首圖、標題、分類標籤、內容節錄',
-        articleDate: new Date()
-      })
+      listData: [],
+      listDataCurrentPage: 0,
+      listDataMaxResults: 9,
+      listDataTotal: undefined
+    }
+  },
+  methods: {
+    stripHtmlTag(html = '') {
+      return html.replace(/<\/?[^>]+(>|$)/g, '')
+    },
+    mapDataToComponentProps(item) {
+      const source = item._source
+      return {
+        id: source.id,
+        href: `/story/${source.slug}`,
+        articleImgURL: source.heroImage?.urlMobileSized,
+        articleTitle: source.title,
+        articleDescription: this.stripHtmlTag(source.brief),
+        articleDate: new Date(source.publishTime)
+      }
+    },
+    setListData(response = {}) {
+      let listData = response.data?.body?.hits?.hits ?? []
+      listData = listData.map(this.mapDataToComponentProps)
+      this.listData.push(...listData)
+    },
+    setListDataTotal(response = {}) {
+      this.listDataTotal = response.data?.body?.hits?.total?.value ?? 0
     }
   }
 }
