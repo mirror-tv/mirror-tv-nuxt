@@ -9,6 +9,7 @@ config.dev = process.env.NODE_ENV !== 'production'
 
 async function start() {
   app.use('/api/graphql', require('./graphql'))
+  app.use('/api/search', require('./elasticsearch'))
 
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
