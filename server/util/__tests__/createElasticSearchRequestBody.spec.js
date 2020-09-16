@@ -5,7 +5,7 @@ test('Should return proper value', function() {
   expect(createElasticSearchRequestBody(queryString)).toEqual({
     query: {
       bool: {
-        must: [
+        should: [
           {
             multi_match: {
               query: 'one',

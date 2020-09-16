@@ -14,7 +14,7 @@
               :articleImgURL="post.articleImgURL"
               :articleTitle="post.articleTitle"
               :articleTitleStyle="'bold'"
-              :articleTitleHighlightText="$route.params.keyword"
+              :articleTitleHighlightText="keywordDecoded"
               :articleDescription="post.articleDescription"
               :articleDate="post.articleDate"
               :mobileLayoutDirection="'column'"
@@ -41,7 +41,7 @@ export default {
     ButtonLoadmore
   },
   async fetch() {
-    const query = this.$route.params.keyword
+    const query = this.keywordDecoded
     const response = await this.$axios.post('/api/search', {
       query,
       from: 0,
@@ -60,6 +60,9 @@ export default {
     }
   },
   computed: {
+    keywordDecoded() {
+      return decodeURI(this.$route.params.keyword)
+    },
     showLoadMoreButton() {
       return (
         this.listDataMaxResults * this.listDataCurrentPage < this.listDataTotal
@@ -90,7 +93,7 @@ export default {
       this.listDataTotal = response.data?.body?.hits?.total?.value ?? 0
     },
     async handleClickMore() {
-      const query = this.$route.params.keyword
+      const query = this.keywordDecoded
       const response = await this.$axios.post('/api/search', {
         query,
         from: this.listDataMaxResults * this.listDataCurrentPage - 1,

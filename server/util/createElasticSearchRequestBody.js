@@ -3,7 +3,7 @@ module.exports = function createElasticSearchRequestBody(queryString = '') {
   return {
     query: {
       bool: {
-        must: createMustClauses(queries)
+        should: createMustClauses(queries)
       }
     }
   }
