@@ -62,8 +62,7 @@ export default {
   computed: {
     showLoadMoreButton() {
       return (
-        this.listDataMaxResults * (this.listDataCurrentPage + 1) <
-        this.listDataTotal
+        this.listDataMaxResults * this.listDataCurrentPage < this.listDataTotal
       )
     }
   },
