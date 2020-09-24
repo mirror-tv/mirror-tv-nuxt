@@ -37,7 +37,7 @@ export default {
       return this.contacts.map((item) => item.name).join('、')
     },
     hasContacts() {
-      return this.contacts.length > 0
+      return this.contacts?.length > 0
     },
     isOtherbyline() {
       return !CONTACT_MAPPING[this.contactType]

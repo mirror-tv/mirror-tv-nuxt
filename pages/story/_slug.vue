@@ -29,7 +29,7 @@
           <ArticleCredit contactType="designers" :contacts="designers" />
           <ArticleCredit contactType="engineers" :contacts="engineers" />
           <ArticleCredit contactType="vocals" :contacts="vocals" />
-          <ArticleCredit :contacts="postPublished.otherbyline" />
+          <ArticleCredit :contacts="otherbyline" />
         </div>
         <div class="post__social-media-share">
           <ShareFacebook />
@@ -163,6 +163,9 @@ export default {
     },
     listArticleAsideLatestMoreTo() {
       return this.hasPostsLatestMore ? '/latest' : undefined
+    },
+    otherbyline() {
+      return this.postPublished?.otherbyline
     },
     publishTime() {
       return this.postPublished?.publishTime
