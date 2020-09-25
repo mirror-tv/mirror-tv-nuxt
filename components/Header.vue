@@ -19,7 +19,7 @@
         <button
           :class="[
             'hamburger-button',
-            { 'hamburger-button--rotated': showCategories }
+            { 'hamburger-button--rotated': showCategories },
           ]"
           aria-label="hamburger-button"
           @click="handleClickHamburgerButton"
@@ -30,7 +30,7 @@
           :class="[
             'buttons-wrapper__search-button',
             'search-button',
-            { 'search-button--translucent': showSearchFormWrapper }
+            { 'search-button--translucent': showSearchFormWrapper },
           ]"
           @click="handleClickSearchButton"
         >
@@ -42,8 +42,8 @@
       :class="[
         'search-form-wrapper-mobile',
         {
-          'search-form-wrapper-mobile--visible': showSearchFormWrapper
-        }
+          'search-form-wrapper-mobile--visible': showSearchFormWrapper,
+        },
       ]"
     >
       <HeaderSearchForm
@@ -61,7 +61,7 @@
       :class="[
         'header__bottom-wrapper',
         'bottom-wrapper',
-        { 'header__bottom-wrapper--hide': !showCategories }
+        { 'header__bottom-wrapper--hide': !showCategories },
       ]"
     >
       <nav class="bottom-wrapper__navs navs">
@@ -89,17 +89,17 @@ import allCategories from '~/apollo/queries/allCategories.gql'
 export default {
   apollo: {
     allCategories: {
-      query: allCategories
-    }
+      query: allCategories,
+    },
   },
   components: {
-    HeaderSearchForm
+    HeaderSearchForm,
   },
   data() {
     return {
       showCategories: false,
       showSearchFormWrapper: this.$route.name === 'search-keyword',
-      searchKeyword: this.$route.params.keyword
+      searchKeyword: this.$route.params.keyword,
     }
   },
   computed: {
@@ -108,7 +108,7 @@ export default {
     },
     isCurrentPageOnSearch() {
       return this.$route.name === 'search-keyword'
-    }
+    },
   },
   methods: {
     handleClickHamburgerButton() {
@@ -134,8 +134,8 @@ export default {
     },
     handleSearchFormSubmit() {
       this.$router.push(`/search/${this.searchKeyword}`)
-    }
-  }
+    },
+  },
 }
 </script>
 

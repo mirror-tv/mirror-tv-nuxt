@@ -14,7 +14,7 @@ function customizer(objValue, srcValue) {
   }
 }
 
-const createWrapperHelper = function(defaultMountingOptions) {
+const createWrapperHelper = function (defaultMountingOptions) {
   return function createWrapper(Component, overrideOptions) {
     return shallowMount(
       Component,

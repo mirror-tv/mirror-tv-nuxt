@@ -10,9 +10,9 @@ export default {
   props: {
     infobox: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

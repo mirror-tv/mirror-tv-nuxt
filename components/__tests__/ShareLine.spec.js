@@ -1,12 +1,12 @@
 import { shallowMount } from '@vue/test-utils'
 import ShareLine from '../ShareLine.vue'
 
-test('Should render props href', function() {
+test('Should render props href', function () {
   const urlMock = 'https://www.mirrormedia.mg/'
   const wrapper = shallowMount(ShareLine, {
     propsData: {
-      url: urlMock
-    }
+      url: urlMock,
+    },
   })
   const iframe = wrapper.get('a')
   expect(iframe.attributes().href).toBe(

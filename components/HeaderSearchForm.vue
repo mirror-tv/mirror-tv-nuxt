@@ -14,7 +14,7 @@
     <button
       :class="[
         'search-button',
-        { 'search-button--input-focused': isInputFocus }
+        { 'search-button--input-focused': isInputFocus },
       ]"
       @click="$emit('submit')"
     >
@@ -41,21 +41,21 @@ import HeaderSearchFormClearButton from './HeaderSearchFormClearButton.vue'
 
 export default {
   components: {
-    HeaderSearchFormClearButton
+    HeaderSearchFormClearButton,
   },
   props: {
     input: {
       type: String,
-      default: ''
+      default: '',
     },
     placeholder: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
-      isInputFocus: false
+      isInputFocus: false,
     }
   },
   methods: {
@@ -71,8 +71,8 @@ export default {
     },
     handleInputBlur() {
       this.isInputFocus = false
-    }
-  }
+    },
+  },
 }
 </script>
 

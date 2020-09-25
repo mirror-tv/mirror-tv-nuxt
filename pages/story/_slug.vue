@@ -84,22 +84,22 @@ export default {
       query: postPublished,
       variables() {
         return {
-          slug: this.$route.params.slug
+          slug: this.$route.params.slug,
         }
       },
-      update: (data) => data.postPublished?.[0]
+      update: (data) => data.postPublished?.[0],
     },
     allPostsLatest: {
       query: allPublishedPosts,
       variables: {
-        first: 5
+        first: 5,
       },
-      update: (data) => data.allPublishedPosts
+      update: (data) => data.allPublishedPosts,
     },
     allPostsLatestMeta: {
       query: allPublishedPosts,
-      update: (data) => data.meta
-    }
+      update: (data) => data.meta,
+    },
   },
   components: {
     ArticleContentParagraph,
@@ -108,7 +108,7 @@ export default {
     ListArticleAside,
     ListArticleRelated,
     ShareFacebook,
-    ShareLine
+    ShareLine,
   },
   computed: {
     brief() {
@@ -187,7 +187,7 @@ export default {
     },
     writers() {
       return this.postPublished?.writers
-    }
+    },
   },
   methods: {
     formatDate(date) {
@@ -198,10 +198,10 @@ export default {
         href: `/story/${post.slug}`,
         articleImgURL: post.heroImage?.urlMobileSized,
         articleTitle: post.title,
-        articleDate: new Date(post.publishTime)
+        articleDate: new Date(post.publishTime),
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

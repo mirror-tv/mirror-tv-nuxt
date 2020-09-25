@@ -14,22 +14,22 @@ export default {
   props: {
     url: {
       type: String,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
   data() {
     return {
-      isMounted: false
+      isMounted: false,
     }
   },
   computed: {
     shareUrl() {
       return encodeURIComponent(this.url || (this.isMounted && location.href))
-    }
+    },
   },
   mounted() {
     this.isMounted = true
-  }
+  },
 }
 </script>
 

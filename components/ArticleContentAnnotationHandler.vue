@@ -21,13 +21,13 @@ function splitContent(content) {
 export default {
   functional: true,
   components: {
-    ArticleContentAnnotation
+    ArticleContentAnnotation,
   },
   props: {
     content: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   render(h, { props }) {
     const contentSplit = splitContent(props.content)
@@ -38,6 +38,6 @@ export default {
         return <span domPropsInnerHTML={item} />
       }
     })
-  }
+  },
 }
 </script>

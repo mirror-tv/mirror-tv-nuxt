@@ -6,7 +6,7 @@ const { GRAPHQL_ENDPOINT } = require('../configs/config')
 
 router.use(bodyParser.json())
 
-router.post('/', async function(req, res, next) {
+router.post('/', async function (req, res, next) {
   try {
     const response = await axios.post(GRAPHQL_ENDPOINT, req.body)
     res.send(response.data)

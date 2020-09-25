@@ -38,14 +38,14 @@ import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 export default {
   components: {
     ArticleCard,
-    ButtonLoadmore
+    ButtonLoadmore,
   },
   async fetch() {
     const query = this.keywordDecoded
     const response = await this.$axios.post('/api/search', {
       query,
       from: 0,
-      size: this.listDataMaxResults
+      size: this.listDataMaxResults,
     })
     this.setListData(response)
     this.setListDataTotal(response)
@@ -56,7 +56,7 @@ export default {
       listData: [],
       listDataCurrentPage: 0,
       listDataMaxResults: 12,
-      listDataTotal: undefined
+      listDataTotal: undefined,
     }
   },
   computed: {
@@ -67,7 +67,7 @@ export default {
       return (
         this.listDataMaxResults * this.listDataCurrentPage < this.listDataTotal
       )
-    }
+    },
   },
   methods: {
     stripHtmlTag(html = '') {
@@ -81,7 +81,7 @@ export default {
         articleImgURL: source.heroImage?.urlMobileSized,
         articleTitle: source.title,
         articleDescription: this.stripHtmlTag(source.brief),
-        articleDate: new Date(source.publishTime)
+        articleDate: new Date(source.publishTime),
       }
     },
     setListData(response = {}) {
@@ -97,12 +97,12 @@ export default {
       const response = await this.$axios.post('/api/search', {
         query,
         from: this.listDataMaxResults * this.listDataCurrentPage,
-        size: this.listDataMaxResults
+        size: this.listDataMaxResults,
       })
       this.setListData(response)
       this.listDataCurrentPage += 1
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -33,22 +33,22 @@ import ArticleCardAside from './ArticleCardAside.vue'
 export default {
   components: {
     HeadingBordered,
-    ArticleCardAside
+    ArticleCardAside,
   },
   props: {
     listTitle: {
       type: String,
-      required: true
+      required: true,
     },
     listData: {
       type: Array,
-      required: true
+      required: true,
     },
     moreTo: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 }
 </script>
 

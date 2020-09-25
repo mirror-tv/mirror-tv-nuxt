@@ -35,16 +35,16 @@ const { directive } = getAwesomeSwiper(SwiperClass)
 
 export default {
   components: {
-    ArticleCardSwiper
+    ArticleCardSwiper,
   },
   directives: {
-    swiper: directive
+    swiper: directive,
   },
   props: {
     slidesData: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     isMultipleSlides() {
@@ -54,7 +54,7 @@ export default {
       if (this.isMultipleSlides) {
         return {
           delay: 5000,
-          disableOnInteraction: false
+          disableOnInteraction: false,
         }
       }
       return false
@@ -67,11 +67,11 @@ export default {
         autoplay: this.swiperOptionAutoplay,
         pagination: {
           el: '.swiper-pagination',
-          type: 'fraction'
-        }
+          type: 'fraction',
+        },
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

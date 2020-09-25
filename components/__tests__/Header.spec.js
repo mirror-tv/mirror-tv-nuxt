@@ -6,34 +6,34 @@ const createWrapper = createWrapperHelper({
   mocks: {
     $store: {
       state: {
-        categories: ['']
-      }
+        categories: [''],
+      },
     },
     $route: {
       name: '',
       params: {
-        keyword: ''
-      }
-    }
+        keyword: '',
+      },
+    },
   },
   stubs: {
-    'nuxt-link': RouterLinkStub
+    'nuxt-link': RouterLinkStub,
   },
   data() {
     return {
-      allCategories: [{ title: 'title' }]
+      allCategories: [{ title: 'title' }],
     }
-  }
+  },
 })
 
-describe('Features about the top of the header', function() {
-  test('Navigate to home page while logo was clicked', function() {
+describe('Features about the top of the header', function () {
+  test('Navigate to home page while logo was clicked', function () {
     const wrapper = createWrapper(Header)
     const logo = wrapper.find('.logo')
     expect(logo.props().to).toBe('/')
   })
 
-  test('Should have modifier "rotated" on hamburger icon and not have "hide" on bottom wrapper after we click hamburger icon', async function() {
+  test('Should have modifier "rotated" on hamburger icon and not have "hide" on bottom wrapper after we click hamburger icon', async function () {
     expect.assertions(4)
     const wrapper = createWrapper(Header)
     const hamburger = wrapper.find('.hamburger-button')
@@ -52,7 +52,7 @@ describe('Features about the top of the header', function() {
     )
   })
 
-  test('Should have modifier "visible" on HeaderSearchForm in mobile after we click search icon', async function() {
+  test('Should have modifier "visible" on HeaderSearchForm in mobile after we click search icon', async function () {
     const wrapper = createWrapper(Header)
     const searchIcon = wrapper.find('.search-button')
     const searchFormWrapperMobile = wrapper.find('.search-form-wrapper-mobile')
@@ -79,7 +79,7 @@ describe('Features about the top of the header', function() {
     expect(searchIcon.classes()).not.toContain('search-button--translucent')
   })
 
-  test('Should hide bottom wrapper if search form wrapper was shown, vice versa', async function() {
+  test('Should hide bottom wrapper if search form wrapper was shown, vice versa', async function () {
     const wrapper = createWrapper(Header)
 
     // buttons
@@ -105,7 +105,7 @@ describe('Features about the top of the header', function() {
     )
   })
 
-  test('Should hide bottom wrapper after category link was clicked', async function() {
+  test('Should hide bottom wrapper after category link was clicked', async function () {
     expect.assertions(2)
     const wrapper = createWrapper(Header)
 
@@ -125,7 +125,7 @@ describe('Features about the top of the header', function() {
     )
   })
 
-  test('Should hide search form wrapper after we click the dimmed background', async function() {
+  test('Should hide search form wrapper after we click the dimmed background', async function () {
     expect.assertions(2)
 
     const wrapper = createWrapper(Header)
@@ -147,19 +147,19 @@ describe('Features about the top of the header', function() {
   })
 })
 
-describe('Features about the bottom of the header', function() {
-  test('Should render proper navs with category data', function() {
+describe('Features about the bottom of the header', function () {
+  test('Should render proper navs with category data', function () {
     const mockCategories = [
       { title: 'one' },
       { title: 'two' },
-      { title: 'three' }
+      { title: 'three' },
     ]
     const wrapper = createWrapper(Header, {
       data() {
         return {
-          allCategories: mockCategories
+          allCategories: mockCategories,
         }
-      }
+      },
     })
     const navs = wrapper.findAll('.category-nav')
     mockCategories.forEach(function assertTextContent(category, i) {
@@ -171,14 +171,14 @@ describe('Features about the bottom of the header', function() {
     })
   })
 
-  test('Should truncate textContent in nav if more than five character', function() {
+  test('Should truncate textContent in nav if more than five character', function () {
     const mockCategories = [{ title: '123456789moreThanfiveCharacter' }]
     const wrapper = createWrapper(Header, {
       data() {
         return {
-          allCategories: mockCategories
+          allCategories: mockCategories,
         }
-      }
+      },
     })
     const nav = wrapper.find('.category-nav')
     expect(nav.text()).toBe('12345')

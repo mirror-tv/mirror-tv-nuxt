@@ -35,14 +35,14 @@ export default {
     ArticleContentInfobox,
     ArticleContentSlideshow,
     ArticleContentVideo,
-    IframeYoutube
+    IframeYoutube,
   },
   props: {
     paragraph: {
       type: Object,
       reqired: true,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
   computed: {
     content() {
@@ -50,8 +50,8 @@ export default {
     },
     type() {
       return this.paragraph.type
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -9,19 +9,19 @@ const CONTACT_MAPPING = {
   cameraOperators: '影音',
   designers: '設計',
   engineers: '工程',
-  vocals: '主播'
+  vocals: '主播',
 }
 
 export default {
   props: {
     contactType: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     contacts: {
       type: [Array, String],
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     contactsLabel() {
@@ -41,7 +41,7 @@ export default {
     },
     isOtherbyline() {
       return !CONTACT_MAPPING[this.contactType]
-    }
-  }
+    },
+  },
 }
 </script>

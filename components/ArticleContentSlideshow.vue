@@ -28,24 +28,24 @@ const { directive } = getAwesomeSwiper(SwiperClass)
 
 export default {
   directives: {
-    swiper: directive
+    swiper: directive,
   },
   props: {
     items: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       swiperOption: {
         pagination: {
           el: '.swiper-pagination',
-          type: 'fraction'
-        }
-      }
+          type: 'fraction',
+        },
+      },
     }
-  }
+  },
 }
 </script>
 

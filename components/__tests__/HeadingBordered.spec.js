@@ -1,12 +1,12 @@
 import { shallowMount } from '@vue/test-utils'
 import HeadingBordered from '../HeadingBordered.vue'
 
-test('Should render props "text"', function() {
+test('Should render props "text"', function () {
   const textMock = 'textMock'
   const wrapper = shallowMount(HeadingBordered, {
     propsData: {
-      text: textMock
-    }
+      text: textMock,
+    },
   })
   expect(wrapper.text()).toBe(textMock)
 })

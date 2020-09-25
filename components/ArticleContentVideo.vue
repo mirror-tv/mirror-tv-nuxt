@@ -9,9 +9,9 @@ export default {
   props: {
     video: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

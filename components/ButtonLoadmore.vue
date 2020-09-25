@@ -1,7 +1,5 @@
 <template>
-  <button>
-    看更多
-  </button>
+  <button>看更多</button>
 </template>
 
 <style lang="scss" scoped>

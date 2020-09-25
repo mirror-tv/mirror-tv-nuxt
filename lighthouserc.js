@@ -4,11 +4,11 @@ module.exports = {
       url: ['http://localhost:3000/story/test-story-slug'],
       startServerCommand: 'npm run start',
       settings: {
-        chromeFlags: '--no-sandbox'
-      }
+        chromeFlags: '--no-sandbox',
+      },
     },
     upload: {
-      target: 'temporary-public-storage'
+      target: 'temporary-public-storage',
     },
     assert: {
       assertions: {
@@ -16,8 +16,8 @@ module.exports = {
         'categories:accessibility': ['error', { minScore: 0.9 }],
         'categories:best-practices': ['error', { minScore: 0.9 }],
         'categories:seo': ['error', { minScore: 0.8 }],
-        'categories:pwa': ['error', { minScore: 0 }]
-      }
-    }
-  }
+        'categories:pwa': ['error', { minScore: 0 }],
+      },
+    },
+  },
 }

@@ -67,41 +67,41 @@ export default {
         return {
           categoryTitle: this.pageName,
           first: pageSize,
-          skip: 0
+          skip: 0,
         }
-      }
+      },
     },
     allPostsCategoryMeta: {
       query: allPublishedPostsByCategoryTitle,
       variables() {
         return {
-          categoryTitle: this.pageName
+          categoryTitle: this.pageName,
         }
       },
-      update: (data) => data.meta
+      update: (data) => data.meta,
     },
     allPostsLatest: {
       query: allPublishedPosts,
       variables: {
-        first: 5
+        first: 5,
       },
-      update: (data) => data.allPublishedPosts
+      update: (data) => data.allPublishedPosts,
     },
     allPostsLatestMeta: {
       query: allPublishedPosts,
-      update: (data) => data.meta
-    }
+      update: (data) => data.meta,
+    },
   },
   components: {
     HeadingBordered,
     ArticleCardFeatured,
     ArticleCard,
     ButtonLoadmore,
-    ListArticleAside
+    ListArticleAside,
   },
   data() {
     return {
-      page: 0
+      page: 0,
     }
   },
   computed: {
@@ -127,7 +127,7 @@ export default {
 
     showLoadMoreButton() {
       return pageSize * (this.page + 1) < this.allPostsCategoryMeta?.count
-    }
+    },
   },
   methods: {
     reducerArticleCard(post) {
@@ -135,7 +135,7 @@ export default {
         href: `/story/${post.slug}`,
         articleImgURL: post.heroImage?.urlMobileSized,
         articleTitle: post.title,
-        articleDate: new Date(post.publishTime)
+        articleDate: new Date(post.publishTime),
       }
     },
     handleClickMore() {
@@ -144,17 +144,17 @@ export default {
         variables: {
           categoryTitle: this.pageName,
           first: pageSize,
-          skip: pageSize * this.page
+          skip: pageSize * this.page,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newPosts = fetchMoreResult.allPostsCategory
           return {
-            allPostsCategory: [...previousResult.allPostsCategory, ...newPosts]
+            allPostsCategory: [...previousResult.allPostsCategory, ...newPosts],
           }
-        }
+        },
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

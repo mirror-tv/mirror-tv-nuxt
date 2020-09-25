@@ -1,12 +1,12 @@
 import { shallowMount } from '@vue/test-utils'
 import ShareFacebook from '../ShareFacebook.vue'
 
-test('Should render props href', function() {
+test('Should render props href', function () {
   const urlMock = 'https://www.mirrormedia.mg/'
   const wrapper = shallowMount(ShareFacebook, {
     propsData: {
-      url: urlMock
-    }
+      url: urlMock,
+    },
   })
   const iframe = wrapper.get('a')
   expect(iframe.attributes().href).toBe(

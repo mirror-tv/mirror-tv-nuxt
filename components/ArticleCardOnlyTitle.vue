@@ -13,13 +13,13 @@ export default {
   props: {
     articleTitle: {
       type: String,
-      required: true
+      required: true,
     },
     href: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

@@ -3,5 +3,5 @@ module.exports = {
   GRAPHQL_ENDPOINT_PRIVATE: 'graphql-endpoint-private',
 
   // For browser
-  GRAPHQL_ENDPOINT: 'graphql-endpoint'
+  GRAPHQL_ENDPOINT: 'graphql-endpoint',
 }

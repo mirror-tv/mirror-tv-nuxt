@@ -3,9 +3,9 @@ module.exports = function createElasticSearchRequestBody(queryString = '') {
   return {
     query: {
       bool: {
-        should: createMustClauses(queries)
-      }
-    }
+        should: createMustClauses(queries),
+      },
+    },
   }
 
   function createMustClauses(queries = []) {
@@ -13,8 +13,8 @@ module.exports = function createElasticSearchRequestBody(queryString = '') {
       multi_match: {
         query,
         type: 'phrase',
-        fields: ['title^2', 'brief', 'content']
-      }
+        fields: ['title^2', 'brief', 'content'],
+      },
     }))
   }
 }

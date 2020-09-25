@@ -19,17 +19,17 @@ export default {
   props: {
     href: {
       type: String,
-      default: ''
+      default: '',
     },
     articleImgURL: {
       type: String,
-      default: require('~/assets/img/default image-2.jpg')
+      default: require('~/assets/img/default image-2.jpg'),
     },
     articleTitle: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 }
 </script>
 

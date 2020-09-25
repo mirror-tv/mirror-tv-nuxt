@@ -6,7 +6,7 @@ module.exports = {
    */
   head: {
     htmlAttrs: {
-      lang: 'zh-Hant'
+      lang: 'zh-Hant',
     },
     title: process.env.npm_package_name || '',
     meta: [
@@ -15,10 +15,10 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
-      }
+        content: process.env.npm_package_description || '',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   /*
    ** Customize the progress-bar color
@@ -40,7 +40,7 @@ module.exports = {
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module
     '@nuxtjs/stylelint-module',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
   ],
   /*
    ** Nuxt.js modules
@@ -48,25 +48,25 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/apollo'
+    '@nuxtjs/apollo',
   ],
   apollo: {
     clientConfigs: {
       default: {
         httpEndpoint: 'http://localhost:3000/api/graphql',
-        browserHttpEndpoint: '/api/graphql'
-      }
-    }
+        browserHttpEndpoint: '/api/graphql',
+      },
+    },
   },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    proxy: true
+    proxy: true,
   },
   styleResources: {
-    scss: '~/scss/*.scss'
+    scss: '~/scss/*.scss',
   },
   /*
    ** Build configuration
@@ -75,6 +75,6 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
-  }
+    extend(config, ctx) {},
+  },
 }

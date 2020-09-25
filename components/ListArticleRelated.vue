@@ -23,19 +23,19 @@ import HeadingBordered from './HeadingBordered.vue'
 export default {
   components: {
     ArticleCardOnlyTitle,
-    HeadingBordered
+    HeadingBordered,
   },
   props: {
     listData: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     hasItems() {
       return this.listData?.length > 0
-    }
-  }
+    },
+  },
 }
 </script>
 

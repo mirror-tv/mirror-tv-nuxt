@@ -9,9 +9,9 @@ export default {
   props: {
     audio: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

@@ -9,7 +9,7 @@
       :class="[
         'article-card__bottom-wrapper',
         'bottom-wrapper',
-        'column-mobile'
+        'column-mobile',
       ]"
     >
       <span :class="['article-img-wrapper', 'stretch']">
@@ -19,7 +19,7 @@
         :class="[
           'bottom-wrapper__info-wrapper',
           'bottom-wrapper__info-wrapper--margin-right',
-          'info-wrapper'
+          'info-wrapper',
         ]"
       >
         <span
@@ -47,32 +47,32 @@ export default {
   props: {
     href: {
       type: String,
-      default: ''
+      default: '',
     },
     articleImgURL: {
       type: String,
-      default: require('~/assets/img/default image-2.jpg')
+      default: require('~/assets/img/default image-2.jpg'),
     },
     articleTitle: {
       type: String,
-      default: ''
+      default: '',
     },
     articleTitleStyle: {
       type: String,
-      default: 'normal'
+      default: 'normal',
     },
     articleTitleHighlightText: {
       type: String,
-      default: ''
+      default: '',
     },
     articleDescription: {
       type: String,
-      default: ''
+      default: '',
     },
     articleDate: {
       type: Date,
-      default: () => new Date()
-    }
+      default: () => new Date(),
+    },
   },
   computed: {
     articleDescriptionTruncated() {
@@ -94,16 +94,16 @@ export default {
       )
 
       const re = new RegExp(Object.keys(hightlightTextMapping).join('|'), 'gi')
-      return this.articleTitle.replace(re, function(matched) {
+      return this.articleTitle.replace(re, function (matched) {
         return hightlightTextMapping[matched]
       })
-    }
+    },
   },
   methods: {
     formatDate(date) {
       return dayjs(date).format('YYYY/MM/DD HH:mm')
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -23,7 +23,7 @@
         :class="[
           'bottom-wrapper__info-wrapper',
           'bottom-wrapper__info-wrapper--margin-left',
-          'info-wrapper'
+          'info-wrapper',
         ]"
       >
         <span class="article-title" v-text="articleTitle" />
@@ -43,24 +43,24 @@ export default {
   props: {
     href: {
       type: String,
-      default: ''
+      default: '',
     },
     labelTitle: {
       type: String,
-      default: ''
+      default: '',
     },
     articleImgURL: {
       type: String,
-      default: require('~/assets/img/default image-2.jpg')
+      default: require('~/assets/img/default image-2.jpg'),
     },
     articleTitle: {
       type: String,
-      default: ''
+      default: '',
     },
     articleDate: {
       type: Date,
-      default: () => new Date()
-    }
+      default: () => new Date(),
+    },
   },
   methods: {
     formatDate(date) {
@@ -68,8 +68,8 @@ export default {
     },
     showLabelTitleWrapper(title) {
       return title !== ''
-    }
-  }
+    },
+  },
 }
 </script>
 

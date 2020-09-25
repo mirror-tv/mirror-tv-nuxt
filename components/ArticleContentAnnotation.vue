@@ -18,14 +18,14 @@ export default {
   props: {
     annotation: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      openAnnotation: false
+      openAnnotation: false,
     }
-  }
+  },
 }
 </script>
 

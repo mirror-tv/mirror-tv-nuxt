@@ -59,30 +59,30 @@ const pageSize = 12
 export default {
   apollo: {
     allPublishedEditorChoices: {
-      query: allPublishedEditorChoices
+      query: allPublishedEditorChoices,
     },
     allPublishedPosts: {
       query: allPublishedPosts,
       variables: {
         first: pageSize,
-        skip: 0
-      }
+        skip: 0,
+      },
     },
     allPublishedPostsMeta: {
       query: allPublishedPosts,
-      update: (data) => data.meta
-    }
+      update: (data) => data.meta,
+    },
   },
   components: {
     Swiper,
     IframeFacebookPagePlugin,
     HeadingBordered,
     ArticleCard,
-    ButtonLoadmore
+    ButtonLoadmore,
   },
   data() {
     return {
-      page: 0
+      page: 0,
     }
   },
   computed: {
@@ -101,7 +101,7 @@ export default {
     },
     showLoadMoreButton() {
       return pageSize * (this.page + 1) < this.allPublishedPostsMeta?.count
-    }
+    },
   },
   methods: {
     reducerArticleCard(post) {
@@ -111,7 +111,7 @@ export default {
         labelTitle: post.categories?.[0]?.title ?? ' ',
         articleImgURL: post.heroImage?.urlMobileSized,
         articleTitle: post.title,
-        articleDate: new Date(post.publishTime)
+        articleDate: new Date(post.publishTime),
       }
     },
     handleClickMore() {
@@ -119,20 +119,20 @@ export default {
       this.$apollo.queries.allPublishedPosts.fetchMore({
         variables: {
           first: pageSize,
-          skip: pageSize * this.page
+          skip: pageSize * this.page,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newPosts = fetchMoreResult.allPublishedPosts
           return {
             allPublishedPosts: [
               ...previousResult.allPublishedPosts,
-              ...newPosts
-            ]
+              ...newPosts,
+            ],
           }
-        }
+        },
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

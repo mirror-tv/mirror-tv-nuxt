@@ -18,40 +18,40 @@ import ArticleCardRowInMobile from './ArticleCardRowInMobile'
 export default {
   components: {
     ArticleCardColumnInMobile,
-    ArticleCardRowInMobile
+    ArticleCardRowInMobile,
   },
   props: {
     href: {
       type: String,
-      default: ''
+      default: '',
     },
     labelTitle: {
       type: String,
-      default: ''
+      default: '',
     },
     articleTitleStyle: {
       type: String,
-      default: 'normal'
+      default: 'normal',
     },
     articleTitleHighlightText: {
       type: String,
-      default: ''
+      default: '',
     },
     articleImgURL: {
       type: String,
-      default: require('~/assets/img/default image-2.jpg')
+      default: require('~/assets/img/default image-2.jpg'),
     },
     articleTitle: {
       type: String,
-      default: ''
+      default: '',
     },
     articleDescription: {
       type: String,
-      default: ''
+      default: '',
     },
     articleDate: {
       type: Date,
-      default: () => new Date()
+      default: () => new Date(),
     },
 
     // Differentiate two usages in / and /category/:name pages
@@ -60,9 +60,9 @@ export default {
       default: 'row',
       validator(value) {
         return ['row', 'column'].includes(value)
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>
 
