@@ -115,7 +115,7 @@ export default {
     },
 
     showListArticleAsideLatest() {
-      return this.allPostsLatestMeta.count > 5
+      return this.allPostsLatestMeta?.count > 5
     },
     listArticleAsideLatestMoreTo() {
       return this.showListArticleAsideLatest ? '/latest' : undefined

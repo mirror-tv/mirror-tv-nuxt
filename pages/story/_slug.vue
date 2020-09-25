@@ -143,7 +143,7 @@ export default {
       return this.allPostsLatest.length > 0
     },
     hasPostsLatestMore() {
-      return this.allPostsLatestMeta.count > 5
+      return this.allPostsLatestMeta?.count > 5
     },
     hasRelatedPosts() {
       return this.relatedPosts?.length > 0
