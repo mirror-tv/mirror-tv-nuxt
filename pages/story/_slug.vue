@@ -30,7 +30,7 @@
         </div>
         <div v-if="brief" class="post__brief" v-html="brief" />
         <article class="post__content">
-          <ArticleContentParagraph
+          <ArticleContentHandler
             v-for="paragraph in content"
             :key="paragraph.id"
             :paragraph="paragraph"
@@ -60,7 +60,7 @@
 
 <script>
 import dayjs from 'dayjs'
-import ArticleContentParagraph from '~/components/ArticleContentParagraph.vue'
+import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
 import ListArticleAside from '~/components/ListArticleAside'
@@ -105,7 +105,7 @@ export default {
     },
   },
   components: {
-    ArticleContentParagraph,
+    ArticleContentHandler,
     ArticleCredit,
     ArticleTag,
     ListArticleAside,
