@@ -41,6 +41,8 @@ test('Should have modifier "input-focused" on search button in mobile when input
 })
 
 test('Should emit clear input event and still focus input after clear button clicked', function () {
+  // attachToDocument issue:
+  // https://github.com/vuejs/vue-test-utils/issues/1578
   const wrapper = shallowMount(HeaderSearchForm, { attachToDocument: true })
   const clearButton = wrapper.findComponent(HeaderSearchFormClearButton)
   const input = wrapper.find('input')
