@@ -13,13 +13,14 @@ const CONTACT_MAPPING = {
 }
 
 export default {
+  name: 'ArticleCredit',
   props: {
     contactType: {
       type: String,
       default: undefined,
     },
     contacts: {
-      type: [Array, String],
+      type: [Array, String, undefined],
       required: true,
     },
   },

@@ -17,19 +17,12 @@
         </div>
         <h1 class="post__title" v-text="title" />
         <div class="post__credit">
-          <ArticleCredit contactType="writers" :contacts="writers" />
           <ArticleCredit
-            contactType="photographers"
-            :contacts="photographers"
+            v-for="credit in credits"
+            :key="credit.key"
+            :contactType="credit.key"
+            :contacts="credit.data"
           />
-          <ArticleCredit
-            contactType="cameraOperators"
-            :contacts="cameraOperators"
-          />
-          <ArticleCredit contactType="designers" :contacts="designers" />
-          <ArticleCredit contactType="engineers" :contacts="engineers" />
-          <ArticleCredit contactType="vocals" :contacts="vocals" />
-          <ArticleCredit :contacts="otherbyline" />
         </div>
         <div class="post__social-media-share">
           <ShareFacebook />
@@ -77,6 +70,16 @@ import ShareLine from '~/components/ShareLine'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import postPublished from '~/apollo/queries/postPublished.gql'
+
+const CREDIT_KEYS = [
+  'writers',
+  'photographers',
+  'cameraOperators',
+  'designers',
+  'engineers',
+  'vocals',
+  'otherbyline',
+]
 
 export default {
   apollo: {
@@ -132,6 +135,14 @@ export default {
       } catch {
         return []
       }
+    },
+    credits() {
+      return Object.keys(this.postPublished || {})
+        .filter(
+          (key) =>
+            CREDIT_KEYS.includes(key) && this.postPublished?.[key].length > 0
+        )
+        .map((key) => ({ key, data: this.postPublished[key] }))
     },
     designers() {
       return this.postPublished?.designers
