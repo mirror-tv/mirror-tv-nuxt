@@ -1,25 +1,3 @@
-<template>
-  <div :class="type" class="paragraph">
-    <h1 v-if="type === 'header-one'" v-html="content" />
-    <h2 v-if="type === 'header-two'" v-html="content" />
-    <p v-if="type === 'unstyled'" v-html="content" />
-    <span v-if="type === 'quoteby'" v-text="content.quote" />
-    <div v-if="type === 'embeddedcode'" v-html="content.embeddedCode" />
-    <ArticleContentInfobox v-if="type === 'infobox'" :infobox="content" />
-    <IframeYoutube v-if="type === 'youtube'" :videoId="content.id" />
-    <ArticleContentVideo v-if="type === 'video'" :video="content" />
-    <ArticleContentAudio v-if="type === 'audio'" :audio="content" />
-    <ArticleContentSlideshow
-      v-if="type === 'slideshow'"
-      :items="paragraph.content"
-    />
-    <ArticleContentAnnotationHandler
-      v-if="type === 'annotation'"
-      :content="content"
-    />
-  </div>
-</template>
-
 <script>
 import ArticleContentAnnotationHandler from '~/components/ArticleContentAnnotationHandler'
 import ArticleContentAudio from '~/components/ArticleContentAudio'
@@ -29,6 +7,8 @@ import ArticleContentVideo from '~/components/ArticleContentVideo'
 import IframeYoutube from '~/components/IframeYoutube'
 
 export default {
+  name: 'ArticleContentHandler',
+  functional: true,
   components: {
     ArticleContentAnnotationHandler,
     ArticleContentAudio,
@@ -44,54 +24,78 @@ export default {
       default: undefined,
     },
   },
-  computed: {
-    content() {
-      return this.paragraph.content?.[0]
-    },
-    type() {
-      return this.paragraph.type
-    },
+  render(h, { props }) {
+    const content = props.paragraph.content?.[0]
+    const type = props.paragraph?.type
+    switch (type) {
+      case 'header-one':
+      case 'header-two': {
+        const tag = type === 'header-one' ? 'h1' : 'h2'
+        return <tag class="g-article-heading" domPropsInnerHTML={content} />
+      }
+      case 'annotation':
+        return (
+          <div class="g-article-annotation">
+            <ArticleContentAnnotationHandler content={content} />
+          </div>
+        )
+      case 'quoteby':
+        return (
+          <div class="g-article-quote-by" domPropsInnerHTML={content.quote} />
+        )
+      case 'embeddedcode':
+        return (
+          <lazy-component
+            class="g-article-embedded-code"
+            domPropsInnerHTML={content.embeddedCode}
+          />
+        )
+      case 'infobox':
+        return <ArticleContentInfobox infobox={content} />
+      case 'slideshow':
+        return <ArticleContentSlideshow items={props.paragraph.content} />
+      case 'youtube':
+        return <IframeYoutube videoId={content.id} />
+      case 'video':
+        return <ArticleContentVideo video={content} />
+      case 'audio':
+        return <ArticleContentAudio audio={content} />
+      case 'unstyled':
+        return <p class="g-article-paragraph" domPropsInnerHTML={content} />
+      default:
+        return undefined
+    }
   },
 }
 </script>
 
-<style lang="scss" scoped>
-.paragraph {
-  color: #000000;
-  font-size: 16px;
-  + .paragraph {
-    margin-top: 30px;
-  }
-  h1,
-  h2 {
+<style lang="scss">
+.g-article {
+  &-heading {
     font-size: 20px;
     font-weight: 500;
     line-height: 1.4;
   }
-  p {
+  &-paragraph {
+    color: #000000;
+    font-size: 16px;
     line-height: 1.75;
     text-align: justify;
-  }
-  a {
-    color: #014db8;
-    font-weight: 500;
-  }
-  &.embeddedcode {
-    ::v-deep iframe {
+    > * {
       max-width: 100%;
     }
   }
-  &.quoteby {
+  &-quote-by {
     position: relative;
     padding: 0 55px;
     line-height: 1.75;
     text-align: justify;
-    ::before {
+    &::before,
+    &::after {
       content: '';
       display: inline-block;
       position: absolute;
       top: 0;
-      left: 0;
       width: 30px;
       height: 30px;
       background-image: url('~assets/img/quote.svg');
@@ -99,24 +103,30 @@ export default {
       background-repeat: no-repeat;
       background-position: center center;
     }
-    ::after {
-      content: '';
-      display: inline-block;
-      position: absolute;
-      top: 0;
+    &::before {
+      left: 0;
+    }
+    &::after {
       right: 0;
-      width: 30px;
-      height: 30px;
-      background-image: url('~assets/img/quote.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
       transform: rotate(180deg);
     }
   }
-  &.annotation {
+  &-annotation {
     text-align: justify;
     line-height: 1.75;
+  }
+  &-embedded-code {
+    iframe {
+      max-width: 100%;
+    }
+  }
+  &-paragraph,
+  &-quote-by,
+  &-annotation {
+    a {
+      color: #014db8;
+      font-weight: 500;
+    }
   }
 }
 </style>

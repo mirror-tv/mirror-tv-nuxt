@@ -333,6 +333,13 @@ $asideWidthDesktop: 380;
   }
   &__content {
     margin: 30px 0 0;
+    color: #000000;
+    font-size: 16px;
+    ::v-deep {
+      > * + * {
+        margin-top: 30px;
+      }
+    }
   }
   &__tags {
     display: flex;
