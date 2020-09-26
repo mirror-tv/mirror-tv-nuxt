@@ -41,7 +41,7 @@ test('Should have modifier "input-focused" on search button in mobile when input
 })
 
 test('Should emit clear input event and still focus input after clear button clicked', function () {
-  const wrapper = shallowMount(HeaderSearchForm)
+  const wrapper = shallowMount(HeaderSearchForm, { attachToDocument: true })
   const clearButton = wrapper.findComponent(HeaderSearchFormClearButton)
   const input = wrapper.find('input')
   clearButton.trigger('click')
