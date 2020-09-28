@@ -91,6 +91,9 @@ export default {
         }
       },
       update: (data) => data.postPublished?.[0],
+      error() {
+        this.$nuxt.error({ statusCode: 500 })
+      },
     },
     allPostsLatest: {
       query: allPublishedPosts,
