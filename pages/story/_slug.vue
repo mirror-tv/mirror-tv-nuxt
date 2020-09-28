@@ -91,6 +91,11 @@ export default {
         }
       },
       update: (data) => data.postPublished?.[0],
+      result({ data }) {
+        if (!data.postPublished?.[0]?.title) {
+          this.$nuxt.error({ statusCode: 404 })
+        }
+      },
       error() {
         this.$nuxt.error({ statusCode: 500 })
       },
