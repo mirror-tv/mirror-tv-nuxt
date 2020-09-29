@@ -33,6 +33,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$font: Arial Rounded MT Bold, Arial;
+
 .error {
   display: flex;
   justify-content: center;
@@ -51,6 +53,7 @@ export default {
   }
   &__heading {
     font-size: 50px;
+    font-family: $font;
     line-height: 1;
     @include media-breakpoint-up(md) {
       font-size: 200px;
@@ -63,6 +66,7 @@ export default {
     display: inline-block;
     color: #ffcc01;
     font-size: 20px;
+    font-family: $font;
     font-weight: bold;
     letter-spacing: 1.3px;
     text-decoration: underline;
