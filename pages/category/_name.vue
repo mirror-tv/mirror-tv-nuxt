@@ -54,6 +54,7 @@ import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import ListArticleAside from '~/components/ListArticleAside'
 
+import allCategories from '~/apollo/queries/allCategories.gql'
 import allPublishedPostsByCategoryTitle from '~/apollo/queries/allPublishedPostsByCategoryTitle.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 
@@ -61,6 +62,17 @@ const pageSize = 13
 
 export default {
   apollo: {
+    allCategories: {
+      query: allCategories,
+      result({ data }) {
+        const hasCategory = data.allCategories?.some(
+          (category) => category.title === this.pageName
+        )
+        if (!hasCategory) {
+          this.$nuxt.error({ statusCode: 404 })
+        }
+      },
+    },
     allPostsCategory: {
       query: allPublishedPostsByCategoryTitle,
       variables() {
