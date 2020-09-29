@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.9.1",
-    "@nuxtjs/apollo": "^4.0.1-rc.3",
+    "@nuxtjs/apollo": "4.0.1-rc.1",
     "@nuxtjs/axios": "^5.12.2",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
