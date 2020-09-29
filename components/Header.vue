@@ -67,12 +67,12 @@
       <nav class="bottom-wrapper__navs navs">
         <div
           v-for="category in allCategories"
-          :key="`category-nav-${category.title}`"
+          :key="`category-nav-${category.slug}`"
           class="navs__category-nav category-nav"
         >
           <nuxt-link
             class="category-nav__link"
-            :to="`/category/${category.title}`"
+            :to="`/category/${category.slug}`"
             @click.native="closeHamburgerButton"
             v-text="truncate(category.title)"
           />

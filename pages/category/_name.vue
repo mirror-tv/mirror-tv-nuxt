@@ -66,7 +66,7 @@ export default {
       query: allCategories,
       result({ data }) {
         const hasCategory = data.allCategories?.some(
-          (category) => category.title === this.pageName
+          (category) => category.slug === this.pageSlug
         )
         if (!hasCategory) {
           this.$nuxt.error({ statusCode: 404 })
@@ -117,10 +117,17 @@ export default {
     }
   },
   computed: {
+    category() {
+      return this.allCategories.find(
+        (category) => category.slug === this.pageSlug
+      )
+    },
     pageName() {
+      return this.category.title
+    },
+    pageSlug() {
       return this.$route.params.name
     },
-
     listArticleMainData() {
       const listData = this.allPostsCategory ?? []
       return listData.map((post) => this.reducerArticleCard(post))

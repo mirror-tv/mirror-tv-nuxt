@@ -21,7 +21,7 @@ const createWrapper = createWrapperHelper({
   },
   data() {
     return {
-      allCategories: [{ title: 'title' }],
+      allCategories: [{ title: 'title', slug: 'slug' }],
     }
   },
 })
@@ -166,7 +166,7 @@ describe('Features about the bottom of the header', function () {
       const nav = navs.at(i)
       expect(nav.text()).toBe(category.title)
       expect(nav.find(RouterLinkStub).props().to).toBe(
-        `/category/${category.title}`
+        `/category/${category.slug}`
       )
     })
   })
