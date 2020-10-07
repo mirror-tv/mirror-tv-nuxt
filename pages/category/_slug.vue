@@ -55,7 +55,7 @@ import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import ListArticleAside from '~/components/ListArticleAside'
 
 import allCategories from '~/apollo/queries/allCategories.gql'
-import allPublishedPostsByCategoryTitle from '~/apollo/queries/allPublishedPostsByCategoryTitle.gql'
+import allPublishedPostsByCategorySlug from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 
 const pageSize = 13
@@ -74,20 +74,20 @@ export default {
       },
     },
     allPostsCategory: {
-      query: allPublishedPostsByCategoryTitle,
+      query: allPublishedPostsByCategorySlug,
       variables() {
         return {
-          categoryTitle: this.pageName,
+          categorySlug: this.pageSlug,
           first: pageSize,
           skip: 0,
         }
       },
     },
     allPostsCategoryMeta: {
-      query: allPublishedPostsByCategoryTitle,
+      query: allPublishedPostsByCategorySlug,
       variables() {
         return {
-          categoryTitle: this.pageName,
+          categorySlug: this.pageSlug,
         }
       },
       update: (data) => data.meta,
@@ -161,7 +161,7 @@ export default {
       this.page += 1
       this.$apollo.queries.allPostsCategory.fetchMore({
         variables: {
-          categoryTitle: this.pageName,
+          categorySlug: this.pageSlug,
           first: pageSize,
           skip: pageSize * this.page,
         },

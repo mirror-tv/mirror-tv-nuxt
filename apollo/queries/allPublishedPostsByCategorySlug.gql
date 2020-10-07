@@ -1,9 +1,9 @@
-query allPublishedPostsByCategoryTitle($categoryTitle: String!, $first: Int = 13, $skip: Int = 0) {
+query allPublishedPostsByCategorySlug($categorySlug: String!, $first: Int = 13, $skip: Int = 0) {
   allPostsCategory: allPosts(
     sortBy: publishTime_DESC,
     where: {
       categories_some: {
-        title: $categoryTitle
+        slug: $categorySlug
       },
       state: published
     },
@@ -23,7 +23,7 @@ query allPublishedPostsByCategoryTitle($categoryTitle: String!, $first: Int = 13
     sortBy: publishTime_DESC,
     where: {
       categories_some: {
-        title: $categoryTitle
+        slug: $categorySlug
       },
       state: published
     }
