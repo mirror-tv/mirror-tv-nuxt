@@ -55,7 +55,7 @@ import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import ListArticleAside from '~/components/ListArticleAside'
 
 import allCategories from '~/apollo/queries/allCategories.gql'
-import allPublishedPostsByCategorySlug from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
+import { allPublishedPostsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 
 const pageSize = 13
