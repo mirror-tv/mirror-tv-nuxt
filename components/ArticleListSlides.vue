@@ -1,5 +1,5 @@
 <template>
-  <div class="list-slides">
+  <div v-if="hasItems" class="list-slides">
     <div
       :style="{
         transform: transformStyle,
@@ -13,7 +13,7 @@
         class="item"
         target="_blank"
       >
-        <img :src="getImage(item)" :alt="item.title" class="item__image" />
+        <img v-lazy="getImage(item)" :alt="item.title" class="item__image" />
         <span class="item__title" v-text="item.title" />
       </a>
     </div>
@@ -34,37 +34,62 @@ export default {
       type: Array,
       default: () => [],
     },
+    total: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
       canSlide: false,
       isMobile: true,
-      page: 1,
+      pageForSlide: 1,
+      pageForItems: 1,
     }
   },
   computed: {
+    canLoadMore() {
+      return this.items.length < this.total
+    },
     canSlideNext() {
       if (this.isMobile) {
-        return this.page < Math.ceil(this.items.length / 2)
+        return this.pageForSlide < Math.ceil(this.maximum / 2)
       }
-      return this.page < Math.ceil(this.items.length / 3)
+      return this.pageForSlide < Math.ceil(this.maximum / 3)
     },
     canSlidePrev() {
       if (this.isMobile) {
-        return this.page > 1 && this.items.length > 2
+        return this.pageForSlide > 1 && this.items.length > 2
       }
-      return this.page > 1 && this.items.length > 3
+      return this.pageForSlide > 1 && this.items.length > 3
+    },
+    hasItems() {
+      return this.items.length > 0
+    },
+    maximum() {
+      if (this.isMobile) {
+        return this.total > 20 ? 20 : this.total
+      }
+      return this.total > 30 ? 30 : this.total
     },
     transformStyle() {
       const margin = this.isMobile ? 14 : 25
-      return `translateX(calc(-${(this.page - 1) * 100}% - ${
-        (this.page - 1) * margin
+      return `translateX(calc(-${(this.pageForSlide - 1) * 100}% - ${
+        (this.pageForSlide - 1) * margin
       }px))`
     },
   },
   watch: {
-    items() {
-      this.detectListSlidable()
+    pageForSlide(value) {
+      if (this.canLoadMore) {
+        if (this.isMobile && this.pageForSlide * 2 + 4 > this.total) {
+          this.pageForItems += 1
+          this.$emit('loadMore', this.pageForItems)
+        } else if (!this.isMobile && this.pageForSlide * 3 + 6 > this.total) {
+          this.pageForItems += 1
+          this.$emit('loadMore', this.pageForItems)
+        }
+      }
     },
   },
   mounted() {
@@ -88,13 +113,16 @@ export default {
       }
     },
     getImage(post) {
-      return post.heroImage?.urlMobileSized
+      return (
+        post.heroImage?.urlMobileSized ??
+        require('~/assets/img/default image-2.jpg')
+      )
     },
     handleSlideNext() {
-      this.page += 1
+      this.pageForSlide += 1
     },
     handleSlidePrev() {
-      this.page -= 1
+      this.pageForSlide -= 1
     },
   },
 }

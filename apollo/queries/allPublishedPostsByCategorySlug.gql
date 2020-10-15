@@ -32,7 +32,7 @@ query allPublishedPostsByCategorySlug($categorySlug: String!, $first: Int = 13, 
   }
 }
 
-query postsByCategorySlug ($category: String, $first: Int = 12, $skip: Int = 0) {
+query postsByCategorySlug ($category: String, $first: Int = 10, $skip: Int = 0) {
   posts: allPosts(
     sortBy: publishTime_DESC,
     where: {

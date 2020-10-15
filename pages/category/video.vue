@@ -13,8 +13,10 @@
               :text="category.title"
             />
             <ArticleListSlides
-              :items="getPostsByCategory(category.slug)"
+              :items="getPostsByCategory(category.slug).items"
+              :total="getPostsByCategory(category.slug).total"
               class="category-posts__posts"
+              @loadMore="handleLoadMorePostsByCategory(category.slug, $event)"
             />
           </div>
         </div>
@@ -71,9 +73,22 @@ export default {
       })
     },
     getPostsByCategory(slug) {
-      const tt = this[`${slug}Posts`]?.items ?? []
-      return [...tt, ...tt]
-      // return this[`${slug}Posts`]?.items ?? []
+      const data = this[`${slug}Posts`]
+      return { items: data?.items ?? [], total: data?.total ?? 0 }
+    },
+    handleLoadMorePostsByCategory(slug, page) {
+      this.$apollo.queries?.[`${slug}Posts`]?.fetchMore({
+        variables: {
+          category: slug,
+          skip: page * 10,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          this.$set(this[`${slug}Posts`], 'items', [
+            ...previousResult.posts,
+            ...fetchMoreResult.posts,
+          ])
+        },
+      })
     },
   },
 }
