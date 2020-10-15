@@ -8,10 +8,18 @@
             :key="category.slug"
             class="category-posts"
           >
-            <HeadingBordered
-              class="category-posts__heading"
-              :text="category.title"
-            />
+            <div>
+              <HeadingBordered
+                class="category-posts__heading"
+                :text="category.title"
+              />
+              <a
+                :href="`/category/${category.slug}`"
+                class="category-posts__link"
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            </div>
             <ArticleListSlides
               :items="getPostsByCategory(category.slug).items"
               :total="getPostsByCategory(category.slug).total"
@@ -143,6 +151,19 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     margin-left: 20px;
     @include media-breakpoint-up(xl) {
       margin-left: 4px;
+    }
+  }
+  &__link {
+    display: inline;
+    &::before,
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border: 2px solid#014db8;
+      border-color: #014db8#014db8 transparent transparent;
+      transform: rotate(45deg);
     }
   }
   &__posts {
