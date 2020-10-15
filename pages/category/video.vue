@@ -29,6 +29,9 @@
           </div>
         </div>
       </main>
+      <aside class="max-width-wrapper__aside">
+        <FacebookPage />
+      </aside>
     </div>
   </section>
 </template>
@@ -36,6 +39,7 @@
 <script>
 import ArticleListSlides from '~/components/ArticleListSlides'
 import HeadingBordered from '~/components/HeadingBordered'
+import FacebookPage from '~/components/FacebookPage'
 
 import allCategories from '~/apollo/queries/allCategories.gql'
 import { postsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
@@ -52,6 +56,7 @@ export default {
   components: {
     ArticleListSlides,
     HeadingBordered,
+    FacebookPage,
   },
   computed: {
     categoriesSlug() {
@@ -109,24 +114,34 @@ export default {
 }
 
 $maxWidthDesktop: 1000;
-$asideWidthDesktop: 380;
+$asideWidthDesktop: 339;
 $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
 .max-width-wrapper {
   display: flex;
   flex-direction: column;
   padding: 80px 20px 50px;
   @include media-breakpoint-up(xl) {
+    align-items: flex-start;
     padding: 0;
     max-width: #{$maxWidthDesktop}px;
     margin: 0 auto;
     flex-direction: row;
+  }
+  &__aside {
+    margin: 20px 0 0;
+    @include media-breakpoint-up(xl) {
+      width: #{$asideWidthDesktop}px;
+      padding: 0 0 0 39px;
+      margin: 60px 0 0;
+      border-left: 1px solid #d8d8d8;
+    }
   }
 }
 
 .main {
   @include media-breakpoint-up(xl) {
     width: #{$mainWidthDesktop}px;
-    padding: 60px 0 50px 0;
+    padding: 60px 28px 50px 0;
   }
 }
 
