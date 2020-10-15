@@ -1,0 +1,11 @@
+query ($first: Int = 6) {
+  allEditorChoices(sortBy: choice_DESC, first: $first) {
+    choice {
+      slug
+      title
+      heroImage {
+        urlMobileSized
+      }
+    }
+  }
+}

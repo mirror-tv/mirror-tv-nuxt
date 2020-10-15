@@ -1,6 +1,9 @@
 <template>
   <section class="page">
     <div class="max-width-wrapper">
+      <EditorChoices :items="allEditorChoices" class="editor-choices">
+        <HeadingBordered text="編輯精選" />
+      </EditorChoices>
       <main class="main">
         <div class="category-posts-wrapper">
           <div
@@ -38,10 +41,12 @@
 
 <script>
 import ArticleListSlides from '~/components/ArticleListSlides'
+import EditorChoices from '~/components/EditorChoices'
 import HeadingBordered from '~/components/HeadingBordered'
 import FacebookPage from '~/components/FacebookPage'
 
 import allCategories from '~/apollo/queries/allCategories.gql'
+import allEditorChoices from '~/apollo/queries/allEditorChoices.gql'
 import { postsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 
 export default {
@@ -52,9 +57,16 @@ export default {
       update: (data) =>
         data?.allCategories.filter((category) => category.slug !== 'video'),
     },
+    allEditorChoices: {
+      query: allEditorChoices,
+      update: (data) => {
+        return data.allEditorChoices.map((item) => item.choice)
+      },
+    },
   },
   components: {
     ArticleListSlides,
+    EditorChoices,
     HeadingBordered,
     FacebookPage,
   },
@@ -126,22 +138,30 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     max-width: #{$maxWidthDesktop}px;
     margin: 0 auto;
     flex-direction: row;
+    flex-wrap: wrap;
   }
   &__aside {
     margin: 20px 0 0;
     @include media-breakpoint-up(xl) {
       width: #{$asideWidthDesktop}px;
       padding: 0 0 0 39px;
-      margin: 60px 0 0;
+      margin: 49px 0 0;
       border-left: 1px solid #d8d8d8;
     }
   }
 }
 
 .main {
+  margin: 49px 0 0;
   @include media-breakpoint-up(xl) {
     width: #{$mainWidthDesktop}px;
-    padding: 60px 28px 50px 0;
+    padding: 0 28px 50px 0;
+  }
+}
+
+.editor-choices {
+  @include media-breakpoint-up(xl) {
+    margin: 22px 0 0;
   }
 }
 
