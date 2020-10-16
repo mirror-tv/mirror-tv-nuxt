@@ -17,19 +17,21 @@
         <span v-text="firstItem.title" />
       </a>
       <div class="editor-choices__remaining">
-        <a
-          v-for="item in remainingItems"
-          :key="item.slug"
-          :href="`/story/${item.slug}`"
-          class="item"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <picture>
-            <img :src="item.heroImage.urlMobileSized" :alt="item.title" />
-          </picture>
-          <span v-text="firstItem.title" />
-        </a>
+        <div class="scrollable-container">
+          <a
+            v-for="item in remainingItems"
+            :key="item.slug"
+            :href="`/story/${item.slug}`"
+            class="item"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <picture>
+              <img :src="item.heroImage.urlMobileSized" :alt="item.title" />
+            </picture>
+            <span v-text="firstItem.title" />
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -60,6 +62,9 @@ export default {
 
 <style lang="scss" scoped>
 .editor-choices {
+  @include media-breakpoint-up(xl) {
+    width: 100%;
+  }
   &-container {
     @include media-breakpoint-up(xl) {
       display: flex;
@@ -86,9 +91,12 @@ export default {
     padding: 20px 0;
     border-bottom: 1px solid #d8d8d8;
     @include media-breakpoint-up(xl) {
+      position: relative;
       flex: 1;
-      margin: 0 0 0 20px;
+      margin: 20px 0 0 20px;
+      padding: 0;
       border: none;
+      overflow: hidden;
     }
     .item {
       display: flex;
@@ -106,10 +114,23 @@ export default {
       }
     }
   }
+  .scrollable-container {
+    @include media-breakpoint-up(xl) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+    }
+  }
 }
 
 .item {
   display: block;
+  + .item {
+    margin-top: 16px;
+  }
   picture {
     display: block;
     position: relative;
