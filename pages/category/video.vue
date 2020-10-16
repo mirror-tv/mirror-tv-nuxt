@@ -33,7 +33,7 @@
         </div>
       </main>
       <aside class="max-width-wrapper__aside">
-        <FacebookPage />
+        <FacebookPagePlugin />
       </aside>
     </div>
   </section>
@@ -43,7 +43,7 @@
 import ArticleListSlides from '~/components/ArticleListSlides'
 import EditorChoices from '~/components/EditorChoices'
 import HeadingBordered from '~/components/HeadingBordered'
-import FacebookPage from '~/components/FacebookPage'
+import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 
 import allCategories from '~/apollo/queries/allCategories.gql'
 import allEditorChoices from '~/apollo/queries/allEditorChoices.gql'
@@ -68,7 +68,7 @@ export default {
     ArticleListSlides,
     EditorChoices,
     HeadingBordered,
-    FacebookPage,
+    FacebookPagePlugin,
   },
   computed: {
     categoriesSlug() {

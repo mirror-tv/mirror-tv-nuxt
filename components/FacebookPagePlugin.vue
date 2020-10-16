@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'FacebookPage',
+  name: 'FacebookPagePlugin',
   props: {
     href: {
       type: String,
