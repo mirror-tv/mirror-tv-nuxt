@@ -70,7 +70,7 @@ import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
-import postPublished from '~/apollo/queries/postPublished.gql'
+import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
 
 const CREDIT_KEYS = [
   'writers',
@@ -85,7 +85,7 @@ const CREDIT_KEYS = [
 export default {
   apollo: {
     postPublished: {
-      query: postPublished,
+      query: fetchPostPublishedBySlug,
       variables() {
         return {
           slug: this.$route.params.slug,

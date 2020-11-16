@@ -1,4 +1,4 @@
-query postPublished($slug: String!) {
+query fetchPostPublishedBySlug($slug: String!) {
   postPublished: allPosts(
     where: {
       state: published,
