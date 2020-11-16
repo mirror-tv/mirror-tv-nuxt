@@ -84,10 +84,10 @@ export default {
       if (this.canLoadMore) {
         if (this.isMobile && this.pageForSlide * 2 + 4 > this.total) {
           this.pageForItems += 1
-          this.$emit('loadMore', this.pageForItems)
+          this.$emit('load-more', this.pageForItems)
         } else if (!this.isMobile && this.pageForSlide * 3 + 6 > this.total) {
           this.pageForItems += 1
-          this.$emit('loadMore', this.pageForItems)
+          this.$emit('load-more', this.pageForItems)
         }
       }
     },

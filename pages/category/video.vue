@@ -27,7 +27,7 @@
               :items="getPostsByCategory(category.slug).items"
               :total="getPostsByCategory(category.slug).total"
               class="category-posts__posts"
-              @loadMore="handleLoadMorePostsByCategory(category.slug, $event)"
+              @load-more="handleLoadMorePostsByCategory(category.slug, $event)"
             />
           </div>
         </div>
