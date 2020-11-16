@@ -17,13 +17,13 @@
 
 <script>
 export default {
+  layout: 'empty',
   props: {
     error: {
       type: Object,
       required: true,
     },
   },
-  layout: 'empty',
   computed: {
     is404() {
       return this.error.statusCode === 404

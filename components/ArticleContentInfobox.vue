@@ -1,6 +1,7 @@
 <template>
   <div class="infobox">
     <h3 v-text="infobox.title" />
+    <!-- eslint-disable vue/no-v-html -->
     <div v-html="infobox.body" />
   </div>
 </template>

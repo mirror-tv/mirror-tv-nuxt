@@ -40,6 +40,14 @@ export default {
     ArticleCard,
     ButtonLoadmore,
   },
+  data() {
+    return {
+      listData: [],
+      listDataCurrentPage: 0,
+      listDataMaxResults: 12,
+      listDataTotal: undefined,
+    }
+  },
   async fetch() {
     const query = this.keywordDecoded
     const response = await this.$axios.post('/api/search', {
@@ -50,14 +58,6 @@ export default {
     this.setListData(response)
     this.setListDataTotal(response)
     this.listDataCurrentPage += 1
-  },
-  data() {
-    return {
-      listData: [],
-      listDataCurrentPage: 0,
-      listDataMaxResults: 12,
-      listDataTotal: undefined,
-    }
   },
   computed: {
     keywordDecoded() {

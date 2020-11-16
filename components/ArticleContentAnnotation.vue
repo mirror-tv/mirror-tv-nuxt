@@ -8,6 +8,7 @@
       （註）
     </button>
     <div v-show="openAnnotation" class="annotation__content">
+      <!-- eslint-disable vue/no-v-html -->
       <div class="content" v-html="annotation.pureAnnotationText" />
     </div>
   </div>

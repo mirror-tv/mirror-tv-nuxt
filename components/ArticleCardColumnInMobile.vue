@@ -22,6 +22,7 @@
           'info-wrapper',
         ]"
       >
+        <!-- eslint-disable vue/no-v-html -->
         <span
           class="article-title"
           :style="{ fontWeight: articleTitleStyle }"

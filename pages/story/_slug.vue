@@ -28,6 +28,7 @@
           <ShareFacebook />
           <ShareLine />
         </div>
+        <!-- eslint-disable vue/no-v-html -->
         <div v-if="brief" class="post__brief" v-html="brief" />
         <article class="post__content">
           <ArticleContentHandler
