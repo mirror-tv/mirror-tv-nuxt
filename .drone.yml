@@ -64,7 +64,7 @@ steps:
 
   - name: buildCI
     pull: if-not-exists
-    image: node:12.16.2-slim
+    image: node:14-slim
     commands:
       - apt-get update && apt-get install -y node-gyp
       - yarn install
@@ -78,7 +78,7 @@ steps:
 
   - name: lighthouseCI
     pull: if-not-exists
-    image: node:12.16.2-slim
+    image: node:14-slim
     environment:
       LHCI_GITHUB_APP_TOKEN:
         from_secret: lhci_github_app_token
@@ -121,7 +121,7 @@ steps:
 
   - name: buildDev&Prod
     pull: if-not-exists
-    image: node:12.16.2-slim
+    image: node:14-slim
     commands:
       - apt-get update && apt-get install -y node-gyp
       - yarn install
