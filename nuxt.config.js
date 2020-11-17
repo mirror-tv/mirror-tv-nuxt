@@ -62,7 +62,7 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    // proxy: true,
+    proxy: true,
   },
   styleResources: {
     scss: '~/scss/*.scss',
