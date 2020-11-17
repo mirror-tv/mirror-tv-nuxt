@@ -1,0 +1,7 @@
+fragment listingPagePost on Post {
+  slug
+  title
+  heroImage {
+    urlMobileSized
+  }
+}

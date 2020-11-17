@@ -1,3 +1,5 @@
+#import "~/apollo/fragments/listingPagePost.gql"
+
 query fetchPostsByTagName (
   $tagName: String,
   $maxResults: Int = 12,
@@ -13,11 +15,7 @@ query fetchPostsByTagName (
     skip: $skip,
     sortBy: publishTime_DESC,
   ) {
-    slug
-    title
     publishTime
-    heroImage {
-      urlMobileSized
-    }
+    ...listingPagePost
   }
 }

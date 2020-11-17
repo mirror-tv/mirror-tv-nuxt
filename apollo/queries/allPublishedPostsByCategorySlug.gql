@@ -1,3 +1,5 @@
+#import "~/apollo/fragments/listingPagePost.gql"
+
 query allPublishedPostsByCategorySlug($categorySlug: String!, $first: Int = 13, $skip: Int = 0) {
   allPostsCategory: allPosts(
     sortBy: publishTime_DESC,
@@ -11,12 +13,8 @@ query allPublishedPostsByCategorySlug($categorySlug: String!, $first: Int = 13, 
     skip: $skip
   ) {
     id
-    title
-    slug
     publishTime
-    heroImage {
-      urlMobileSized
-    }
+    ...listingPagePost
   }
 
   meta: _allPostsMeta(
@@ -44,11 +42,7 @@ query postsByCategorySlug ($category: String, $first: Int = 10, $skip: Int = 0) 
     first: $first,
     skip: $skip
   ) {
-    slug
-    title
-    heroImage {
-      urlMobileSized
-    }
+    ...listingPagePost
   }
 
   meta: _allPostsMeta(where: {
