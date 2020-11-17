@@ -1,0 +1,23 @@
+query fetchPostsByTagName (
+  $tagName: String,
+  $maxResults: Int = 12,
+  $skip: Int = 0
+) {
+  allPosts(
+    where: {
+      tags_some: {
+        name: $tagName
+      }
+    },
+    first: $maxResults,
+    skip: $skip,
+    sortBy: publishTime_DESC,
+  ) {
+    slug
+    title
+    publishTime
+    heroImage {
+      urlMobileSized
+    }
+  }
+}
