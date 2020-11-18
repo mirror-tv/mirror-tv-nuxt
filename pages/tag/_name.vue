@@ -10,6 +10,7 @@
           :articleTitle="post.title"
           :articleDate="post.publishTime"
           mobileLayoutDirection="column"
+          @click.native="sendGaClickEvent('article')"
         />
       </li>
     </ol>
@@ -92,6 +93,7 @@ export default {
           }
         },
       })
+      this.sendGaClickEvent('more')
     },
     restructurePost(post) {
       return {
@@ -101,6 +103,13 @@ export default {
         image: post.heroImage?.urlMobileSized,
         publishTime: new Date(post.publishTime),
       }
+    },
+    sendGaClickEvent(label) {
+      this.$ga.event({
+        eventCategory: 'tag',
+        eventAction: 'click',
+        eventLabel: label,
+      })
     },
   },
 }

@@ -5,6 +5,11 @@ import ButtonLoadmore from '../../components/ButtonLoadmore'
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
 
 const routeName = 'MMTV'
+
+const $ga = {
+  event: jest.fn(),
+}
+
 const createWrapper = createWrapperHelper({
   mocks: {
     $route: {
@@ -12,6 +17,7 @@ const createWrapper = createWrapperHelper({
         name: routeName,
       },
     },
+    $ga,
   },
   data() {
     return {
@@ -28,23 +34,32 @@ describe('route params name', () => {
 })
 
 describe('items', () => {
+  const items = [
+    {
+      slug: '1',
+    },
+    {
+      slug: '2',
+    },
+  ]
+  const wrapper = createWrapper(page, {
+    data() {
+      return {
+        posts: items,
+      }
+    },
+  })
   test('ArticleCard should have correct amount', () => {
-    const items = [
-      {
-        slug: '1',
-      },
-      {
-        slug: '2',
-      },
-    ]
-    const wrapper = createWrapper(page, {
-      data() {
-        return {
-          posts: items,
-        }
-      },
-    })
     expect(wrapper.findAllComponents(ArticleCard)).toHaveLength(items.length)
+  })
+  test('should call $ga when click load more button', () => {
+    const item = wrapper.findComponent(ArticleCard)
+    item.trigger('click')
+    expect($ga.event).toBeCalledWith({
+      eventCategory: 'tag',
+      eventAction: 'click',
+      eventLabel: 'article',
+    })
   })
 })
 
@@ -93,5 +108,31 @@ describe('load more', () => {
     const loadMore = wrapper.findComponent(ButtonLoadmore)
     loadMore.trigger('click')
     expect(apolloQuery).toBeCalled()
+  })
+  test('should call $ga when click load more button', () => {
+    const wrapper = createWrapper(page, {
+      mocks: {
+        $apollo: {
+          queries: {
+            posts: {
+              fetchMore: jest.fn(),
+            },
+          },
+        },
+      },
+      data() {
+        return {
+          posts: [],
+          postsCount: 20,
+        }
+      },
+    })
+    const loadMore = wrapper.findComponent(ButtonLoadmore)
+    loadMore.trigger('click')
+    expect($ga.event).toBeCalledWith({
+      eventCategory: 'tag',
+      eventAction: 'click',
+      eventLabel: 'more',
+    })
   })
 })
