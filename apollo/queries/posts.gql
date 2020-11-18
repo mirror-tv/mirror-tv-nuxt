@@ -1,6 +1,6 @@
 #import "~/apollo/fragments/listingPagePost.gql"
 
-query fetchPostsByTagName (
+query fetchPostsAndCountByTagName (
   $tagName: String,
   $maxResults: Int = 12,
   $skip: Int = 0
@@ -17,5 +17,14 @@ query fetchPostsByTagName (
   ) {
     publishTime
     ...listingPagePost
+  }
+  _allPostsMeta(
+    where: {
+      tags_some: {
+        name: $tagName
+      }
+    },
+  ) {
+    count
   }
 }

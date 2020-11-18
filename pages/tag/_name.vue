@@ -13,14 +13,20 @@
         />
       </li>
     </ol>
-    <ButtonLoadmore class="button-load-more" @click.native="handleLoadMore" />
+    <ButtonLoadmore
+      v-if="enableLoadMore"
+      class="button-load-more"
+      @click.native="handleLoadMore"
+    />
   </section>
 </template>
 
 <script>
-import { fetchPostsByTagName } from '~/apollo/queries/posts.gql'
+import { fetchPostsAndCountByTagName } from '~/apollo/queries/posts.gql'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
+
+const MAX_RESULTS = 12
 
 export default {
   name: 'TagPage',
@@ -30,13 +36,15 @@ export default {
   },
   apollo: {
     posts: {
-      query: fetchPostsByTagName,
+      query: fetchPostsAndCountByTagName,
       variables() {
         return {
           tagName: this.routeName,
+          maxResults: MAX_RESULTS,
         }
       },
       update(data) {
+        this.postsCount = data._allPostsMeta?.count
         return data.allPosts?.map(this.restructurePost)
       },
       error() {
@@ -44,7 +52,16 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      page: 1,
+      postsCount: 0,
+    }
+  },
   computed: {
+    enableLoadMore() {
+      return this.posts.length < this.postsCount
+    },
     hasItems() {
       return this.posts?.length > 0
     },
@@ -53,7 +70,28 @@ export default {
     },
   },
   methods: {
-    handleLoadMore() {},
+    handleLoadMore() {
+      this.$apollo.queries.posts.fetchMore({
+        variables: {
+          tagName: this.routeName,
+          maxResults: MAX_RESULTS,
+          skip: this.page * MAX_RESULTS,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const combined = [
+            ...previousResult.allPosts,
+            ...fetchMoreResult.allPosts,
+          ]
+          return {
+            allPosts: [...new Set(combined)],
+            _allPostsMeta: {
+              __typename: '_QueryMeta',
+              count: fetchMoreResult._allPostsMeta?.count,
+            },
+          }
+        },
+      })
+    },
     restructurePost(post) {
       return {
         href: `/story/${post.slug}`,
