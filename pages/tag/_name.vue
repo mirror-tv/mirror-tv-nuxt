@@ -78,6 +78,7 @@ export default {
           skip: this.page * MAX_RESULTS,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
+          this.page += 1
           const combined = [
             ...previousResult.allPosts,
             ...fetchMoreResult.allPosts,
