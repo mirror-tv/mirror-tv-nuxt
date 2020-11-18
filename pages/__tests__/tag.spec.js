@@ -10,6 +10,14 @@ const $ga = {
   event: jest.fn(),
 }
 
+const $apollo = {
+  queries: {
+    posts: {
+      fetchMore: jest.fn(),
+    },
+  },
+}
+
 const createWrapper = createWrapperHelper({
   mocks: {
     $route: {
@@ -17,6 +25,7 @@ const createWrapper = createWrapperHelper({
         name: routeName,
       },
     },
+    $apollo,
     $ga,
   },
   data() {
@@ -87,17 +96,7 @@ describe('load more', () => {
     expect(wrapper.findComponent(ButtonLoadmore).exists()).toBe(false)
   })
   test('should call $apollo fetchMore when click load more button', () => {
-    const apolloQuery = jest.fn()
     const wrapper = createWrapper(page, {
-      mocks: {
-        $apollo: {
-          queries: {
-            posts: {
-              fetchMore: apolloQuery,
-            },
-          },
-        },
-      },
       data() {
         return {
           posts: [],
@@ -107,19 +106,10 @@ describe('load more', () => {
     })
     const loadMore = wrapper.findComponent(ButtonLoadmore)
     loadMore.trigger('click')
-    expect(apolloQuery).toBeCalled()
+    expect($apollo.queries.posts.fetchMore).toBeCalled()
   })
   test('should call $ga when click load more button', () => {
     const wrapper = createWrapper(page, {
-      mocks: {
-        $apollo: {
-          queries: {
-            posts: {
-              fetchMore: jest.fn(),
-            },
-          },
-        },
-      },
       data() {
         return {
           posts: [],
