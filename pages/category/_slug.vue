@@ -17,6 +17,7 @@
                 :articleImgURL="post.articleImgURL"
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
+                @click.native="sendGaClickEvent('category latest')"
               />
               <ArticleCard
                 v-else
@@ -25,6 +26,7 @@
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
                 :mobileLayoutDirection="'column'"
+                @click.native="sendGaClickEvent('category latest')"
               />
             </li>
           </ol>
@@ -123,7 +125,7 @@ export default {
       )
     },
     pageName() {
-      return this.category.title
+      return this.category?.title
     },
     pageSlug() {
       return this.$route.params.slug
@@ -157,6 +159,13 @@ export default {
         articleDate: new Date(post.publishTime),
       }
     },
+    sendGaClickEvent(label) {
+      this.$ga.event({
+        eventCategory: 'category',
+        eventAction: 'click',
+        eventLabel: label,
+      })
+    },
     handleClickMore() {
       this.page += 1
       this.$apollo.queries.allPostsCategory.fetchMore({
@@ -172,6 +181,7 @@ export default {
           }
         },
       })
+      this.sendGaClickEvent('more')
     },
   },
 }

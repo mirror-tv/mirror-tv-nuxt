@@ -18,6 +18,7 @@
               :articleDescription="post.articleDescription"
               :articleDate="post.articleDate"
               :mobileLayoutDirection="'column'"
+              @click.native="sendGaClickEvent('related articles')"
             />
           </li>
         </ol>
@@ -84,6 +85,13 @@ export default {
         articleDate: new Date(source.publishTime),
       }
     },
+    sendGaClickEvent(label) {
+      this.$ga.event({
+        eventCategory: 'search',
+        eventAction: 'click',
+        eventLabel: label,
+      })
+    },
     setListData(response = {}) {
       let listData = response.data?.body?.hits?.hits ?? []
       listData = listData.map(this.mapDataToComponentProps)
@@ -101,6 +109,7 @@ export default {
       })
       this.setListData(response)
       this.listDataCurrentPage += 1
+      this.sendGaClickEvent('more')
     },
   },
 }

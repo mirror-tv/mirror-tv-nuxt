@@ -61,7 +61,7 @@ describe('items', () => {
   test('ArticleCard should have correct amount', () => {
     expect(wrapper.findAllComponents(ArticleCard)).toHaveLength(items.length)
   })
-  test('should call $ga when click load more button', () => {
+  test('should call $ga when click item', () => {
     const item = wrapper.findComponent(ArticleCard)
     item.trigger('click')
     expect($ga.event).toBeCalledWith({
