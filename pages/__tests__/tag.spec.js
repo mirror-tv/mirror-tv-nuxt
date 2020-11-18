@@ -72,3 +72,27 @@ describe('load more', () => {
     expect(wrapper.findComponent(ButtonLoadmore).exists()).toBe(false)
   })
 })
+
+test('should call $apollo fetchMore when click load more button', () => {
+  const apolloQuery = jest.fn()
+  const wrapper = createWrapper(page, {
+    mocks: {
+      $apollo: {
+        queries: {
+          posts: {
+            fetchMore: apolloQuery,
+          },
+        },
+      },
+    },
+    data() {
+      return {
+        posts: [],
+        postsCount: 20,
+      }
+    },
+  })
+  const loadMore = wrapper.findComponent(ButtonLoadmore)
+  loadMore.trigger('click')
+  expect(apolloQuery).toBeCalled()
+})
