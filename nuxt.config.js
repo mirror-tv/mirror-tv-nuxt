@@ -40,6 +40,7 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/stylelint-module
     '@nuxtjs/stylelint-module',
     '@nuxtjs/style-resources',
+    '@nuxtjs/google-analytics',
   ],
   /*
    ** Nuxt.js modules
@@ -63,6 +64,13 @@ module.exports = {
    */
   axios: {
     proxy: true, // to prevent CORS
+  },
+  googleAnalytics: {
+    id: () => {
+      return document.domain.match(/^(www|nuxt).mnews.tw/gs)
+        ? 'UA-83609754-1'
+        : 'UA-83609754-2'
+    },
   },
   styleResources: {
     scss: '~/scss/*.scss',
