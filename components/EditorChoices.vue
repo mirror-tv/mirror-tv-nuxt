@@ -7,12 +7,10 @@
         class="editor-choices__first-item item"
         target="_blank"
         rel="noopener noreferrer"
+        @click="$emit('click')"
       >
         <picture>
-          <img
-            :src="firstItem.heroImage.urlMobileSized"
-            :alt="firstItem.title"
-          />
+          <img :src="getImage(firstItem)" :alt="firstItem.title" />
         </picture>
         <span v-text="firstItem.title" />
       </a>
@@ -25,9 +23,10 @@
             class="item"
             target="_blank"
             rel="noopener noreferrer"
+            @click="$emit('click')"
           >
             <picture>
-              <img :src="item.heroImage.urlMobileSized" :alt="item.title" />
+              <img :src="getImage(item)" :alt="item.title" />
             </picture>
             <span v-text="firstItem.title" />
           </a>
@@ -55,6 +54,11 @@ export default {
     },
     remainingItems() {
       return this.items.slice(1)
+    },
+  },
+  methods: {
+    getImage(item) {
+      return item.heroImage?.urlMobileSized
     },
   },
 }

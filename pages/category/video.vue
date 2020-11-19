@@ -1,7 +1,11 @@
 <template>
   <section class="page">
     <div class="max-width-wrapper">
-      <EditorChoices :items="allEditorChoices" class="editor-choices">
+      <EditorChoices
+        :items="allEditorChoices"
+        class="editor-choices"
+        @click="sendGaClickEvent('editors choice')"
+      >
         <HeadingBordered text="編輯精選" />
       </EditorChoices>
       <main class="main">
@@ -21,12 +25,20 @@
                 class="category-posts__link"
                 target="_blank"
                 rel="noopener noreferrer"
+                @click="sendGaClickEvent('categories page')"
               />
             </div>
             <ArticleListSlides
               :items="getPostsByCategory(category.slug).items"
               :total="getPostsByCategory(category.slug).total"
               class="category-posts__posts"
+              @click-slide-item="sendGaClickEvent('articles')"
+              @click-slide-next="
+                sendGaClickEvent('right button for more articles')
+              "
+              @click-slide-prev="
+                sendGaClickEvent('left button for more articles')
+              "
               @load-more="handleLoadMorePostsByCategory(category.slug, $event)"
             />
           </div>
@@ -74,11 +86,11 @@ export default {
   },
   computed: {
     categoriesSlug() {
-      return this.allCategories.map((category) => category.slug)
+      return this.allCategories?.map((category) => category.slug)
     },
   },
   mounted() {
-    if (this.categoriesSlug.length > 0) {
+    if (this.categoriesSlug?.length > 0) {
       this.fetchPostsByCategory()
     }
   },
@@ -115,6 +127,13 @@ export default {
             ...fetchMoreResult.posts,
           ])
         },
+      })
+    },
+    sendGaClickEvent(label) {
+      this.$ga.event({
+        eventCategory: 'videonews',
+        eventAction: 'click',
+        eventLabel: label,
       })
     },
   },

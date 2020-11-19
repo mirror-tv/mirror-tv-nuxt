@@ -12,6 +12,7 @@
         :href="`/story/${item.slug}`"
         class="item"
         target="_blank"
+        @click="$emit('click-slide-item')"
       >
         <img v-lazy="getImage(item)" :alt="item.title" class="item__image" />
         <span class="item__title" v-text="item.title" />
@@ -120,9 +121,11 @@ export default {
     },
     handleSlideNext() {
       this.pageForSlide += 1
+      this.$emit('click-slide-next')
     },
     handleSlidePrev() {
       this.pageForSlide -= 1
+      this.$emit('click-slide-prev')
     },
   },
 }
