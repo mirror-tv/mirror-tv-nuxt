@@ -43,9 +43,13 @@
             :key="tag.name"
             :tag="tag"
             class="post__tag"
+            @click.native="sendGaClickEvent('tag')"
           />
         </div>
-        <ListArticleRelated :listData="relatedPosts" />
+        <ListArticleRelated
+          :listData="relatedPosts"
+          @click-item="sendGaClickEvent('related articles')"
+        />
       </main>
       <aside class="aside">
         <ListArticleAside
@@ -220,6 +224,13 @@ export default {
         articleTitle: post.title,
         articleDate: new Date(post.publishTime),
       }
+    },
+    sendGaClickEvent(label) {
+      this.$ga.event({
+        eventCategory: 'article',
+        eventAction: 'click',
+        eventLabel: label,
+      })
     },
   },
 }

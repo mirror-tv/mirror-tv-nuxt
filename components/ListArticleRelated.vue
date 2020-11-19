@@ -10,6 +10,7 @@
         <ArticleCardOnlyTitle
           :articleTitle="item.title"
           :href="`/story/${item.slug}`"
+          @click.native="$emit('click-item')"
         />
       </li>
     </ul>

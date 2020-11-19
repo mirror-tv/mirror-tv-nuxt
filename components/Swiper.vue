@@ -7,6 +7,7 @@
           :href="slide.href"
           :articleImgURL="slide.articleImgURL"
           :articleTitle="slide.articleTitle"
+          @click.native="$emit('click-slide')"
         />
       </div>
     </div>

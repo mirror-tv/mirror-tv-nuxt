@@ -13,6 +13,7 @@
           <Swiper
             class="editor-choices-wrapper__swiper"
             :slidesData="editorChoices"
+            @click-slide="sendGaClickEvent('editor choices')"
           />
         </div>
         <div class="main__list-latest-wrapper list-latest-wrapper">
@@ -28,6 +29,7 @@
                 :articleImgURL="post.articleImgURL"
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
+                @click.native="sendGaClickEvent('latest articles')"
               />
             </li>
           </ol>
@@ -114,6 +116,13 @@ export default {
         articleDate: new Date(post.publishTime),
       }
     },
+    sendGaClickEvent(label) {
+      this.$ga.event({
+        eventCategory: 'home',
+        eventAction: 'click',
+        eventLabel: label,
+      })
+    },
     handleClickMore() {
       this.page += 1
       this.$apollo.queries.allPublishedPosts.fetchMore({
@@ -131,6 +140,7 @@ export default {
           }
         },
       })
+      this.sendGaClickEvent('more')
     },
   },
 }
