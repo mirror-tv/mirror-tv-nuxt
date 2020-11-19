@@ -1,6 +1,11 @@
 <template>
-  <a class="tag">
-    <span v-text="tag.name" />
+  <a
+    :href="`/tag/${tagName}`"
+    class="tag"
+    target="_blank"
+    rel="noreferrer noopener"
+  >
+    <span v-text="tagName" />
   </a>
 </template>
 
@@ -10,6 +15,11 @@ export default {
     tag: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    tagName() {
+      return this.tag.name
     },
   },
 }
