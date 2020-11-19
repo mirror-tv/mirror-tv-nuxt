@@ -65,6 +65,8 @@
 
 <script>
 import dayjs from 'dayjs'
+
+import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
@@ -212,6 +214,23 @@ export default {
     writers() {
       return this.postPublished?.writers
     },
+  },
+  mounted() {
+    setIntersectionObserver({
+      elements: [document.querySelector('.list-wrapper')],
+      handler: (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            observer.disconnect()
+            this.$ga.event({
+              eventCategory: 'article',
+              eventAction: 'scroll',
+              eventLabel: 'to article end',
+            })
+          }
+        })
+      },
+    })
   },
   methods: {
     formatDate(date) {

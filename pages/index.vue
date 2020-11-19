@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { setIntersectionObserver } from '~/utils/intersection-observer'
 import Swiper from '~/components/Swiper'
 import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -104,6 +105,23 @@ export default {
     showLoadMoreButton() {
       return pageSize * (this.page + 1) < this.allPublishedPostsMeta?.count
     },
+  },
+  mounted() {
+    setIntersectionObserver({
+      elements: [document.querySelector('.button-load-more')],
+      handler: (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            observer.disconnect()
+            this.$ga.event({
+              eventCategory: 'home',
+              eventAction: 'scroll',
+              eventLabel: 'to more',
+            })
+          }
+        })
+      },
+    })
   },
   methods: {
     reducerArticleCard(post) {
