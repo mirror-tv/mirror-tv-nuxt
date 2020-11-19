@@ -137,6 +137,12 @@
   </footer>
 </template>
 
+<script>
+export default {
+  name: 'Footer',
+}
+</script>
+
 <style lang="scss" scoped>
 .top-wrapper {
   background-color: #014db8;

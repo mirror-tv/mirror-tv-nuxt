@@ -53,6 +53,7 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/apollo',
+    ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 * 24 }],
   ],
   apollo: {
     clientConfigs: {

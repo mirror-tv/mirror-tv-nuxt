@@ -30,7 +30,6 @@ import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 const MAX_RESULTS = 12
 
 export default {
-  name: 'TagPage',
   components: {
     ArticleCard,
     ButtonLoadmore,

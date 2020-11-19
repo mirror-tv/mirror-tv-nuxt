@@ -7,7 +7,6 @@ import ArticleContentVideo from '~/components/ArticleContentVideo'
 import IframeYoutube from '~/components/IframeYoutube'
 
 export default {
-  name: 'ArticleContentHandler',
   functional: true,
   components: {
     ArticleContentAnnotationHandler,

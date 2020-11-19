@@ -62,7 +62,6 @@ import allEditorChoices from '~/apollo/queries/allEditorChoices.gql'
 import { postsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 
 export default {
-  name: 'VideoCategory',
   apollo: {
     allCategories: {
       query: allCategories,

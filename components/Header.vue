@@ -87,6 +87,7 @@ import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
 import allCategories from '~/apollo/queries/allCategories.gql'
 
 export default {
+  name: 'Header',
   apollo: {
     allCategories: {
       query: allCategories,

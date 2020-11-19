@@ -38,7 +38,6 @@
 
 <script>
 export default {
-  name: 'EditorChoices',
   props: {
     items: {
       type: Array,
