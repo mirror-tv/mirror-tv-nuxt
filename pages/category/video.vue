@@ -60,7 +60,9 @@ export default {
     allEditorChoices: {
       query: allEditorChoices,
       update: (data) => {
-        return data.allEditorChoices.map((item) => item.choice)
+        return data.allEditorChoices
+          .filter((item) => item.choice)
+          .map((item) => item.choice)
       },
     },
   },
