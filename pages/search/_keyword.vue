@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 
@@ -86,11 +87,7 @@ export default {
       }
     },
     sendGaClickEvent(label) {
-      this.$ga.event({
-        eventCategory: 'search',
-        eventAction: 'click',
-        eventLabel: label,
-      })
+      sendGaEvent(this.$ga)('search')('click')(label)
     },
     setListData(response = {}) {
       let listData = response.data?.body?.hits?.hits ?? []

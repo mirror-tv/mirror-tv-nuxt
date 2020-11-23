@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { sendGaEvent } from '~/utils/google-analytics'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import Swiper from '~/components/Swiper'
 import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
@@ -113,11 +114,7 @@ export default {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             observer.disconnect()
-            this.$ga.event({
-              eventCategory: 'home',
-              eventAction: 'scroll',
-              eventLabel: 'to more',
-            })
+            sendGaEvent(this.$ga)('home')('scroll')('to more')
           }
         })
       },
@@ -135,11 +132,7 @@ export default {
       }
     },
     sendGaClickEvent(label) {
-      this.$ga.event({
-        eventCategory: 'home',
-        eventAction: 'click',
-        eventLabel: label,
-      })
+      sendGaEvent(this.$ga)('home')('click')(label)
     },
     handleClickMore() {
       this.page += 1

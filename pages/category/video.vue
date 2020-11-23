@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleListSlides from '~/components/ArticleListSlides'
 import EditorChoices from '~/components/EditorChoices'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -129,11 +130,7 @@ export default {
       })
     },
     sendGaClickEvent(label) {
-      this.$ga.event({
-        eventCategory: 'videonews',
-        eventAction: 'click',
-        eventLabel: label,
-      })
+      sendGaEvent(this.$ga)('videonews')('click')(label)
     },
   },
 }

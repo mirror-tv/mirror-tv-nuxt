@@ -24,6 +24,7 @@
 
 <script>
 import { fetchPostsAndCountByTagName } from '~/apollo/queries/posts.gql'
+import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 
@@ -104,11 +105,7 @@ export default {
       }
     },
     sendGaClickEvent(label) {
-      this.$ga.event({
-        eventCategory: 'tag',
-        eventAction: 'click',
-        eventLabel: label,
-      })
+      sendGaEvent(this.$ga)('tag')('click')(label)
     },
   },
 }

@@ -66,6 +66,7 @@
 <script>
 import dayjs from 'dayjs'
 
+import { sendGaEvent } from '~/utils/google-analytics'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
@@ -222,11 +223,7 @@ export default {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             observer.disconnect()
-            this.$ga.event({
-              eventCategory: 'article',
-              eventAction: 'scroll',
-              eventLabel: 'to article end',
-            })
+            sendGaEvent(this.$ga)('article')('scroll')('to article end')
           }
         })
       },
@@ -245,11 +242,7 @@ export default {
       }
     },
     sendGaClickEvent(label) {
-      this.$ga.event({
-        eventCategory: 'article',
-        eventAction: 'click',
-        eventLabel: label,
-      })
+      sendGaEvent(this.$ga)('article')('scroll')(label)
     },
   },
 }

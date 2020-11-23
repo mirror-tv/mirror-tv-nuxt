@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { sendGaEvent } from '~/utils/google-analytics'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
@@ -160,11 +161,7 @@ export default {
       }
     },
     sendGaClickEvent(label) {
-      this.$ga.event({
-        eventCategory: 'category',
-        eventAction: 'click',
-        eventLabel: label,
-      })
+      sendGaEvent(this.$ga)('category')('click')(label)
     },
     handleClickMore() {
       this.page += 1
