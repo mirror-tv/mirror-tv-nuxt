@@ -2,6 +2,10 @@ import { RouterLinkStub } from '@vue/test-utils'
 import Header from '../Header.vue'
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
 
+const $ga = {
+  event: jest.fn(),
+}
+
 const createWrapper = createWrapperHelper({
   mocks: {
     $store: {
@@ -15,6 +19,7 @@ const createWrapper = createWrapperHelper({
         keyword: '',
       },
     },
+    $ga,
   },
   stubs: {
     'nuxt-link': RouterLinkStub,
@@ -183,5 +188,18 @@ describe('Features about the bottom of the header', function () {
     const nav = wrapper.find('.category-nav')
     expect(nav.text()).toBe('12345')
     expect(nav.text()).not.toBe(mockCategories[0])
+  })
+})
+
+describe('GA', () => {
+  test('should call $ga when click logo', () => {
+    const wrapper = createWrapper(Header)
+    const logo = wrapper.find('.logo')
+    logo.trigger('click')
+    expect($ga.event).toBeCalledWith({
+      eventCategory: 'header',
+      eventAction: 'click',
+      eventLabel: 'mnews logo',
+    })
   })
 })

@@ -1,7 +1,11 @@
 <template>
   <header class="header">
     <div class="header__top-wrapper top-wrapper">
-      <nuxt-link class="logo" to="/">
+      <nuxt-link
+        class="logo"
+        to="/"
+        @click.native="sendGaClickEvent('mnews logo')"
+      >
         <picture>
           <source
             media="(min-width: 1200px)"
@@ -83,6 +87,7 @@
 </template>
 
 <script>
+import { sendGaEvent } from '~/utils/google-analytics'
 import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
 import allCategories from '~/apollo/queries/allCategories.gql'
 
@@ -112,6 +117,9 @@ export default {
     },
   },
   methods: {
+    sendGaClickEvent(eventLabel) {
+      return sendGaEvent(this.$ga)('header')('click')(eventLabel)
+    },
     handleClickHamburgerButton() {
       this.showCategories = !this.showCategories
       if (this.showCategories === true) {
@@ -135,6 +143,7 @@ export default {
     },
     handleSearchFormSubmit() {
       this.$router.push(`/search/${this.searchKeyword}`)
+      this.sendGaClickEvent('search')
     },
   },
 }
