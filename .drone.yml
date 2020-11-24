@@ -62,12 +62,12 @@ steps:
         - pull_request
         - push
 
-  - name: buildCI
+  - name: buildForLighthouseCI
     pull: if-not-exists
     image: node:14-slim
     commands:
       - apt-get update && apt-get install -y node-gyp
-      - yarn install --production
+      - yarn install
       - yarn run build
     when:
       branch:
@@ -110,6 +110,7 @@ steps:
       - rm -rf ./configs/*
       - gcloud source repos clone configs ../configs
       - cp ../configs/mirror-tv-nuxt/dev/config.js ./configs/config.js
+      - rm -rf ./node_modules
     environment:
       GOOGLE_CREDENTIALS:
         from_secret: google_credentials
