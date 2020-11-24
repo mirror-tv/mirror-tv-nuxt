@@ -34,8 +34,8 @@
           />
         </div>
         <div class="post__social-media-share">
-          <ShareFacebook />
-          <ShareLine />
+          <ShareFacebook @click.native="sendGaClickEvent('facebook icon')" />
+          <ShareLine @click.native="sendGaClickEvent('line icon')" />
         </div>
         <!-- eslint-disable vue/no-v-html -->
         <div v-if="brief" class="post__brief" v-html="brief" />
