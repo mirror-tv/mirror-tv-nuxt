@@ -42,6 +42,7 @@ export default {
         return {
           tagName: this.routeName,
           maxResults: MAX_RESULTS,
+          withCount: true,
         }
       },
       update(data) {
@@ -77,6 +78,7 @@ export default {
           tagName: this.routeName,
           maxResults: MAX_RESULTS,
           skip: this.page * MAX_RESULTS,
+          withCount: false,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           this.page += 1
@@ -88,7 +90,7 @@ export default {
             allPosts: [...new Set(combined)],
             _allPostsMeta: {
               __typename: '_QueryMeta',
-              count: fetchMoreResult._allPostsMeta?.count,
+              count: this.postsCount,
             },
           }
         },
