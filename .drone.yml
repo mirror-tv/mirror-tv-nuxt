@@ -29,6 +29,7 @@ steps:
       event:
         - push
 
+# The cache is used by lighthouseCI only
   - name: restoreCache
     pull: if-not-exists
     image: drillster/drone-volume-cache
@@ -47,60 +48,60 @@ steps:
       event:
         - push
 
-  # - name: getCIConfig
-  #   pull: if-not-exists
-  #   image: gcr.io/mirror-tv-275709/drone-cloud-sdk:latest
-  #   commands:
-  #     - rm -rf ../configs
-  #     - rm -rf ./configs/*
-  #     - gcloud source repos clone configs ../configs
-  #     - cp ../configs/mirror-tv-nuxt/ci/config.js ./configs/config.js
-  #   when:
-  #     branch:
-  #       - dev
-  #     event:
-  #       - pull_request
-  #       - push
+  - name: getCIConfig
+    pull: if-not-exists
+    image: gcr.io/mirror-tv-275709/drone-cloud-sdk:latest
+    commands:
+      - rm -rf ../configs
+      - rm -rf ./configs/*
+      - gcloud source repos clone configs ../configs
+      - cp ../configs/mirror-tv-nuxt/ci/config.js ./configs/config.js
+    when:
+      branch:
+        - dev
+      event:
+        - pull_request
+        - push
 
-  # - name: buildForLighthouseCI
-  #   pull: if-not-exists
-  #   image: node:14-slim
-  #   commands:
-  #     - apt-get update && apt-get install -y node-gyp
-  #     - yarn install
-  #     - yarn run build
-  #   when:
-  #     branch:
-  #       - dev
-  #     event:
-  #       - pull_request
-  #       - push
+  - name: buildForLighthouseCI
+    pull: if-not-exists
+    image: node:14-slim
+    commands:
+      - apt-get update && apt-get install -y node-gyp
+      - yarn install
+      - yarn run build
+    when:
+      branch:
+        - dev
+      event:
+        - pull_request
+        - push
 
-  # - name: lighthouseCI
-  #   pull: if-not-exists
-  #   image: node:14-slim
-  #   environment:
-  #     LHCI_GITHUB_APP_TOKEN:
-  #       from_secret: lhci_github_app_token
-  #     LHCI_BUILD_CONTEXT__GIT_REMOTE:
-  #       from_secret: lhci_build_context__git_remote
-  #   commands:
-  #     - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee -a /etc/apt/sources.list.d/google.list
-  #     - apt-get update && apt-get install -y gnupg2
-  #     - apt-get update && apt-get install -y wget
-  #     - wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
-  #     - apt-get update && apt-get install -y google-chrome-stable
-  #     - export CHROME_PATH=$(which google-chrome-stable)
-  #     - export LHCI_BUILD_CONTEXT__EXTERNAL_BUILD_URL="$BUILD_URL"
-  #     - apt-get update && apt-get -y install procps
-  #     - npm install -g @lhci/cli@0.4.x
-  #     - lhci autorun
-  #   when:
-  #     branch:
-  #       - dev
-  #     event:
-  #       - pull_request
-  #       - push
+  - name: lighthouseCI
+    pull: if-not-exists
+    image: node:14-slim
+    environment:
+      LHCI_GITHUB_APP_TOKEN:
+        from_secret: lhci_github_app_token
+      LHCI_BUILD_CONTEXT__GIT_REMOTE:
+        from_secret: lhci_build_context__git_remote
+    commands:
+      - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee -a /etc/apt/sources.list.d/google.list
+      - apt-get update && apt-get install -y gnupg2
+      - apt-get update && apt-get install -y wget
+      - wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+      - apt-get update && apt-get install -y google-chrome-stable
+      - export CHROME_PATH=$(which google-chrome-stable)
+      - export LHCI_BUILD_CONTEXT__EXTERNAL_BUILD_URL="$BUILD_URL"
+      - apt-get update && apt-get -y install procps
+      - npm install -g @lhci/cli@0.4.x
+      - lhci autorun
+    when:
+      branch:
+        - dev
+      event:
+        - pull_request
+        - push
 
   - name: getDevConfig
     pull: if-not-exists
@@ -118,20 +119,6 @@ steps:
         - dev
       event:
         - push
-
-  # - name: downloadDependencies
-  #   pull: if-not-exists
-  #   image: node:14-slim
-  #   commands:
-  #     # - apt-get update && apt-get install -y node-gyp
-  #     - yarn install
-  #     # - yarn run build
-  #   when:
-  #     branch:
-  #       - dev
-  #       - master
-  #     event:
-  #       - push
 
   - name: build&publish
     pull: if-not-exists
