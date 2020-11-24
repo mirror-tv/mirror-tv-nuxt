@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import Swiper from '~/components/Swiper'
@@ -55,7 +56,7 @@ import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
-import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
+// import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import allPublishedEditorChoices from '~/apollo/queries/allPublishedEditorChoices.gql'
 
 const pageSize = 12
@@ -66,15 +67,17 @@ export default {
       query: allPublishedEditorChoices,
     },
     allPublishedPosts: {
-      query: allPublishedPosts,
+      query: fetchPosts,
       variables: {
         first: pageSize,
         skip: 0,
+        withCount: true,
+        withCoverPhoto: true,
       },
-    },
-    allPublishedPostsMeta: {
-      query: allPublishedPosts,
-      update: (data) => data.meta,
+      update(data) {
+        this.postsCount = data._allPostsMeta?.count
+        return data.allPosts
+      },
     },
   },
   components: {
@@ -87,6 +90,7 @@ export default {
   data() {
     return {
       page: 0,
+      postsCount: 0,
     }
   },
   computed: {
@@ -104,7 +108,7 @@ export default {
       return listData.map((post) => this.reducerArticleCard(post))
     },
     showLoadMoreButton() {
-      return pageSize * (this.page + 1) < this.allPublishedPostsMeta?.count
+      return pageSize * (this.page + 1) < this.postsCount
     },
   },
   mounted() {
@@ -121,12 +125,18 @@ export default {
     })
   },
   methods: {
+    getImageUrl(post) {
+      if (post.style === 'videoNews') {
+        return post.heroVideo?.coverPhoto?.urlMobileSized
+      }
+      return post.heroImage?.urlMobileSized
+    },
     reducerArticleCard(post) {
       return {
         id: post.id,
         href: `/story/${post.slug}`,
         labelTitle: post.categories?.[0]?.title ?? ' ',
-        articleImgURL: post.heroImage?.urlMobileSized,
+        articleImgURL: this.getImageUrl(post),
         articleTitle: post.title,
         articleDate: new Date(post.publishTime),
       }
@@ -140,14 +150,17 @@ export default {
         variables: {
           first: pageSize,
           skip: pageSize * this.page,
+          withCount: false,
+          withCoverPhoto: true,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
-          const newPosts = fetchMoreResult.allPublishedPosts
+          const newPosts = fetchMoreResult.allPosts
           return {
-            allPublishedPosts: [
-              ...previousResult.allPublishedPosts,
-              ...newPosts,
-            ],
+            allPosts: [...previousResult.allPosts, ...newPosts],
+            _allPostsMeta: {
+              __typename: '_QueryMeta',
+              count: this.postsCount,
+            },
           }
         },
       })

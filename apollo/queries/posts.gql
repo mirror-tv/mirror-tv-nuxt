@@ -7,6 +7,7 @@ query fetchPostsAndCountByTagName (
 ) {
   allPosts(
     where: {
+      state: published,
       tags_some: {
         name: $tagName
       }
@@ -25,6 +26,45 @@ query fetchPostsAndCountByTagName (
       }
     },
   ) {
+    count
+  }
+}
+
+query fetchPosts(
+  $first: Int = 12,
+  $skip: Int = 0,
+  $withCount: Boolean = false,
+  $withCoverPhoto: Boolean = false,
+) {
+  allPosts(
+    sortBy: publishTime_DESC,
+    where: {
+      state: published,
+      style_not_in: [wide, projects, script, campaign, readr]
+    },
+    first: $first,
+    skip: $skip
+  ) {
+    id
+    style
+    publishTime
+    categories {
+      title
+    }
+    ...listingPagePost
+    heroVideo @include(if: $withCoverPhoto) {
+      coverPhoto {
+        urlMobileSized
+      }
+    }
+  }
+
+  _allPostsMeta(
+    where: {
+      state: published,
+      style_not_in: [wide, projects, script, campaign, readr]
+    }
+  ) @include(if: $withCount) {
     count
   }
 }
