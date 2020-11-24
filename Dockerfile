@@ -8,7 +8,7 @@ WORKDIR $APP_DIR
 
 COPY package.json $APP_DIR
 COPY yarn.lock $APP_DIR
-RUN yarn install --production
+RUN yarn install
 
 ENV NUXT_HOST 0.0.0.0
 ENV NUXT_PORT 3000
