@@ -5,6 +5,7 @@ query fetchPostPublishedBySlug($slug: String!) {
       slug: $slug,
     }
   ) {
+    style
     title
     brief
     content
@@ -12,6 +13,15 @@ query fetchPostPublishedBySlug($slug: String!) {
     heroImage {
       mobile: urlMobileSized
       desktop: urlDesktopSized
+    }
+    heroVideo {
+      coverPhoto {
+        tiny: urlTinySized
+        mobile: urlMobileSized
+        tablet: urlTabletSized
+        desktop: urlDesktopSized
+        original: urlOriginal
+      }
     }
     heroCaption
     categories {

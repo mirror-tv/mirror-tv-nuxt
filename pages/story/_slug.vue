@@ -2,15 +2,24 @@
   <section class="page">
     <div class="max-width-wrapper">
       <main class="main">
-        <figure v-if="image.mobile" class="post__image">
-          <img
-            v-lazy="image.mobile"
-            :alt="imageCaption"
-            :data-srcset="`${image.mobile} 0w, ${image.desktop} 1200vw`"
-            sizes="(max-width: 1199px) 100vw, 500px"
-          />
-          <figcaption v-text="imageCaption" />
-        </figure>
+        <template v-if="isVideoNews">
+          <div class="post__hero">
+            <IframeYoutube :videoId="slug" />
+            <p class="figcaption" v-text="imageCaption" />
+          </div>
+        </template>
+        <template v-else>
+          <figure v-if="image.mobile" class="post__hero">
+            <img
+              v-lazy="image.mobile"
+              :alt="imageCaption"
+              :data-srcset="`${image.mobile} 0w, ${image.desktop} 1200vw`"
+              sizes="(max-width: 1199px) 100vw, 500px"
+            />
+            <figcaption class="figcaption" v-text="imageCaption" />
+          </figure>
+        </template>
+
         <div class="post__category-publishTime">
           <span class="post__category" v-text="categoryTitle" />
           <span class="post__publishTime" v-text="formatDate(publishTime)" />
@@ -31,11 +40,16 @@
         <!-- eslint-disable vue/no-v-html -->
         <div v-if="brief" class="post__brief" v-html="brief" />
         <article class="post__content">
-          <ArticleContentHandler
-            v-for="paragraph in content"
-            :key="paragraph.id"
-            :paragraph="paragraph"
-          />
+          <template v-if="isContentString">
+            {{ content }}
+          </template>
+          <template v-else>
+            <ArticleContentHandler
+              v-for="paragraph in content"
+              :key="paragraph.id"
+              :paragraph="paragraph"
+            />
+          </template>
         </article>
         <div v-if="hasTags" class="post__tags">
           <ArticleTag
@@ -71,6 +85,7 @@ import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
+import IframeYoutube from '~/components/IframeYoutube'
 import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import ShareFacebook from '~/components/ShareFacebook'
@@ -124,6 +139,7 @@ export default {
     ArticleContentHandler,
     ArticleCredit,
     ArticleTag,
+    IframeYoutube,
     ListArticleAside,
     ListArticleRelated,
     ShareFacebook,
@@ -147,7 +163,10 @@ export default {
     content() {
       try {
         const content = JSON.parse(this.postPublished?.content)
-        return content.apiData.filter((item) => item)
+        if (content?.apiData) {
+          return content.apiData.filter((item) => item)
+        }
+        return content?.html
       } catch {
         return []
       }
@@ -184,6 +203,12 @@ export default {
     imageCaption() {
       return this.postPublished?.heroCaption
     },
+    isContentString() {
+      return typeof this.content === 'string'
+    },
+    isVideoNews() {
+      return this.postPublished?.style === 'videoNews'
+    },
     listArticleAsideLatestData() {
       const listData = this.allPostsLatest ?? []
       return listData.map((post) => this.reducerArticleCard(post))
@@ -202,6 +227,9 @@ export default {
     },
     relatedPosts() {
       return this.postPublished?.relatedPosts || []
+    },
+    slug() {
+      return this.$route.params.slug
     },
     tags() {
       return this.postPublished?.tags
@@ -280,7 +308,7 @@ $asideWidthDesktop: 380;
 }
 
 .post {
-  &__image {
+  &__hero {
     display: block;
     width: calc(100% + 40px);
     transform: translateX(-20px);
@@ -293,15 +321,6 @@ $asideWidthDesktop: 380;
     }
     img {
       width: 100%;
-    }
-    figcaption {
-      padding: 10px 20px 0;
-      color: #000000;
-      font-size: 14px;
-      line-height: 1.57;
-      @include media-breakpoint-up(xl) {
-        padding: 7px 0 0;
-      }
     }
   }
   &__category-publishTime {
@@ -367,6 +386,8 @@ $asideWidthDesktop: 380;
     margin: 30px 0 0;
     color: #000000;
     font-size: 16px;
+    text-align: justify;
+    line-height: 1.75;
     ::v-deep {
       > * + * {
         margin-top: 30px;
@@ -385,6 +406,16 @@ $asideWidthDesktop: 380;
   }
   &__tag {
     margin: 5px;
+  }
+}
+
+.figcaption {
+  padding: 10px 20px 0;
+  color: #000000;
+  font-size: 14px;
+  line-height: 1.57;
+  @include media-breakpoint-up(xl) {
+    padding: 7px 0 0;
   }
 }
 
