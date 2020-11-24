@@ -12,7 +12,7 @@ spec:
     targetPort: 3000
   type: LoadBalancer
 ---
-apiVersion: extensions/v1beta1
+apiVersion: app/v1
 kind: Deployment
 metadata:
   labels:
@@ -21,9 +21,12 @@ metadata:
   name: '{{.app}}'
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: '{{.app}}'
   template:
     metadata:
-      matchLabels:
+      labels:
         app: '{{.app}}'
         tier: '{{.tier}}'
     spec:
