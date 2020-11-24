@@ -110,7 +110,6 @@ steps:
       - rm -rf ./configs/*
       - gcloud source repos clone configs ../configs
       - cp ../configs/mirror-tv-nuxt/dev/config.js ./configs/config.js
-      - rm -rf ./node_modules
     environment:
       GOOGLE_CREDENTIALS:
         from_secret: google_credentials
