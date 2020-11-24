@@ -119,19 +119,19 @@ steps:
       event:
         - push
 
-  # - name: buildDev&Prod
-  #   pull: if-not-exists
-  #   image: node:14-slim
-  #   commands:
-  #     - apt-get update && apt-get install -y node-gyp
-  #     - yarn install
-  #     - yarn run build
-  #   when:
-  #     branch:
-  #       - dev
-  #       - master
-  #     event:
-  #       - push
+  - name: downloadDependencies
+    pull: if-not-exists
+    image: node:14-slim
+    commands:
+      # - apt-get update && apt-get install -y node-gyp
+      - yarn install
+      # - yarn run build
+    when:
+      branch:
+        - dev
+        - master
+      event:
+        - push
 
   - name: build&publish
     pull: if-not-exists
