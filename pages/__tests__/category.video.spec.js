@@ -20,13 +20,16 @@ describe('editor choices', () => {
     },
     data() {
       return {
-        allEditorChoices: [{}, {}],
+        allEditorChoices: [{ slug: 'test' }, {}],
       }
     },
   })
-  test('should call $ga when click item', () => {
-    const item = wrapper.findComponent(EditorChoicesVideoNews).find('.item')
-    item.trigger('click')
+  test('should call $ga when click item', async () => {
+    const item = wrapper
+      .findComponent(EditorChoicesVideoNews)
+      .findAll('.item')
+      .at(1)
+    await item.trigger('click')
     expect($ga.event).toBeCalledWith({
       eventCategory: 'videonews',
       eventAction: 'click',

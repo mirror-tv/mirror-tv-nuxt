@@ -2,7 +2,7 @@
   <section class="page">
     <div class="max-width-wrapper">
       <EditorChoicesVideoNews
-        :items="allEditorChoices"
+        :initialItems="allEditorChoices"
         class="editor-choices"
         @click="sendGaClickEvent('editors choice')"
       >

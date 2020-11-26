@@ -2,27 +2,17 @@
   <div v-if="hasItems" class="editor-choices">
     <slot />
     <div class="editor-choices-container">
-      <a
-        :href="`/story/${firstItem.slug}`"
+      <IframeYoutube
+        :videoId="firstItem.slug"
         class="editor-choices__first-item item"
-        target="_blank"
-        rel="noopener noreferrer"
-        @click="$emit('click')"
-      >
-        <picture>
-          <img :src="getImage(firstItem)" :alt="firstItem.title" />
-        </picture>
-      </a>
+      />
       <div class="editor-choices__remaining">
         <div class="scrollable-container">
-          <a
-            v-for="item in remainingItems"
+          <div
+            v-for="(item, index) in remainingItems"
             :key="item.slug"
-            :href="`/story/${item.slug}`"
             class="item"
-            target="_blank"
-            rel="noopener noreferrer"
-            @click="$emit('click')"
+            @click="swapForFirstItem(index)"
           >
             <picture>
               <img :src="getImage(item)" :alt="item.title" />
@@ -30,8 +20,8 @@
                 <div class="g-video-news-img-icon" />
               </div>
             </picture>
-            <span v-text="firstItem.title" />
-          </a>
+            <span v-text="item.title" />
+          </div>
         </div>
       </div>
     </div>
@@ -39,12 +29,22 @@
 </template>
 
 <script>
+import IframeYoutube from '~/components/IframeYoutube'
+
 export default {
+  components: {
+    IframeYoutube,
+  },
   props: {
-    items: {
+    initialItems: {
       type: Array,
       default: () => [],
     },
+  },
+  data() {
+    return {
+      items: this.initialItems,
+    }
   },
   computed: {
     firstItem() {
@@ -58,6 +58,12 @@ export default {
     },
   },
   methods: {
+    swapForFirstItem(index) {
+      const temp = this.items[index + 1]
+      this.$set(this.items, index + 1, this.items[0])
+      this.$set(this.items, 0, temp)
+      this.$emit('click')
+    },
     getImage(item) {
       return (
         item.heroImage?.urlMobileSized ||
@@ -85,10 +91,12 @@ export default {
     position: relative;
     left: -20px;
     width: calc(100% + 40px);
+    padding-top: calc((100% + 40px) * 0.5625);
     margin: 20px 0 0;
     @include media-breakpoint-up(xl) {
-      position: static;
+      left: 0;
       width: 633px;
+      padding-top: calc(633px * 0.5625);
     }
     span {
       padding: 20px;
@@ -109,6 +117,7 @@ export default {
     }
     .item {
       display: flex;
+      cursor: pointer;
       picture {
         width: 120px;
         padding-top: calc(120px * 0.6666);
