@@ -91,12 +91,16 @@ export default {
     position: relative;
     left: -20px;
     width: calc(100% + 40px);
-    padding-top: calc((100% + 40px) * 0.5625);
     margin: 20px 0 0;
     @include media-breakpoint-up(xl) {
       left: 0;
       width: 633px;
-      padding-top: calc(633px * 0.5625);
+    }
+    &.iframe-wrapper {
+      padding-top: calc((100% + 40px) * 0.5625);
+      @include media-breakpoint-up(xl) {
+        padding-top: calc(633px * 0.5625);
+      }
     }
     span {
       padding: 20px;
