@@ -5,6 +5,10 @@ const {
   redisWriteClient,
 } = require('./server-middleware/redis/utils')
 
+const SITE_NAME = 'mnews 鏡新聞'
+const SITE_DESCRIPTION =
+  '鏡新聞與鏡電視是一個由全方位媒體人用專業跟熱情澆灌出來的新聞平台！'
+
 module.exports = {
   telemetry: false,
   /*
@@ -14,14 +18,34 @@ module.exports = {
     htmlAttrs: {
       lang: 'zh-Hant',
     },
-    title: process.env.npm_package_name || '',
+    title: SITE_NAME,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || '',
+        content: SITE_DESCRIPTION,
+      },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: SITE_NAME,
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: SITE_DESCRIPTION,
+      },
+      {
+        hid: 'og:type',
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        hid: 'fb:app_id',
+        property: 'fb:app_id',
+        content: '',
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
