@@ -59,7 +59,7 @@ import HeadingBordered from '~/components/HeadingBordered'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 
 import allCategories from '~/apollo/queries/allCategories.gql'
-import allEditorChoices from '~/apollo/queries/allEditorChoices.gql'
+import { fetchVideoNewsEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { postsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 
 export default {
@@ -70,7 +70,7 @@ export default {
         data?.allCategories.filter((category) => category.slug !== 'video'),
     },
     allEditorChoices: {
-      query: allEditorChoices,
+      query: fetchVideoNewsEditorChoices,
       update: (data) => {
         return data.allEditorChoices
           .filter((item) => item.choice)

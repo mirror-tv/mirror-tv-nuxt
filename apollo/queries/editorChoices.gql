@@ -1,0 +1,25 @@
+query fetchVideoNewsEditorChoices {
+  allEditorChoices(
+     where: {
+      state: published,
+      choice: {
+        state: published,
+        style: videoNews
+      }
+    },
+    sortBy: sortOrder_ASC
+  ) {
+    id
+    choice {
+      id
+      title
+      slug
+      heroVideo {
+        coverPhoto {
+          urlDesktopSized
+          urlOriginal
+        }
+      }
+    }
+  }
+}

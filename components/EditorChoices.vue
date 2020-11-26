@@ -12,7 +12,6 @@
         <picture>
           <img :src="getImage(firstItem)" :alt="firstItem.title" />
         </picture>
-        <span v-text="firstItem.title" />
       </a>
       <div class="editor-choices__remaining">
         <div class="scrollable-container">
@@ -60,7 +59,11 @@ export default {
   },
   methods: {
     getImage(item) {
-      return item.heroImage?.urlMobileSized
+      return (
+        item.heroImage?.urlMobileSized ||
+        item.heroVideo?.coverPhoto?.urlDesktopSized ||
+        item.heroVideo?.coverPhoto?.urlOriginal
+      )
     },
   },
 }
