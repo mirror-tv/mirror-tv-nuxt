@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 
 import page from '../category/video.vue'
 import ArticleListSlides from '../../components/ArticleListSlides'
-import EditorChoices from '../../components/EditorChoices'
+import EditorChoicesVideoNews from '../../components/EditorChoicesVideoNews'
 
 const $apollo = {
   addSmartQuery: jest.fn(),
@@ -25,7 +25,7 @@ describe('editor choices', () => {
     },
   })
   test('should call $ga when click item', () => {
-    const item = wrapper.findComponent(EditorChoices).find('.item')
+    const item = wrapper.findComponent(EditorChoicesVideoNews).find('.item')
     item.trigger('click')
     expect($ga.event).toBeCalledWith({
       eventCategory: 'videonews',

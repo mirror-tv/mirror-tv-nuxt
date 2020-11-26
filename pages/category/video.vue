@@ -1,13 +1,13 @@
 <template>
   <section class="page">
     <div class="max-width-wrapper">
-      <EditorChoices
+      <EditorChoicesVideoNews
         :items="allEditorChoices"
         class="editor-choices"
         @click="sendGaClickEvent('editors choice')"
       >
         <HeadingBordered text="編輯精選" />
-      </EditorChoices>
+      </EditorChoicesVideoNews>
       <main class="main">
         <div class="category-posts-wrapper">
           <div
@@ -54,7 +54,7 @@
 <script>
 import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleListSlides from '~/components/ArticleListSlides'
-import EditorChoices from '~/components/EditorChoices'
+import EditorChoicesVideoNews from '~/components/EditorChoicesVideoNews'
 import HeadingBordered from '~/components/HeadingBordered'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 
@@ -80,7 +80,7 @@ export default {
   },
   components: {
     ArticleListSlides,
-    EditorChoices,
+    EditorChoicesVideoNews,
     HeadingBordered,
     FacebookPagePlugin,
   },
