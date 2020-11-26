@@ -1,3 +1,10 @@
+const {
+  ENABLE_REDIS,
+  PREFIX,
+  cleanPathQuery,
+  redisWriteClient,
+} = require('./server-middleware/redis/utils')
+
 module.exports = {
   telemetry: false,
   /*
@@ -34,7 +41,10 @@ module.exports = {
   /*
    ** Nuxt.js Server Middleware
    */
-  serverMiddleware: ['~/server-middleware/headers.js'],
+  serverMiddleware: [
+    '~/server-middleware/headers.js',
+    '~/server-middleware/redis/index.js',
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -55,6 +65,25 @@ module.exports = {
     '@nuxtjs/apollo',
     ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 * 24 }],
   ],
+  hooks: {
+    // Doc: https://nuxtjs.org/docs/2.x/internals-glossary/internals-renderer#hooks
+    render: {
+      routeDone(url, result, context) {
+        if (ENABLE_REDIS && !result.error && result && redisWriteClient) {
+          try {
+            redisWriteClient.set(
+              `${PREFIX}${cleanPathQuery(url)}`,
+              JSON.stringify(result.html),
+              'EX',
+              100
+            )
+          } catch (error) {
+            console.error(`[REDIS/WRITE]Set Redis Failed. url: ${url}`, error)
+          }
+        }
+      },
+    },
+  },
   apollo: {
     clientConfigs: {
       default: {

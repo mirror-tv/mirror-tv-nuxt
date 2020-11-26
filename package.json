@@ -33,6 +33,7 @@
     "dayjs": "^1.9.6",
     "express": "^4.16.4",
     "intersection-observer": "^0.11.0",
+    "ioredis": "^4.19.2",
     "lodash": "^4.17.20",
     "nuxt": "^2.14.7",
     "swiper": "^6.3.5",
