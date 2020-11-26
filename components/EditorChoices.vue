@@ -27,6 +27,9 @@
           >
             <picture>
               <img :src="getImage(item)" :alt="item.title" />
+              <div class="g-video-news-img-icon-wrapper">
+                <div class="g-video-news-img-icon" />
+              </div>
             </picture>
             <span v-text="firstItem.title" />
           </a>

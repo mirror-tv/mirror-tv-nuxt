@@ -29,6 +29,7 @@
                 :articleImgURL="post.articleImgURL"
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
+                :articleStyle="post.articleStyle"
                 @click.native="sendGaClickEvent('latest articles')"
               />
             </li>
@@ -139,6 +140,7 @@ export default {
         articleImgURL: this.getImageUrl(post),
         articleTitle: post.title,
         articleDate: new Date(post.publishTime),
+        articleStyle: post.style,
       }
     },
     sendGaClickEvent(label) {

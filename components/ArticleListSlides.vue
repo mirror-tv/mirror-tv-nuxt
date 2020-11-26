@@ -14,7 +14,12 @@
         target="_blank"
         @click="$emit('click-slide-item')"
       >
-        <img v-lazy="getImage(item)" :alt="item.title" class="item__image" />
+        <div class="item__image">
+          <img v-lazy="getImage(item)" :alt="item.title" />
+          <div class="g-video-news-img-icon-wrapper">
+            <div class="g-video-news-img-icon" />
+          </div>
+        </div>
         <span class="item__title" v-text="item.title" />
       </a>
     </div>
@@ -154,13 +159,18 @@ export default {
     }
   }
   &__image {
+    position: relative;
     width: 100%;
     height: 87px;
     font-size: 12px;
-    object-fit: cover;
-    object-position: center center;
     @include media-breakpoint-up(xl) {
       height: 120px;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
     }
   }
   &__title {

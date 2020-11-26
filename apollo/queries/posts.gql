@@ -47,7 +47,6 @@ query fetchPosts(
     skip: $skip
   ) {
     id
-    style
     publishTime
     categories {
       title

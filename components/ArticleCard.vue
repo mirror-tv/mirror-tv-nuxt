@@ -53,6 +53,10 @@ export default {
       type: Date,
       default: () => new Date(),
     },
+    articleStyle: {
+      type: String,
+      default: null,
+    },
 
     // Differentiate two usages in / and /category/:name pages
     mobileLayoutDirection: {

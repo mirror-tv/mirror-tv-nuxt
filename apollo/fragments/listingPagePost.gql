@@ -1,5 +1,6 @@
 fragment listingPagePost on Post {
   slug
+  style
   title
   heroImage {
     urlMobileSized

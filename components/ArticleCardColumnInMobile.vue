@@ -14,6 +14,9 @@
     >
       <span :class="['article-img-wrapper', 'stretch']">
         <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
+        <span v-if="isVideoNews" class="g-video-news-img-icon-wrapper">
+          <span class="g-video-news-img-icon" />
+        </span>
       </span>
       <span
         :class="[
@@ -74,6 +77,10 @@ export default {
       type: Date,
       default: () => new Date(),
     },
+    articleStyle: {
+      type: String,
+      default: null,
+    },
   },
   computed: {
     articleDescriptionTruncated() {
@@ -98,6 +105,9 @@ export default {
       return this.articleTitle.replace(re, function (matched) {
         return hightlightTextMapping[matched]
       })
+    },
+    isVideoNews() {
+      return this.articleStyle === 'videoNews'
     },
   },
   methods: {

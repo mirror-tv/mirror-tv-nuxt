@@ -18,6 +18,9 @@
     >
       <span :class="['article-img-wrapper', 'shrink']">
         <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
+        <span v-if="isVideoNews" class="g-video-news-img-icon-wrapper">
+          <span class="g-video-news-img-icon" />
+        </span>
       </span>
       <span
         :class="[
@@ -60,6 +63,15 @@ export default {
     articleDate: {
       type: Date,
       default: () => new Date(),
+    },
+    articleStyle: {
+      type: String,
+      default: null,
+    },
+  },
+  computed: {
+    isVideoNews() {
+      return this.articleStyle === 'videoNews'
     },
   },
   methods: {

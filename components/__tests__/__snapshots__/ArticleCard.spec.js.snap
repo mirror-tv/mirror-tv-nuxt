@@ -31,6 +31,8 @@ exports[`snapshot tests Usage with not provided labelTitle 1`] = `
           lazy="loading"
           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
         />
+         
+        <!---->
       </span>
        
       <span
@@ -92,6 +94,8 @@ exports[`snapshot tests Usage with provided labelTitle 1`] = `
           lazy="loading"
           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
         />
+         
+        <!---->
       </span>
        
       <span
@@ -137,6 +141,8 @@ exports[`snapshot tests Usage with provided mobileLayoutDirection 1`] = `
           lazy="loading"
           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
         />
+         
+        <!---->
       </span>
        
       <span
