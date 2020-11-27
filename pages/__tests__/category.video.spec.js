@@ -23,6 +23,9 @@ describe('editor choices', () => {
         allEditorChoices: [{ slug: 'test' }, {}],
       }
     },
+    stubs: {
+      IframeYoutube: true,
+    },
   })
   test('should call $ga when click item', async () => {
     const item = wrapper
