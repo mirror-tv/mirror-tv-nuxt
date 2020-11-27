@@ -43,12 +43,17 @@ export default {
   },
   data() {
     return {
-      highlightItem: this.items.slice(0, 1)[0],
+      highlightItem: this.items.slice(0, 1)[0] || {},
     }
   },
   computed: {
     hasItems() {
       return this.items.length > 0
+    },
+  },
+  watch: {
+    items(value) {
+      this.highlightItem = value.slice(0, 1)[0] || {}
     },
   },
   methods: {
