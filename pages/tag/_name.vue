@@ -23,6 +23,9 @@
 </template>
 
 <script>
+import { SITE_NAME } from '~/constants'
+
+import { getDomain } from '~/utils/meta'
 import { fetchPostsAndCountByTagName } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleCard from '~/components/ArticleCard'
@@ -109,6 +112,24 @@ export default {
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('tag')('click')(label)
     },
+  },
+  head() {
+    const title = `${this.routeName} - ${SITE_NAME}`
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+      ],
+    }
   },
 }
 </script>

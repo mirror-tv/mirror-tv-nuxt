@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { getDomain } from '~/utils/meta'
 import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
@@ -168,6 +169,17 @@ export default {
       })
       this.sendGaClickEvent('more')
     },
+  },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+      ],
+    }
   },
 }
 </script>

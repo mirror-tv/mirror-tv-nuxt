@@ -80,6 +80,9 @@
 <script>
 import dayjs from 'dayjs'
 
+import { SITE_NAME } from '~/constants'
+
+import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
@@ -272,6 +275,44 @@ export default {
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('article')('scroll')(label)
     },
+  },
+  head() {
+    const title = `${this.title} - ${SITE_NAME}`
+    const brief = this.brief?.replace(/<[^>]*>?/gm, '')
+    const image = this.image?.desktop
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+        ...(image
+          ? [
+              {
+                hid: 'og:image',
+                property: 'og:image',
+                content: image,
+              },
+            ]
+          : []),
+        ...(brief
+          ? [
+              {
+                hid: 'og:description',
+                property: 'og:description',
+                content: brief,
+              },
+            ]
+          : []),
+      ],
+    }
   },
 }
 </script>

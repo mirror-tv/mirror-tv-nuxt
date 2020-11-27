@@ -1,3 +1,4 @@
+const { BASE_URL } = require('./configs/config')
 const {
   ENABLE_REDIS,
   PREFIX,
@@ -36,6 +37,11 @@ module.exports = {
         hid: 'og:description',
         property: 'og:description',
         content: SITE_DESCRIPTION,
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: `${BASE_URL}/default.jpg`,
       },
       {
         hid: 'og:type',

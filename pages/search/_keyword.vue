@@ -33,6 +33,9 @@
 </template>
 
 <script>
+import { SITE_NAME } from '~/constants'
+
+import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
@@ -108,6 +111,24 @@ export default {
       this.listDataCurrentPage += 1
       this.sendGaClickEvent('more')
     },
+  },
+  head() {
+    const title = `${this.$route.params.keyword} - ${SITE_NAME}`
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+      ],
+    }
   },
 }
 </script>

@@ -50,6 +50,9 @@
 </template>
 
 <script>
+import { SITE_NAME } from '~/constants'
+
+import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCardFeatured from '~/components/ArticleCardFeatured'
@@ -180,6 +183,24 @@ export default {
       })
       this.sendGaClickEvent('more')
     },
+  },
+  head() {
+    const title = `${this.pageName} - ${SITE_NAME}`
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+      ],
+    }
   },
 }
 </script>
