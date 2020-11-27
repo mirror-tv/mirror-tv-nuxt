@@ -3,16 +3,16 @@
     <slot />
     <div class="editor-choices-container">
       <IframeYoutube
-        :videoId="firstItem.slug"
+        :videoId="highlightItem.slug"
         class="editor-choices__first-item item"
       />
       <div class="editor-choices__remaining">
         <div class="scrollable-container">
           <div
-            v-for="(item, index) in remainingItems"
+            v-for="item in items"
             :key="item.slug"
             class="item"
-            @click="swapForFirstItem(index)"
+            @click="selectItemToHighlight(item)"
           >
             <picture>
               <img :src="getImage(item)" :alt="item.title" />
@@ -36,32 +36,24 @@ export default {
     IframeYoutube,
   },
   props: {
-    initialItems: {
+    items: {
       type: Array,
       default: () => [],
     },
   },
   data() {
     return {
-      items: this.initialItems,
+      highlightItem: this.items.slice(0, 1)[0],
     }
   },
   computed: {
-    firstItem() {
-      return this.items.slice(0, 1)[0]
-    },
     hasItems() {
       return this.items.length > 0
     },
-    remainingItems() {
-      return this.items.slice(1)
-    },
   },
   methods: {
-    swapForFirstItem(index) {
-      const temp = this.items[index + 1]
-      this.$set(this.items, index + 1, this.items[0])
-      this.$set(this.items, 0, temp)
+    selectItemToHighlight(item) {
+      this.highlightItem = item
       this.$emit('click')
     },
     getImage(item) {
