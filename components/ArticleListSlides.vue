@@ -186,11 +186,14 @@ export default {
 }
 .slide-btn {
   position: absolute;
-  top: 50%;
+  top: 43px;
   transform: translate(0, -50%);
   z-index: 1;
   width: 45px;
   height: 45px;
+  @include media-breakpoint-up(xl) {
+    top: 60px;
+  }
   &.prev {
     left: 1px;
     padding: 5px 5px 5px 0;
