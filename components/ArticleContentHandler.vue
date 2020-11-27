@@ -54,7 +54,7 @@ export default {
       case 'slideshow':
         return <ArticleContentSlideshow items={props.paragraph.content} />
       case 'youtube':
-        return <IframeYoutube videoId={content.id} />
+        return <IframeYoutube videoId={props.paragraph.content[0].youtubeId} />
       case 'video':
         return <ArticleContentVideo video={content} />
       case 'audio':

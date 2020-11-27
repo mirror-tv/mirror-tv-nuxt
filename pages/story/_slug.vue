@@ -175,7 +175,7 @@ export default {
       return Object.keys(this.postPublished || {})
         .filter(
           (key) =>
-            CREDIT_KEYS.includes(key) && this.postPublished?.[key].length > 0
+            CREDIT_KEYS.includes(key) && this.postPublished?.[key]?.length > 0
         )
         .map((key) => ({ key, data: this.postPublished[key] }))
     },
