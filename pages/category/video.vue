@@ -15,19 +15,18 @@
             :key="category.slug"
             class="category-posts"
           >
-            <div>
+            <a
+              :href="`/category/${category.slug}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              @click="sendGaClickEvent('categories page')"
+            >
               <HeadingBordered
                 class="category-posts__heading"
                 :text="category.title"
               />
-              <a
-                :href="`/category/${category.slug}`"
-                class="category-posts__link"
-                target="_blank"
-                rel="noopener noreferrer"
-                @click="sendGaClickEvent('categories page')"
-              />
-            </div>
+              <span class="category-posts__link" />
+            </a>
             <ArticleListSlides
               :items="getPostsByCategory(category.slug).items"
               :total="getPostsByCategory(category.slug).total"
