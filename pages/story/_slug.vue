@@ -70,7 +70,6 @@
           class="aside__list-latest"
           :listTitle="'最新文章'"
           :listData="listArticleAsideLatestData"
-          :moreTo="listArticleAsideLatestMoreTo"
         />
       </aside>
     </div>
@@ -133,10 +132,6 @@ export default {
       },
       update: (data) => data.allPublishedPosts,
     },
-    allPostsLatestMeta: {
-      query: allPublishedPosts,
-      update: (data) => data.meta,
-    },
   },
   components: {
     ArticleContentHandler,
@@ -191,9 +186,6 @@ export default {
     hasPostsLatest() {
       return this.allPostsLatest.length > 0
     },
-    hasPostsLatestMore() {
-      return this.allPostsLatestMeta?.count > 5
-    },
     hasRelatedPosts() {
       return this.relatedPosts?.length > 0
     },
@@ -215,9 +207,6 @@ export default {
     listArticleAsideLatestData() {
       const listData = this.allPostsLatest ?? []
       return listData.map((post) => this.reducerArticleCard(post))
-    },
-    listArticleAsideLatestMoreTo() {
-      return this.hasPostsLatestMore ? '/latest' : undefined
     },
     otherbyline() {
       return this.postPublished?.otherbyline
