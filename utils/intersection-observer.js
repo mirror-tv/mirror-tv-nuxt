@@ -4,15 +4,20 @@ async function setIntersectionObserver({
   handler,
 }) {
   await import('intersection-observer').then(() => {
-    const targets = [...elements]
-    const callback = handler
-    const observer = new IntersectionObserver(callback, {
-      threshold,
-    })
-    targets.forEach((element) => {
-      observer.observe(element)
-    })
-    return observer
+    try {
+      const callback = handler
+      const observer = new IntersectionObserver(callback, {
+        threshold,
+        root: document.body,
+      })
+      elements.forEach((element) => {
+        observer.observe(element)
+      })
+      return observer
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('set IntersectionObserver error', error)
+    }
   })
 }
 

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { setIntersectionObserver } from '~/utils/intersection-observer'
+// import { setIntersectionObserver } from '~/utils/intersection-observer'
 
 export default {
   props: {
@@ -33,31 +33,34 @@ export default {
     this.loadIframePlayerApi()
   },
   beforeDestroy() {
-    this.player && this.player.destroy()
+    this.player && this.player?.destroy?.()
   },
   methods: {
-    lazyloadYoutubeIframe() {
-      setIntersectionObserver({
-        elements: [document.querySelector(`#player-${this.videoId}`)],
-        handler: (entries, observer) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              this.createPlayer()
-              observer.disconnect()
-            }
-          })
-        },
-      })
-    },
+    // Bug: Safari 沒辦法正常觸發
+    // lazyloadYoutubeIframe() {
+    //   setIntersectionObserver({
+    //     elements: [document.querySelector(`#player-${this.videoId}`)],
+    //     handler: (entries, observer) => {
+    //       entries.forEach((entry) => {
+    //         if (entry.isIntersecting) {
+    //           this.createPlayer()
+    //           observer.disconnect()
+    //         }
+    //       })
+    //     },
+    //   })
+    // },
+
+    // Improvement: lazyload
     loadIframePlayerApi() {
       if (!window.YT) {
         const tag = document.createElement('script')
         tag.src = 'https://www.youtube.com/iframe_api'
         const firstScriptTag = document.getElementsByTagName('script')[0]
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
-        window.onYouTubeIframeAPIReady = () => this.lazyloadYoutubeIframe()
+        window.onYouTubeIframeAPIReady = () => this.createPlayer()
       } else {
-        this.lazyloadYoutubeIframe()
+        this.createPlayer()
       }
     },
     createPlayer() {
@@ -67,8 +70,16 @@ export default {
           width: '640',
           videoId: this.videoId,
           playerVars: {
-            autoplay: this.enableAutoplay ? 1 : 0,
             origin: location.origin,
+            playsinline: 1,
+          },
+          events: {
+            onReady: () => {
+              if (this.enableAutoplay) {
+                this.player.mute()
+                this.player.playVideo()
+              }
+            },
           },
         })
       }
