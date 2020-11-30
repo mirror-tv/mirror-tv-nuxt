@@ -45,6 +45,7 @@
       </main>
       <aside class="max-width-wrapper__aside">
         <FacebookPagePlugin />
+        <LinkYoutubeStyle />
       </aside>
     </div>
   </section>
@@ -59,6 +60,7 @@ import ArticleListSlides from '~/components/ArticleListSlides'
 import EditorChoicesVideoNews from '~/components/EditorChoicesVideoNews'
 import HeadingBordered from '~/components/HeadingBordered'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
+import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 
 import allCategories from '~/apollo/queries/allCategories.gql'
 import { fetchVideoNewsEditorChoices } from '~/apollo/queries/editorChoices.gql'
@@ -85,6 +87,7 @@ export default {
     EditorChoicesVideoNews,
     HeadingBordered,
     FacebookPagePlugin,
+    LinkYoutubeStyle,
   },
   computed: {
     categoriesSlug() {

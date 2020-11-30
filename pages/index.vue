@@ -43,6 +43,7 @@
       </main>
       <aside class="max-width-wrapper__aside aside">
         <IframeFacebookPagePlugin />
+        <LinkYoutubeStyle />
       </aside>
     </div>
   </section>
@@ -58,6 +59,8 @@ import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
+import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
+
 // import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import allPublishedEditorChoices from '~/apollo/queries/allPublishedEditorChoices.gql'
 
@@ -88,6 +91,7 @@ export default {
     HeadingBordered,
     ArticleCard,
     ButtonLoadmore,
+    LinkYoutubeStyle,
   },
   data() {
     return {

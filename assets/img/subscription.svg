@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="59px" height="73px" viewBox="0 0 59 73" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>iconfinder_bell-dot-notification-notify-ring_3643782</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-24.0%" y="-20.0%" width="148.0%" height="140.0%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="首頁" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iconfinder_bell-dot-notification-notify-ring_3643782" filter="url(#filter-1)" transform="translate(26.202505, 37.252381) rotate(-19.000000) translate(-26.202505, -37.252381) translate(1.202505, 7.252381)" fill="#FFFFFF">
+            <path d="M46,52 L2,52 C1.30681358,51.9979022 0.664142812,51.6370156 0.301526146,51.0462357 C-0.0610905197,50.4554557 -0.0919384901,49.7190365 0.22,49.1 C2.6877327,44.1261805 3.98093301,38.6523168 4,33.1 L4,26 C4,14.954305 12.954305,6 24,6 C35.045695,6 44,14.954305 44,26 L44,33.06 C44.019067,38.6123168 45.3122673,44.0861805 47.78,49.06 C48.1113309,49.6821981 48.0906483,50.4328732 47.7255604,51.0358835 C47.3604725,51.6388938 46.7048998,52.0051797 46,52 Z M5.1,48 L42.9,48 C40.9927801,43.2495181 40.0085493,38.1790324 40,33.06 L40,26 C39.9999998,17.1634441 32.8365559,10.0000003 24,10.0000003 C15.1634441,10.0000003 8.00000019,17.1634441 8,26 L8,33.06 C7.9914507,38.1790324 7.00721988,43.2495181 5.1,48 Z" id="Shape" fill-rule="nonzero"></path>
+            <path d="M24,60 C18.4771525,60 14,55.5228475 14,50 C14,48.8954305 14.8954305,48 16,48 C17.1045695,48 18,48.8954305 18,50 C18.0014004,51.5907628 18.6344601,53.1158611 19.76,54.24 C22.136827,56.4952576 25.863173,56.4952576 28.24,54.24 C29.0242444,53.4557557 30.2957556,53.4557557 31.0799999,54.2400001 C31.8642443,55.0242444 31.8642443,56.2957556 31.08,57.08 C29.2009853,58.954279 26.6539773,60.0047399 24,60 Z" id="Path"></path>
+            <path d="M24,10 C22.8954305,10 22,9.1045695 22,8 L22,2 C22,0.8954305 22.8954305,0 24,0 C25.1045695,-2.22044605e-16 26,0.8954305 26,2 L26,8 C26,9.1045695 25.1045695,10 24,10 Z" id="Path"></path>
+            <path d="M44,8 C41.790861,8 40,6.209139 40,4 C40,1.790861 41.790861,4.4408921e-16 44,0 C46.209139,-4.4408921e-16 48,1.790861 48,4 C48,5.06086596 47.5785726,6.07828161 46.8284271,6.82842712 C46.0782816,7.57857264 45.060866,8 44,8 Z" id="Shape" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>
