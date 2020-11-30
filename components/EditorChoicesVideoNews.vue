@@ -5,6 +5,7 @@
       <IframeYoutube
         :videoId="highlightItem.slug"
         class="editor-choices__first-item item"
+        @send-first-play-ga="sendGaPlayEvent('editors choice video')"
       />
       <div class="editor-choices__remaining">
         <div class="scrollable-container">
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import { sendGaEvent } from '~/utils/google-analytics'
 import IframeYoutube from '~/components/IframeYoutube'
 
 export default {
@@ -60,6 +62,9 @@ export default {
     selectItemToHighlight(item) {
       this.highlightItem = item
       this.$emit('click')
+    },
+    sendGaPlayEvent(label) {
+      sendGaEvent(this.$ga)('videonews')('play')(label)
     },
     getImage(item) {
       return (

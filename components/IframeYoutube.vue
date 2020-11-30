@@ -22,10 +22,12 @@ export default {
   data() {
     return {
       player: {},
+      hasSentPlayEvent: false,
     }
   },
   watch: {
     videoId(value) {
+      this.hasSentPlayEvent = false
       value && this.player.cueVideoById({ videoId: value })
     },
   },
@@ -78,6 +80,14 @@ export default {
               if (this.enableAutoplay) {
                 this.player.mute()
                 this.player.playVideo()
+              }
+            },
+            onStateChange: () => {
+              // https://developers.google.com/youtube/iframe_api_reference#Playback_status
+              const isPlaying = this.player.getPlayerState() === 1
+              if (isPlaying && !this.hasSentPlayEvent) {
+                this.hasSentPlayEvent = true
+                this.$emit('send-first-play-ga')
               }
             },
           },
