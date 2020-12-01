@@ -79,6 +79,10 @@ export default {
 <style lang="scss" scoped>
 @import 'swiper/swiper-bundle.css';
 
+.swiper {
+  overflow: hidden;
+}
+
 .swiper-slide {
   display: flex;
   justify-content: center;
