@@ -8,5 +8,6 @@
     frameborder="0"
     allowTransparency="true"
     allow="encrypted-media"
+    loading="lazy"
   />
 </template>

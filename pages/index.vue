@@ -42,7 +42,7 @@
         </div>
       </main>
       <aside class="g-aside max-width-wrapper__aside">
-        <IframeFacebookPagePlugin />
+        <FacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
     </div>
@@ -55,10 +55,10 @@ import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import Swiper from '~/components/Swiper'
-import IframeFacebookPagePlugin from '~/components/IframeFacebookPagePlugin.vue'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
+import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 
 // import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
@@ -87,10 +87,10 @@ export default {
   },
   components: {
     Swiper,
-    IframeFacebookPagePlugin,
     HeadingBordered,
     ArticleCard,
     ButtonLoadmore,
+    FacebookPagePlugin,
     LinkYoutubeStyle,
   },
   data() {
