@@ -43,7 +43,7 @@
           </div>
         </div>
       </main>
-      <aside class="max-width-wrapper__aside">
+      <aside class="g-aside">
         <FacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
@@ -180,14 +180,15 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     flex-direction: row;
     flex-wrap: wrap;
   }
-  &__aside {
-    margin: 20px 0 0;
-    @include media-breakpoint-up(xl) {
-      width: #{$asideWidthDesktop}px;
-      padding: 0 0 0 39px;
-      margin: 49px 0 0;
-      border-left: 1px solid #d8d8d8;
-    }
+}
+
+.g-aside {
+  margin: 20px 0 0;
+  @include media-breakpoint-up(xl) {
+    width: #{$asideWidthDesktop}px;
+    padding: 0 0 0 39px;
+    margin: 49px 0 0;
+    border-left: 1px solid #d8d8d8;
   }
 }
 

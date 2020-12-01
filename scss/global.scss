@@ -10,6 +10,28 @@
       }
     }
   }
+  &-aside {
+    @include media-breakpoint-up(lg) {
+      width: $aside-width-lg;
+      padding: 60px 41px 158px;
+    }
+    > * {
+      margin-left: auto;
+      margin-right: auto;
+      + * {
+        margin-top: 40px;
+        @include media-breakpoint-up(lg) {
+          margin-top: 50px;
+        }
+      }
+      + .link {
+        margin-top: 44px;
+        @include media-breakpoint-up(lg) {
+          margin-top: 33px;
+        }
+      }
+    }
+  }
   &-listing-heading {
     color: #014db8;
     font-size: 20px;

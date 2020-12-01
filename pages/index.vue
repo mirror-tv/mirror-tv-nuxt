@@ -41,7 +41,7 @@
           />
         </div>
       </main>
-      <aside class="max-width-wrapper__aside aside">
+      <aside class="g-aside max-width-wrapper__aside">
         <IframeFacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
@@ -195,7 +195,7 @@ export default {
 }
 
 $maxWidthDesktop: 1000;
-$asideWidthDesktop: 380;
+$asideWidthDesktop: 382;
 $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
 .max-width-wrapper {
   display: flex;
@@ -283,13 +283,8 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
   }
 }
 
-.aside {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.g-aside {
   @include media-breakpoint-up(xl) {
-    width: #{$asideWidthDesktop}px;
-    padding: 60px 40px;
     background-color: #e7e7e7;
   }
 }
