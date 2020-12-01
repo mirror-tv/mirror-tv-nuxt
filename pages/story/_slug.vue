@@ -267,7 +267,8 @@ export default {
   },
   head() {
     const title = `${this.title} - ${SITE_NAME}`
-    const brief = this.brief?.replace(/<[^>]*>?/gm, '')
+    const brief = this.brief?.replace?.(/<[^>]*>?/gm, '')
+    const tags = this.tags?.map?.((tag) => tag.name).join(', ')
     const image = this.image?.desktop
     return {
       title,
@@ -294,9 +295,23 @@ export default {
         ...(brief
           ? [
               {
+                hid: 'description',
+                name: 'description',
+                content: brief,
+              },
+              {
                 hid: 'og:description',
                 property: 'og:description',
                 content: brief,
+              },
+            ]
+          : []),
+        ...(tags
+          ? [
+              {
+                hid: 'news_keywords',
+                name: 'news_keywords',
+                content: tags,
               },
             ]
           : []),
