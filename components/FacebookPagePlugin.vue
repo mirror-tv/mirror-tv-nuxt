@@ -22,16 +22,20 @@ export default {
   props: {
     href: {
       type: String,
-      default: 'https://www.facebook.com/mirrormediamg',
+      default: 'https://www.facebook.com/mirrormediaTV',
     },
     pageName: {
       type: String,
-      default: '鏡週刊',
+      default: '鏡電視',
     },
   },
   mounted() {
-    this.insertRootDiv()
-    this.insertSDK()
+    if (window.FB) {
+      this.$nextTick(() => window.FB.XFBML.parse())
+    } else {
+      this.insertRootDiv()
+      this.insertSDK()
+    }
   },
   methods: {
     insertRootDiv() {
