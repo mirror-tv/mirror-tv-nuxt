@@ -63,7 +63,7 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: ['~/css/base.css'],
+  css: ['~/css/base.css', '~/scss/global.scss'],
   /*
    ** Plugins to load before mounting the App
    */
@@ -137,7 +137,7 @@ module.exports = {
     },
   },
   styleResources: {
-    scss: '~/scss/*.scss',
+    scss: ['~/scss/_*.scss'],
   },
   /*
    ** Build configuration
