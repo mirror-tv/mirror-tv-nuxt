@@ -79,7 +79,7 @@
 <script>
 import dayjs from 'dayjs'
 
-import { SITE_NAME } from '~/constants'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '~/constants'
 
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
@@ -148,13 +148,14 @@ export default {
     const brief = this.brief?.replace?.(/<[^>]*>?/gm, '')
     const tags = this.tags?.map?.((tag) => tag.name).join(', ')
     const image = this.image?.desktop
+    const ogUrl = `${getDomain()}${this.$route.path}`
     return {
       title,
       meta: [
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
+          content: ogUrl,
         },
         {
           hid: 'og:title',
@@ -194,6 +195,108 @@ export default {
             ]
           : []),
       ],
+      script: [...generateJsonLds.bind(this)()],
+    }
+    function generateJsonLds() {
+      const hasCategory = this.postPublished?.categories?.[0]
+      const hasWriter = this.postPublished?.writers?.[0]
+      const authorName = hasWriter
+        ? this.postPublished?.writers?.[0]?.name
+        : SITE_NAME
+      const logoUrl = require('~/static/logo.png')
+      const jsonLdBreadcrumbList = {
+        type: 'application/ld+json',
+        json: {
+          '@context': 'http://schema.org/',
+          '@type': 'BreadcrumbList',
+          itemListElement: generateBreadcrumbList.bind(this)(),
+        },
+      }
+      const jsonLdNewsArticle = {
+        type: 'application/ld+json',
+        json: {
+          '@context': 'https://schema.org/',
+          '@type': 'NewsArticle',
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': ogUrl,
+          },
+          headline: this.title,
+          image,
+          datePublished: this.publishTime,
+          dateModified: this.postPublished?.updatedAt,
+          author: {
+            '@type': hasWriter ? 'Person' : 'Organization',
+            name: authorName,
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: SITE_NAME,
+            logo: {
+              '@type': 'ImageObject',
+              url: logoUrl,
+            },
+          },
+          description: brief,
+          url: ogUrl,
+          thumbnailUrl: image,
+          articleSection: this.hasCategory ? this.categoryTitle : undefined,
+        },
+      }
+      let jsonLdPerson
+      if (hasWriter) {
+        jsonLdPerson = {
+          type: 'application/ld+json',
+          json: {
+            '@context': 'http://schema.org/',
+            '@type': 'Person',
+            name: authorName,
+            url: `${getDomain()}/author/${
+              this.postPublished?.writers?.[0]?.slug
+            }/`,
+            brand: {
+              '@type': 'Brand',
+              name: SITE_NAME,
+              url: SITE_URL,
+              image: logoUrl,
+              logo: logoUrl,
+              description: SITE_DESCRIPTION,
+            },
+          },
+        }
+      }
+      return [
+        jsonLdNewsArticle,
+        jsonLdBreadcrumbList,
+        ...(jsonLdPerson ? [jsonLdPerson] : []),
+      ]
+      function generateBreadcrumbList() {
+        const items = [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: SITE_NAME,
+            item: SITE_URL,
+          },
+        ]
+        if (hasCategory) {
+          items.push({
+            '@type': 'ListItem',
+            position: items.length + 1,
+            name: this.categoryTitle,
+            item: `${getDomain()}/category/${
+              this.postPublished?.categories?.[0]?.slug
+            }`,
+          })
+        }
+        items.push({
+          '@type': 'ListItem',
+          position: items.length + 1,
+          name: this.title,
+          item: ogUrl,
+        })
+        return items
+      }
     }
   },
   computed: {

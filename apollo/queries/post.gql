@@ -10,6 +10,7 @@ query fetchPostPublishedBySlug($slug: String!) {
     brief
     content
     publishTime
+    updatedAt
     heroImage {
       mobile: urlMobileSized
       desktop: urlDesktopSized
@@ -25,10 +26,12 @@ query fetchPostPublishedBySlug($slug: String!) {
     }
     heroCaption
     categories {
+      slug
       title
     }
     writers {
       name
+      slug
     }
     photographers {
       name
