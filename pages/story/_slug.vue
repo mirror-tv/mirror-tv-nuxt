@@ -144,7 +144,7 @@ export default {
     ShareLine,
   },
   head() {
-    const title = `${this.title} - ${SITE_NAME}`
+    const title = this.title
     const brief = this.brief?.replace?.(/<[^>]*>?/gm, '')
     const tags = this.tags?.map?.((tag) => tag.name).join(', ')
     const image = this.image?.desktop

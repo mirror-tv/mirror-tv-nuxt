@@ -6,7 +6,7 @@ const {
   redisWriteClient,
 } = require('./server-middleware/redis/utils')
 
-const SITE_NAME = 'mnews 鏡新聞'
+const SITE_NAME = '鏡電視'
 const SITE_DESCRIPTION =
   '鏡新聞與鏡電視是一個由全方位媒體人用專業跟熱情澆灌出來的新聞平台！'
 
@@ -42,6 +42,11 @@ module.exports = {
         hid: 'og:image',
         property: 'og:image',
         content: `${BASE_URL}/default.jpg`,
+      },
+      {
+        hid: 'og:site_name',
+        property: 'og:site_name',
+        content: SITE_NAME,
       },
       {
         hid: 'og:type',
