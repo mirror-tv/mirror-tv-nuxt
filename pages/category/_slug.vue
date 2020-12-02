@@ -117,6 +117,24 @@ export default {
       page: 0,
     }
   },
+  head() {
+    const title = `${this.pageName} - ${SITE_NAME}`
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+      ],
+    }
+  },
   computed: {
     category() {
       return this.allCategories.find(
@@ -172,24 +190,6 @@ export default {
       })
       this.sendGaClickEvent('more')
     },
-  },
-  head() {
-    const title = `${this.pageName} - ${SITE_NAME}`
-    return {
-      title,
-      meta: [
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
-        },
-        {
-          hid: 'og:title',
-          property: 'og:title',
-          content: title,
-        },
-      ],
-    }
   },
 }
 </script>

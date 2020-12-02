@@ -89,6 +89,24 @@ export default {
     FacebookPagePlugin,
     LinkYoutubeStyle,
   },
+  head() {
+    const title = `影音 - ${SITE_NAME}`
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+      ],
+    }
+  },
   computed: {
     categoriesSlug() {
       return this.allCategories?.map((category) => category.slug)
@@ -137,24 +155,6 @@ export default {
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('videonews')('click')(label)
     },
-  },
-  head() {
-    const title = `影音 - ${SITE_NAME}`
-    return {
-      title,
-      meta: [
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
-        },
-        {
-          hid: 'og:title',
-          property: 'og:title',
-          content: title,
-        },
-      ],
-    }
   },
 }
 </script>

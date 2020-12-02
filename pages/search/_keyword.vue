@@ -64,6 +64,24 @@ export default {
     this.setListDataTotal(response)
     this.listDataCurrentPage += 1
   },
+  head() {
+    const title = `${this.$route.params.keyword} - ${SITE_NAME}`
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+      ],
+    }
+  },
   computed: {
     keywordDecoded() {
       return decodeURI(this.$route.params.keyword)
@@ -111,24 +129,6 @@ export default {
       this.listDataCurrentPage += 1
       this.sendGaClickEvent('more')
     },
-  },
-  head() {
-    const title = `${this.$route.params.keyword} - ${SITE_NAME}`
-    return {
-      title,
-      meta: [
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
-        },
-        {
-          hid: 'og:title',
-          property: 'og:title',
-          content: title,
-        },
-      ],
-    }
   },
 }
 </script>

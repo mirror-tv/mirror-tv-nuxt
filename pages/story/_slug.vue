@@ -143,6 +143,59 @@ export default {
     ShareFacebook,
     ShareLine,
   },
+  head() {
+    const title = `${this.title} - ${SITE_NAME}`
+    const brief = this.brief?.replace?.(/<[^>]*>?/gm, '')
+    const tags = this.tags?.map?.((tag) => tag.name).join(', ')
+    const image = this.image?.desktop
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+        ...(image
+          ? [
+              {
+                hid: 'og:image',
+                property: 'og:image',
+                content: image,
+              },
+            ]
+          : []),
+        ...(brief
+          ? [
+              {
+                hid: 'description',
+                name: 'description',
+                content: brief,
+              },
+              {
+                hid: 'og:description',
+                property: 'og:description',
+                content: brief,
+              },
+            ]
+          : []),
+        ...(tags
+          ? [
+              {
+                hid: 'news_keywords',
+                name: 'news_keywords',
+                content: tags,
+              },
+            ]
+          : []),
+      ],
+    }
+  },
   computed: {
     brief() {
       try {
@@ -264,59 +317,6 @@ export default {
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('article')('scroll')(label)
     },
-  },
-  head() {
-    const title = `${this.title} - ${SITE_NAME}`
-    const brief = this.brief?.replace?.(/<[^>]*>?/gm, '')
-    const tags = this.tags?.map?.((tag) => tag.name).join(', ')
-    const image = this.image?.desktop
-    return {
-      title,
-      meta: [
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
-        },
-        {
-          hid: 'og:title',
-          property: 'og:title',
-          content: title,
-        },
-        ...(image
-          ? [
-              {
-                hid: 'og:image',
-                property: 'og:image',
-                content: image,
-              },
-            ]
-          : []),
-        ...(brief
-          ? [
-              {
-                hid: 'description',
-                name: 'description',
-                content: brief,
-              },
-              {
-                hid: 'og:description',
-                property: 'og:description',
-                content: brief,
-              },
-            ]
-          : []),
-        ...(tags
-          ? [
-              {
-                hid: 'news_keywords',
-                name: 'news_keywords',
-                content: tags,
-              },
-            ]
-          : []),
-      ],
-    }
   },
 }
 </script>

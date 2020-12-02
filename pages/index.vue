@@ -99,6 +99,17 @@ export default {
       postsCount: 0,
     }
   },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+      ],
+    }
+  },
   computed: {
     showEditorChoices() {
       return (this.allPublishedEditorChoices ?? []).length > 0
@@ -173,17 +184,6 @@ export default {
       })
       this.sendGaClickEvent('more')
     },
-  },
-  head() {
-    return {
-      meta: [
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
-        },
-      ],
-    }
   },
 }
 </script>

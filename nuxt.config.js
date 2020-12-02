@@ -108,6 +108,7 @@ module.exports = {
               100
             )
           } catch (error) {
+            // eslint-disable-next-line no-console
             console.error(`[REDIS/WRITE]Set Redis Failed. url: ${url}`, error)
           }
         }

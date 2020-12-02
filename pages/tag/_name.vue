@@ -63,6 +63,24 @@ export default {
       postsCount: 0,
     }
   },
+  head() {
+    const title = `${this.routeName} - ${SITE_NAME}`
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+      ],
+    }
+  },
   computed: {
     enableLoadMore() {
       return this.posts.length < this.postsCount
@@ -112,24 +130,6 @@ export default {
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('tag')('click')(label)
     },
-  },
-  head() {
-    const title = `${this.routeName} - ${SITE_NAME}`
-    return {
-      title,
-      meta: [
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
-        },
-        {
-          hid: 'og:title',
-          property: 'og:title',
-          content: title,
-        },
-      ],
-    }
   },
 }
 </script>
