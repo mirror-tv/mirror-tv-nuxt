@@ -12,6 +12,7 @@
           <div
             v-for="item in items"
             :key="item.slug"
+            :class="{ highlight: item.slug === highlightSlug }"
             class="item"
             @click="selectItemToHighlight(item)"
           >
@@ -49,6 +50,9 @@ export default {
     }
   },
   computed: {
+    highlightSlug() {
+      return this.highlightItem?.slug
+    },
     hasItems() {
       return this.items.length > 0
     },
@@ -111,7 +115,9 @@ export default {
     }
   }
   &__remaining {
+    width: calc(100% + 40px);
     padding: 20px 0;
+    transform: translateX(-20px);
     border-bottom: 1px solid #d8d8d8;
     @include media-breakpoint-up(xl) {
       position: relative;
@@ -123,7 +129,11 @@ export default {
     }
     .item {
       display: flex;
+      padding: 10px 20px;
       cursor: pointer;
+      &.highlight {
+        background-color: #e7e7e7;
+      }
       picture {
         width: 120px;
         padding-top: calc(120px * 0.6666);
@@ -152,9 +162,6 @@ export default {
 
 .item {
   display: block;
-  + .item {
-    margin-top: 16px;
-  }
   picture {
     display: block;
     position: relative;
