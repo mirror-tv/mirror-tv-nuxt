@@ -1,9 +1,9 @@
 <template>
-  <lazy-component
+  <div
     class="fb-page"
     :data-href="href"
     data-tabs=""
-    data-width="500"
+    data-width=""
     data-height=""
     data-small-header="false"
     data-adapt-container-width="true"
@@ -13,7 +13,7 @@
     <blockquote :cite="href" class="fb-xfbml-parse-ignore">
       <a :href="href" v-text="pageName" />
     </blockquote>
-  </lazy-component>
+  </div>
 </template>
 
 <script>
