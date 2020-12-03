@@ -572,6 +572,13 @@ $asideWidthDesktop: 380;
     width: #{$asideWidthDesktop}px;
     padding: 50px 0;
     background-color: #e7e7e7;
+    ::v-deep {
+      .list__list-item {
+        .article-img {
+          background-color: #fff;
+        }
+      }
+    }
   }
   &__list-latest {
     @include media-breakpoint-up(xl) {

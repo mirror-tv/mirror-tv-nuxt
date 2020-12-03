@@ -120,7 +120,7 @@ export default {
     getImage(post) {
       return (
         post.heroImage?.urlMobileSized ??
-        require('~/assets/img/default image-2.jpg')
+        require('~/assets/img/image-default.png')
       )
     },
     handleSlideNext() {
@@ -171,6 +171,7 @@ export default {
       height: 100%;
       object-fit: cover;
       object-position: center center;
+      @include default-background-image;
     }
   }
   &__title {

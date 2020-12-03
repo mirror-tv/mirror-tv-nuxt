@@ -39,7 +39,7 @@ export default {
     },
     image: {
       type: String,
-      default: require('~/assets/img/default image-2.jpg'),
+      default: require('~/assets/img/image-default.png'),
     },
     facebook: {
       type: String,
@@ -81,6 +81,7 @@ export default {
     object-fit: cover;
     object-position: center center;
     border-radius: 50%;
+    @include default-background-image;
   }
   &__name {
     margin: 30px auto 0;

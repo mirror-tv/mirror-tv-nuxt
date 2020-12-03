@@ -1,6 +1,7 @@
 @mixin default-background-image {
-  background-image: url('~assets/img/default image-2.jpg');
+  background-image: url('~assets/img/image-default.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-color: #e7e7e7;
 }
