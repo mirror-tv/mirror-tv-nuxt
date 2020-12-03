@@ -45,6 +45,7 @@ export default {
 <style lang="scss" scoped>
 .main {
   @include media-breakpoint-up(lg) {
+    flex: 1;
     padding-right: 118px;
   }
 }
