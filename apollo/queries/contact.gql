@@ -1,0 +1,15 @@
+query fetchContactBySlug($slug: String!) {
+  allContacts(
+    where: {
+      slug: $slug
+    }
+  ) {
+    name
+    image {
+      urlMobileSized
+    }
+    facebook
+    instatgram
+    bio
+  }
+}

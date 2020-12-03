@@ -10,6 +10,18 @@
       }
     }
   }
+  &-page-with-aside {
+    padding: calc(50px + 22px) 20px 60px;
+    @include media-breakpoint-up(lg) {
+      display: flex;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0;
+      > * {
+        padding: 50px 0 40px;
+      }
+    }
+  }
   &-aside {
     @include media-breakpoint-up(lg) {
       width: $aside-width-lg;
