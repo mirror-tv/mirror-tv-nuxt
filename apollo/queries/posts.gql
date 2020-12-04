@@ -31,6 +31,98 @@ query fetchPostsAndCountByTagName (
   }
 }
 
+query fetchPostsAndCountByAuthorSlug (
+  $authorSlug: String,
+  $maxResults: Int = 10,
+  $skip: Int = 0,
+  $withCount: Boolean = false,
+) {
+  allPosts(
+    where: {
+      OR: [
+        {
+          writers_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          photographers_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          cameraOperators_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          designers_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          engineers_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          vocals_some: {
+            slug: $authorSlug
+          }
+        },
+      ]
+    },
+    sortBy: publishTime_DESC,
+    first: $maxResults,
+    skip: $skip,
+  ) {
+    publishTime
+    brief
+    categories {
+      title
+    }
+    ...listingPagePost
+  }
+  _allPostsMeta(
+    where: {
+      OR: [
+        {
+          writers_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          photographers_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          cameraOperators_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          designers_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          engineers_some: {
+            slug: $authorSlug
+          }
+        },
+        {
+          vocals_some: {
+            slug: $authorSlug
+          }
+        },
+      ]
+    },
+  ) @include(if: $withCount) {
+    count
+  }
+}
+
 query fetchPosts(
   $first: Int = 12,
   $skip: Int = 0,
