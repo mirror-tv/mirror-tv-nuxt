@@ -506,9 +506,9 @@ $asideWidthDesktop: 380;
   &__social-media-share {
     display: flex;
     align-items: center;
-    margin: 10px 0 0;
+    margin: 6px 0 0;
     .share + .share {
-      margin-left: 10px;
+      margin-left: 2px;
     }
   }
   &__brief {
