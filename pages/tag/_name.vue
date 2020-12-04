@@ -163,10 +163,10 @@ export default {
 .button-load-more {
   display: block;
   width: 100%;
-  margin: 20px auto 0;
+  margin: 14px auto 0;
   @include media-breakpoint-up(lg) {
     width: 300px;
-    margin: 60px auto 0;
+    margin: 54px auto 0;
   }
 }
 </style>
