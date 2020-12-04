@@ -15,12 +15,16 @@
       v-if="isMultipleSlides"
       class="swiper-button-nav swiper-button-nav--prev swiper-nav swiper-nav--left"
       @click="mySwiper.slidePrev()"
-    />
+    >
+      <span />
+    </button>
     <button
       v-if="isMultipleSlides"
       class="swiper-button-nav swiper-button-nav--next swiper-nav swiper-nav--right"
       @click="mySwiper.slideNext()"
-    />
+    >
+      <span />
+    </button>
     <div class="swiper-pagination" />
   </div>
 </template>
@@ -97,10 +101,10 @@ export default {
 .swiper-nav {
   position: absolute;
   top: auto;
-  bottom: 5px;
+  bottom: -5px;
   z-index: 1000;
   @include media-breakpoint-up(xl) {
-    top: calc(50% - 20px);
+    top: calc(50% - 48px);
     bottom: auto;
   }
   &--left {
@@ -120,14 +124,20 @@ export default {
 }
 
 .swiper-button-nav {
-  width: 28px;
-  height: 28px;
-  border-left: 4px solid #014db8;
-  border-bottom: 4px solid #014db8;
-  transform: rotate(45deg);
-  outline: none;
+  padding: 10px;
+  span {
+    display: block;
+    width: 28px;
+    height: 28px;
+    border-left: 4px solid #014db8;
+    border-bottom: 4px solid #014db8;
+    transform: rotate(45deg);
+    outline: none;
+  }
   &--next {
-    transform: rotate(-135deg);
+    span {
+      transform: rotate(-135deg);
+    }
   }
 }
 
