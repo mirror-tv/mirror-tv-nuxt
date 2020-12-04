@@ -131,9 +131,10 @@ input {
   }
 
   @include media-breakpoint-up(xl) {
-    width: 30px;
-    height: 30px;
-    margin: 0 0 0 10px;
+    width: 48px;
+    height: 48px;
+    padding: 9px;
+    margin: 0 0 0 1px;
     position: static;
     svg {
       width: 100%;

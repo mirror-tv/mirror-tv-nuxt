@@ -186,6 +186,10 @@ export default {
 }
 
 .logo {
+  padding: 9px 0;
+  @include media-breakpoint-up(xl) {
+    padding: 6px 0;
+  }
   img {
     width: 100px;
     @include media-breakpoint-up(xl) {
@@ -198,7 +202,7 @@ export default {
   display: flex;
   align-items: center;
   &__search-button {
-    margin: 0 0 0 20px;
+    margin: 0 0 0 1.5px;
   }
   @include media-breakpoint-up(xl) {
     display: none;
@@ -206,6 +210,7 @@ export default {
 }
 
 .hamburger-button {
+  padding: 11.5px 10px;
   transition: transform 0.25s ease-out;
   &--rotated {
     transform: rotate(90deg);
@@ -229,6 +234,7 @@ export default {
 }
 
 .search-button {
+  padding: 9px 8.5px;
   &--translucent {
     opacity: 0.3;
   }
