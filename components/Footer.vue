@@ -9,11 +9,16 @@
           <a href="" target="_blank" rel="noreferrer noopener">
             <img
               class="social-network-service-img"
-              src="~/assets/img/flogo.svg"
+              src="~/assets/img/facebook-logo-white-58.png"
               alt="facebook"
             />
           </a>
-          <a href="" target="_blank" rel="noreferrer noopener">
+          <a
+            class="social-network-services line"
+            href=""
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img
               class="social-network-service-img"
               src="~/assets/img/LINE_logo.png"
@@ -178,9 +183,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  &__social-network-services-nav {
-    margin: 14px 0 0 0;
-  }
 }
 
 .logo {
@@ -191,8 +193,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  a + a {
-    margin: 0 0 0 10px;
+  a {
+    padding: 14px;
+  }
+}
+.social-network-services {
+  &.line {
+    padding: 18px 7.5px;
   }
 }
 
@@ -258,30 +265,37 @@ export default {
     flex-direction: row;
   }
   &__readr {
+    padding: 5.5px;
     @include media-breakpoint-up(xl) {
       order: 4;
       margin: 0 0 0 16px;
     }
   }
   &__mirror-media {
-    margin: 10px 0 0 0;
+    margin: 4.5px 0 0 0;
     @include media-breakpoint-up(xl) {
       order: 1;
       margin: 0;
+      padding: 2px 0;
+    }
+  }
+  &__mirror-fiction,
+  &__mirror-voice {
+    margin: 7px 0 0 0;
+    padding: 9px 0;
+    @include media-breakpoint-up(xl) {
+      margin: 0 0 0 16px;
+      padding: 5.5px 0;
     }
   }
   &__mirror-fiction {
-    margin: 16px 0 0 0;
     @include media-breakpoint-up(xl) {
       order: 2;
-      margin: 0 0 0 16px;
     }
   }
   &__mirror-voice {
-    margin: 16px 0 0 0;
     @include media-breakpoint-up(xl) {
       order: 3;
-      margin: 0 0 0 16px;
     }
   }
 }
