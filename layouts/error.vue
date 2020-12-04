@@ -57,13 +57,14 @@ $font: Arial Rounded MT Bold, Arial;
     line-height: 1;
     @include media-breakpoint-up(md) {
       font-size: 200px;
-    }
-    + * {
-      margin-top: 5px;
+      + * {
+        margin-top: 5px;
+      }
     }
   }
   &__link {
     display: inline-block;
+    padding: 9px 0;
     color: #ffcc01;
     font-size: 20px;
     font-family: $font;
@@ -71,6 +72,7 @@ $font: Arial Rounded MT Bold, Arial;
     letter-spacing: 1.3px;
     text-decoration: underline;
     @include media-breakpoint-up(md) {
+      padding: 0;
       font-size: 50px;
     }
   }
