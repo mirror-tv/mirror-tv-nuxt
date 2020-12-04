@@ -553,7 +553,8 @@ $asideWidthDesktop: 380;
     }
   }
   &__tag {
-    margin: 5px;
+    margin: 0 5px;
+    padding: 8px 0;
   }
 }
 

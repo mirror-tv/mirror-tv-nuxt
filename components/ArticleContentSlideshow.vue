@@ -11,11 +11,15 @@
     <button
       class="swiper-button-nav swiper-button-nav--prev"
       @click="contentSwiper.slidePrev()"
-    />
+    >
+      <span />
+    </button>
     <button
       class="swiper-button-nav swiper-button-nav--next"
       @click="contentSwiper.slideNext()"
-    />
+    >
+      <span />
+    </button>
     <div class="swiper-pagination" />
   </div>
 </template>
@@ -88,22 +92,28 @@ export default {
   }
   .swiper-button-nav {
     position: absolute;
-    top: calc((100vw - 40px) * 2 / 3 + 14px);
-    left: 8px;
+    top: calc((100vw - 40px) * 2 / 3 + 14px - 10px);
+    left: -2px;
     z-index: 20;
-    width: 28px;
-    height: 28px;
-    border-left: 4px solid #014db8;
-    border-bottom: 4px solid #014db8;
-    transform: rotate(45deg);
+    padding: 10px;
     outline: none;
+    > span {
+      display: block;
+      width: 28px;
+      height: 28px;
+      border-left: 4px solid #014db8;
+      border-bottom: 4px solid #014db8;
+      transform: rotate(45deg);
+    }
     @include media-breakpoint-up(xl) {
       top: 116px;
     }
     &--next {
       left: auto;
-      right: 8px;
-      transform: rotate(-135deg);
+      right: -2px;
+      > span {
+        transform: rotate(-135deg);
+      }
     }
   }
   .swiper-pagination {
