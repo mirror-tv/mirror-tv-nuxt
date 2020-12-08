@@ -1,5 +1,6 @@
 <template>
-  <p v-if="hasContacts">{{ contactsLabel }}{{ contactsName }}</p>
+  <!-- eslint-disable-next-line vue/no-v-html -->
+  <p v-if="hasContacts">{{ contactsLabel }}<sapn v-html="contactsHtml" /></p>
 </template>
 
 <script>
@@ -30,11 +31,16 @@ export default {
       }
       return `${CONTACT_MAPPING[this.contactType]}｜`
     },
-    contactsName() {
+    contactsHtml() {
       if (this.isOtherbyline) {
         return this.contacts
       }
-      return this.contacts.map((item) => item.name).join('、')
+      return this.contacts
+        .map(
+          (item) =>
+            `<a href="/author/${item.slug}" target="_blank" rel="noreferrer noopener">${item.name}</a>`
+        )
+        .join('、')
     },
     hasContacts() {
       return this.contacts?.length > 0

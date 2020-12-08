@@ -35,18 +35,23 @@ query fetchPostPublishedBySlug($slug: String!) {
     }
     photographers {
       name
+      slug
     }
     cameraOperators {
       name
+      slug
     }
     designers {
       name
+      slug
     }
     engineers {
      name 
+     slug
     }
     vocals {
       name
+      slug
     }
     otherbyline
     tags {
