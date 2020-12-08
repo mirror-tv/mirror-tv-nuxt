@@ -23,9 +23,11 @@
     }
   }
   &-aside {
+    margin: 70px 0 0;
     @include media-breakpoint-up(lg) {
       width: $aside-width-lg;
       padding: 60px 41px 158px;
+      margin: 0;
     }
     > * {
       margin-left: auto;

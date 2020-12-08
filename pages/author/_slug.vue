@@ -28,7 +28,14 @@
         <span>點我看更多</span>
       </button>
     </main>
-    <aside class="g-aside" />
+    <aside class="g-aside">
+      <ListArticleAside
+        v-if="hasLatestPosts"
+        :listTitle="'最新文章'"
+        :listData="latestPosts"
+        class="latest-list"
+      />
+    </aside>
   </section>
 </template>
 
@@ -36,9 +43,13 @@
 import dayjs from 'dayjs'
 
 import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
-import { fetchPostsAndCountByAuthorSlug } from '~/apollo/queries/posts.gql'
+import {
+  fetchPosts,
+  fetchPostsAndCountByAuthorSlug,
+} from '~/apollo/queries/posts.gql'
 import ArticleCardWithCategory from '~/components/ArticleCardWithCategory'
 import ContactBlock from '~/components/ContactBlock'
+import ListArticleAside from '~/components/ListArticleAside'
 
 const MAX_RESULTS = 10
 
@@ -72,9 +83,11 @@ export default {
   components: {
     ArticleCardWithCategory,
     ContactBlock,
+    ListArticleAside,
   },
   data() {
     return {
+      latestPosts: [],
       page: 1,
       postsCount: 0,
     }
@@ -89,8 +102,27 @@ export default {
     enableLoadMore() {
       return this.posts.length < this.postsCount
     },
+    hasLatestPosts() {
+      return this.latestPosts?.length > 0
+    },
+  },
+  mounted() {
+    this.fetchLatestPosts()
   },
   methods: {
+    fetchLatestPosts() {
+      this.$apollo.addSmartQuery('latestPosts', {
+        query: fetchPosts,
+        variables: {
+          first: 5,
+          withCoverPhoto: true,
+        },
+        update: (data) => {
+          const items = data.allPosts || []
+          return items.map(this.reducerArticleCard)
+        },
+      })
+    },
     handleLoadMore() {
       this.$apollo.queries.posts.fetchMore({
         variables: {
@@ -113,6 +145,14 @@ export default {
           }
         },
       })
+    },
+    reducerArticleCard(post) {
+      return {
+        href: `/story/${post.slug}`,
+        articleImgURL: post.heroImage?.urlMobileSized,
+        articleTitle: post.title,
+        articleDate: new Date(post.publishTime),
+      }
     },
     restructurePostFields(item) {
       let brief = item.brief
@@ -186,5 +226,10 @@ export default {
   @include media-breakpoint-up(lg) {
     margin-top: 45px;
   }
+}
+
+.latest-list {
+  padding: 0;
+  border: none;
 }
 </style>
