@@ -20,6 +20,13 @@
         :articleDate="post.publishTime"
         class="item"
       />
+      <button
+        v-if="enableLoadMore"
+        class="g-btn-load-more"
+        @click="handleLoadMore"
+      >
+        <span>點我看更多</span>
+      </button>
     </main>
     <aside class="g-aside" />
   </section>
@@ -32,6 +39,8 @@ import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
 import { fetchPostsAndCountByAuthorSlug } from '~/apollo/queries/posts.gql'
 import ArticleCardWithCategory from '~/components/ArticleCardWithCategory'
 import ContactBlock from '~/components/ContactBlock'
+
+const MAX_RESULTS = 10
 
 export default {
   apollo: {
@@ -66,6 +75,7 @@ export default {
   },
   data() {
     return {
+      page: 1,
       postsCount: 0,
     }
   },
@@ -76,8 +86,34 @@ export default {
     contactImage() {
       return this.contact.image?.urlMobileSized
     },
+    enableLoadMore() {
+      return this.posts.length < this.postsCount
+    },
   },
   methods: {
+    handleLoadMore() {
+      this.$apollo.queries.posts.fetchMore({
+        variables: {
+          slug: this.authorSlug,
+          skip: this.page * MAX_RESULTS,
+          withCount: false,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          this.page += 1
+          const combined = [
+            ...previousResult.allPosts,
+            ...fetchMoreResult.allPosts,
+          ]
+          return {
+            allPosts: [...new Set(combined)],
+            _allPostsMeta: {
+              __typename: '_QueryMeta',
+              count: this.postsCount,
+            },
+          }
+        },
+      })
+    },
     restructurePostFields(item) {
       let brief = item.brief
       try {
@@ -133,6 +169,13 @@ export default {
 .g-aside {
   @include media-breakpoint-up(lg) {
     background-color: #e7e7e7;
+  }
+}
+
+.g-btn-load-more {
+  margin: 30px auto 0;
+  @include media-breakpoint-up(lg) {
+    max-width: 280px;
   }
 }
 
