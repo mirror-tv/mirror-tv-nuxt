@@ -70,7 +70,7 @@ export default {
       query: fetchPostsAndCountByAuthorSlug,
       variables() {
         return {
-          slug: this.authorSlug,
+          authorSlug: this.authorSlug,
           withCount: true,
         }
       },
