@@ -51,3 +51,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+/deep/ a {
+  padding: 15px 0;
+}
+</style>
