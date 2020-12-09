@@ -73,7 +73,7 @@ describe('items', () => {
 })
 
 describe('load more', () => {
-  test('should have buttoon to load more when number of posts is not all', () => {
+  test('should have button to load more when number of posts is not all', () => {
     const wrapper = createWrapper(page, {
       data() {
         return {
@@ -84,7 +84,7 @@ describe('load more', () => {
     })
     expect(wrapper.findComponent(ButtonLoadmore).exists()).toBe(true)
   })
-  test('should not have buttoon to load more when number of posts is equal to postsCount', () => {
+  test('should not have button to load more when number of posts is equal to postsCount', () => {
     const wrapper = createWrapper(page, {
       data() {
         return {
