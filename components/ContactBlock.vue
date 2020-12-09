@@ -9,6 +9,7 @@
           class="link"
           target="_blank"
           rel="noreferrer noopener"
+          @click="sendGaClickEvent('author’s facebook')"
         >
           <img src="~/assets/img/facebook-logo-grey-58.png" alt="Facebook" />
         </a>
@@ -18,6 +19,7 @@
           class="link"
           target="_blank"
           rel="noreferrer noopener"
+          @click="sendGaClickEvent('author’s instagram')"
         >
           <img src="~/assets/img/IG-logo.svg" alt="Instatgram" />
         </a>
@@ -31,6 +33,8 @@
 </template>
 
 <script>
+import { sendGaEvent } from '~/utils/google-analytics'
+
 export default {
   props: {
     name: {
@@ -57,6 +61,11 @@ export default {
   computed: {
     hasSocialMedia() {
       return this.facebook || this.instatgram
+    },
+  },
+  methods: {
+    sendGaClickEvent(label) {
+      sendGaEvent(this.$ga)('author')('click')(label)
     },
   },
 }

@@ -19,6 +19,7 @@
         :articleCategory="post.category"
         :articleDate="post.publishTime"
         class="item"
+        @click.native="sendGaClickEvent('author’s article')"
       />
       <button
         v-if="enableLoadMore"
@@ -50,6 +51,7 @@ import {
   fetchPostsAndCountByAuthorSlug,
 } from '~/apollo/queries/posts.gql'
 import { getDomain } from '~/utils/meta'
+import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleCardWithCategory from '~/components/ArticleCardWithCategory'
 import ContactBlock from '~/components/ContactBlock'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
@@ -171,6 +173,7 @@ export default {
           }
         },
       })
+      sendGaEvent(this.$ga)('author')('click')('more')
     },
     reducerArticleCard(post) {
       return {
@@ -198,6 +201,9 @@ export default {
         category: item.categories?.[0]?.title,
         test: JSON.parse(item.brief),
       }
+    },
+    sendGaClickEvent(label) {
+      sendGaEvent(this.$ga)('author')('click')(label)
     },
   },
 }

@@ -15,6 +15,10 @@ const $apollo = {
   addSmartQuery: jest.fn(),
 }
 
+const $ga = {
+  event: jest.fn(),
+}
+
 const contact = {
   name: 'test',
   image: {
@@ -33,6 +37,7 @@ const createWrapper = createWrapperHelper({
       },
     },
     $apollo,
+    $ga,
   },
   data() {
     return {
@@ -67,19 +72,28 @@ describe('posts count', () => {
 })
 
 describe('posts', () => {
+  const items = [{ slug: 'test' }]
+  const wrapper = createWrapper(page, {
+    data() {
+      return {
+        contact,
+        posts: items,
+      }
+    },
+  })
   test('ArticleCardWithCategory should have correct amount', () => {
-    const items = [{ slug: 'test' }]
-    const wrapper = createWrapper(page, {
-      data() {
-        return {
-          contact,
-          posts: items,
-        }
-      },
-    })
     expect(wrapper.findAllComponents(ArticleCardWithCategory)).toHaveLength(
       items.length
     )
+  })
+  test('should call $ga when click item', () => {
+    const item = wrapper.findComponent(ArticleCardWithCategory)
+    item.trigger('click')
+    expect($ga.event).toBeCalledWith({
+      eventCategory: 'author',
+      eventAction: 'click',
+      eventLabel: 'author’s article',
+    })
   })
 })
 
@@ -97,9 +111,14 @@ describe('load more', () => {
   test('Should render load more button', () => {
     expect(loadMoreBtn.text()).toBe('點我看更多')
   })
-  test('Should call $apollo fetchMore when click load more button', async () => {
+  test('Should call $apollo fetchMore and $ga when click load more button', async () => {
     await loadMoreBtn.trigger('click')
     expect($apollo.queries.posts.fetchMore).toBeCalled()
+    expect($ga.event).toBeCalledWith({
+      eventCategory: 'author',
+      eventAction: 'click',
+      eventLabel: 'more',
+    })
   })
 })
 
