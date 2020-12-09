@@ -242,6 +242,10 @@ export default {
   @include media-breakpoint-up(lg) {
     background-color: #e7e7e7;
   }
+  .latest-list {
+    padding: 0;
+    border: none;
+  }
 }
 
 .g-btn-load-more {
@@ -258,10 +262,5 @@ export default {
   @include media-breakpoint-up(lg) {
     margin-top: 45px;
   }
-}
-
-.latest-list {
-  padding: 0;
-  border: none;
 }
 </style>
