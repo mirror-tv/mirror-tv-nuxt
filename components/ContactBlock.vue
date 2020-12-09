@@ -98,14 +98,13 @@ export default {
     justify-content: center;
     margin: 10px auto 0;
     .link {
+      display: block;
+      padding: 14px;
       img {
         width: 20px;
         height: 20px;
         object-fit: contain;
         object-position: center center;
-      }
-      + .link {
-        margin-left: 9px;
       }
     }
   }
