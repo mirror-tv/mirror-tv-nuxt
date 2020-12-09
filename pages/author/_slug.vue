@@ -2,7 +2,7 @@
   <section class="g-page-with-aside">
     <main class="main">
       <ContactBlock
-        :name="contact.name"
+        :name="authorName"
         :image="contactImage"
         :facebook="contact.facebook"
         :instatgram="contact.instatgram"
@@ -42,11 +42,13 @@
 <script>
 import dayjs from 'dayjs'
 
+import { SITE_NAME } from '~/constants'
 import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
 import {
   fetchPosts,
   fetchPostsAndCountByAuthorSlug,
 } from '~/apollo/queries/posts.gql'
+import { getDomain } from '~/utils/meta'
 import ArticleCardWithCategory from '~/components/ArticleCardWithCategory'
 import ContactBlock from '~/components/ContactBlock'
 import ListArticleAside from '~/components/ListArticleAside'
@@ -92,9 +94,30 @@ export default {
       postsCount: 0,
     }
   },
+  head() {
+    const title = `${this.authorName} - ${SITE_NAME}`
+    return {
+      title,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getDomain()}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+      ],
+    }
+  },
   computed: {
     authorSlug() {
       return this.$route.params.slug
+    },
+    authorName() {
+      return this.contact?.name
     },
     contactImage() {
       return this.contact.image?.urlMobileSized
