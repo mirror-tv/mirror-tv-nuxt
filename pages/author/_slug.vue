@@ -35,6 +35,7 @@
         :listData="latestPosts"
         class="latest-list"
       />
+      <FacebookPagePlugin />
     </aside>
   </section>
 </template>
@@ -51,6 +52,7 @@ import {
 import { getDomain } from '~/utils/meta'
 import ArticleCardWithCategory from '~/components/ArticleCardWithCategory'
 import ContactBlock from '~/components/ContactBlock'
+import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
 import ListArticleAside from '~/components/ListArticleAside'
 
 const MAX_RESULTS = 10
@@ -85,6 +87,7 @@ export default {
   components: {
     ArticleCardWithCategory,
     ContactBlock,
+    FacebookPagePlugin,
     ListArticleAside,
   },
   data() {
