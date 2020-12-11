@@ -245,6 +245,11 @@ export default {
   .latest-list {
     padding: 0;
     border: none;
+    ::v-deep {
+      .article-img {
+        background-color: #fff;
+      }
+    }
   }
 }
 
