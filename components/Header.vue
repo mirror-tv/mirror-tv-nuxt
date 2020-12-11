@@ -166,7 +166,7 @@ export default {
 
 .top-wrapper {
   height: 50px;
-  background-color: #003366;
+  background-color: $color-blue-deep;
   padding: 0 20px;
   display: flex;
   justify-content: space-between;
@@ -175,10 +175,11 @@ export default {
     display: none;
   }
   @include media-breakpoint-up(xl) {
-    padding-left: calc((100vw - 1000px) / 2);
-    padding-right: calc((100vw - 1000px) / 2);
+    width: $max-width-xl;
+    padding: 0;
+    margin: 0 auto;
     height: 80px;
-    background-color: white;
+    background-color: #fff;
     &__search-form {
       display: flex;
     }
@@ -220,8 +221,8 @@ export default {
 .hamburger-icon {
   width: 28px;
   height: 25px;
-  border-top: 3px solid white;
-  border-bottom: 3px solid white;
+  border-top: 3px solid #fff;
+  border-bottom: 3px solid #fff;
   display: flex;
   align-items: center;
   &:before {
@@ -229,7 +230,7 @@ export default {
     display: block;
     width: 100%;
     height: 3px;
-    background-color: white;
+    background-color: #fff;
   }
 }
 
@@ -245,7 +246,7 @@ export default {
 }
 
 .search-form-wrapper-mobile {
-  background-color: #e7e7e7;
+  background-color: $color-grey;
   padding: 20px;
   display: none;
   &--visible {
@@ -259,8 +260,8 @@ export default {
     position: fixed;
     left: 0;
     top: 0;
-    width: 100vw;
-    height: 100vh;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: -1;
   }
@@ -268,15 +269,10 @@ export default {
 
 .bottom-wrapper {
   background-color: #1eb1e6;
-  /*padding: 30px 40px;*/
   @include media-breakpoint-up(xl) {
-    /*padding: 0;*/
-    padding-left: calc((100vw - 1000px) / 2);
-    padding-right: calc((100vw - 1000px) / 2);
-    height: 37px;
-    background-color: #003366;
-    display: flex;
-    align-items: center;
+    padding-left: calc((100% - #{$max-width-xl}) / 2);
+    padding-right: calc((100% - #{$max-width-xl}) / 2);
+    background-color: $color-blue-deep;
   }
 }
 
@@ -284,20 +280,18 @@ export default {
   display: flex;
   flex-wrap: wrap;
   margin-top: 32px;
-  margin-left: calc((100vw - 81px * 3) / 2);
-  margin-right: calc((100vw - 81px * 3) / 2);
+  margin-left: calc((100% - 81px * 3) / 2);
+  margin-right: calc((100% - 81px * 3) / 2);
   @include media-breakpoint-between(md, lg) {
-    margin-left: calc((100vw - 81px * 4) / 2);
-    margin-right: calc((100vw - 81px * 4) / 2);
+    margin-left: calc((100% - 81px * 4) / 2);
+    margin-right: calc((100% - 81px * 4) / 2);
   }
   @include media-breakpoint-between(lg, xl) {
-    margin-left: calc((100vw - 81px * 6) / 2);
-    margin-right: calc((100vw - 81px * 6) / 2);
+    margin-left: calc((100% - 81px * 6) / 2);
+    margin-right: calc((100% - 81px * 6) / 2);
   }
   @include media-breakpoint-up(xl) {
     margin: 0;
-    height: 100%;
-    align-items: center;
   }
   &__category-nav {
     margin: 0 0 32px 0;
@@ -307,7 +301,7 @@ export default {
       display: inline-block;
       width: 2px;
       height: 16px;
-      background-color: white;
+      background-color: #fff;
     }
     &:before {
       @include separator_line;
@@ -363,20 +357,19 @@ export default {
         }
       }
       &:before {
-        background-color: #979797;
+        background-color: $color-grey-deep;
       }
       &:last-child {
         &:after {
           @include separator_line;
-          background-color: #979797;
+          background-color: $color-grey-deep;
         }
       }
     }
   }
 
   .category-nav {
-    height: 100%;
-    color: white;
+    color: #fff;
     display: flex;
     align-items: center;
     border-bottom: 2px solid transparent;
@@ -401,12 +394,16 @@ export default {
     font-size: 14px;
     letter-spacing: 0.5px;
     width: 77px;
+    height: 28px;
+    line-height: 28px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
     @include media-breakpoint-up(xl) {
       width: auto;
+      height: 35px;
+      line-height: 35px;
     }
   }
 }
