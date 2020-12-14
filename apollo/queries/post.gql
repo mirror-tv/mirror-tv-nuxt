@@ -8,7 +8,7 @@ query fetchPostPublishedBySlug($slug: String!) {
     style
     title
     brief
-    content
+    contentApiData
     publishTime
     updatedAt
     heroImage {

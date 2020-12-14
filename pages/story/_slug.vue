@@ -316,11 +316,8 @@ export default {
     },
     content() {
       try {
-        const content = JSON.parse(this.postPublished?.content)
-        if (content?.apiData) {
-          return content.apiData.filter((item) => item)
-        }
-        return content?.html
+        const content = JSON.parse(this.postPublished?.contentApiData)
+        return content?.filter((item) => item) || []
       } catch {
         return []
       }
