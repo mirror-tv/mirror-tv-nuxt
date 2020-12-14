@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <p v-if="hasContacts">{{ contactsLabel }}<sapn v-html="contactsHtml" /></p>
+  <p v-if="hasContacts">{{ contactsLabel }}<span v-html="contactsHtml" /></p>
 </template>
 
 <script>
