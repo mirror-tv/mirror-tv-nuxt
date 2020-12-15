@@ -3,17 +3,22 @@
     <Header class="header" />
     <nuxt />
     <Footer class="footer" />
+    <ClientOnly>
+      <TheGdpr />
+    </ClientOnly>
   </div>
 </template>
 
 <script>
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
+import TheGdpr from '~/components/TheGdpr.vue'
 
 export default {
   components: {
     Header,
     Footer,
+    TheGdpr,
   },
 }
 </script>
