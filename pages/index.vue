@@ -61,15 +61,19 @@ import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 
-// import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
-import allPublishedEditorChoices from '~/apollo/queries/allPublishedEditorChoices.gql'
+import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 
 const pageSize = 12
 
 export default {
   apollo: {
-    allPublishedEditorChoices: {
-      query: allPublishedEditorChoices,
+    editorChoices: {
+      query: fetchEditorChoices,
+      update(data) {
+        return data.allEditorChoices
+          ?.filter((item) => item.choice)
+          ?.map((item) => this.reducerArticleCard(item.choice))
+      },
     },
     allPublishedPosts: {
       query: fetchPosts,
@@ -112,13 +116,7 @@ export default {
   },
   computed: {
     showEditorChoices() {
-      return (this.allPublishedEditorChoices ?? []).length > 0
-    },
-    editorChoices() {
-      const listData = this.allPublishedEditorChoices ?? []
-      return listData
-        .map((post) => post.choice ?? {})
-        .map((post) => this.reducerArticleCard(post))
+      return this.editorChoices?.length > 0
     },
     latestPosts() {
       const listData = this.allPublishedPosts ?? []
@@ -144,7 +142,8 @@ export default {
   methods: {
     getImageUrl(post) {
       if (post.style === 'videoNews') {
-        return post.heroVideo?.coverPhoto?.urlMobileSized
+        const coverPhoto = post.heroVideo?.coverPhoto
+        return coverPhoto?.urlMobileSized || coverPhoto?.urlOriginal
       }
       return post.heroImage?.urlMobileSized
     },

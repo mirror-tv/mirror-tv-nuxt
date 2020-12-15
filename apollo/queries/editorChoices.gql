@@ -1,6 +1,34 @@
+query fetchEditorChoices {
+  allEditorChoices(
+    where: {
+      state: published,
+      choice: {
+        state: published,
+      }
+    },
+    sortBy: sortOrder_ASC
+  ) {
+    choice {
+      id
+      title
+      slug
+      style
+      heroImage {
+        urlMobileSized
+      }
+      heroVideo {
+        coverPhoto {
+          urlDesktopSized
+          urlOriginal
+        }
+      }
+    }
+  }
+}
+
 query fetchVideoNewsEditorChoices {
   allEditorChoices(
-     where: {
+    where: {
       state: published,
       choice: {
         state: published,
