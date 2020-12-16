@@ -6,7 +6,13 @@ const {
   redisReadClient,
 } = require('./utils')
 
+const SKIP_REDIS_LIST = ['/api/tracking']
+
 module.exports = function (req, res, next) {
+  if (SKIP_REDIS_LIST.includes(req.url)) {
+    return next()
+  }
+
   if (ENABLE_REDIS && redisReadClient) {
     const path = cleanPathQuery(req.url)
     const key = `${PREFIX}${path}`

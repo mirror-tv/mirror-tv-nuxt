@@ -1,8 +1,8 @@
 module.exports = function (req, res, next) {
   const hostname = req.hostname
   const url = req.url
-
-  const isNoCaching = hostname.match(/dev.mnews.tw/gs)
+  const isNoCaching =
+    hostname.match(/dev.mnews.tw/gs) || url.match(/^\/api\/tracking$/gs)
 
   if (isNoCaching) {
     res.set('Cache-Control', 'no-store')

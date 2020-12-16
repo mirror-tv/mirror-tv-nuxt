@@ -102,6 +102,7 @@ module.exports = {
   serverMiddleware: [
     '~/server-middleware/headers.js',
     '~/server-middleware/redis/index.js',
+    { path: '/api/tracking', handler: '~/api/tracking.js' },
   ],
   /*
    ** Nuxt.js dev-modules
