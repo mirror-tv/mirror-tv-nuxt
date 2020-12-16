@@ -116,6 +116,14 @@ export default {
       return this.$route.name === 'search-keyword'
     },
   },
+  watch: {
+    '$route.fullPath'() {
+      const isSearchPage = this.$route.fullPath.match(/^\/search\//gs)
+      if (!isSearchPage) {
+        this.searchKeyword = ''
+      }
+    },
+  },
   methods: {
     sendGaClickEvent(eventLabel) {
       return sendGaEvent(this.$ga)('header')('click')(eventLabel)
@@ -142,7 +150,9 @@ export default {
       return text.substring(0, 5)
     },
     handleSearchFormSubmit() {
-      this.$router.push(`/search/${this.searchKeyword}`)
+      if (this.searchKeyword) {
+        this.$router.push(`/search/${this.searchKeyword}`)
+      }
       this.sendGaClickEvent('search')
     },
   },

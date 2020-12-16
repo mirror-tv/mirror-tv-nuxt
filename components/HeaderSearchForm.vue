@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     handleInputChange(e) {
-      this.$emit('update:input', e.target.value)
+      this.$emit('update:input', e.target.value?.trim())
     },
     handleClearInput() {
       this.$emit('update:input', '')
