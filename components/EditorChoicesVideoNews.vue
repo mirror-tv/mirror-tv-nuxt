@@ -50,17 +50,35 @@ export default {
     }
   },
   computed: {
+    currentHighlightIndex() {
+      return this.items?.findIndex(
+        (item) => item?.id === this.highlightItem?.id
+      )
+    },
     highlightSlug() {
       return this.highlightItem?.slug
     },
     hasItems() {
       return this.items.length > 0
     },
+    itemsAmount() {
+      return this.items.length
+    },
   },
   watch: {
     items(value) {
       this.highlightItem = value.slice(0, 1)[0] || {}
     },
+  },
+  mounted() {
+    // For Demo
+    setInterval(() => {
+      if (this.currentHighlightIndex + 1 > this.itemsAmount - 1) {
+        this.highlightItem = this.items[0]
+      } else {
+        this.highlightItem = this.items[this.currentHighlightIndex + 1]
+      }
+    }, 2000)
   },
   methods: {
     selectItemToHighlight(item) {
