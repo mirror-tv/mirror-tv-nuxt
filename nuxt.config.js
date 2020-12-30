@@ -95,7 +95,10 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vuePluginsGlobal.js'],
+  plugins: [
+    '~/plugins/user-behavior-log/index.client.js',
+    '~/plugins/vuePluginsGlobal.js',
+  ],
   /*
    ** Nuxt.js Server Middleware
    */

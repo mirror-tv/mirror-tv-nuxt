@@ -1,5 +1,6 @@
 const express = require('express')
 const consola = require('consola')
+const requestIp = require('request-ip')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
 
@@ -22,6 +23,8 @@ async function start() {
     const builder = new Builder(nuxt)
     await builder.build()
   }
+
+  app.use(requestIp.mw())
 
   // Give nuxt middleware to express
   app.use(nuxt.render)

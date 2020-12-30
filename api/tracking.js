@@ -12,16 +12,15 @@ const logging = new Logging({
 })
 
 module.exports = function (req, res, next) {
+  if (req.method !== 'POST') {
+    return res.status(403).send('Forbidden')
+  }
   try {
     res.send({ msg: 'Received.' })
     const query = !isEmpty(req.body) ? req.body : req.query
     const log = logging.log(GCP_STACKDRIVER_LOG_NAME)
     const metadata = { resource: { type: 'global' } }
-    const ip =
-      req.headers['x-forwarded-for'] ||
-      req.connection.remoteAddress ||
-      req.socket.remoteAddress ||
-      req.ip
+    const ip = req.clientIp
     query.ip = ip
     const entry = log.entry(metadata, query)
     log.write(entry)
