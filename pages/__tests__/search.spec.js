@@ -1,8 +1,11 @@
+import axios from 'axios'
 import page from '../search/_keyword.vue'
 import ArticleCard from '../../components/ArticleCard'
 import ButtonLoadmore from '../../components/ButtonLoadmore'
 
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
+
+jest.mock('axios')
 
 const $ga = {
   event: jest.fn(),
@@ -14,9 +17,6 @@ const createWrapper = createWrapperHelper({
       params: {
         keyword: 'MMTV',
       },
-    },
-    $axios: {
-      post: jest.fn(),
     },
     $ga,
   },
@@ -43,6 +43,7 @@ describe('items', () => {
 
 describe('load more', () => {
   test('should call $ga when click load more button', async () => {
+    axios.mockReturnValue(Promise.resolve())
     const wrapper = createWrapper(page, {
       data() {
         return {

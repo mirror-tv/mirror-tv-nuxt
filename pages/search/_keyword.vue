@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { SITE_NAME } from '~/constants'
 
 import { getDomain } from '~/utils/meta'
@@ -55,7 +56,7 @@ export default {
   },
   async fetch() {
     const query = this.keywordDecoded
-    const response = await this.$axios.post('/api/search', {
+    const response = await axios.post('/api/search', {
       query,
       from: 0,
       size: this.listDataMaxResults,
@@ -120,7 +121,7 @@ export default {
     },
     async handleClickMore() {
       const query = this.keywordDecoded
-      const response = await this.$axios.post('/api/search', {
+      const response = await axios.post('/api/search', {
         query,
         from: this.listDataMaxResults * this.listDataCurrentPage,
         size: this.listDataMaxResults,

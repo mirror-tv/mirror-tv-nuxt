@@ -123,8 +123,6 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
     '@nuxtjs/apollo',
     ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 * 24 }],
   ],
@@ -155,13 +153,6 @@ module.exports = {
         browserHttpEndpoint: '/api/graphql',
       },
     },
-  },
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {
-    proxy: true, // to prevent CORS
   },
   googleAnalytics: {
     id: () => {
