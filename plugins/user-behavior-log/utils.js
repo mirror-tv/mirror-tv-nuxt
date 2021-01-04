@@ -8,7 +8,7 @@ async function createUserBehaviorLog({
   category = 'whole-site',
   target = null,
   ...rest
-}) {
+} = {}) {
   const bowserResult = Bowser.parse(window.navigator?.userAgent)
   const now = Date.now()
 
