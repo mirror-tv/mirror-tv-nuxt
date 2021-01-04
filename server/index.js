@@ -4,11 +4,15 @@ const requestIp = require('request-ip')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
 
+const bodyParser = require('body-parser')
+
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
 
 async function start() {
+  app.use(bodyParser.json())
+
   app.use('/api/graphql', require('./graphql'))
   app.use('/api/search', require('./elasticsearch'))
 

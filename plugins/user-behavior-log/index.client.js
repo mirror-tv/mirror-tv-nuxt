@@ -1,7 +1,5 @@
 import { createUserBehaviorLog, getClickableTarget } from './utils'
 
-// const debug = require('debug')('user-behavior-log')
-
 export default ({ app }) => {
   // pageview event
   app.router.afterEach(async (to, from) => {
@@ -23,7 +21,7 @@ export default ({ app }) => {
     if (target) {
       const log = await createUserBehaviorLog({
         eventType: 'click',
-        target: getClickableTarget(event?.target),
+        target,
       })
       sendLog(log)
     }
@@ -37,7 +35,7 @@ export default ({ app }) => {
 }
 
 function sendLog(log) {
-  const blob = new Blob([JSON.stringify({ clientInfo: log })], {
+  const blob = new Blob([JSON.stringify({ client_info: log })], {
     type: 'application/json; charset=UTF-8',
   })
   navigator?.sendBeacon('/api/tracking', blob)

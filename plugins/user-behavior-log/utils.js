@@ -7,7 +7,6 @@ async function createUserBehaviorLog({
   eventType = 'not set',
   category = 'whole-site',
   target = null,
-  referrer,
   ...rest
 }) {
   const bowserResult = Bowser.parse(window.navigator?.userAgent)
@@ -31,7 +30,6 @@ async function createUserBehaviorLog({
         err
       )
     })
-
   const log = {
     browser: bowserResult.browser,
     category,
@@ -39,12 +37,12 @@ async function createUserBehaviorLog({
     client_id_start_time: clientIdStartTime,
     client_os: bowserResult.os,
     datetime: now,
+    eventType,
     location: window?.location?.href,
     redirect_to: target?.href,
     referrer: document?.referrer,
     session_id: Cookie.get('mmid-session') || setCookie('mmid-session', '30m'),
     screen_resolution: `${window?.screen?.width}x${window?.screen?.height}`,
-    target,
     target_class_name: target?.className,
     target_id: target?.id,
     target_tag_name: target?.tagName,

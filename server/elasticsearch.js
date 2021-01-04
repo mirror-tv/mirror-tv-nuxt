@@ -5,6 +5,7 @@ const { Client } = require('@elastic/elasticsearch')
 const { ELASTICSEARCH_URL } = require('../configs/config')
 const createElasticSearchRequestBody = require('./util/createElasticSearchRequestBody')
 
+// 為了測試通過而保留，在 server/index.js 已設定
 router.use(bodyParser.json())
 
 router.post('/', async function (req, res, next) {
