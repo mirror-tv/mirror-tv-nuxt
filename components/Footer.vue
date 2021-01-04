@@ -37,7 +37,7 @@
       <div class="top-wrapper__middle middle">
         <div class="info-wrapper">
           <p class="info-wrapper__info">
-            <span>mnews 鏡新聞客服: </span>
+            <span>鏡新聞客服: </span>
             <span>0809-009-995</span>
           </p>
           <p class="info-wrapper__info">
@@ -49,7 +49,7 @@
         </div>
         <div class="info-wrapper">
           <p class="info-wrapper__info">
-            <span>mnews 鏡新聞客服: </span>
+            <span>鏡新聞客服: </span>
             <span>(02)7737-4681</span>
           </p>
           <p class="info-wrapper__info">
@@ -61,7 +61,7 @@
         </div>
         <div class="info-wrapper">
           <p class="info-wrapper__info">
-            <span>mnews 鏡新聞客服: </span>
+            <span>鏡新聞客服: </span>
             <span>(02)7737-4683</span>
           </p>
           <p class="info-wrapper__info">
@@ -135,7 +135,7 @@
         <p class="copyright">
           <span>©Mirror TV BROCASTING LTD.</span>
           <span>All Rights Reserved.</span>
-          <span>mnews 鏡新聞股份有限公司 版權所有</span>
+          <span>鏡新聞股份有限公司 版權所有</span>
         </p>
       </div>
     </div>
