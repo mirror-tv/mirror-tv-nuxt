@@ -62,14 +62,14 @@ import HeadingBordered from '~/components/HeadingBordered'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 
-import allCategories from '~/apollo/queries/allCategories.gql'
+import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import { fetchVideoNewsEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { postsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 
 export default {
   apollo: {
     allCategories: {
-      query: allCategories,
+      query: fetchFeaturedCategories,
       update: (data) =>
         data?.allCategories.filter((category) => category.slug !== 'video'),
     },

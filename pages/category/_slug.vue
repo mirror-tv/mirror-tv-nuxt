@@ -59,8 +59,8 @@ import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import ListArticleAside from '~/components/ListArticleAside'
 
-import allCategories from '~/apollo/queries/allCategories.gql'
 import { allPublishedPostsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
+import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 
 const pageSize = 13
@@ -68,7 +68,7 @@ const pageSize = 13
 export default {
   apollo: {
     allCategories: {
-      query: allCategories,
+      query: fetchFeaturedCategories,
       result({ data }) {
         const hasCategory = data.allCategories?.some(
           (category) => category.slug === this.pageSlug

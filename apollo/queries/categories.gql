@@ -1,0 +1,8 @@
+query fetchFeaturedCategories {
+  allCategories(
+    sortBy: id_DESC
+  ) {
+    title
+    slug
+  }
+} 

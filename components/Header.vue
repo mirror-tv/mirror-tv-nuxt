@@ -87,15 +87,15 @@
 </template>
 
 <script>
+import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
-import allCategories from '~/apollo/queries/allCategories.gql'
 
 export default {
   name: 'Header',
   apollo: {
     allCategories: {
-      query: allCategories,
+      query: fetchFeaturedCategories,
     },
   },
   components: {

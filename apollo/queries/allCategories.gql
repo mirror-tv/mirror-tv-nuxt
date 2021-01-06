@@ -1,6 +1,0 @@
-query allCategories {
-  allCategories(sortBy: id_DESC) {
-    title
-    slug
-  }
-}
