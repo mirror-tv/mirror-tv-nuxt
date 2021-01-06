@@ -1,5 +1,8 @@
 query fetchFeaturedCategories {
   allCategories(
+    where: {
+      isFeatured: true
+    },
     sortBy: id_DESC
   ) {
     title
