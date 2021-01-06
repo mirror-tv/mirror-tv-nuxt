@@ -28,7 +28,8 @@ export default {
   watch: {
     videoId(value) {
       this.hasSentPlayEvent = false
-      value && this.player.cueVideoById({ videoId: value })
+      // To Fix: reload category/video 會造成 500
+      // value && this.player?.cueVideoById({ videoId: value })
     },
   },
   mounted() {
