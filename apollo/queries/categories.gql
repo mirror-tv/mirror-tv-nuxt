@@ -5,7 +5,7 @@ query fetchFeaturedCategories {
     },
     sortBy: id_DESC
   ) {
-    title
+    name
     slug
   }
 } 

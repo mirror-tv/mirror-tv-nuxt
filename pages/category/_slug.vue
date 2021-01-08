@@ -142,7 +142,7 @@ export default {
       )
     },
     pageName() {
-      return this.category?.title
+      return this.category?.name
     },
     pageSlug() {
       return this.$route.params.slug
@@ -166,7 +166,7 @@ export default {
       return {
         href: `/story/${post.slug}`,
         articleImgURL: post.heroImage?.urlMobileSized,
-        articleTitle: post.title,
+        articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }
     },

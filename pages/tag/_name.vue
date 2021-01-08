@@ -7,7 +7,7 @@
         <ArticleCard
           :href="post.href"
           :articleImgURL="post.image"
-          :articleTitle="post.title"
+          :articleTitle="post.name"
           :articleDate="post.publishTime"
           mobileLayoutDirection="column"
           @click.native="sendGaClickEvent('article')"
@@ -122,7 +122,7 @@ export default {
       return {
         href: `/story/${post.slug}`,
         slug: post.slug,
-        title: post.title,
+        title: post.name,
         image: post.heroImage?.urlMobileSized,
         publishTime: new Date(post.publishTime),
       }

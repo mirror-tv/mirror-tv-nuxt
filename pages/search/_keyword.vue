@@ -103,7 +103,7 @@ export default {
         id: source.id,
         href: `/story/${source.slug}`,
         articleImgURL: source.heroImage?.urlMobileSized,
-        articleTitle: source.title,
+        articleTitle: source.name,
         articleDescription: this.stripHtmlTag(source.brief),
         articleDate: new Date(source.publishTime),
       }

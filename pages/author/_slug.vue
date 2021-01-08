@@ -13,7 +13,7 @@
         v-for="post in posts"
         :key="post.slug"
         :href="post.href"
-        :articleTitle="post.title"
+        :articleTitle="post.SITE_NAME"
         :articleDescription="post.brief"
         :articleImgURL="post.heroImage"
         :articleCategory="post.category"
@@ -179,7 +179,7 @@ export default {
       return {
         href: `/story/${post.slug}`,
         articleImgURL: post.heroImage?.urlMobileSized,
-        articleTitle: post.title,
+        articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }
     },
@@ -193,12 +193,12 @@ export default {
       }
       return {
         style: item.style,
-        title: item.title,
+        title: item.name,
         href: `/story/${item.slug}`,
         brief,
         publishTime: dayjs(item.publishTime).format('YYYY.MM.DD HH:mm'),
         heroImage: item.heroImage?.urlMobileSized,
-        category: item.categories?.[0]?.title,
+        category: item.categories?.[0]?.name,
         test: JSON.parse(item.brief),
       }
     },

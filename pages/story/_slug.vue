@@ -117,7 +117,7 @@ export default {
       },
       update: (data) => data.postPublished?.[0],
       result({ data }) {
-        if (!data.postPublished?.[0]?.title) {
+        if (!data.postPublished?.[0]?.name) {
           this.$nuxt.error({ statusCode: 404 })
         }
       },
@@ -309,7 +309,7 @@ export default {
       }
     },
     categoryTitle() {
-      return this.postPublished?.categories?.[0]?.title
+      return this.postPublished?.categories?.[0]?.name
     },
     cameraOperators() {
       return this.postPublished?.cameraOperators
@@ -380,7 +380,7 @@ export default {
       return this.postPublished?.tags
     },
     title() {
-      return this.postPublished?.title
+      return this.postPublished?.name
     },
     vocals() {
       return this.postPublished?.vocals
@@ -410,7 +410,7 @@ export default {
       return {
         href: `/story/${post.slug}`,
         articleImgURL: post.heroImage?.urlMobileSized,
-        articleTitle: post.title,
+        articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }
     },

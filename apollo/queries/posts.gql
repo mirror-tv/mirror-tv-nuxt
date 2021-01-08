@@ -79,7 +79,7 @@ query fetchPostsAndCountByAuthorSlug (
     publishTime
     brief
     categories {
-      title
+      name
     }
     ...listingPagePost
   }
@@ -141,7 +141,7 @@ query fetchPosts(
     id
     publishTime
     categories {
-      title
+      name
     }
     ...listingPagePost
     heroVideo @include(if: $withCoverPhoto) {

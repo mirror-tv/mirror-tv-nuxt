@@ -23,7 +23,7 @@
             >
               <HeadingBordered
                 class="category-posts__heading"
-                :text="category.title"
+                :text="category.name"
               />
               <span class="category-posts__link" />
             </a>

@@ -78,7 +78,7 @@
             class="category-nav__link"
             :to="`/category/${category.slug}`"
             @click.native="closeHamburgerButton"
-            v-text="truncate(category.title)"
+            v-text="truncate(category.name)"
           />
         </div>
       </nav>

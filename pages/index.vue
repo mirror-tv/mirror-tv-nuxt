@@ -151,9 +151,9 @@ export default {
       return {
         id: post.id,
         href: `/story/${post.slug}`,
-        labelTitle: post.categories?.[0]?.title ?? ' ',
+        labelTitle: post.categories?.[0]?.name ?? ' ',
         articleImgURL: this.getImageUrl(post),
-        articleTitle: post.title,
+        articleTitle: post.name,
         articleDate: new Date(post.publishTime),
         articleStyle: post.style,
       }

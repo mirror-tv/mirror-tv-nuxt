@@ -6,7 +6,7 @@ query fetchPostPublishedBySlug($slug: String!) {
     }
   ) {
     style
-    title
+    name
     brief
     contentApiData
     publishTime
@@ -27,7 +27,7 @@ query fetchPostPublishedBySlug($slug: String!) {
     heroCaption
     categories {
       slug
-      title
+      name
     }
     writers {
       name
@@ -59,7 +59,7 @@ query fetchPostPublishedBySlug($slug: String!) {
     }
     relatedPosts {
       slug
-      title
+      name
     }
   }
 }

@@ -10,7 +10,7 @@ query fetchEditorChoices {
   ) {
     choice {
       id
-      title
+      name
       slug
       style
       heroImage {
@@ -40,7 +40,7 @@ query fetchVideoNewsEditorChoices {
     id
     choice {
       id
-      title
+      name
       slug
       heroVideo {
         coverPhoto {
