@@ -64,7 +64,7 @@ import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import { fetchVideoNewsEditorChoices } from '~/apollo/queries/editorChoices.gql'
-import { postsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
+import { fetchPostsByCategorySlug } from '~/apollo/queries/posts.gql'
 
 export default {
   apollo: {
@@ -121,12 +121,12 @@ export default {
     fetchPostsByCategory() {
       this.categoriesSlug.forEach((slug) => {
         this.$apollo.addSmartQuery(`${slug}Posts`, {
-          query: postsByCategorySlug,
-          variables: () => ({ category: slug }),
+          query: fetchPostsByCategorySlug,
+          variables: () => ({ category: slug, withCount: true }),
           update: (rawData) => {
             const data = {
-              items: rawData.posts || [],
-              total: rawData.meta.count || 0,
+              items: rawData.allPosts || [],
+              total: rawData._allPostsMeta?.count ?? 0,
             }
             this[`${slug}Posts`] = data
             return data

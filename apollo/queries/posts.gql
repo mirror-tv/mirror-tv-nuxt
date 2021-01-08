@@ -123,6 +123,37 @@ query fetchPostsAndCountByAuthorSlug (
   }
 }
 
+query fetchPostsByCategorySlug (
+  $category: String,
+  $first: Int = 10,
+  $skip: Int = 0,
+  $withCount: Boolean = false,
+) {
+  allPosts(
+    sortBy: publishTime_DESC,
+    where: {
+      categories_some: {
+        slug: $category
+      },
+      state: published
+    },
+    first: $first,
+    skip: $skip
+  ) {
+    ...listingPagePost
+  }
+  _allPostsMeta(
+    where: {
+      categories_some: {
+        slug: $category
+      },
+      state: published
+    },
+  ) @include(if: $withCount) {
+    count
+  }
+}
+
 query fetchPosts(
   $first: Int = 12,
   $skip: Int = 0,

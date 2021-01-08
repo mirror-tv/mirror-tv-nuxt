@@ -29,28 +29,3 @@ query allPublishedPostsByCategorySlug($categorySlug: String!, $first: Int = 13, 
     count
   }
 }
-
-query postsByCategorySlug ($category: String, $first: Int = 10, $skip: Int = 0) {
-  posts: allPosts(
-    sortBy: publishTime_DESC,
-    where: {
-      categories_some: {
-        slug: $category
-      },
-      state: published
-    },
-    first: $first,
-    skip: $skip
-  ) {
-    ...listingPagePost
-  }
-
-  meta: _allPostsMeta(where: {
-    categories_some: {
-      slug: $category
-    },
-    state: published
-  }) {
-    count
-  }
-}
