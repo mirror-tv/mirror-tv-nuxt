@@ -57,7 +57,7 @@ describe('items by categories', () => {
       }
     },
   })
-  test('should call $ga when click slide item', () => {
+  test('should call $ga when click category link', () => {
     const categoryLink = wrapper.find('.category-posts__link')
     categoryLink.trigger('click')
     expect($ga.event).toBeCalledWith({

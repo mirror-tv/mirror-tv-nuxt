@@ -11,7 +11,7 @@
       <main class="main">
         <div class="category-posts-wrapper">
           <div
-            v-for="category in allCategories"
+            v-for="category in categoriesFiltered"
             :key="category.slug"
             class="category-posts"
           >
@@ -108,6 +108,11 @@ export default {
     }
   },
   computed: {
+    categoriesFiltered() {
+      return this.allCategories?.filter(
+        (category) => this[`${category.slug}Posts`]?.items?.length > 0
+      )
+    },
     categoriesSlug() {
       return this.allCategories?.map((category) => category.slug)
     },
@@ -122,7 +127,11 @@ export default {
       this.categoriesSlug.forEach((slug) => {
         this.$apollo.addSmartQuery(`${slug}Posts`, {
           query: fetchPostsByCategorySlug,
-          variables: () => ({ category: slug, withCount: true }),
+          variables: () => ({
+            category: slug,
+            style: 'videoNews',
+            withCount: true,
+          }),
           update: (rawData) => {
             const data = {
               items: rawData.allPosts || [],

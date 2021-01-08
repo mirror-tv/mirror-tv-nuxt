@@ -127,6 +127,7 @@ query fetchPostsByCategorySlug (
   $category: String,
   $first: Int = 10,
   $skip: Int = 0,
+  $style: PostStyleType,
   $withCount: Boolean = false,
 ) {
   allPosts(
@@ -135,7 +136,8 @@ query fetchPostsByCategorySlug (
       categories_some: {
         slug: $category
       },
-      state: published
+      state: published,
+      style: $style
     },
     first: $first,
     skip: $skip
@@ -147,7 +149,8 @@ query fetchPostsByCategorySlug (
       categories_some: {
         slug: $category
       },
-      state: published
+      state: published,
+      style: $style
     },
   ) @include(if: $withCount) {
     count
