@@ -2,6 +2,7 @@
   <section class="page">
     <div class="max-width-wrapper">
       <main class="main">
+        <UiFlashNews class="page__flash-news" :articles="flashNews" />
         <div
           v-if="showEditorChoices"
           class="main__editor-choices-wrapper editor-choices-wrapper"
@@ -51,7 +52,7 @@
 
 <script>
 import { getDomain } from '~/utils/meta'
-import { fetchPosts } from '~/apollo/queries/posts.gql'
+import { fetchPosts, fetchPostsByCategories } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import Swiper from '~/components/Swiper'
@@ -60,6 +61,7 @@ import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
+import UiFlashNews from '~/components/UiFlashNews'
 
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 
@@ -88,6 +90,16 @@ export default {
         return data.allPosts
       },
     },
+    flashNews: {
+      query: fetchPostsByCategories,
+      variables: {
+        first: 8,
+        categories: ['person', 'international'], // 暫時
+      },
+      update(data) {
+        return data.allPosts
+      },
+    },
   },
   components: {
     Swiper,
@@ -96,6 +108,7 @@ export default {
     ButtonLoadmore,
     FacebookPagePlugin,
     LinkYoutubeStyle,
+    UiFlashNews,
   },
   data() {
     return {
@@ -230,6 +243,14 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     @include media-breakpoint-up(xl) {
       margin: 0;
     }
+  }
+}
+
+.page__flash-news {
+  margin: 8px 0 16px;
+  @include media-breakpoint-up(xl) {
+    width: 582px;
+    margin: 8px 0 30px;
   }
 }
 

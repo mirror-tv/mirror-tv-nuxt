@@ -157,6 +157,26 @@ query fetchPostsByCategorySlug (
   }
 }
 
+query fetchPostsByCategories (
+  $first: Int = 8,
+  $categories: [String]!
+) {
+  allPosts(
+    sortBy: publishTime_DESC,
+    where: {
+      state: published,
+      style_not_in: [wide, projects, script, campaign, readr],
+      categories_some: {
+        slug_in: $categories
+      }
+    },
+    first: $first,
+  ) {
+    slug
+    name
+  }
+}
+
 query fetchPosts(
   $first: Int = 12,
   $skip: Int = 0,
