@@ -43,6 +43,17 @@
         </div>
       </main>
       <aside class="g-aside max-width-wrapper__aside">
+        <HeadingBordered text="LIVE" />
+        <div class="live-iframe">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/4ZVUmEUFwaY?autoplay=1&mute=1&playsinline=1"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          />
+        </div>
         <FacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
@@ -300,6 +311,20 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     @include media-breakpoint-up(xl) {
       margin: 0 0 26px 21px;
     }
+  }
+}
+
+.live-iframe {
+  position: relative;
+  padding-top: 56.25%;
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 

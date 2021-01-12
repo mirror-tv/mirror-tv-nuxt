@@ -44,6 +44,17 @@
         </div>
       </main>
       <aside class="g-aside">
+        <HeadingBordered text="LIVE" />
+        <div class="live-iframe">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/4ZVUmEUFwaY?autoplay=1&mute=1&playsinline=1"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          />
+        </div>
         <FacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
@@ -183,7 +194,7 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
   padding: 80px 20px 50px;
   @include media-breakpoint-up(xl) {
     align-items: flex-start;
-    padding: 0;
+    padding: 0 0 70px;
     max-width: #{$maxWidthDesktop}px;
     margin: 0 auto;
     flex-direction: row;
@@ -257,6 +268,20 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     @include media-breakpoint-up(xl) {
       padding: 0 4px;
     }
+  }
+}
+
+.live-iframe {
+  position: relative;
+  padding-top: 56.25%;
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 </style>
