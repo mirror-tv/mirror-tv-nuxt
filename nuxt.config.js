@@ -5,6 +5,7 @@ const {
   cleanPathQuery,
   redisWriteClient,
 } = require('./server-middleware/redis/utils')
+const { ENV = 'dev' } = require('./configs/config')
 
 const SITE_NAME = '鏡新聞'
 const SITE_DESCRIPTION =
@@ -82,6 +83,18 @@ module.exports = {
       },
       { rel: 'manifest', href: '/site.webmanifest' },
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#003366' },
+    ],
+    script: [
+      ...(ENV !== 'lighthouse'
+        ? [
+            // comScore
+            {
+              hid: 'comScore',
+              src: 'https://sb.scorecardresearch.com/beacon.js',
+              async: true,
+            },
+          ]
+        : []),
     ],
   },
   /*
