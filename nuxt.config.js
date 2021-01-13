@@ -109,6 +109,7 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/requests/index.js',
     '~/plugins/user-behavior-log/index.client.js',
     '~/plugins/vuePluginsGlobal.js',
   ],
@@ -118,6 +119,7 @@ module.exports = {
   serverMiddleware: [
     '~/server-middleware/headers.js',
     '~/server-middleware/redis/index.js',
+    { path: '/api/youtube', handler: '~/api/youtube.js' },
     { path: '/api/tracking', handler: '~/api/tracking.js' },
   ],
   /*
