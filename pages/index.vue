@@ -44,16 +44,13 @@
       </main>
       <aside class="g-aside max-width-wrapper__aside">
         <HeadingBordered text="LIVE" />
-        <div class="live-iframe">
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/4ZVUmEUFwaY?autoplay=1&mute=1&playsinline=1"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          />
-        </div>
+        <IframeYoutube :enableAutoplay="true" videoId="4ZVUmEUFwaY" />
+        <HeadingBordered text="直播" />
+        <IframeEmbedYoutube
+          v-for="item in playlistItems"
+          :key="item"
+          :videoId="item"
+        />
         <FacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
@@ -71,6 +68,8 @@ import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
+import IframeEmbedYoutube from '~/components/IframeEmbedYoutube.vue'
+import IframeYoutube from '~/components/IframeYoutube.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
 
@@ -118,13 +117,33 @@ export default {
     ArticleCard,
     ButtonLoadmore,
     FacebookPagePlugin,
+    IframeEmbedYoutube,
+    IframeYoutube,
     LinkYoutubeStyle,
     UiFlashNews,
   },
   data() {
     return {
+      allPublishedPosts: [],
+      editorChoices: [],
+      flashNews: [],
       page: 0,
+      playlistItems: [],
       postsCount: 0,
+    }
+  },
+  async fetch() {
+    try {
+      const reponse = await this.$fetchYoutubeData(
+        '/playlistItems?part=snippet&playlistId=PLIufxCyJpxOx4fCTTNcC7XCVZgY8MYQT5&maxResults=3'
+      )
+      this.playlistItems =
+        reponse?.items?.map((item) => item?.snippet?.resourceId?.videoId) ?? []
+    } catch (error) {
+      if (process.server) {
+        // eslint-disable-next-line no-console
+        console.error('[ERROR]Youtube API:', error.message)
+      }
     }
   },
   head() {
@@ -311,20 +330,6 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
     @include media-breakpoint-up(xl) {
       margin: 0 0 26px 21px;
     }
-  }
-}
-
-.live-iframe {
-  position: relative;
-  padding-top: 56.25%;
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
   }
 }
 
