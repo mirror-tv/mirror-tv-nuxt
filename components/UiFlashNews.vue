@@ -1,5 +1,5 @@
 <template>
-  <div class="flash-news">
+  <div v-if="hasArticles" class="flash-news">
     <h2>快訊</h2>
 
     <div class="container">
@@ -56,6 +56,11 @@ export default {
     displayedArticles() {
       const len = this.articles.length
 
+      // 處理 articles 為空的情況
+      if (len < 1) {
+        return []
+      }
+
       // 處理 currentIdx 為負數的情況
       const curIdxPositive = (this.currentIdx % len) + len
 
@@ -68,6 +73,9 @@ export default {
         this.articles[curIdxPositive % len],
         this.articles[(curIdxPositive + 1) % len],
       ]
+    },
+    hasArticles() {
+      return this.articles.length > 0
     },
   },
 
