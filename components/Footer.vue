@@ -156,8 +156,8 @@ export default {
   flex-direction: column;
   @include media-breakpoint-up(xl) {
     padding: 22px 0;
-    padding-left: calc((100vw - 1000px) / 2);
-    padding-right: calc((100vw - 1000px) / 2);
+    padding-left: calc((100vw - #{$max-width-xxl}) / 2);
+    padding-right: calc((100vw - #{$max-width-xxl}) / 2);
     flex-direction: row;
     align-items: center;
     position: relative;
@@ -173,7 +173,7 @@ export default {
     @include media-breakpoint-up(xl) {
       margin: 0 0 0 30px;
       position: absolute;
-      right: calc((100vw - 1000px) / 2);
+      right: calc((100vw - #{$max-width-xxl}) / 2);
       height: calc(100% - 22px * 2);
     }
   }

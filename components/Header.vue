@@ -185,7 +185,7 @@ export default {
     display: none;
   }
   @include media-breakpoint-up(xl) {
-    width: $max-width-xl;
+    width: $max-width-xxl;
     padding: 0;
     margin: 0 auto;
     height: 80px;
@@ -280,8 +280,8 @@ export default {
 .bottom-wrapper {
   background-color: #1eb1e6;
   @include media-breakpoint-up(xl) {
-    padding-left: calc((100% - #{$max-width-xl}) / 2);
-    padding-right: calc((100% - #{$max-width-xl}) / 2);
+    padding-left: calc((100% - #{$max-width-xxl}) / 2);
+    padding-right: calc((100% - #{$max-width-xxl}) / 2);
     background-color: $color-blue-deep;
   }
 }
