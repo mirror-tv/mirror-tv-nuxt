@@ -1,27 +1,30 @@
 <template>
-  <section class="page">
-    <div class="max-width-wrapper">
+  <section class="g-page-with-aside home">
+    <div class="g-page-with-aside__wrapper">
       <main class="main">
-        <UiFlashNews class="page__flash-news" :articles="flashNews" />
-        <div
-          v-if="showEditorChoices"
-          class="main__editor-choices-wrapper editor-choices-wrapper"
-        >
+        <UiFlashNews class="main__flash-news" :articles="flashNews" />
+        <div v-if="showEditorChoices" class="editor-choices-wrapper">
           <HeadingBordered
-            class="editor-choices-wrapper__list-title"
+            class="editor-choices-wrapper__heading home__heading"
             :text="'編輯精選'"
           />
           <Swiper
-            class="editor-choices-wrapper__swiper"
             :slidesData="editorChoices"
             @click-slide="sendGaClickEvent('editor choices')"
           />
         </div>
-        <div class="main__list-latest-wrapper list-latest-wrapper">
-          <HeadingBordered
-            class="list-latest-wrapper__list-title"
-            :text="'最新文章'"
+        <div class="main__live-stream live-stream">
+          <HeadingBordered class="home__heading" text="LIVE" />
+          <IframeYoutube :enableAutoplay="true" videoId="4ZVUmEUFwaY" />
+          <HeadingBordered class="home__heading" text="直播" />
+          <IframeEmbedYoutube
+            v-for="item in playlistItems"
+            :key="item"
+            :videoId="item"
           />
+        </div>
+        <div class="main__list-latest-wrapper list-latest-wrapper">
+          <HeadingBordered :text="'最新文章'" class="home__heading" />
           <ol class="list-latest">
             <li v-for="post in latestPosts" :key="post.id">
               <ArticleCard
@@ -42,15 +45,17 @@
           />
         </div>
       </main>
-      <aside class="g-aside max-width-wrapper__aside">
-        <HeadingBordered text="LIVE" />
-        <IframeYoutube :enableAutoplay="true" videoId="4ZVUmEUFwaY" />
-        <HeadingBordered text="直播" />
-        <IframeEmbedYoutube
-          v-for="item in playlistItems"
-          :key="item"
-          :videoId="item"
-        />
+      <aside class="g-aside main__aside aside">
+        <div class="aside__live-stream live-stream">
+          <HeadingBordered class="home__heading" text="LIVE" />
+          <IframeYoutube :enableAutoplay="true" videoId="4ZVUmEUFwaY" />
+          <HeadingBordered class="home__heading" text="直播" />
+          <IframeEmbedYoutube
+            v-for="item in playlistItems"
+            :key="item"
+            :videoId="item"
+          />
+        </div>
         <FacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
@@ -231,118 +236,187 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  margin: 0 auto;
-  min-height: 100vh;
-}
-
-$maxWidthDesktop: 1000;
-$asideWidthDesktop: 382;
-$mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
-.max-width-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 50px 20px;
-  @include media-breakpoint-up(xl) {
-    padding: 0;
-    max-width: #{$maxWidthDesktop}px;
-    margin: 0 auto;
-    flex-direction: row;
-    min-height: 100vh;
+.home {
+  > * + .main {
+    margin-top: 16px;
   }
-  &__aside {
-    margin: 40px 0 0 0;
-    @include media-breakpoint-up(xl) {
-      margin: 0;
+  &__heading {
+    width: 110px;
+    + * {
+      margin-top: 16px;
     }
   }
 }
 
 .main {
-  @include media-breakpoint-up(xl) {
-    width: #{$mainWidthDesktop}px;
-    padding: 60px 0 50px 0;
-  }
-  &__editor-choices-wrapper {
-    @include media-breakpoint-up(xl) {
-      margin: 0 0 50px 0;
+  &__flash-news {
+    width: calc(100% + 16px);
+    transform: translateX(-8px);
+    @include media-breakpoint-up(md) {
+      width: auto;
+      transform: none;
+    }
+    + * {
+      margin-top: 16px;
+      @include media-breakpoint-up(md) {
+        margin-top: 30px;
+      }
     }
   }
+  &__live-stream {
+    margin: 48px 0 0;
+    @include media-breakpoint-up(xxl) {
+      display: none;
+    }
+  }
+  &__aside,
   &__list-latest-wrapper {
-    margin: 40px 0 0 0;
-    @include media-breakpoint-up(xl) {
-      margin: 0;
+    margin-top: 48px;
+  }
+  &__aside {
+    @include media-breakpoint-up(xxl) {
+      margin-top: 0;
+      background-color: #e7e7e7;
+    }
+    > * + .heading-bordered-wrapper {
+      margin-top: 40px;
+    }
+  }
+  .editor-choices-wrapper {
+    width: calc(100% + 32px);
+    transform: translateX(-16px);
+    &__heading {
+      display: none;
+    }
+    &::v-deep {
+      .article-img-wrapper {
+        padding-top: 56.25%;
+      }
+      @include media-breakpoint-up(md) {
+        .swiper-slide__slide {
+          position: relative;
+          width: 476px;
+        }
+        .swiper-button-nav {
+          top: 50%;
+          bottom: auto;
+          transform: translateY(-100%);
+        }
+        .swiper-pagination {
+          justify-content: flex-end;
+          height: auto;
+        }
+        .article-img-wrapper {
+          padding-top: 66.66%;
+        }
+        .info-wrapper {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: auto;
+        }
+      }
+      @include media-breakpoint-up(xxl) {
+        .swiper-slide__slide {
+          width: 632px !important;
+        }
+        .swiper-pagination {
+          width: 632px;
+          margin: 0 auto;
+          padding: 0;
+        }
+        .article-img-wrapper {
+          padding-top: 56.25%;
+        }
+        .info-wrapper {
+          padding: 20px 24px;
+        }
+      }
+    }
+    @include media-breakpoint-up(md) {
+      width: auto;
+      transform: none;
+      &__heading {
+        display: inline-block;
+      }
     }
   }
 }
 
-.page__flash-news {
-  margin: 8px 0 16px;
-  @include media-breakpoint-up(xl) {
-    width: 582px;
-    margin: 8px 0 30px;
+.aside {
+  &__live-stream {
+    display: none;
+    @include media-breakpoint-up(xxl) {
+      display: block;
+    }
   }
 }
 
-.editor-choices-wrapper {
-  display: flex;
-  flex-direction: column;
-  &__list-title {
-    display: none !important;
-    @include media-breakpoint-up(xl) {
-      display: inline-block !important;
-      width: max-content;
-    }
+.live-stream {
+  * + .home__heading {
+    margin: 40px 0 0;
   }
-  &__swiper {
-    width: 100vw;
-    position: relative;
-    left: -20px;
-    @include media-breakpoint-up(xl) {
-      margin: 13px 0 0 0 !important;
-      width: 582px;
-      left: 0;
-    }
+  .iframe-wrapper + .iframe-wrapper {
+    margin-top: 16px;
   }
 }
 
 .list-latest-wrapper {
-  display: flex;
-  flex-direction: column;
-  &__list-title {
-    width: max-content;
-  }
   &__button-load-more {
-    align-self: center;
-    margin: 20px 0 0 0;
+    margin: 24px 0 0;
   }
 }
 
 .list-latest {
-  margin: 20px 0 0 0;
-  @include media-breakpoint-up(xl) {
+  margin: 16px 0 0;
+  li + li {
+    margin-top: 16px;
+  }
+  @include media-breakpoint-up(md) {
     display: flex;
     flex-wrap: wrap;
-    margin: 20px 0 -26px -21px;
-  }
-  li {
-    margin: 0 0 20px 0;
-    @include media-breakpoint-up(xl) {
-      margin: 0 0 26px 21px;
+    width: calc(100% + 30px);
+    transform: translateX(-15px);
+    margin: 0;
+    li {
+      width: calc((100% - 90px) / 3);
+      margin: 20px 15px 0;
+    }
+    &::v-deep {
+      .article-card {
+        width: auto;
+      }
+      .article-img-wrapper.shrink {
+        width: 100%;
+        min-width: none;
+        height: auto;
+        padding-top: 66.66%;
+      }
+      .bottom-wrapper.row-mobile {
+        flex-direction: column;
+      }
+      .info-wrapper {
+        margin: 0;
+      }
     }
   }
-}
-
-.g-aside {
-  @include media-breakpoint-up(xl) {
-    background-color: #e7e7e7;
+  @include media-breakpoint-up(xxl) {
+    width: calc(100% + 24px);
+    transform: translateX(-12px);
+    li {
+      width: calc((100% - 72px) / 3);
+      margin: 20px 12px 0;
+    }
   }
 }
 
 .button-load-more {
   width: 100%;
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(xxl) {
+    display: block;
     width: 300px;
+    margin: 32px auto 0;
   }
 }
 </style>
