@@ -1,6 +1,6 @@
 <template>
-  <section class="page">
-    <div class="max-width-wrapper">
+  <section class="g-page-with-aside">
+    <div class="g-page-with-aside__wrapper">
       <main class="main">
         <template v-if="isVideoNews">
           <div class="post__hero">
@@ -65,7 +65,7 @@
           @click-item="sendGaClickEvent('related articles')"
         />
       </main>
-      <aside class="aside">
+      <aside class="g-aside aside">
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'最新文章'"
@@ -422,20 +422,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  margin: 0 auto;
-}
-
-$maxWidthDesktop: 1000;
-$asideWidthDesktop: 380;
-
-.max-width-wrapper {
-  padding: 50px 20px 50px;
-  @include media-breakpoint-up(xl) {
-    display: flex;
-    max-width: #{$maxWidthDesktop}px;
-    padding: 0;
-    margin: 0 auto;
+.g-page-with-aside {
+  padding-top: 50px;
+  &__wrapper {
+    max-width: 500px;
+    @include media-breakpoint-up(xxl) {
+      width: 1120px;
+      max-width: none;
+    }
+  }
+  .main {
+    margin: 0;
   }
 }
 
@@ -443,11 +440,10 @@ $asideWidthDesktop: 380;
   + * {
     margin-top: 40px;
   }
-  @include media-breakpoint-up(xl) {
-    width: 500px;
-    padding: 50px 0;
+  @include media-breakpoint-up(xxl) {
+    width: 600px;
     + aside {
-      margin: 0 0 0 118px;
+      margin: 0 0 0 auto;
     }
   }
 }
@@ -455,14 +451,14 @@ $asideWidthDesktop: 380;
 .post {
   &__hero {
     display: block;
-    width: calc(100% + 40px);
-    transform: translateX(-20px);
-    + * {
-      margin-top: 30px;
-    }
-    @include media-breakpoint-up(xl) {
+    width: calc(100% + 32px);
+    transform: translateX(-16px);
+    @include media-breakpoint-up(md) {
       width: auto;
       transform: none;
+    }
+    + * {
+      margin-top: 30px;
     }
     img {
       width: 100%;
@@ -567,8 +563,6 @@ $asideWidthDesktop: 380;
 
 .aside {
   @include media-breakpoint-up(xl) {
-    width: #{$asideWidthDesktop}px;
-    padding: 50px 0;
     background-color: #e7e7e7;
     ::v-deep {
       .list__list-item {
@@ -580,7 +574,7 @@ $asideWidthDesktop: 380;
   }
   &__list-latest {
     @include media-breakpoint-up(xl) {
-      padding: 0 30px !important;
+      padding: 0 !important;
       border: none !important;
     }
   }
