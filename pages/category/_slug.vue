@@ -1,6 +1,6 @@
 <template>
-  <section class="page">
-    <div class="max-width-wrapper">
+  <section class="g-page-with-aside">
+    <div class="g-page-with-aside__wrapper">
       <main class="main">
         <div class="list-latest-wrapper">
           <HeadingBordered class="list-latest-title" :text="pageName" />
@@ -32,14 +32,13 @@
           </ol>
           <ButtonLoadmore
             v-show="showLoadMoreButton"
-            class="list-latest-wrapper__button-load-more button-load-more"
+            class="button-load-more"
             @click.native="handleClickMore"
           />
         </div>
       </main>
-      <aside class="aside">
+      <aside class="g-aside">
         <ListArticleAside
-          class="aside__list-latest"
           :listTitle="'最新文章'"
           :listData="listArticleAsideLatestData"
         />
@@ -195,33 +194,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  margin: 0 auto;
-  min-height: 100vh;
-}
-
-$maxWidthDesktop: 1000;
-$asideWidthDesktop: 380;
-$mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
-.max-width-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 80px 20px 50px 20px;
-  @include media-breakpoint-up(xl) {
-    padding: 0;
-    max-width: #{$maxWidthDesktop}px;
-    margin: 0 auto;
-    flex-direction: row;
-  }
-}
-
-.main {
-  @include media-breakpoint-up(xl) {
-    width: #{$mainWidthDesktop}px;
-    padding: 60px 0 50px 0;
-  }
-}
-
 .list-latest-wrapper {
   display: flex;
   flex-direction: column;
@@ -241,48 +213,78 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
 
 .list-latest {
   margin: 20px 0 0 0;
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     display: flex;
     flex-wrap: wrap;
-    margin: 20px 0 -26px -21px;
+    justify-content: space-between;
   }
   li {
     margin: 0 0 20px 0;
-    @include media-breakpoint-up(xl) {
-      margin: 0 0 26px 21px;
+    @include media-breakpoint-up(md) {
+      width: calc((100% - 52px) / 3);
+    }
+    @include media-breakpoint-up(xxl) {
+      width: calc((100% - 48px) / 3);
+      ::v-deep {
+        .article-card {
+          width: auto;
+        }
+        .article-img-wrapper.stretch {
+          width: 100%;
+          height: auto;
+        }
+      }
     }
     &:first-child {
-      width: 100vw;
-      position: relative;
-      left: -20px;
-      @include media-breakpoint-up(xl) {
-        width: auto;
-        left: 0;
+      width: calc(100% + 32px);
+      transform: translateX(-16px);
+      @include media-breakpoint-up(md) {
+        width: 100%;
+        transform: none;
       }
+    }
+  }
+  &-list-item__featured {
+    @include media-breakpoint-up(md) {
+      flex-direction: row;
+      ::v-deep {
+        .article-img-wrapper {
+          width: 66.66%;
+          padding-top: calc(66.66% * 0.6666);
+        }
+        .info-wrapper {
+          flex: 1;
+          padding: 30px 18px;
+        }
+      }
+    }
+    @include media-breakpoint-up(xxl) {
+      width: 100%;
+    }
+  }
+}
+
+.g-aside {
+  @include media-breakpoint-up(xxl) {
+    padding: 0;
+  }
+  .list-wrapper {
+    padding: 30px 80px;
+    border: 1px solid #979797;
+    @include media-breakpoint-up(xxl) {
+      padding: 32px;
     }
   }
 }
 
 .button-load-more {
   width: 100%;
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     width: 300px;
+    margin: 0 auto;
   }
-}
-
-.aside {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  @include media-breakpoint-up(xl) {
-    width: #{$asideWidthDesktop}px;
-    padding: 60px 0;
-  }
-  &__list-latest {
-    margin: 30px 0 0 0;
-    @include media-breakpoint-up(xl) {
-      margin: 0;
-    }
+  @include media-breakpoint-up(xxl) {
+    width: 400px;
   }
 }
 </style>
