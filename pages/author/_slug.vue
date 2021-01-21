@@ -1,43 +1,45 @@
 <template>
   <section class="g-page-with-aside">
-    <main class="main">
-      <ContactBlock
-        :name="authorName"
-        :image="contactImage"
-        :facebook="contact.facebook"
-        :instatgram="contact.instatgram"
-        :profile="contact.bio"
-      />
-      <div class="posts-count">所有文章（{{ postsCount }}）</div>
-      <ArticleCardWithCategory
-        v-for="post in posts"
-        :key="post.slug"
-        :href="post.href"
-        :articleTitle="post.SITE_NAME"
-        :articleDescription="post.brief"
-        :articleImgURL="post.heroImage"
-        :articleCategory="post.category"
-        :articleDate="post.publishTime"
-        class="item"
-        @click.native="sendGaClickEvent('author’s article')"
-      />
-      <button
-        v-if="enableLoadMore"
-        class="g-btn-load-more"
-        @click="handleLoadMore"
-      >
-        <span>點我看更多</span>
-      </button>
-    </main>
-    <aside class="g-aside">
-      <ListArticleAside
-        v-if="hasLatestPosts"
-        :listTitle="'最新文章'"
-        :listData="latestPosts"
-        class="latest-list"
-      />
-      <FacebookPagePlugin />
-    </aside>
+    <div class="g-page-with-aside__wrapper">
+      <main class="main">
+        <ContactBlock
+          :name="authorName"
+          :image="contactImage"
+          :facebook="contact.facebook"
+          :instatgram="contact.instatgram"
+          :profile="contact.bio"
+        />
+        <div class="posts-count">所有文章（{{ postsCount }}）</div>
+        <ArticleCardWithCategory
+          v-for="post in posts"
+          :key="post.slug"
+          :href="post.href"
+          :articleTitle="post.SITE_NAME"
+          :articleDescription="post.brief"
+          :articleImgURL="post.heroImage"
+          :articleCategory="post.category"
+          :articleDate="post.publishTime"
+          class="item"
+          @click.native="sendGaClickEvent('author’s article')"
+        />
+        <button
+          v-if="enableLoadMore"
+          class="g-btn-load-more"
+          @click="handleLoadMore"
+        >
+          <span>點我看更多</span>
+        </button>
+      </main>
+      <aside class="g-aside">
+        <ListArticleAside
+          v-if="hasLatestPosts"
+          :listTitle="'最新文章'"
+          :listData="latestPosts"
+          class="latest-list"
+        />
+        <FacebookPagePlugin />
+      </aside>
+    </div>
   </section>
 </template>
 
@@ -211,7 +213,7 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(xxl) {
     flex: 1;
     padding-right: 118px;
   }
@@ -219,14 +221,14 @@ export default {
     margin: 20px 0 0;
     padding: 10px;
     border: 1px solid #d8d8d8;
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(xxl) {
       padding: 20px;
     }
     ::v-deep {
       .article-card__img {
         width: 70px;
         height: 70px;
-        @include media-breakpoint-up(lg) {
+        @include media-breakpoint-up(xxl) {
           width: 100px;
           height: 100px;
         }
@@ -234,17 +236,30 @@ export default {
       .article-title {
         color: #000;
       }
+      .article-card__sub-info {
+        display: flex;
+        justify-content: space-between;
+      }
+      .article-card__brief {
+        display: -webkit-box;
+      }
     }
   }
 }
 
 .g-aside {
-  @include media-breakpoint-up(lg) {
-    background-color: #e7e7e7;
+  @include media-breakpoint-up(xxl) {
+    background-color: $color-grey;
   }
   .latest-list {
-    padding: 0;
-    border: none;
+    @include media-breakpoint-up(md) {
+      padding: 30px 80px;
+      border: 1px solid #979797;
+    }
+    @include media-breakpoint-up(xxl) {
+      padding: 0;
+      border: none;
+    }
     ::v-deep {
       .article-img {
         background-color: #fff;
@@ -255,7 +270,7 @@ export default {
 
 .g-btn-load-more {
   margin: 30px auto 0;
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(xxl) {
     max-width: 280px;
   }
 }
@@ -264,7 +279,7 @@ export default {
   margin: 30px 0 0;
   font-weight: 500;
   text-align: center;
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(xxl) {
     margin-top: 45px;
   }
 }
