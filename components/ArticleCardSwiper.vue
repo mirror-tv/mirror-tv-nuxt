@@ -75,7 +75,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  background-color: #014db8;
+  background-color: $color-blue;
   height: 100px;
   padding: 8px 20px;
   @include media-breakpoint-up(xl) {

@@ -28,14 +28,14 @@ export default {
 <style lang="scss" scoped>
 .tag {
   display: inline-block;
-  color: #014db8;
+  color: $color-blue;
   font-size: 15px;
   font-weight: 500;
   line-height: 1.87;
   span {
     display: inline-block;
     padding: 1px 9px;
-    border: 1px solid #014db8;
+    border: 1px solid $color-blue;
     &::before {
       content: '#';
       margin-right: 1px;

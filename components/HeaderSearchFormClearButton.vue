@@ -25,7 +25,7 @@
     display: block;
     width: 1px;
     height: 12px;
-    background-color: #014db8;
+    background-color: $color-blue;
     transform: rotate(45deg);
   }
   &:after {
@@ -33,7 +33,7 @@
     display: block;
     width: 1px;
     height: 12px;
-    background-color: #014db8;
+    background-color: $color-blue;
     transform: rotate(-45deg);
   }
 }

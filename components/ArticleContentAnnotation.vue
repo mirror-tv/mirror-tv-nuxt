@@ -34,7 +34,7 @@ export default {
 .annotation {
   display: inline;
   button {
-    color: #014db8;
+    color: $color-blue;
     &::after {
       content: '';
       position: relative;
@@ -58,7 +58,7 @@ export default {
     color: #4a4a4a;
     font-size: 14px;
     background-color: #fff;
-    border-top: 3px solid #014db8;
+    border-top: 3px solid $color-blue;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   }
 }

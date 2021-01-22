@@ -469,7 +469,7 @@ export default {
     justify-content: space-between;
   }
   &__category {
-    color: #014db8;
+    color: $color-blue;
     font-size: 16px;
     font-weight: 500;
   }
@@ -508,7 +508,7 @@ export default {
     display: inline-block;
     margin: 30px 0 0;
     padding: 24px 10px;
-    color: #014db8;
+    color: $color-blue;
     font-size: 16px;
     font-weight: 500;
     line-height: 1.63;
@@ -516,10 +516,10 @@ export default {
     border: 3px solid;
     border-image: linear-gradient(
         to bottom,
-        #014db8 20%,
+        $color-blue 20%,
         white 20%,
         white 80%,
-        #014db8 80%
+        $color-blue 80%
       )
       5;
   }
@@ -563,7 +563,7 @@ export default {
 
 .aside {
   @include media-breakpoint-up(xl) {
-    background-color: #e7e7e7;
+    background-color: $color-grey;
     ::v-deep {
       .list__list-item {
         .article-img {

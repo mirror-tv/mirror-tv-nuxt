@@ -107,7 +107,7 @@ export default {
 
 .label-title-wrapper {
   height: 20px;
-  background-color: #e7e7e7;
+  background-color: $color-grey;
   padding: 0 10px;
   display: flex;
   max-width: calc(130px / 2);
@@ -118,7 +118,7 @@ export default {
 
 .label-title {
   font-size: 14px;
-  color: #003366;
+  color: $color-blue-deep;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

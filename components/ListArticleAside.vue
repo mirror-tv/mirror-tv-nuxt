@@ -57,7 +57,7 @@ export default {
   display: flex;
   flex-direction: column;
   @include media-breakpoint-up(xl) {
-    border: 1px solid #979797;
+    border: 1px solid $color-grey-deep;
     padding: 31px;
   }
   &__list {
@@ -82,7 +82,7 @@ export default {
 }
 
 .more-link {
-  color: #014db8;
+  color: $color-blue;
   font-size: 20px;
   letter-spacing: 0.5px;
   text-decoration: underline;

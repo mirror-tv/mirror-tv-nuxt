@@ -150,7 +150,7 @@ export default {
 
 <style lang="scss" scoped>
 .top-wrapper {
-  background-color: #014db8;
+  background-color: $color-blue;
   padding: 40px 20px;
   display: flex;
   flex-direction: column;
@@ -332,7 +332,7 @@ export default {
 }
 
 .copyright {
-  color: #014db8;
+  color: $color-blue;
   font-size: 14px;
   line-height: 2;
   letter-spacing: 0.5px;
@@ -340,7 +340,7 @@ export default {
   flex-direction: column;
   align-items: center;
   @include media-breakpoint-up(xl) {
-    color: #003366;
+    color: $color-blue-deep;
     flex-direction: row;
     span + span {
       margin: 0 0 0 5px;

@@ -123,7 +123,7 @@ export default {
   &-quote-by,
   &-annotation {
     a {
-      color: #014db8;
+      color: $color-blue;
       font-weight: 500;
     }
   }

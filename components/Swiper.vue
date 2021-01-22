@@ -129,8 +129,8 @@ export default {
     display: block;
     width: 28px;
     height: 28px;
-    border-left: 4px solid #014db8;
-    border-bottom: 4px solid #014db8;
+    border-left: 4px solid $color-blue;
+    border-bottom: 4px solid $color-blue;
     transform: rotate(45deg);
     outline: none;
   }

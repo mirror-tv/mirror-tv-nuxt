@@ -137,8 +137,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$font-color: #003366;
-
 .flash-news {
   display: flex;
   overflow: hidden;
@@ -159,7 +157,7 @@ $h2--margin-right--md: 8px;
 
 h2 {
   background-color: #fecb2f;
-  color: $font-color;
+  color: $color-blue-deep;
   border-radius: 2px;
   text-align: center;
   font-weight: 600;
@@ -203,7 +201,7 @@ $width--arrows--md: 70px;
 
 a {
   display: block;
-  color: $font-color;
+  color: $color-blue-deep;
   font-weight: 500;
 }
 

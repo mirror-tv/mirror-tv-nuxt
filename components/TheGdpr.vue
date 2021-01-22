@@ -91,7 +91,7 @@ $main-color: rgb(20, 167, 208);
   padding: 12px 15px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(#000, 0.5);
-  border: 1px solid #979797;
+  border: 1px solid $color-grey-deep;
   @include media-breakpoint-up(md) {
     display: flex;
     align-items: center;

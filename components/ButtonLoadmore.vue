@@ -11,10 +11,10 @@ button {
   font-weight: 500;
   letter-spacing: 0.5px;
   text-align: center;
-  color: #014db8;
+  color: $color-blue;
   span {
     display: block;
-    border: solid 3px #014db8;
+    border: solid 3px $color-blue;
   }
 }
 </style>

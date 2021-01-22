@@ -135,7 +135,7 @@ export default {
     span {
       padding: 20px;
       color: #fff;
-      background-color: #014db8;
+      background-color: $color-blue;
     }
   }
   &__remaining {
@@ -158,7 +158,7 @@ export default {
       padding: 10px 20px;
       cursor: pointer;
       &.highlight {
-        background-color: #e7e7e7;
+        background-color: $color-grey;
       }
       picture {
         width: 120px;

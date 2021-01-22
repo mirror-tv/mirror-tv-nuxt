@@ -90,7 +90,7 @@ $font: Arial Rounded MT Bold, Arial;
         display: block;
         width: calc(50vw - 50px);
         height: 4px;
-        background-color: #979797;
+        background-color: $color-grey-deep;
         @include media-breakpoint-up(md) {
           top: 125px;
           width: calc(50vw - 150px);

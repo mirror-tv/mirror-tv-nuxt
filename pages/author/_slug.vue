@@ -254,7 +254,7 @@ export default {
   .latest-list {
     @include media-breakpoint-up(md) {
       padding: 30px 80px;
-      border: 1px solid #979797;
+      border: 1px solid $color-grey-deep;
     }
     @include media-breakpoint-up(xxl) {
       padding: 0;

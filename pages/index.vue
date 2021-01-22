@@ -275,7 +275,7 @@ export default {
   &__aside {
     @include media-breakpoint-up(xxl) {
       margin-top: 0;
-      background-color: #e7e7e7;
+      background-color: $color-grey;
     }
     > * + .heading-bordered-wrapper {
       margin-top: 40px;

@@ -89,8 +89,8 @@ input {
   flex: 1 1 auto;
   padding: 0 40px;
   &:focus {
-    outline: 1px solid #014db8;
-    color: #014db8;
+    outline: 1px solid $color-blue;
+    color: $color-blue;
     font-weight: 500;
   }
 
@@ -148,7 +148,7 @@ input {
 
   &--input-focused {
     svg path {
-      fill: #014db8;
+      fill: $color-blue;
     }
 
     @include media-breakpoint-up(xl) {

@@ -23,7 +23,7 @@ export default {
   color: #4a4a4a;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   h3 {
-    color: #014db8;
+    color: $color-blue;
     font-size: 20px;
     font-weight: 500;
     + * {
@@ -42,7 +42,7 @@ export default {
       margin-right: 10px;
       vertical-align: middle;
       border-radius: 50%;
-      background-color: #e7e7e7;
+      background-color: $color-grey;
     }
   }
 }

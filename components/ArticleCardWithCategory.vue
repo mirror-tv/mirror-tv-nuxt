@@ -84,7 +84,7 @@ export default {
   }
   &__category {
     margin: 0 auto 0 0;
-    color: #014db8;
+    color: $color-blue;
     font-size: 16px;
     font-weight: 500;
     line-height: normal;
