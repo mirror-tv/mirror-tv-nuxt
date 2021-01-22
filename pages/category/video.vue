@@ -1,6 +1,6 @@
 <template>
-  <section class="page">
-    <div class="max-width-wrapper">
+  <section class="g-page g-page--with-aside">
+    <div class="g-page__wrapper">
       <EditorChoicesVideoNews
         :items="allEditorChoices"
         class="editor-choices"
@@ -202,43 +202,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  margin: 0 auto;
-  min-height: 100vh;
-}
-
-$maxWidthDesktop: 1000;
-$asideWidthDesktop: 339;
-$mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
-.max-width-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 80px 20px 50px;
-  @include media-breakpoint-up(xl) {
-    align-items: flex-start;
-    padding: 0 0 70px;
-    max-width: #{$maxWidthDesktop}px;
-    margin: 0 auto;
-    flex-direction: row;
-    flex-wrap: wrap;
+.g-page--with-aside {
+  .g-page__wrapper {
+    @include media-breakpoint-up(xxl) {
+      flex-wrap: wrap;
+    }
   }
 }
 
 .g-aside {
-  margin: 20px 0 0;
-  @include media-breakpoint-up(xl) {
-    width: #{$asideWidthDesktop}px;
-    padding: 0 0 0 39px;
-    margin: 49px 0 0;
+  @include media-breakpoint-up(xxl) {
     border-left: 1px solid #d8d8d8;
-  }
-}
-
-.main {
-  margin: 49px 0 0;
-  @include media-breakpoint-up(xl) {
-    width: #{$mainWidthDesktop}px;
-    padding: 0 28px 50px 0;
   }
 }
 
@@ -279,8 +253,8 @@ $mainWidthDesktop: $maxWidthDesktop - $asideWidthDesktop;
       display: inline-block;
       width: 13px;
       height: 13px;
-      border: 2px solid#014db8;
-      border-color: #014db8#014db8 transparent transparent;
+      border: 2px solid $color-blue;
+      border-color: $color-blue $color-blue transparent transparent;
       transform: rotate(45deg);
     }
   }

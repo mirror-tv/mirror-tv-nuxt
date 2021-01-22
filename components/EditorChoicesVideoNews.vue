@@ -105,7 +105,7 @@ export default {
     width: 100%;
   }
   &-container {
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       display: flex;
       flex-wrap: wrap;
       width: 100%;
@@ -116,14 +116,20 @@ export default {
     left: -20px;
     width: calc(100% + 40px);
     margin: 20px 0 0;
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       left: 0;
-      width: 633px;
+      width: 318px;
+    }
+    @include media-breakpoint-up(xxl) {
+      width: 720px;
     }
     &.iframe-wrapper {
       padding-top: calc((100% + 40px) * 0.5625);
-      @include media-breakpoint-up(xl) {
-        padding-top: calc(633px * 0.5625);
+      @include media-breakpoint-up(md) {
+        padding-top: calc(318px * 0.5625);
+      }
+      @include media-breakpoint-up(xxl) {
+        padding-top: calc(720px * 0.5625);
       }
     }
     span {
@@ -137,10 +143,12 @@ export default {
     padding: 20px 0;
     transform: translateX(-20px);
     border-bottom: 1px solid #d8d8d8;
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       position: relative;
       flex: 1;
-      margin: 20px 0 0 20px;
+      transform: translateX(0);
+      width: auto;
+      margin: 20px 0 0 10px;
       padding: 0;
       border: none;
       overflow: hidden;
