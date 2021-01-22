@@ -1,24 +1,26 @@
 <template>
   <section class="g-page">
-    <h1 class="g-listing-heading" v-text="routeName" />
-    <p v-if="!hasItems">目前沒有相關的文章</p>
-    <ol v-else class="list-container">
-      <li v-for="post in posts" :key="post.slug" class="item">
-        <ArticleCard
-          :href="post.href"
-          :articleImgURL="post.image"
-          :articleTitle="post.name"
-          :articleDate="post.publishTime"
-          mobileLayoutDirection="column"
-          @click.native="sendGaClickEvent('article')"
-        />
-      </li>
-    </ol>
-    <ButtonLoadmore
-      v-if="enableLoadMore"
-      class="button-load-more"
-      @click.native="handleLoadMore"
-    />
+    <div class="g-page__wrapper">
+      <h1 class="g-listing-heading" v-text="routeName" />
+      <p v-if="!hasItems">目前沒有相關的文章</p>
+      <ol v-else class="list-container">
+        <li v-for="post in posts" :key="post.slug" class="item">
+          <ArticleCard
+            :href="post.href"
+            :articleImgURL="post.image"
+            :articleTitle="post.name"
+            :articleDate="post.publishTime"
+            mobileLayoutDirection="column"
+            @click.native="sendGaClickEvent('article')"
+          />
+        </li>
+      </ol>
+      <ButtonLoadmore
+        v-if="enableLoadMore"
+        class="button-load-more"
+        @click.native="handleLoadMore"
+      />
+    </div>
   </section>
 </template>
 
@@ -136,24 +138,31 @@ export default {
 
 <style lang="scss" scoped>
 .list-container {
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     display: flex;
     flex-wrap: wrap;
-    max-width: 826px;
+    width: calc(100% + 26px);
+    transform: translateX(-13px);
   }
   .item {
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
+      width: calc((100% - 78px) / 3);
       margin: 30px 13px 0;
       &:nth-child(1),
       &:nth-child(2),
-      &:nth-child(3),
+      &:nth-child(3) {
+        margin-top: 0 !important;
+      }
+    }
+    @include media-breakpoint-up(xxl) {
+      width: calc((100% - 104px) / 4);
       &:nth-child(4) {
         margin-top: 0 !important;
       }
     }
     + .item {
       margin: 20px 0 0;
-      @include media-breakpoint-up(lg) {
+      @include media-breakpoint-up(md) {
         margin: 30px 13px 0;
       }
     }
@@ -164,7 +173,7 @@ export default {
   display: block;
   width: 100%;
   margin: 14px auto 0;
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     width: 300px;
     margin: 54px auto 0;
   }
