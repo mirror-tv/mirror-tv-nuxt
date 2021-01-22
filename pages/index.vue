@@ -1,6 +1,6 @@
 <template>
-  <section class="g-page-with-aside home">
-    <div class="g-page-with-aside__wrapper">
+  <section class="g-page g-page--with-aside home">
+    <div class="g-page__wrapper">
       <main class="main">
         <UiFlashNews class="main__flash-news" :articles="flashNews" />
         <div v-if="showEditorChoices" class="editor-choices-wrapper">
@@ -39,8 +39,7 @@
             </li>
           </ol>
           <ButtonLoadmore
-            v-show="showLoadMoreButton"
-            class="list-latest-wrapper__button-load-more button-load-more"
+            class="g-button-load-more button-load-more"
             @click.native="handleClickMore"
           />
         </div>
@@ -362,12 +361,6 @@ export default {
   }
 }
 
-.list-latest-wrapper {
-  &__button-load-more {
-    margin: 24px 0 0;
-  }
-}
-
 .list-latest {
   margin: 16px 0 0;
   li + li {
@@ -411,11 +404,9 @@ export default {
   }
 }
 
-.button-load-more {
-  width: 100%;
+.g-button-load-more {
+  margin: 24px auto 0;
   @include media-breakpoint-up(xxl) {
-    display: block;
-    width: 300px;
     margin: 32px auto 0;
   }
 }

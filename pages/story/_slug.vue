@@ -1,6 +1,6 @@
 <template>
-  <section class="g-page-with-aside">
-    <div class="g-page-with-aside__wrapper">
+  <section class="g-page g-page--with-aside">
+    <div class="g-page__wrapper">
       <main class="main">
         <template v-if="isVideoNews">
           <div class="post__hero">
@@ -422,7 +422,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.g-page-with-aside {
+.g-page--with-aside {
   padding-top: 50px;
   &__wrapper {
     max-width: 500px;

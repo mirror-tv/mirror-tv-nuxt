@@ -1,6 +1,6 @@
 <template>
-  <section class="g-page-with-aside">
-    <div class="g-page-with-aside__wrapper">
+  <section class="g-page g-page--with-aside">
+    <div class="g-page__wrapper">
       <main class="main">
         <ContactBlock
           :name="authorName"
@@ -24,7 +24,7 @@
         />
         <button
           v-if="enableLoadMore"
-          class="g-btn-load-more"
+          class="g-button-load-more--arrow"
           @click="handleLoadMore"
         >
           <span>點我看更多</span>
@@ -268,7 +268,7 @@ export default {
   }
 }
 
-.g-btn-load-more {
+.g-button-load-more--arrow {
   margin: 30px auto 0;
   @include media-breakpoint-up(xxl) {
     max-width: 280px;

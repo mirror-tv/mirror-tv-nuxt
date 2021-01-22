@@ -1,13 +1,9 @@
 <template>
   <section class="g-page">
     <div class="g-page__wrapper">
-      <h1 class="g-listing-heading" v-text="$route.params.keyword" />
-      <ol class="list-latest">
-        <li
-          v-for="post in listData"
-          :key="post.id"
-          class="list-latest__list-item list-latest-list-item"
-        >
+      <h1 class="g-list-heading" v-text="$route.params.keyword" />
+      <ol class="g-list">
+        <li v-for="post in listData" :key="post.id" class="g-list__item">
           <ArticleCard
             :href="post.href"
             :articleImgURL="post.articleImgURL"
@@ -23,7 +19,7 @@
       </ol>
       <ButtonLoadmore
         v-show="showLoadMoreButton"
-        class="button-load-more"
+        class="g-button-load-more"
         @click.native="handleClickMore"
       />
     </div>
@@ -131,30 +127,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.list-latest {
-  margin: 20px 0 0 0;
-  @include media-breakpoint-up(xl) {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 20px 0 -26px -21px;
-  }
-  li {
-    margin: 0 0 20px 0;
-    @include media-breakpoint-up(xl) {
-      margin: 0 0 26px 21px;
-    }
-  }
-}
-
-.button-load-more {
-  display: block;
-  width: 100%;
-  margin: 14px auto 0;
-  @include media-breakpoint-up(md) {
-    width: 300px;
-    margin: 54px auto 0;
-  }
-}
-</style>

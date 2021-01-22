@@ -1,6 +1,6 @@
 <template>
-  <section class="g-page-with-aside">
-    <div class="g-page-with-aside__wrapper">
+  <section class="g-page g-page--with-aside">
+    <div class="g-page__wrapper">
       <main class="main">
         <div class="list-latest-wrapper">
           <HeadingBordered class="list-latest-title" :text="pageName" />
@@ -31,8 +31,7 @@
             </li>
           </ol>
           <ButtonLoadmore
-            v-show="showLoadMoreButton"
-            class="button-load-more"
+            class="g-button-load-more"
             @click.native="handleClickMore"
           />
         </div>
@@ -197,13 +196,6 @@ export default {
 .list-latest-wrapper {
   display: flex;
   flex-direction: column;
-  &__button-load-more {
-    align-self: center;
-    margin: 30px 0 0 0;
-    @include media-breakpoint-up(xl) {
-      margin: 110px 0 0 0;
-    }
-  }
 }
 
 .list-latest-title {
@@ -277,14 +269,9 @@ export default {
   }
 }
 
-.button-load-more {
-  width: 100%;
+.g-button-load-more {
   @include media-breakpoint-up(md) {
-    width: 300px;
     margin: 0 auto;
-  }
-  @include media-breakpoint-up(xxl) {
-    width: 400px;
   }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <section class="g-page">
     <div class="g-page__wrapper">
-      <h1 class="g-listing-heading" v-text="routeName" />
+      <h1 class="g-list-heading" v-text="routeName" />
       <p v-if="!hasItems">目前沒有相關的文章</p>
-      <ol v-else class="list-container">
-        <li v-for="post in posts" :key="post.slug" class="item">
+      <ol v-else class="g-list">
+        <li v-for="post in posts" :key="post.slug" class="g-list__item">
           <ArticleCard
             :href="post.href"
             :articleImgURL="post.image"
@@ -17,7 +17,7 @@
       </ol>
       <ButtonLoadmore
         v-if="enableLoadMore"
-        class="button-load-more"
+        class="g-button-load-more"
         @click.native="handleLoadMore"
       />
     </div>
@@ -135,47 +135,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.list-container {
-  @include media-breakpoint-up(md) {
-    display: flex;
-    flex-wrap: wrap;
-    width: calc(100% + 26px);
-    transform: translateX(-13px);
-  }
-  .item {
-    @include media-breakpoint-up(md) {
-      width: calc((100% - 78px) / 3);
-      margin: 30px 13px 0;
-      &:nth-child(1),
-      &:nth-child(2),
-      &:nth-child(3) {
-        margin-top: 0 !important;
-      }
-    }
-    @include media-breakpoint-up(xxl) {
-      width: calc((100% - 104px) / 4);
-      &:nth-child(4) {
-        margin-top: 0 !important;
-      }
-    }
-    + .item {
-      margin: 20px 0 0;
-      @include media-breakpoint-up(md) {
-        margin: 30px 13px 0;
-      }
-    }
-  }
-}
-
-.button-load-more {
-  display: block;
-  width: 100%;
-  margin: 14px auto 0;
-  @include media-breakpoint-up(md) {
-    width: 300px;
-    margin: 54px auto 0;
-  }
-}
-</style>
