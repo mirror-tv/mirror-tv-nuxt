@@ -127,3 +127,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.g-page {
+  padding-top: calc(130px + 13px);
+  @include media-breakpoint-up(xxl) {
+    padding-top: 12px;
+  }
+}
+</style>
