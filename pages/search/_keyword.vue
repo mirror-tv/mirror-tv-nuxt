@@ -1,33 +1,31 @@
 <template>
-  <section class="page">
-    <div class="max-width-wrapper">
-      <div class="list-latest-wrapper">
-        <h1 class="title" v-text="$route.params.keyword" />
-        <ol class="list-latest">
-          <li
-            v-for="post in listData"
-            :key="post.id"
-            class="list-latest__list-item list-latest-list-item"
-          >
-            <ArticleCard
-              :href="post.href"
-              :articleImgURL="post.articleImgURL"
-              :articleTitle="post.articleTitle"
-              :articleTitleStyle="'bold'"
-              :articleTitleHighlightText="keywordDecoded"
-              :articleDescription="post.articleDescription"
-              :articleDate="post.articleDate"
-              :mobileLayoutDirection="'column'"
-              @click.native="sendGaClickEvent('related articles')"
-            />
-          </li>
-        </ol>
-        <ButtonLoadmore
-          v-show="showLoadMoreButton"
-          class="list-latest-wrapper__button-load-more button-load-more"
-          @click.native="handleClickMore"
-        />
-      </div>
+  <section class="g-page">
+    <div class="g-page__wrapper">
+      <h1 class="g-listing-heading" v-text="$route.params.keyword" />
+      <ol class="list-latest">
+        <li
+          v-for="post in listData"
+          :key="post.id"
+          class="list-latest__list-item list-latest-list-item"
+        >
+          <ArticleCard
+            :href="post.href"
+            :articleImgURL="post.articleImgURL"
+            :articleTitle="post.articleTitle"
+            :articleTitleStyle="'bold'"
+            :articleTitleHighlightText="keywordDecoded"
+            :articleDescription="post.articleDescription"
+            :articleDate="post.articleDate"
+            :mobileLayoutDirection="'column'"
+            @click.native="sendGaClickEvent('related articles')"
+          />
+        </li>
+      </ol>
+      <ButtonLoadmore
+        v-show="showLoadMoreButton"
+        class="button-load-more"
+        @click.native="handleClickMore"
+      />
     </div>
   </section>
 </template>
@@ -135,47 +133,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  margin: 0 auto;
-  min-height: 100vh;
-}
-
-.max-width-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 0 20px 50px 20px;
-  padding-top: calc(130px + 13px);
-  @include media-breakpoint-up(xl) {
-    padding: 30px 0 60px 0;
-    width: calc(180px * 4 + 21px * 3);
-    margin: 0 auto;
-    flex-direction: row;
-  }
-}
-
-.title {
-  display: none;
-  @include media-breakpoint-up(xl) {
-    display: block;
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: 0.48px;
-    color: #014db8;
-  }
-}
-
-.list-latest-wrapper {
-  display: flex;
-  flex-direction: column;
-  &__button-load-more {
-    align-self: center;
-    margin: 30px 0 0 0;
-    @include media-breakpoint-up(xl) {
-      margin: 110px 0 0 0;
-    }
-  }
-}
-
 .list-latest {
   margin: 20px 0 0 0;
   @include media-breakpoint-up(xl) {
@@ -192,9 +149,12 @@ export default {
 }
 
 .button-load-more {
+  display: block;
   width: 100%;
-  @include media-breakpoint-up(xl) {
+  margin: 14px auto 0;
+  @include media-breakpoint-up(md) {
     width: 300px;
+    margin: 54px auto 0;
   }
 }
 </style>
