@@ -124,7 +124,7 @@ export default {
       return {
         href: `/story/${post.slug}`,
         slug: post.slug,
-        title: post.name,
+        name: post.name,
         image: post.heroImage?.urlMobileSized,
         publishTime: new Date(post.publishTime),
       }
