@@ -87,7 +87,7 @@ export default {
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 0.48px;
-  color: #ffffff;
+  color: #fff;
   text-align: left;
   word-wrap: break-word;
   word-break: break-all;

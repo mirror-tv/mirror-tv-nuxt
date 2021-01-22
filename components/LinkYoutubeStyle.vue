@@ -59,7 +59,7 @@ export default {
     align-items: center;
     width: 120px;
     letter-spacing: 0.8px;
-    background-color: #ff0000;
+    background-color: #f00;
   }
 }
 .subscription-icon {

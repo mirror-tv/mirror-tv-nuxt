@@ -19,7 +19,7 @@
 
 .cross-icon {
   position: relative;
-  &:before {
+  &::before {
     position: absolute;
     content: '';
     display: block;
@@ -28,7 +28,7 @@
     background-color: $color-blue;
     transform: rotate(45deg);
   }
-  &:after {
+  &::after {
     content: '';
     display: block;
     width: 1px;

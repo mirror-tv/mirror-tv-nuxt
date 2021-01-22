@@ -14,7 +14,7 @@
   },
   "lint-staged": {
     "*.{js,vue}": "yarn lint",
-    "*.{css,vue}": "stylelint"
+    "*.{css,scss,vue}": "stylelint"
   },
   "husky": {
     "hooks": {
@@ -73,6 +73,9 @@
     "prettier": "2.2.1",
     "sass-loader": "^10.1.1",
     "stylelint": "^13.8.0",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.18.0",
     "supertest": "^6.0.1",
     "vue-jest": "^3.0.7"
   }

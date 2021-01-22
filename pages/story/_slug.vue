@@ -474,14 +474,14 @@ export default {
     font-weight: 500;
   }
   &__publishTime {
-    color: #000000;
+    color: #000;
     font-size: 14px;
     line-height: 1.57;
     text-align: right;
   }
   &__title {
     margin: 10px 0 0;
-    color: #000000;
+    color: #000;
     font-size: 20px;
     font-weight: 500;
     + * {
@@ -525,7 +525,7 @@ export default {
   }
   &__content {
     margin: 30px 0 0;
-    color: #000000;
+    color: #000;
     font-size: 16px;
     text-align: justify;
     line-height: 1.75;
@@ -553,7 +553,7 @@ export default {
 
 .figcaption {
   padding: 10px 20px 0;
-  color: #000000;
+  color: #000;
   font-size: 14px;
   line-height: 1.57;
   @include media-breakpoint-up(xl) {

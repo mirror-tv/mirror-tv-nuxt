@@ -76,7 +76,7 @@ export default {
     line-height: 1.4;
   }
   &-paragraph {
-    color: #000000;
+    color: #000;
     font-size: 16px;
     line-height: 1.75;
     text-align: justify;

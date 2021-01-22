@@ -235,7 +235,7 @@ export default {
   border-bottom: 3px solid #fff;
   display: flex;
   align-items: center;
-  &:before {
+  &::before {
     content: '';
     display: block;
     width: 100%;
@@ -313,28 +313,28 @@ export default {
       height: 16px;
       background-color: #fff;
     }
-    &:before {
+    &::before {
       @include separator_line;
     }
     &:last-child,
     &:nth-child(3n) {
-      &:after {
+      &::after {
         @include separator_line;
       }
     }
     @include media-breakpoint-between(md, lg) {
       &:nth-child(3n) {
-        &:after {
+        &::after {
           display: none;
         }
       }
       &:nth-child(4n) {
-        &:after {
+        &::after {
           @include separator_line;
         }
       }
       &:last-child {
-        &:after {
+        &::after {
           @include separator_line;
         }
       }
@@ -342,17 +342,17 @@ export default {
     @include media-breakpoint-between(lg, xl) {
       &:nth-child(3n),
       &:nth-child(4n) {
-        &:after {
+        &::after {
           display: none;
         }
       }
       &:nth-child(6n) {
-        &:after {
+        &::after {
           @include separator_line;
         }
       }
       &:last-child {
-        &:after {
+        &::after {
           @include separator_line;
         }
       }
@@ -362,16 +362,17 @@ export default {
       &:nth-child(3n),
       &:nth-child(4n),
       &:nth-child(6n) {
-        &:after {
+        &::after {
           display: none;
         }
       }
-      &:before {
+      &::before {
         background-color: $color-grey-deep;
       }
       &:last-child {
-        &:after {
+        &::after {
           @include separator_line;
+
           background-color: $color-grey-deep;
         }
       }
