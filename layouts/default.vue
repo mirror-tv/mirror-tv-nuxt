@@ -14,11 +14,16 @@ import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 import TheGdpr from '~/components/TheGdpr.vue'
 
+import { useViewport } from '~/composition/viewport.js'
+
 export default {
   components: {
     Header,
     Footer,
     TheGdpr,
+  },
+  setup() {
+    useViewport()
   },
 }
 </script>
