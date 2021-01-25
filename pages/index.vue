@@ -39,6 +39,7 @@
             </li>
           </ol>
           <ButtonLoadmore
+            v-show="showLoadMoreButton"
             class="g-button-load-more button-load-more"
             @click.native="handleClickMore"
           />
