@@ -84,6 +84,7 @@ export default {
 @import 'swiper/swiper-bundle.css';
 
 .swiper {
+  position: relative;
   overflow: hidden;
 }
 
