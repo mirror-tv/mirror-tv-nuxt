@@ -12,8 +12,12 @@ module.exports = {
         ignorePseudoElements: ['v-deep'],
       },
     ],
-    'no-descending-specificity': null,
-    'value-keyword-case': null,
+    'value-keyword-case': [
+      'lower',
+      {
+        ignoreProperties: [/font/],
+      },
+    ],
   },
   ignoreFiles: ['css/base.css', 'coverage/**/*.{css,scss,sass}'],
 }

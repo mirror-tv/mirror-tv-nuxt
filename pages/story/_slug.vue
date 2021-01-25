@@ -422,6 +422,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main {
+  + * {
+    margin-top: 40px;
+  }
+  @include media-breakpoint-up(xxl) {
+    width: 600px;
+    + aside {
+      margin: 0 0 0 auto;
+    }
+  }
+}
+
 .g-page--with-aside {
   padding-top: 50px;
   &__wrapper {
@@ -433,18 +445,6 @@ export default {
   }
   .main {
     margin: 0;
-  }
-}
-
-.main {
-  + * {
-    margin-top: 40px;
-  }
-  @include media-breakpoint-up(xxl) {
-    width: 600px;
-    + aside {
-      margin: 0 0 0 auto;
-    }
   }
 }
 
@@ -523,6 +523,16 @@ export default {
       )
       5;
   }
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% + 10px);
+    margin-top: 25px;
+    transform: translateX(-5px);
+    + * {
+      margin-top: 35px;
+    }
+  }
   &__content {
     margin: 30px 0 0;
     color: #000;
@@ -533,16 +543,6 @@ export default {
       > * + * {
         margin-top: 30px;
       }
-    }
-  }
-  &__tags {
-    display: flex;
-    flex-wrap: wrap;
-    width: calc(100% + 10px);
-    margin-top: 25px;
-    transform: translateX(-5px);
-    + * {
-      margin-top: 35px;
     }
   }
   &__tag {

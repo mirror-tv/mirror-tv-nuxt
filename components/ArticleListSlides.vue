@@ -195,6 +195,24 @@ export default {
   @include media-breakpoint-up(xl) {
     top: 60px;
   }
+  &__arrow {
+    position: relative;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 13px;
+      height: 13px;
+      border: 2px solid rgba(1, 77, 184, 0.6);
+      border-color: transparent transparent rgba(1, 77, 184, 0.6)
+        rgba(1, 77, 184, 0.6);
+      transform: translate(calc(-50% + 3px), -50%) rotate(45deg);
+    }
+  }
   &.prev {
     left: 1px;
     padding: 5px 5px 5px 0;
@@ -214,24 +232,6 @@ export default {
           transparent;
         transform: translate(calc(-50% - 3px), -50%) rotate(45deg);
       }
-    }
-  }
-  &__arrow {
-    position: relative;
-    height: 100%;
-    background-color: #fff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-    &::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 13px;
-      height: 13px;
-      border: 2px solid rgba(1, 77, 184, 0.6);
-      border-color: transparent transparent rgba(1, 77, 184, 0.6)
-        rgba(1, 77, 184, 0.6);
-      transform: translate(calc(-50% + 3px), -50%) rotate(45deg);
     }
   }
 }

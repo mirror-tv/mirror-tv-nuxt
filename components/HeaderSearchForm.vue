@@ -88,17 +88,16 @@ input {
   height: 40px;
   flex: 1 1 auto;
   padding: 0 40px;
-  &:focus {
-    outline: 1px solid $color-blue;
-    color: $color-blue;
-    font-weight: 500;
-  }
-
   &::-webkit-search-decoration,
   &::-webkit-search-cancel-button,
   &::-webkit-search-results-button,
   &::-webkit-search-results-decoration {
     -webkit-appearance: none;
+  }
+  &:focus {
+    outline: 1px solid $color-blue;
+    color: $color-blue;
+    font-weight: 500;
   }
 
   @include media-breakpoint-up(xl) {

@@ -236,18 +236,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home {
-  > * + .main {
-    margin-top: 16px;
-  }
-  &__heading {
-    width: 110px;
-    + * {
-      margin-top: 16px;
-    }
-  }
-}
-
 .main {
   &__flash-news {
     width: calc(100% + 16px);
@@ -340,6 +328,18 @@ export default {
       &__heading {
         display: inline-block;
       }
+    }
+  }
+}
+
+.home {
+  > * + .main {
+    margin-top: 16px;
+  }
+  &__heading {
+    width: 110px;
+    + * {
+      margin-top: 16px;
     }
   }
 }

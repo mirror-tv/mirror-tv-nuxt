@@ -100,6 +100,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.item {
+  display: block;
+  picture {
+    display: block;
+    position: relative;
+    padding-top: 66.66%;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+  }
+  span {
+    display: block;
+  }
+}
 .editor-choices {
   @include media-breakpoint-up(xl) {
     width: 100%;
@@ -183,29 +205,6 @@ export default {
       height: 100%;
       overflow-y: auto;
     }
-  }
-}
-
-.item {
-  display: block;
-  picture {
-    display: block;
-    position: relative;
-    padding-top: 66.66%;
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-    }
-  }
-  span {
-    display: block;
   }
 }
 </style>
