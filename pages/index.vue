@@ -15,7 +15,13 @@
         </div>
         <div class="main__live-stream live-stream">
           <HeadingBordered class="home__heading" text="LIVE" />
-          <IframeYoutube :enableAutoplay="true" videoId="4ZVUmEUFwaY" />
+          <client-only>
+            <IframeYoutube
+              v-if="!isViewportWidthUpXxl"
+              :enableAutoplay="true"
+              videoId="4ZVUmEUFwaY"
+            />
+          </client-only>
           <HeadingBordered class="home__heading" text="直播" />
           <IframeEmbedYoutube
             v-for="item in playlistItems"
@@ -48,7 +54,13 @@
       <aside class="g-aside main__aside aside">
         <div class="aside__live-stream live-stream">
           <HeadingBordered class="home__heading" text="LIVE" />
-          <IframeYoutube :enableAutoplay="true" videoId="4ZVUmEUFwaY" />
+          <client-only>
+            <IframeYoutube
+              v-if="isViewportWidthUpXxl"
+              :enableAutoplay="true"
+              videoId="4ZVUmEUFwaY"
+            />
+          </client-only>
           <HeadingBordered class="home__heading" text="直播" />
           <IframeEmbedYoutube
             v-for="item in playlistItems"
@@ -64,6 +76,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import { getDomain } from '~/utils/meta'
 import { fetchPosts, fetchPostsByCategories } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
@@ -163,6 +177,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      isViewportWidthUpXxl: 'viewport/isViewportWidthUpXxl',
+    }),
     showEditorChoices() {
       return this.editorChoices?.length > 0
     },
