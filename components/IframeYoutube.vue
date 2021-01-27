@@ -28,8 +28,7 @@ export default {
   watch: {
     videoId(value) {
       this.hasSentPlayEvent = false
-      // To Fix: reload category/video 會造成 500
-      // value && this.player?.cueVideoById({ videoId: value })
+      value && this.player?.cueVideoById?.({ videoId: value })
     },
   },
   mounted() {
@@ -86,9 +85,16 @@ export default {
             onStateChange: () => {
               // https://developers.google.com/youtube/iframe_api_reference#Playback_status
               const isPlaying = this.player.getPlayerState() === 1
-              if (isPlaying && !this.hasSentPlayEvent) {
-                this.hasSentPlayEvent = true
-                this.$emit('send-first-play-ga')
+              const isEnded = this.player.getPlayerState() === 0
+              if (isPlaying) {
+                this.$emit('is-playing')
+                if (!this.hasSentPlayEvent) {
+                  this.hasSentPlayEvent = true
+                  this.$emit('send-first-play-ga')
+                }
+              }
+              if (isEnded) {
+                this.$emit('is-ended')
               }
             },
           },

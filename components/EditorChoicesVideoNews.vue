@@ -2,11 +2,15 @@
   <div v-if="hasItems" class="editor-choices">
     <slot />
     <div class="editor-choices-container">
-      <IframeYoutube
-        :videoId="highlightItem.slug"
-        class="editor-choices__first-item item"
-        @send-first-play-ga="sendGaPlayEvent('editors choice video')"
-      />
+      <client-only>
+        <IframeYoutube
+          :videoId="highlightSlug"
+          class="editor-choices__first-item item"
+          @is-ended="setTimer()"
+          @is-playing="videoIsPlaying = true"
+          @send-first-play-ga="sendGaPlayEvent('editors choice video')"
+        />
+      </client-only>
       <div class="editor-choices__remaining">
         <div class="scrollable-container">
           <div
@@ -17,12 +21,12 @@
             @click="selectItemToHighlight(item)"
           >
             <picture>
-              <img :src="getImage(item)" :alt="item.title" />
+              <img :src="getImage(item)" :alt="item.name" />
               <div class="g-video-news-img-icon-wrapper">
                 <div class="g-video-news-img-icon" />
               </div>
             </picture>
-            <span v-text="item.title" />
+            <span v-text="item.name" />
           </div>
         </div>
       </div>
@@ -46,20 +50,18 @@ export default {
   },
   data() {
     return {
+      currentHighlightIndex: 0,
       highlightItem: this.items.slice(0, 1)[0] || {},
+      timer: undefined,
+      videoIsPlaying: false,
     }
   },
   computed: {
-    currentHighlightIndex() {
-      return this.items?.findIndex(
-        (item) => item?.id === this.highlightItem?.id
-      )
-    },
     highlightSlug() {
       return this.highlightItem?.slug
     },
     hasItems() {
-      return this.items.length > 0
+      return this.items?.length
     },
     itemsAmount() {
       return this.items.length
@@ -69,16 +71,17 @@ export default {
     items(value) {
       this.highlightItem = value.slice(0, 1)[0] || {}
     },
+    highlightItem(value) {
+      this.currentHighlightIndex = this.items.findIndex(
+        (item) => item?.slug === value?.slug
+      )
+    },
+    videoIsPlaying(isPlaying) {
+      isPlaying && clearInterval(this.timer)
+    },
   },
   mounted() {
-    // For Demo
-    setInterval(() => {
-      if (this.currentHighlightIndex + 1 > this.itemsAmount - 1) {
-        this.highlightItem = this.items[0]
-      } else {
-        this.highlightItem = this.items[this.currentHighlightIndex + 1]
-      }
-    }, 2000)
+    this.setTimer()
   },
   methods: {
     selectItemToHighlight(item) {
@@ -87,6 +90,16 @@ export default {
     },
     sendGaPlayEvent(label) {
       sendGaEvent(this.$ga)('videonews')('play')(label)
+    },
+    setTimer() {
+      this.timer = setInterval(this.setVideoCarousel, 5000)
+    },
+    setVideoCarousel() {
+      if (this.currentHighlightIndex + 1 > this.itemsAmount - 1) {
+        this.highlightItem = this.items[0]
+      } else {
+        this.highlightItem = this.items[this.currentHighlightIndex + 1]
+      }
     },
     getImage(item) {
       return (
