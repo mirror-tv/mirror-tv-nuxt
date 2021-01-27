@@ -3,7 +3,7 @@ query fetchFeaturedCategories {
     where: {
       isFeatured: true
     },
-    sortBy: id_DESC
+    sortBy: [sortOrder_ASC, id_DESC]
   ) {
     name
     slug
