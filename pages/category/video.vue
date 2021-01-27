@@ -2,7 +2,7 @@
   <section class="g-page g-page--with-aside">
     <div class="g-page__wrapper">
       <EditorChoicesVideoNews
-        :items="allEditorChoices"
+        :items="videoEditorChoices"
         class="editor-choices"
         @click="sendGaClickEvent('editors choice')"
       >
@@ -73,7 +73,7 @@ import IframeYoutube from '~/components/IframeYoutube.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
-import { fetchVideoNewsEditorChoices } from '~/apollo/queries/editorChoices.gql'
+import { fetchVideoEditorChoices } from '~/apollo/queries/videoEditorChoices.gql'
 import { fetchPostsByCategorySlug } from '~/apollo/queries/posts.gql'
 
 export default {
@@ -83,12 +83,12 @@ export default {
       update: (data) =>
         data?.allCategories.filter((category) => category.slug !== 'video'),
     },
-    allEditorChoices: {
-      query: fetchVideoNewsEditorChoices,
+    videoEditorChoices: {
+      query: fetchVideoEditorChoices,
       update: (data) => {
-        return data.allEditorChoices
-          .filter((item) => item.choice)
-          .map((item) => item.choice)
+        return data.allVideoEditorChoices
+          .filter((item) => item.videoEditor)
+          .map((item) => item.videoEditor)
       },
     },
   },
@@ -104,8 +104,8 @@ export default {
   data() {
     return {
       allCategories: [],
-      allEditorChoices: [],
       playlistItems: [],
+      videoEditorChoices: [],
     }
   },
   async fetch() {

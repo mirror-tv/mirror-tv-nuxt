@@ -1,25 +1,25 @@
-query fetchEditorChoices {
-  allEditorChoices(
+query fetchVideoEditorChoices {
+  allVideoEditorChoices (
     where: {
       state: published,
-      choice: {
+      videoEditor: {
         state: published,
+        style: videoNews
       }
     },
-    sortBy: sortOrder_ASC
+    sortBy: order_ASC
   ) {
-    choice {
-      id
-      name
+    videoEditor {
       slug
+      name
       style
       heroImage {
         urlMobileSized
       }
       heroVideo {
         coverPhoto {
-          urlDesktopSized
           urlOriginal
+          urlDesktopSized
         }
       }
     }

@@ -20,7 +20,7 @@ describe('editor choices', () => {
     },
     data() {
       return {
-        allEditorChoices: [{ slug: 'test' }, {}],
+        videoEditorChoices: [{ slug: 'test' }, {}],
       }
     },
     stubs: {
