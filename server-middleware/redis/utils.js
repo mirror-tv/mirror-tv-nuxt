@@ -16,12 +16,28 @@ const ENABLE_REDIS = ENV === 'prod'
 let redisClient
 
 if (REDIS_HOST && REDIS_PORT && REDIS_AUTH) {
-  if (ENV === 'dev') {
+  if (ENV === 'prod') {
+    redisClient = new Redis.Cluster(
+      [
+        {
+          port: REDIS_PORT,
+          host: REDIS_HOST,
+        },
+      ],
+      {
+        redisOptions: {
+          password: REDIS_AUTH,
+        },
+      }
+    )
+  } else if (ENV === 'dev') {
     redisClient = new Redis({
       port: REDIS_PORT,
       host: REDIS_HOST,
       password: REDIS_AUTH,
     })
+  }
+  if (redisClient) {
     redisClient.on('error', (err) => {
       console.error(`[REDIS] ${err.message}`, err)
     })
