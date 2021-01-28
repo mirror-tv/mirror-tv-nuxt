@@ -180,12 +180,17 @@ export default {
     ...mapGetters({
       isViewportWidthUpXxl: 'viewport/isViewportWidthUpXxl',
     }),
+    editorChoicesSlug() {
+      return this.editorChoices.map((item) => item.slug)
+    },
     showEditorChoices() {
       return this.editorChoices?.length > 0
     },
     latestPosts() {
       const listData = this.allPublishedPosts ?? []
-      return listData.map((post) => this.reducerArticleCard(post))
+      return listData
+        .filter((post) => !this.editorChoicesSlug.includes(post.slug))
+        .map((post) => this.reducerArticleCard(post))
     },
     showLoadMoreButton() {
       return pageSize * (this.page + 1) < this.postsCount
@@ -215,6 +220,7 @@ export default {
     reducerArticleCard(post) {
       return {
         id: post.id,
+        slug: post.slug,
         href: `/story/${post.slug}`,
         labelTitle: post.categories?.[0]?.name ?? ' ',
         articleImgURL: this.getImageUrl(post),
