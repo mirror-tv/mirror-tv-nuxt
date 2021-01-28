@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.10.0",
+    "@godaddy/terminus": "^4.6.0",
     "@google-cloud/logging": "^9.0.1",
     "@nuxtjs/apollo": "4.0.1-rc.5",
     "@nuxtjs/component-cache": "^1.1.6",

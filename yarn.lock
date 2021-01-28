@@ -1939,6 +1939,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@godaddy/terminus@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@godaddy/terminus/-/terminus-4.6.0.tgz#1e746cf1715cf39866fd4a25569deb88774dda27"
+  integrity sha512-5OaPBRYIex8YcvK+Jk6/wUNulaQMWt1RWIpfYmRbP+1On5FRf3bumDWBni3V0RQRkm3JIvZiXbIndumEtasOMg==
+  dependencies:
+    stoppable "^1.1.0"
+
 "@google-cloud/common@^3.4.1":
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-3.5.0.tgz#0959e769e8075a06eb0823cc567eef00fd0c2d02"
@@ -15057,6 +15064,11 @@ stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
+
+stoppable@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/stoppable/-/stoppable-1.1.0.tgz#32da568e83ea488b08e4d7ea2c3bcc9d75015d5b"
+  integrity sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw==
 
 stream-browserify@^2.0.1:
   version "2.0.2"
