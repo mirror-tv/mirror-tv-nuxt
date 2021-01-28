@@ -1,10 +1,5 @@
 /* eslint-disable no-console */
-const {
-  ENABLE_REDIS,
-  PREFIX,
-  cleanPathQuery,
-  redisReadClient,
-} = require('./utils')
+const { ENABLE_REDIS, PREFIX, cleanPathQuery, redisClient } = require('./utils')
 
 const SKIP_REDIS_LIST = ['/api/tracking']
 
@@ -13,11 +8,11 @@ module.exports = function (req, res, next) {
     return next()
   }
 
-  if (ENABLE_REDIS && redisReadClient) {
+  if (ENABLE_REDIS && redisClient) {
     const path = cleanPathQuery(req.url)
     const key = `${PREFIX}${path}`
 
-    redisReadClient
+    redisClient
       .get(key)
       .then((result) => {
         if (result) {

@@ -3,7 +3,7 @@ const {
   ENABLE_REDIS,
   PREFIX,
   cleanPathQuery,
-  redisWriteClient,
+  redisClient,
 } = require('./server-middleware/redis/utils')
 const { ENV = 'dev' } = require('./configs/config')
 
@@ -145,9 +145,9 @@ module.exports = {
     // Doc: https://nuxtjs.org/docs/2.x/internals-glossary/internals-renderer#hooks
     render: {
       routeDone(url, result, context) {
-        if (ENABLE_REDIS && !result.error && result && redisWriteClient) {
+        if (ENABLE_REDIS && !result.error && result && redisClient) {
           try {
-            redisWriteClient.set(
+            redisClient.set(
               `${PREFIX}${cleanPathQuery(url)}`,
               JSON.stringify(result.html),
               'EX',
@@ -155,7 +155,7 @@ module.exports = {
             )
           } catch (error) {
             // eslint-disable-next-line no-console
-            console.error(`[REDIS/WRITE]Set Redis Failed. url: ${url}`, error)
+            console.error(`[REDIS]Set Redis Failed. url: ${url}`, error)
           }
         }
       },
