@@ -6,12 +6,16 @@ const { createTerminus } = require('@godaddy/terminus')
 const app = express()
 
 const bodyParser = require('body-parser')
+const dayjs = require('dayjs')
+require('dayjs/locale/zh-tw')
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 const { redisClient } = require('../server-middleware/redis/utils')
 
 config.dev = process.env.NODE_ENV !== 'production'
+
+dayjs.locale('zh-tw')
 
 async function start() {
   app.use(bodyParser.json())
