@@ -87,14 +87,29 @@ module.exports = {
     script: [
       ...(ENV !== 'lighthouse'
         ? [
-            // comScore
+            // comScore Tag
             {
               hid: 'comScore',
-              src: 'https://sb.scorecardresearch.com/beacon.js',
-              async: true,
+              innerHTML: `
+                var _comscore = _comscore || [];
+                _comscore.push({ c1: "2", c2: "24318560" });
+                (function() {
+                  var s = document.createElement("script"), el = document.getElementsByTagName("script")[0];
+                  s.async = true; s.src = "https://sb.scorecardresearch.com/cs/24318560/beacon.js";
+                  el.parentNode.insertBefore(s, el);
+                })();
+              `,
             },
           ]
         : []),
+    ],
+    noscript: [
+      // comScore Tag
+      {
+        hid: 'comScoreNoScript',
+        innerHTML:
+          '<img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=24318560&amp;cv=3.6.0&amp;cj=1" />',
+      },
     ],
   },
   /*
