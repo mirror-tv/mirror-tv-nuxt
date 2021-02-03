@@ -157,7 +157,7 @@ export default {
     },
 
     showLoadMoreButton() {
-      return pageSize * (this.page + 1) < this.allPostsCategoryMeta?.count
+      return this.allPostsCategory?.length < this.allPostsCategoryMeta?.count
     },
   },
   methods: {

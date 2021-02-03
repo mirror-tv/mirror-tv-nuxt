@@ -193,7 +193,7 @@ export default {
         .map((post) => this.reducerArticleCard(post))
     },
     showLoadMoreButton() {
-      return PAGE_SIZE * (this.page + 1) < this.postsCount
+      return this.allPublishedPosts?.length < this.postsCount
     },
   },
   mounted() {
