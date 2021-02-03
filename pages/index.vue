@@ -94,7 +94,7 @@ import UiFlashNews from '~/components/UiFlashNews'
 
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 
-const pageSize = 12
+const PAGE_SIZE = 12
 
 export default {
   apollo: {
@@ -109,7 +109,7 @@ export default {
     allPublishedPosts: {
       query: fetchPosts,
       variables: {
-        first: pageSize,
+        first: PAGE_SIZE,
         skip: 0,
         withCount: true,
         withCoverPhoto: true,
@@ -193,7 +193,7 @@ export default {
         .map((post) => this.reducerArticleCard(post))
     },
     showLoadMoreButton() {
-      return pageSize * (this.page + 1) < this.postsCount
+      return PAGE_SIZE * (this.page + 1) < this.postsCount
     },
   },
   mounted() {
@@ -236,8 +236,8 @@ export default {
       this.page += 1
       this.$apollo.queries.allPublishedPosts.fetchMore({
         variables: {
-          first: pageSize,
-          skip: pageSize * this.page,
+          first: PAGE_SIZE,
+          skip: PAGE_SIZE * this.page,
           withCount: false,
           withCoverPhoto: true,
         },
