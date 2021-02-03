@@ -76,6 +76,9 @@
         </div>
       </div>
       <div class="top-wrapper__right right">
+        <a href="/schedule" target="_blank" rel="noreferrer noopener"
+          >電視節目表</a
+        >
         <a href="/aboutus">關於我們</a>
         <a href="/privacy">隱私權政策</a>
       </div>
