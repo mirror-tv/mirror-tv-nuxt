@@ -65,6 +65,7 @@ export default {
     td {
       padding-top: 12px;
       padding-bottom: 12px;
+      text-align: left;
     }
     tr + tr {
       border-top: 1px solid #d8d8d8;

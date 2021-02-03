@@ -2,7 +2,20 @@
   <section class="g-page schedule">
     <div class="g-page__wrapper">
       <ScheduleDatepicker @update-schedule="updateSchedule" />
-      <ScheduleTable :schedules="schedules" class="schedule__table" />
+      <ScheduleTable
+        v-if="hasSchedules"
+        :schedules="schedules"
+        class="schedule__table"
+      />
+      <template v-else>
+        <img
+          class="schedule__image"
+          src="~/assets/img/magnifier-with-question-mark.png"
+          alt="找不到當日節目表"
+        />
+        <span>找不到當日節目表</span><br />
+        <span>請選擇其他日查看</span>
+      </template>
     </div>
   </section>
 </template>
@@ -66,6 +79,11 @@ export default {
       ],
     }
   },
+  computed: {
+    hasSchedules() {
+      return this.schedules.length
+    },
+  },
   methods: {
     updateSchedule(dayOfWeekIndex) {
       const day = dayOfWeek[dayOfWeekIndex]
@@ -93,8 +111,12 @@ export default {
   }
   .g-page__wrapper {
     max-width: 552px;
+    text-align: center;
     @include media-breakpoint-up(xxl) {
       max-width: 1014px;
+    }
+    > span {
+      color: #9b9b9b;
     }
   }
   &__table {
@@ -102,6 +124,15 @@ export default {
     margin: 24px auto 0;
     @include media-breakpoint-up(xxl) {
       margin-top: 48px;
+    }
+  }
+  &__image {
+    margin: 50px auto 12px;
+    @include media-breakpoint-up(md) {
+      margin-top: 62px auto 12px;
+    }
+    @include media-breakpoint-up(xxl) {
+      margin-top: 82px auto 18px;
     }
   }
 }
