@@ -17,7 +17,7 @@ const mockShow = {
   schedule: {
     name: 'scheduleName',
   },
-  trailerUrl: 'https://youtube.be/test',
+  trailerUrl: 'https://youtu.be/0d4nLXIansU',
 }
 
 const createWrapper = createWrapperHelper({

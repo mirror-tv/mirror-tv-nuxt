@@ -10,7 +10,7 @@
         <div class="show__introduction" v-text="introduction" />
       </main>
       <aside class="g-aside">
-        <div class="show__trailer">
+        <div v-if="trailerYoutubeId" class="show__trailer">
           <h3>預告</h3>
           <IframeEmbedYoutube :videoId="trailerYoutubeId" />
         </div>
@@ -109,10 +109,10 @@ export default {
     },
     trailerYoutubeId() {
       const trailerUrl = this.show?.trailerUrl
-      if (trailerUrl.includes('atch?v=')) {
-        return trailerUrl.split('v=')[1]
+      if (trailerUrl?.includes('watch?v=')) {
+        return trailerUrl?.split('v=')[1]
       }
-      return trailerUrl.split('https://youtu.be/')[1]
+      return trailerUrl?.split('https://youtu.be/')[1]
     },
   },
 }
