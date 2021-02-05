@@ -37,40 +37,13 @@
       <div class="top-wrapper__middle middle">
         <div class="info-wrapper">
           <p class="info-wrapper__info">
-            <span>鏡新聞客服: </span>
-            <span>0809-009-995</span>
+            <span>客服專線：</span>
+            <span>(02)7752-5678</span>
           </p>
           <p class="info-wrapper__info">
-            <span>客服信箱: </span>
-            <a href="mailto:service@nexttv.com.tw" rel="noreferrer noopener">
-              service@nexttv.com.tw
-            </a>
-          </p>
-        </div>
-        <div class="info-wrapper">
-          <p class="info-wrapper__info">
-            <span>鏡新聞客服: </span>
-            <span>(02)7737-4681</span>
-          </p>
-          <p class="info-wrapper__info">
-            <span>客服信箱: </span>
-            <a href="mailto:webservice@nexttv.com.tw" rel="noreferrer noopener">
-              webservice@nexttv.com.tw
-            </a>
-          </p>
-        </div>
-        <div class="info-wrapper">
-          <p class="info-wrapper__info">
-            <span>鏡新聞客服: </span>
-            <span>(02)7737-4683</span>
-          </p>
-          <p class="info-wrapper__info">
-            <span>客服信箱: </span>
-            <a
-              href="mailto:movieservice@nexttv.com.tw"
-              rel="noreferrer noopener"
-            >
-              movieservice@nexttv.com.tw
+            <span>外部公評人特別申訴信箱：</span>
+            <a href="mailto:NewsOmbudsman@mnews.tw" rel="noreferrer noopener">
+              NewsOmbudsman@mnews.tw
             </a>
           </p>
         </div>
