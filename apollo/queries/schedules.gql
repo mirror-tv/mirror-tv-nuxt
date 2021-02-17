@@ -10,7 +10,9 @@ query fetchSchedules(
     hour
     minute
     replay
-    showUrl
+    showUrl {
+      slug
+    }
     parentalGuidelines
   }
 }
