@@ -14,7 +14,16 @@
           v-text="`${item.hour}:${item.minute}-${getShowEndTime(index)}`"
         />
         <td class="show__name">
-          {{ item.name }}
+          <a
+            v-if="item.showUrl"
+            :href="`/show/${item.showUrl.slug}`"
+            target="_blank"
+            rel="noreferrer noopener"
+            v-text="item.name"
+          />
+          <template v-else>
+            {{ item.name }}
+          </template>
           <span
             :class="{ replay: isReplay(item) }"
             v-text="`（${isReplay(item) ? '重' : '新'}播）`"
@@ -84,6 +93,9 @@ export default {
     &__name {
       padding-left: 10px;
       padding-right: 10px;
+      a {
+        color: $color-blue;
+      }
     }
     &__rating {
       display: none;

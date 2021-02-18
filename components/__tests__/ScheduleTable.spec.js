@@ -13,6 +13,9 @@ describe('items from schedules prop', function () {
       minute: '00',
       parentalGuidelines: '普遍級',
       replay: false,
+      showUrl: {
+        slug: 'test',
+      },
     },
     {
       id: '2',
@@ -36,6 +39,13 @@ describe('items from schedules prop', function () {
     expect(showTimeItems.at(1).text()).toBe(
       `${mockSchedules[1].hour}:${mockSchedules[1].minute}-24:00`
     )
+  })
+  test('Should render proper show url', function () {
+    const showNameItems = wrapper.findAll('tbody .show__name')
+    expect(showNameItems.at(0).get('a').attributes().href).toBe(
+      `/show/${mockSchedules[0].showUrl.slug}`
+    )
+    expect(showNameItems.at(1).find('a').exists()).toBe(false)
   })
   test('Should render proper show name', function () {
     const showNameItems = wrapper.findAll('tbody .show__name')
