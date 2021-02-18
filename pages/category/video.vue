@@ -106,6 +106,15 @@ export default {
       allCategories: [],
       playlistItems: [],
       videoEditorChoices: [],
+
+      // 避免取值時為 undefined
+      newsPosts: {},
+      entertainmentPosts: {},
+      financePosts: {},
+      internationalPosts: {},
+      lifePosts: {},
+      personPosts: {},
+      politicsPosts: {},
     }
   },
   async fetch() {
@@ -142,9 +151,9 @@ export default {
   },
   computed: {
     categoriesFiltered() {
-      return this.allCategories?.filter(
-        (category) => this[`${category.slug}Posts`]?.items?.length > 0
-      )
+      return this.allCategories?.filter((category) => {
+        return this[`${category.slug}Posts`]?.items?.length > 0
+      })
     },
     categoriesSlug() {
       return this.allCategories?.map((category) => category.slug)
