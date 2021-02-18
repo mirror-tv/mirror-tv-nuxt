@@ -1,5 +1,5 @@
 <template>
-  <div class="heading-bordered-wrapper">
+  <div :class="{ icon: showIcon }" class="heading-bordered-wrapper">
     <span v-text="text" />
   </div>
 </template>
@@ -7,6 +7,10 @@
 <script>
 export default {
   props: {
+    showIcon: {
+      type: Boolean,
+      default: false,
+    },
     text: {
       type: String,
       default: '',
@@ -35,6 +39,29 @@ export default {
     letter-spacing: 0.5px;
     color: $color-blue;
     text-align: center;
+  }
+  &.icon {
+    position: relative;
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
+    }
+    &::before {
+      left: calc(100% + 12px);
+      width: 20px;
+      height: 20px;
+      box-shadow: inset 0 0 0 2px #fc0;
+    }
+    &::after {
+      left: calc(100% + 17px);
+      width: 10px;
+      height: 10px;
+      background-color: #fc0;
+    }
   }
 }
 </style>

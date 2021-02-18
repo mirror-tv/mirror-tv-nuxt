@@ -14,7 +14,7 @@
           />
         </div>
         <div class="main__live-stream live-stream">
-          <HeadingBordered class="home__heading" text="LIVE" />
+          <HeadingBordered :showIcon="true" class="home__heading" text="LIVE" />
           <client-only>
             <IframeYoutube
               v-if="!isViewportWidthUpXxl"
@@ -22,7 +22,7 @@
               videoId="4ZVUmEUFwaY"
             />
           </client-only>
-          <HeadingBordered class="home__heading" text="直播" />
+          <HeadingBordered :showIcon="true" class="home__heading" text="直播" />
           <IframeEmbedYoutube
             v-for="item in playlistItems"
             :key="item"
@@ -53,7 +53,7 @@
       </main>
       <aside class="g-aside main__aside aside">
         <div class="aside__live-stream live-stream">
-          <HeadingBordered class="home__heading" text="LIVE" />
+          <HeadingBordered :showIcon="true" class="home__heading" text="LIVE" />
           <client-only>
             <IframeYoutube
               v-if="isViewportWidthUpXxl"
@@ -61,7 +61,7 @@
               videoId="4ZVUmEUFwaY"
             />
           </client-only>
-          <HeadingBordered class="home__heading" text="直播" />
+          <HeadingBordered :showIcon="true" class="home__heading" text="直播" />
           <IframeEmbedYoutube
             v-for="item in playlistItems"
             :key="item"
