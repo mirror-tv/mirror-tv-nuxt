@@ -1,5 +1,5 @@
 <template>
-  <section class="g-page g-page--with-aside">
+  <section class="g-page g-page--with-aside video">
     <div class="g-page__wrapper">
       <EditorChoicesVideoNews
         :items="videoEditorChoices"
@@ -211,17 +211,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.g-page--with-aside {
-  .g-page__wrapper {
-    @include media-breakpoint-up(xxl) {
-      flex-wrap: wrap;
+.video {
+  &.g-page--with-aside {
+    .g-page__wrapper {
+      @include media-breakpoint-up(xxl) {
+        flex-wrap: wrap;
+      }
+      .main {
+        margin-top: 32px;
+        @include media-breakpoint-up(xxl) {
+          margin-top: 60px;
+        }
+      }
     }
   }
-}
-
-.g-aside {
-  @include media-breakpoint-up(xxl) {
-    border-left: 1px solid #d8d8d8;
+  .g-aside {
+    @include media-breakpoint-up(xxl) {
+      margin-top: 60px;
+      border-left: 1px solid #d8d8d8;
+    }
   }
 }
 
