@@ -371,7 +371,11 @@ export default {
       return this.postPublished?.photographers
     },
     relatedPosts() {
-      return this.postPublished?.relatedPosts || []
+      return (
+        this.postPublished?.relatedPosts?.filter(
+          (item) => item.state === 'published'
+        ) || []
+      )
     },
     slug() {
       return this.$route.params.slug

@@ -59,6 +59,7 @@ query fetchPostPublishedBySlug($slug: String!) {
     }
     relatedPosts {
       slug
+      state
       name
     }
   }

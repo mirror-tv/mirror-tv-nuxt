@@ -7,7 +7,7 @@ describe('listTitle', function () {
   test('Should render proper listTitle', function () {
     const wrapper = shallowMount(ListArticleRelated, {
       propsData: {
-        listData: [{ title: '', slug: '' }],
+        listData: [{ name: '', slug: '' }],
       },
     })
     const title = wrapper.findComponent(HeadingBordered)
@@ -20,7 +20,8 @@ describe('props', function () {
     const listDataMock = [
       {
         slug: 'abc',
-        title: 'title',
+        name: 'title',
+        state: 'published',
       },
     ]
     const wrapper = shallowMount(ListArticleRelated, {
@@ -30,6 +31,6 @@ describe('props', function () {
     })
     const articleCard = wrapper.findComponent(ArticleCardOnlyTitle)
     expect(articleCard.props().href).toBe(`/story/${listDataMock[0].slug}`)
-    expect(articleCard.props().articleTitle).toBe(listDataMock[0].title)
+    expect(articleCard.props().articleTitle).toBe(listDataMock[0].name)
   })
 })

@@ -8,7 +8,7 @@
         class="list__list-item"
       >
         <ArticleCardOnlyTitle
-          :articleTitle="item.title"
+          :articleTitle="item.name"
           :href="`/story/${item.slug}`"
           @click.native="$emit('click-item')"
         />
