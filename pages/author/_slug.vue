@@ -14,7 +14,7 @@
           v-for="post in posts"
           :key="post.slug"
           :href="post.href"
-          :articleTitle="post.SITE_NAME"
+          :articleTitle="post.name"
           :articleDescription="post.brief"
           :articleImgURL="post.heroImage"
           :articleCategory="post.category"
@@ -195,7 +195,7 @@ export default {
       }
       return {
         style: item.style,
-        title: item.name,
+        name: item.name,
         href: `/story/${item.slug}`,
         brief,
         publishTime: dayjs(item.publishTime).format('YYYY.MM.DD HH:mm'),
