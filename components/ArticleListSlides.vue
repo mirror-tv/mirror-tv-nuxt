@@ -15,12 +15,12 @@
         @click="$emit('click-slide-item')"
       >
         <div class="item__image">
-          <img v-lazy="getImage(item)" :alt="item.title" />
+          <img v-lazy="getImage(item)" :alt="item.name" />
           <div class="g-video-news-img-icon-wrapper">
             <div class="g-video-news-img-icon" />
           </div>
         </div>
-        <span class="item__title" v-text="item.title" />
+        <span class="item__title" v-text="item.name" />
       </a>
     </div>
     <button v-if="canSlidePrev" class="slide-btn prev" @click="handleSlidePrev">
