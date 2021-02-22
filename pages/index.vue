@@ -14,15 +14,15 @@
           />
         </div>
         <div class="main__live-stream live-stream">
-          <HeadingBordered :showIcon="true" class="home__heading" text="LIVE" />
+          <HeadingBordered :showIcon="true" class="home__heading" :text="鏡電視LIVE" />
           <client-only>
             <IframeYoutube
               v-if="!isViewportWidthUpXxl"
               :enableAutoplay="true"
-              videoId="4ZVUmEUFwaY"
+              videoId="coYw-eVU0Ks"
             />
           </client-only>
-          <HeadingBordered :showIcon="true" class="home__heading" text="直播" />
+          <HeadingBordered :showIcon="true" class="home__heading" :text="'直播現場'" />
           <IframeEmbedYoutube
             v-for="item in playlistItems"
             :key="item"
@@ -30,7 +30,7 @@
           />
         </div>
         <div class="main__list-latest-wrapper list-latest-wrapper">
-          <HeadingBordered :text="'最新文章'" class="home__heading" />
+          <HeadingBordered :text="'最新新聞'" class="home__heading" />
           <ol class="list-latest">
             <li v-for="post in latestPosts" :key="post.id">
               <ArticleCard
@@ -53,15 +53,15 @@
       </main>
       <aside class="g-aside main__aside aside">
         <div class="aside__live-stream live-stream">
-          <HeadingBordered :showIcon="true" class="home__heading" text="LIVE" />
+          <HeadingBordered :showIcon="true" class="home__heading" :text="鏡電視LIVE" />
           <client-only>
             <IframeYoutube
               v-if="isViewportWidthUpXxl"
               :enableAutoplay="true"
-              videoId="4ZVUmEUFwaY"
+              videoId="coYw-eVU0Ks"
             />
           </client-only>
-          <HeadingBordered :showIcon="true" class="home__heading" text="直播" />
+          <HeadingBordered :showIcon="true" class="home__heading" :text="直播現場" />
           <IframeEmbedYoutube
             v-for="item in playlistItems"
             :key="item"
@@ -360,7 +360,7 @@ export default {
     margin-top: 16px;
   }
   &__heading {
-    width: 110px;
+    min-width: 110px;
     + * {
       margin-top: 16px;
     }

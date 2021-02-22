@@ -440,10 +440,10 @@ export default {
 
 .g-page--with-aside {
   padding-top: 50px;
-  &__wrapper {
+  .g-page__wrapper {
     max-width: 500px;
     @include media-breakpoint-up(xxl) {
-      width: 1120px;
+      width: 1080px;
       max-width: none;
     }
   }
@@ -486,7 +486,7 @@ export default {
   &__title {
     margin: 10px 0 0;
     color: #000;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 500;
     + * {
       margin-top: 10px;
