@@ -44,9 +44,9 @@
         </div>
       </main>
       <aside class="g-aside">
-        <HeadingBordered :showIcon="true" text="LIVE" />
-        <IframeYoutube :enableAutoplay="true" videoId="4ZVUmEUFwaY" />
-        <HeadingBordered :showIcon="true" text="直播" />
+        <HeadingBordered :showIcon="true" text="鏡電視LIVE" />
+        <IframeYoutube :enableAutoplay="true" videoId="coYw-eVU0Ks" />
+        <HeadingBordered :showIcon="true" text="直播現場" />
         <IframeEmbedYoutube
           v-for="item in playlistItems"
           :key="item"

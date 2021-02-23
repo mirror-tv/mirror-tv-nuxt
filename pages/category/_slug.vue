@@ -39,7 +39,7 @@
       </main>
       <aside class="g-aside">
         <ListArticleAside
-          :listTitle="'最新文章'"
+          :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
         />
       </aside>

@@ -68,7 +68,7 @@
       <aside class="g-aside aside">
         <ListArticleAside
           class="aside__list-latest"
-          :listTitle="'最新文章'"
+          :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
         />
       </aside>
@@ -486,7 +486,7 @@ export default {
   &__title {
     margin: 10px 0 0;
     color: #000;
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 500;
     + * {
       margin-top: 10px;
@@ -566,7 +566,7 @@ export default {
 }
 
 .aside {
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(xxl) {
     background-color: $color-grey;
     ::v-deep {
       .list__list-item {
