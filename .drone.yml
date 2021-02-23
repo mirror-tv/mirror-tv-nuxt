@@ -30,23 +30,23 @@ steps:
         - push
 
 # The cache is used by lighthouseCI only
-  - name: restoreCache
-    pull: if-not-exists
-    image: drillster/drone-volume-cache
-    settings:
-      mount:
-        - ./.yarn-cache
-        - ./node_modules
-      restore: true
-    volumes:
-      - name: 2f746d702f6361636865
-        path: /cache
-    when:
-      branch:
-        - dev
-        - master
-      event:
-        - push
+  # - name: restoreCache
+  #   pull: if-not-exists
+  #   image: drillster/drone-volume-cache
+  #   settings:
+  #     mount:
+  #       - ./.yarn-cache
+  #       - ./node_modules
+  #     restore: true
+  #   volumes:
+  #     - name: 2f746d702f6361636865
+  #       path: /cache
+  #   when:
+  #     branch:
+  #       - dev
+  #       - master
+  #     event:
+  #       - push
 
   - name: getCIConfig
     pull: if-not-exists
@@ -159,21 +159,21 @@ steps:
       event:
         - push
 
-  - name: rebuildCache
-    pull: if-not-exists
-    image: drillster/drone-volume-cache
-    settings:
-      mount:
-        - ./.yarn-cache
-        - ./node_modules
-      rebuild: true
-    volumes:
-      - name: 2f746d702f6361636865
-        path: /cache
-    when:
-      branch:
-        - dev
-        - master
+  # - name: rebuildCache
+  #   pull: if-not-exists
+  #   image: drillster/drone-volume-cache
+  #   settings:
+  #     mount:
+  #       - ./.yarn-cache
+  #       - ./node_modules
+  #     rebuild: true
+  #   volumes:
+  #     - name: 2f746d702f6361636865
+  #       path: /cache
+  #   when:
+  #     branch:
+  #       - dev
+  #       - master
 
   - name: finishSlack
     pull: if-not-exists
