@@ -21,6 +21,22 @@
         />
       </aside>
     </div>
+    <div class="g-page__wrapper">
+      <div class="show__collect">
+        <h3>選集</h3>
+        <ol>
+          <li v-for="item in playlistItems" :key="item.id">
+            <IframeEmbedYoutube :videoId="item.id" />
+            <h4 v-text="item.title"></h4>
+          </li>
+        </ol>
+        <ButtonLoadmore
+          v-if="nextPageToken"
+          class="g-button-load-more"
+          @click.native="loadYoutubeListData"
+        />
+      </div>
+    </div>
   </section>
 </template>
 
@@ -29,6 +45,7 @@ import { SITE_NAME } from '~/constants'
 import { getDomain } from '~/utils/meta'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import IframeEmbedYoutube from '~/components/IframeEmbedYoutube'
+import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 
 export default {
@@ -46,10 +63,13 @@ export default {
   components: {
     FacebookPagePlugin,
     IframeEmbedYoutube,
+    ButtonLoadmore,
   },
   data() {
     return {
       show: {},
+      playlistItems: [],
+      nextPageToken: '',
     }
   },
   head() {
@@ -107,12 +127,49 @@ export default {
     picture() {
       return this.show.picture
     },
-    trailerYoutubeId() {
-      const trailerUrl = this.show?.trailerUrl
-      if (trailerUrl?.includes('watch?v=')) {
-        return trailerUrl?.split('v=')[1]
+    youtubePlaylistId() {
+      const youtubePlaylistUrl = this.show.youtubePlaylistUrl ?? ''
+      if (youtubePlaylistUrl.includes('playlist?list=')) {
+        return youtubePlaylistUrl.split('list=')[1]
       }
-      return trailerUrl?.split('https://youtu.be/')[1]
+      return youtubePlaylistUrl.split('https://youtu.be/')[1]
+    },
+    trailerYoutubeId() {
+      const trailerUrl = this.show.trailerUrl ?? ''
+      if (trailerUrl.includes('watch?v=')) {
+        return trailerUrl.split('v=')[1]
+      }
+      return trailerUrl.split('https://youtu.be/')[1]
+    },
+  },
+  mounted() {
+    this.loadYoutubeListData()
+  },
+  methods: {
+    // reducePlaylistItems(item) {
+    //   return {
+    //     id: item?.snippet?.resourceId?.videoId,
+    //     title: item?.snippet?.title,
+    //   }
+    // },
+    async loadYoutubeListData() {
+      if (this.youtubePlaylistId) {
+        try {
+          const testLink = 'PLIufxCyJpxOx4fCTTNcC7XCVZgY8MYQT5'
+          const pageToken = this.nextPageToken
+            ? `&pageToken=${this.nextPageToken}`
+            : ''
+          const response = await this.$fetchYoutubeData(
+            `/playlistItems?part=snippet${pageToken}&playlistId=${testLink}&maxResults=8`
+          )
+          this.nextPageToken = response?.nextPageToken
+          response?.items?.forEach((item) => {
+            this.playlistItems.push(this.reducePlaylistItems(item))
+          })
+        } catch (error) {
+          // console.error('[ERROR]Youtube API:', error.message)
+        }
+      }
     },
   },
 }
@@ -211,6 +268,45 @@ export default {
       }
       @include media-breakpoint-up(xxl) {
         margin-top: 24px;
+      }
+    }
+  }
+  &__collect {
+    margin-top: 24px;
+    &__loadmore {
+      display: flex;
+      justify-content: center;
+    }
+    h3 {
+      color: $color-blue;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 23px;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    ol {
+      @include media-breakpoint-up(md) {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      li {
+        margin-bottom: 24px;
+        @include media-breakpoint-up(md) {
+          width: calc(100% * 8 / 35);
+        }
+        h4 {
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 23px;
+          margin-top: 12px;
+        }
+      }
+    }
+    .g-button-load-more {
+      @include media-breakpoint-up(md) {
+        margin: 0 auto;
       }
     }
   }

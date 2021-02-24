@@ -38,7 +38,7 @@
           />
         </div>
         <div class="main__list-latest-wrapper list-latest-wrapper">
-          <HeadingBordered :text="'最新新聞'" class="home__heading" />
+          <HeadingBordered text="最新新聞" class="home__heading" />
           <ol class="list-latest">
             <li v-for="post in latestPosts" :key="post.id">
               <ArticleCard
