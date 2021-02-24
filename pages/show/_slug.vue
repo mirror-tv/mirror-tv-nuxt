@@ -22,7 +22,7 @@
       </aside>
     </div>
     <div class="g-page__wrapper">
-      <div class="show__collect">
+      <div class="show__collect" v-if="hasPlaylistItems">
         <h3>選集</h3>
         <ol>
           <li v-for="item in playlistItems" :key="item.id">
@@ -127,6 +127,9 @@ export default {
     picture() {
       return this.show.picture
     },
+    hasPlaylistItems() {
+      return this.playlistItems.length
+    },
     youtubePlaylistId() {
       const youtubePlaylistUrl = this.show.youtubePlaylistUrl ?? ''
       if (youtubePlaylistUrl.includes('playlist?list=')) {
@@ -146,12 +149,12 @@ export default {
     this.loadYoutubeListData()
   },
   methods: {
-    // reducePlaylistItems(item) {
-    //   return {
-    //     id: item?.snippet?.resourceId?.videoId,
-    //     title: item?.snippet?.title,
-    //   }
-    // },
+    reducePlaylistItems(item) {
+      return {
+        id: item?.snippet?.resourceId?.videoId,
+        title: item?.snippet?.title,
+      }
+    },
     async loadYoutubeListData() {
       if (this.youtubePlaylistId) {
         try {
@@ -167,7 +170,7 @@ export default {
             this.playlistItems.push(this.reducePlaylistItems(item))
           })
         } catch (error) {
-          // console.error('[ERROR]Youtube API:', error.message)
+          console.error('[ERROR]Youtube API:', error.message)
         }
       }
     },
