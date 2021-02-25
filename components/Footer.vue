@@ -49,11 +49,29 @@
         </div>
       </div>
       <div class="top-wrapper__right right">
-        <a href="/schedule" target="_blank" rel="noreferrer noopener"
-          >電視節目表</a
+        <a href="/schedule" target="_blank" rel="noreferrer noopener">
+          電視節目表
+        </a>
+        <a href="/story/privacy" target="_blank" rel="noreferrer noopener">
+          隱私權政策
+        </a>
+        <a
+          href="/story/webauthorization"
+          target="_blank"
+          rel="noreferrer noopener"
         >
-        <a href="/aboutus">關於我們</a>
-        <a href="/privacy">隱私權政策</a>
+          內容授權
+        </a>
+        <a href="/story/ad-sales" target="_blank" rel="noreferrer noopener">
+          廣告合作
+        </a>
+        <a
+          href="/story/press-self-regulation"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          新聞自律綱要
+        </a>
       </div>
     </div>
     <div class="footer__bottom-wrapper bottom-wrapper">
@@ -139,18 +157,15 @@ export default {
     position: relative;
   }
   &__middle {
-    margin: 30px 0 0 0;
+    margin: 20px 0 0 0;
     @include media-breakpoint-up(xl) {
-      margin: 0 0 0 30px;
+      margin: 0 160px 0 48px;
     }
   }
   &__right {
-    margin: 30px 0 0 0;
+    margin: 20px 0 0 0;
     @include media-breakpoint-up(xl) {
-      margin: 0 0 0 30px;
-      position: absolute;
-      right: calc((100vw - #{$max-width-xxl}) / 2);
-      height: calc(100% - 22px * 2);
+      margin: 0;
     }
   }
 }
@@ -195,31 +210,28 @@ export default {
   font-size: 14px;
   line-height: 2;
   letter-spacing: 0.5px;
-  @include media-breakpoint-up(xl) {
-    display: flex;
-  }
-  &__info {
-    @include media-breakpoint-up(xl) {
-      & + & {
-        margin: 0 0 0 5px;
-      }
-    }
-  }
 }
 
 .right {
-  padding: 30px 0 0 0;
+  padding: 20px 0 0 0;
   border-top: 1px solid white;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   color: white;
   font-size: 14px;
   line-height: 2;
   letter-spacing: 0.5px;
+  a {
+    width: calc(100% / 3);
+  }
   @include media-breakpoint-up(xl) {
-    padding: 0 0 0 30px;
+    flex-direction: column;
+    padding: 0 0 0 20px;
     border-top: none;
     border-left: 1px solid white;
+    a {
+      width: 100%;
+    }
   }
 }
 
