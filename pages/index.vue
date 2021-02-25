@@ -84,6 +84,11 @@
             :videoId="item"
           />
         </div>
+
+        <div class="aside__show-list show-list">
+          <HeadingBordered class="home__heading" text="節目" />
+          <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
+        </div>
         <FacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
@@ -107,8 +112,10 @@ import IframeEmbedYoutube from '~/components/IframeEmbedYoutube.vue'
 import IframeYoutube from '~/components/IframeYoutube.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
+import ShowCard from '~/components/ShowCard'
 
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
+import { fetchAllShows } from '~/apollo/queries/show.gql'
 
 const PAGE_SIZE = 12
 
@@ -145,6 +152,12 @@ export default {
         return data.allPosts
       },
     },
+    allShows: {
+      query: fetchAllShows,
+      update(data) {
+        return data.allShows
+      },
+    },
   },
   components: {
     Swiper,
@@ -156,6 +169,7 @@ export default {
     IframeYoutube,
     LinkYoutubeStyle,
     UiFlashNews,
+    ShowCard,
   },
   data() {
     return {
@@ -165,6 +179,7 @@ export default {
       page: 0,
       playlistItems: [],
       postsCount: 0,
+      allShows: [],
     }
   },
   async fetch() {
@@ -398,6 +413,12 @@ export default {
   }
   .iframe-wrapper + .iframe-wrapper {
     margin-top: 16px;
+  }
+}
+
+.show-list {
+  .home__heading {
+    margin: 30px 0 0;
   }
 }
 

@@ -23,3 +23,18 @@ query fetchShowBySlug (
     youtubePlaylistUrl
   }
 }
+query fetchAllShows {
+  allShows {
+    slug
+    schedule {
+      name
+    }
+    bannerImg {
+      urlMobileSized
+    }
+
+    introduction
+    facebookUrl
+    trailerUrl
+  }
+}

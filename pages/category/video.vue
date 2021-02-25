@@ -52,6 +52,9 @@
           :key="item"
           :videoId="item"
         />
+        <HeadingBordered class="home__heading" text="節目" />
+        <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
+
         <FacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
@@ -71,10 +74,12 @@ import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import IframeEmbedYoutube from '~/components/IframeEmbedYoutube.vue'
 import IframeYoutube from '~/components/IframeYoutube.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
+import ShowCard from '~/components/ShowCard'
 
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import { fetchVideoEditorChoices } from '~/apollo/queries/videoEditorChoices.gql'
 import { fetchPostsByCategorySlug } from '~/apollo/queries/posts.gql'
+import { fetchAllShows } from '~/apollo/queries/show.gql'
 
 export default {
   apollo: {
@@ -91,6 +96,12 @@ export default {
           .map((item) => item.videoEditor)
       },
     },
+    allShows: {
+      query: fetchAllShows,
+      update(data) {
+        return data.allShows
+      },
+    },
   },
   components: {
     ArticleListSlides,
@@ -100,6 +111,7 @@ export default {
     IframeEmbedYoutube,
     IframeYoutube,
     LinkYoutubeStyle,
+    ShowCard,
   },
   data() {
     return {
@@ -115,6 +127,7 @@ export default {
       lifePosts: {},
       personPosts: {},
       politicsPosts: {},
+      allShows: [],
     }
   },
   async fetch() {
