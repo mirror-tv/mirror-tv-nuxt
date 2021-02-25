@@ -22,7 +22,7 @@
       </aside>
     </div>
     <div class="g-page__wrapper">
-      <div class="show__collect" v-if="hasPlaylistItems">
+      <div v-if="hasPlaylistItems" class="show__collect">
         <h3>選集</h3>
         <ol>
           <li v-for="item in playlistItems" :key="item.id">
@@ -158,18 +158,18 @@ export default {
     async loadYoutubeListData() {
       if (this.youtubePlaylistId) {
         try {
-          const testLink = 'PLIufxCyJpxOx4fCTTNcC7XCVZgY8MYQT5'
           const pageToken = this.nextPageToken
             ? `&pageToken=${this.nextPageToken}`
             : ''
           const response = await this.$fetchYoutubeData(
-            `/playlistItems?part=snippet${pageToken}&playlistId=${testLink}&maxResults=8`
+            `/playlistItems?part=snippet${pageToken}&playlistId=${this.youtubePlaylistId}&maxResults=8`
           )
           this.nextPageToken = response?.nextPageToken
           response?.items?.forEach((item) => {
             this.playlistItems.push(this.reducePlaylistItems(item))
           })
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error('[ERROR]Youtube API:', error.message)
         }
       }

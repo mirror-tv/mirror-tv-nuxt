@@ -133,7 +133,7 @@ export default {
   async fetch() {
     try {
       const reponse = await this.$fetchYoutubeData(
-        '/playlistItems?part=snippet&playlistId=PLIufxCyJpxOx4fCTTNcC7XCVZgY8MYQT5&maxResults=3'
+        '/playlistItems?part=snippet&playlistId=PLT6yxVwBEbi2dWegLu37V63_tP-nI6em_&maxResults=3'
       )
       this.playlistItems =
         reponse?.items?.map((item) => item?.snippet?.resourceId?.videoId) ?? []

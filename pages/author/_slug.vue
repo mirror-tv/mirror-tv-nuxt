@@ -33,7 +33,7 @@
       <aside class="g-aside">
         <ListArticleAside
           v-if="hasLatestPosts"
-          :listTitle="'最新文章'"
+          listTitle="最新新聞"
           :listData="latestPosts"
           class="latest-list"
         />
