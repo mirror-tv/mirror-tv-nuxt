@@ -209,18 +209,20 @@ export default {
   @include media-breakpoint-up(md) {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    width: calc(100% + 30px);
+    transform: translateX(-15px);
+    margin: 0;
   }
   li {
     margin: 0 0 20px 0;
     @include media-breakpoint-up(md) {
-      width: calc((100% - 52px) / 3);
+      width: calc((100% - 90px) / 3);
+      margin: 20px 15px 0;
     }
-    @include media-breakpoint-up(xxl) {
-      width: calc((100% - 48px) / 3);
+    @include media-breakpoint-up(xl) {
       ::v-deep {
         .article-card {
-          width: auto;
+          width: 100%;
         }
         .article-img-wrapper.stretch {
           width: 100%;
