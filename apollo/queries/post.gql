@@ -2,7 +2,6 @@ query fetchPostPublishedBySlug($slug: String!) {
   postPublished: allPosts(
     where: {
       state: published,
-      slug_not_in: ["privacy", "ad-sales", "press-self-regulation", "webauthorization"]
       slug: $slug,
     }
   ) {

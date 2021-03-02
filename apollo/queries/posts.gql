@@ -73,7 +73,6 @@ query fetchPostsAndCountByAuthorSlug (
         },
       ]
     },
-    slug_not_in: ["privacy", "ad-sales", "press-self-regulation", "webauthorization"]
     sortBy: publishTime_DESC,
     first: $maxResults,
     skip: $skip,
