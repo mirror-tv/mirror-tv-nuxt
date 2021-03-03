@@ -26,14 +26,17 @@
         <h3>選集</h3>
         <ol>
           <li v-for="item in playlistItems" :key="item.id">
-            <IframeEmbedYoutube :videoId="item.id" />
+            <IframeYoutube
+              :videoId="item.id"
+              @send-first-play-ga="sendGaClickEvent('video')"
+            />
             <h4 v-text="item.title"></h4>
           </li>
         </ol>
         <ButtonLoadmore
           v-if="nextPageToken"
           class="g-button-load-more"
-          @click.native="loadYoutubeListData"
+          @click.native="handleClickLoadmore()"
         />
       </div>
     </div>
@@ -43,7 +46,9 @@
 <script>
 import { SITE_NAME } from '~/constants'
 import { getDomain } from '~/utils/meta'
+import { sendGaEvent } from '~/utils/google-analytics'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
+import IframeYoutube from '~/components/IframeYoutube'
 import IframeEmbedYoutube from '~/components/IframeEmbedYoutube'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
@@ -62,6 +67,7 @@ export default {
   },
   components: {
     FacebookPagePlugin,
+    IframeYoutube,
     IframeEmbedYoutube,
     ButtonLoadmore,
   },
@@ -173,6 +179,13 @@ export default {
           console.error('[ERROR]Youtube API:', error.message)
         }
       }
+    },
+    sendGaClickEvent(label) {
+      sendGaEvent(this.$ga)('show')('click')(label)
+    },
+    handleClickLoadmore() {
+      this.loadYoutubeListData()
+      this.sendGaClickEvent('load more button')
     },
   },
 }
