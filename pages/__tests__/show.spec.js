@@ -1,5 +1,6 @@
 import page from '../show/_slug.vue'
 import FacebookPagePlugin from '../../components/FacebookPagePlugin'
+import IframeYoutube from '../../components/IframeYoutube'
 
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
 
@@ -22,6 +23,11 @@ const createWrapper = createWrapperHelper({
   data() {
     return {
       show: mockShow,
+      playlistItems: [
+        { id: 'mock001', title: 'mock' },
+        { id: 'mock002', title: 'mock' },
+        { id: 'mock003', title: 'mock' },
+      ],
     }
   },
 })
@@ -47,5 +53,8 @@ describe('page content', () => {
   })
   test('Should have facebook page plugin', () => {
     expect(wrapper.findComponent(FacebookPagePlugin).exists()).toBe(true)
+  })
+  test('Should have youtube play list', () => {
+    expect(wrapper.findComponent(IframeYoutube).exists()).toBe(true)
   })
 })
