@@ -4,10 +4,6 @@
       <main class="main">
         <UiFlashNews class="main__flash-news" :articles="flashNews" />
         <div v-if="showEditorChoices" class="editor-choices-wrapper">
-          <HeadingBordered
-            class="editor-choices-wrapper__heading home__heading"
-            :text="'編輯精選'"
-          />
           <Swiper
             :slidesData="editorChoices"
             @click-slide="sendGaClickEvent('editor choices')"
@@ -327,9 +323,6 @@ export default {
   .editor-choices-wrapper {
     width: calc(100% + 32px);
     transform: translateX(-16px);
-    &__heading {
-      display: none;
-    }
     &::v-deep {
       .article-img-wrapper {
         padding-top: 56.25%;
