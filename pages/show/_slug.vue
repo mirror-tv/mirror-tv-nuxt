@@ -10,15 +10,7 @@
         <div class="show__introduction" v-text="introduction" />
       </main>
       <aside class="g-aside">
-        <div v-if="trailerYoutubeId" class="show__trailer">
-          <h3>預告</h3>
-          <IframeEmbedYoutube :videoId="trailerYoutubeId" />
-        </div>
-        <FacebookPagePlugin
-          v-if="facebookUrl"
-          :href="facebookUrl"
-          class="show__facebook-page"
-        />
+        <FacebookPagePlugin v-if="facebookUrl" :href="facebookUrl" />
       </aside>
     </div>
     <div class="g-page__wrapper">
@@ -49,7 +41,6 @@ import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import IframeYoutube from '~/components/IframeYoutube'
-import IframeEmbedYoutube from '~/components/IframeEmbedYoutube'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 
@@ -68,7 +59,6 @@ export default {
   components: {
     FacebookPagePlugin,
     IframeYoutube,
-    IframeEmbedYoutube,
     ButtonLoadmore,
   },
   data() {
@@ -142,13 +132,6 @@ export default {
         return youtubePlaylistUrl.split('list=')[1]
       }
       return youtubePlaylistUrl.split('https://youtu.be/')[1]
-    },
-    trailerYoutubeId() {
-      const trailerUrl = this.show.trailerUrl ?? ''
-      if (trailerUrl.includes('watch?v=')) {
-        return trailerUrl.split('v=')[1]
-      }
-      return trailerUrl.split('https://youtu.be/')[1]
     },
   },
   mounted() {
@@ -265,27 +248,6 @@ export default {
   }
   &__introduction {
     text-align: justify;
-  }
-  &__trailer {
-    h3 {
-      color: $color-blue;
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 23px;
-      letter-spacing: 0.5px;
-      + div {
-        margin-top: 10px;
-      }
-    }
-    + .show__facebook-page {
-      margin-top: 24px;
-      @include media-breakpoint-up(md) {
-        margin-top: 20px;
-      }
-      @include media-breakpoint-up(xxl) {
-        margin-top: 24px;
-      }
-    }
   }
   &__collect {
     margin-top: 24px;

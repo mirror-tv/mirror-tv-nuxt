@@ -1,6 +1,5 @@
 import page from '../show/_slug.vue'
 import FacebookPagePlugin from '../../components/FacebookPagePlugin'
-import IframeEmbedYoutube from '../../components/IframeEmbedYoutube'
 
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
 
@@ -17,7 +16,6 @@ const mockShow = {
   schedule: {
     name: 'scheduleName',
   },
-  trailerUrl: 'https://youtu.be/0d4nLXIansU',
 }
 
 const createWrapper = createWrapperHelper({
@@ -46,9 +44,6 @@ describe('page content', () => {
   test('Should have proper introduction', () => {
     const introduction = wrapper.get('.show__introduction')
     expect(introduction.text()).toContain(mockShow.introduction)
-  })
-  test('Should have trailer iframe', () => {
-    expect(wrapper.findComponent(IframeEmbedYoutube).exists()).toBe(true)
   })
   test('Should have facebook page plugin', () => {
     expect(wrapper.findComponent(FacebookPagePlugin).exists()).toBe(true)

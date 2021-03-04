@@ -19,7 +19,6 @@ query fetchShowBySlug (
     }
     introduction
     facebookUrl
-    trailerUrl
     youtubePlaylistUrl
   }
 }
