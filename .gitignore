@@ -89,5 +89,8 @@ sw.*
 # Vim swap files
 *.swp
 
+# Joe backup files
+*~
+
 configs/config.js
 gcskeyfile.json
