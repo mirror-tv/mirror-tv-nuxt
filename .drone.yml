@@ -120,6 +120,8 @@ steps:
     when:
       branch:
         - dev
+        - stag
+        - master
       event:
         - push
 
