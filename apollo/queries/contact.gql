@@ -13,3 +13,17 @@ query fetchContactBySlug($slug: String!) {
     bio
   }
 }
+
+query fetchContactByAnchorPerson {
+  allContacts(
+    where: {
+      anchorperson: true
+    }
+  ) {
+    name
+    image {
+      urlMobileSized
+    }
+    slug
+  }
+}
