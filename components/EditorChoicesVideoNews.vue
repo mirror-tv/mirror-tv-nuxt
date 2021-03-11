@@ -2,7 +2,7 @@
   <div v-if="hasItems" class="editor-choices">
     <slot />
     <div class="editor-choices-container">
-      <client-only>
+      <ClientOnly>
         <IframeYoutube
           :videoId="highlightSlug"
           class="editor-choices__first-item item"
@@ -10,7 +10,7 @@
           @is-playing="videoIsPlaying = true"
           @send-first-play-ga="sendGaPlayEvent('editors choice video')"
         />
-      </client-only>
+      </ClientOnly>
       <div class="editor-choices__remaining">
         <div class="scrollable-container">
           <div

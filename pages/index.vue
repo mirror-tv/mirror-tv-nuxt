@@ -15,13 +15,13 @@
             class="home__heading"
             text="鏡電視LIVE"
           />
-          <client-only>
+          <ClientOnly>
             <IframeYoutube
               v-if="!isViewportWidthUpXxl"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
             />
-          </client-only>
+          </ClientOnly>
           <HeadingBordered
             :showIcon="true"
             class="home__heading"
@@ -62,13 +62,13 @@
             class="home__heading"
             text="鏡電視LIVE"
           />
-          <client-only>
+          <ClientOnly>
             <IframeYoutube
               v-if="isViewportWidthUpXxl"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
             />
-          </client-only>
+          </ClientOnly>
           <HeadingBordered
             :showIcon="true"
             class="home__heading"
