@@ -13,6 +13,8 @@ const PREFIX = `${process.env.npm_package_name}_${ENV}:`
 
 const ENABLE_REDIS = ENV === 'prod'
 
+const MAX_RETRY_TIMES = 20
+
 let redisClient
 
 if (REDIS_HOST && REDIS_PORT && REDIS_AUTH) {
@@ -28,6 +30,7 @@ if (REDIS_HOST && REDIS_PORT && REDIS_AUTH) {
         redisOptions: {
           password: REDIS_AUTH,
         },
+        clusterRetryStrategy: retryStrategy,
       }
     )
   } else if (ENV === 'dev') {
@@ -35,6 +38,7 @@ if (REDIS_HOST && REDIS_PORT && REDIS_AUTH) {
       port: REDIS_PORT,
       host: REDIS_HOST,
       password: REDIS_AUTH,
+      retryStrategy,
     })
   }
   if (redisClient) {
@@ -44,6 +48,13 @@ if (REDIS_HOST && REDIS_PORT && REDIS_AUTH) {
   }
 } else {
   console.error('[REDIS] Missing config.')
+}
+
+function retryStrategy(times) {
+  if (times > MAX_RETRY_TIMES) {
+    return null
+  }
+  return 100
 }
 
 function cleanPathQuery(url) {
