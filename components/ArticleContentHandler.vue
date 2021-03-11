@@ -5,6 +5,7 @@ import ArticleContentInfobox from '~/components/ArticleContentInfobox'
 import ArticleContentSlideshow from '~/components/ArticleContentSlideshow'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
 import IframeYoutube from '~/components/IframeYoutube'
+import ArticleContentImage from '~/components/ArticleContentImage'
 
 export default {
   functional: true,
@@ -15,6 +16,7 @@ export default {
     ArticleContentSlideshow,
     ArticleContentVideo,
     IframeYoutube,
+    ArticleContentImage,
   },
   props: {
     paragraph: {
@@ -57,6 +59,8 @@ export default {
         return <IframeYoutube videoId={props.paragraph.content[0].id} />
       case 'video':
         return <ArticleContentVideo video={content} />
+      case 'image':
+        return <ArticleContentImage image={content} />
       case 'audio':
         return <ArticleContentAudio audio={content} />
       case 'unstyled':
