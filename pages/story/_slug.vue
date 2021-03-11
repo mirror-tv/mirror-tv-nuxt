@@ -83,6 +83,7 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '~/constants'
 
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleError } from '~/utils/error-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
@@ -121,8 +122,8 @@ export default {
           this.$nuxt.error({ statusCode: 404 })
         }
       },
-      error() {
-        this.$nuxt.error({ statusCode: 500 })
+      error(error) {
+        handleError(this.$nuxt, error.networkError.statusCode)
       },
     },
     allPostsLatest: {

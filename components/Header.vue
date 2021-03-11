@@ -89,6 +89,7 @@
 <script>
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleError } from '~/utils/error-handler'
 import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
 
 export default {
@@ -96,6 +97,9 @@ export default {
   apollo: {
     allCategories: {
       query: fetchFeaturedCategories,
+      error(error) {
+        handleError(this.$nuxt, error.networkError.statusCode)
+      },
     },
   },
   components: {

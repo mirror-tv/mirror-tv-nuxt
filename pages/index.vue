@@ -98,6 +98,7 @@ import { mapGetters } from 'vuex'
 import { getDomain } from '~/utils/meta'
 import { fetchPosts, fetchPostsByCategories } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleError } from '~/utils/error-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import Swiper from '~/components/Swiper'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -136,6 +137,9 @@ export default {
       update(data) {
         this.postsCount = data._allPostsMeta?.count
         return data.allPosts
+      },
+      error(error) {
+        handleError(this.$nuxt, error.networkError.statusCode)
       },
     },
     flashNews: {
