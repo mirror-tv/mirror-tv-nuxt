@@ -27,7 +27,7 @@
             class="home__heading"
             text="直播現場"
           />
-          <IframeEmbedYoutube
+          <YoutubeEmbed
             v-for="item in playlistItems"
             :key="item"
             :videoId="item"
@@ -74,7 +74,7 @@
             class="home__heading"
             text="直播現場"
           />
-          <IframeEmbedYoutube
+          <YoutubeEmbed
             v-for="item in playlistItems"
             :key="item"
             :videoId="item"
@@ -105,7 +105,7 @@ import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
-import IframeEmbedYoutube from '~/components/IframeEmbedYoutube.vue'
+import YoutubeEmbed from '~/components/YoutubeEmbed.vue'
 import IframeYoutube from '~/components/IframeYoutube.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
@@ -165,7 +165,7 @@ export default {
     ArticleCard,
     ButtonLoadmore,
     FacebookPagePlugin,
-    IframeEmbedYoutube,
+    YoutubeEmbed,
     IframeYoutube,
     LinkYoutubeStyle,
     UiFlashNews,

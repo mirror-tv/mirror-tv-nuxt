@@ -47,7 +47,7 @@
         <HeadingBordered :showIcon="true" text="鏡電視LIVE" />
         <IframeYoutube :enableAutoplay="true" videoId="coYw-eVU0Ks" />
         <HeadingBordered :showIcon="true" text="直播現場" />
-        <IframeEmbedYoutube
+        <YoutubeEmbed
           v-for="item in playlistItems"
           :key="item"
           :videoId="item"
@@ -71,7 +71,7 @@ import ArticleListSlides from '~/components/ArticleListSlides'
 import EditorChoicesVideoNews from '~/components/EditorChoicesVideoNews'
 import HeadingBordered from '~/components/HeadingBordered'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
-import IframeEmbedYoutube from '~/components/IframeEmbedYoutube.vue'
+import YoutubeEmbed from '~/components/YoutubeEmbed.vue'
 import IframeYoutube from '~/components/IframeYoutube.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import ShowCard from '~/components/ShowCard'
@@ -108,7 +108,7 @@ export default {
     EditorChoicesVideoNews,
     HeadingBordered,
     FacebookPagePlugin,
-    IframeEmbedYoutube,
+    YoutubeEmbed,
     IframeYoutube,
     LinkYoutubeStyle,
     ShowCard,

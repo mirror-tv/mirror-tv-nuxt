@@ -1,4 +1,4 @@
-import IframeEmbedYoutube from '~/components/IframeEmbedYoutube'
+import YoutubeEmbed from '~/components/YoutubeEmbed'
 
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
 
@@ -7,7 +7,7 @@ const createWrapper = createWrapperHelper()
 describe('props', function () {
   const videoId = 'titleMock'
   test('iframe should render src by "videoId" prop', function () {
-    const wrapper = createWrapper(IframeEmbedYoutube, {
+    const wrapper = createWrapper(YoutubeEmbed, {
       propsData: {
         videoId,
       },
@@ -18,7 +18,7 @@ describe('props', function () {
     )
   })
   test('iframe should render src by "videoId" and "enableAutoplay" props', function () {
-    const wrapper = createWrapper(IframeEmbedYoutube, {
+    const wrapper = createWrapper(YoutubeEmbed, {
       propsData: {
         videoId,
         enableAutoplay: true,
