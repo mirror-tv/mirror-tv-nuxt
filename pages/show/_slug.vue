@@ -18,7 +18,7 @@
         <h3>選集</h3>
         <ol>
           <li v-for="item in playlistItems" :key="item.id">
-            <IframeYoutube
+            <YoutubeEmbedByIframeApi
               :videoId="item.id"
               @send-first-play-ga="sendGaClickEvent('video')"
             />
@@ -40,7 +40,7 @@ import { SITE_NAME } from '~/constants'
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
-import IframeYoutube from '~/components/IframeYoutube'
+import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 
@@ -58,7 +58,7 @@ export default {
   },
   components: {
     FacebookPagePlugin,
-    IframeYoutube,
+    YoutubeEmbedByIframeApi,
     ButtonLoadmore,
   },
   data() {

@@ -24,7 +24,7 @@ describe('editor choices', () => {
       }
     },
     stubs: {
-      IframeYoutube: true,
+      YoutubeEmbedByIframeApi: true,
     },
   })
   test('should call $ga when click item', async () => {

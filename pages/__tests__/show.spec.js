@@ -1,6 +1,6 @@
 import page from '../show/_slug.vue'
 import FacebookPagePlugin from '../../components/FacebookPagePlugin'
-import IframeYoutube from '../../components/IframeYoutube'
+import YoutubeEmbedByIframeApi from '../../components/YoutubeEmbedByIframeApi'
 
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
 
@@ -55,6 +55,6 @@ describe('page content', () => {
     expect(wrapper.findComponent(FacebookPagePlugin).exists()).toBe(true)
   })
   test('Should have youtube play list', () => {
-    expect(wrapper.findComponent(IframeYoutube).exists()).toBe(true)
+    expect(wrapper.findComponent(YoutubeEmbedByIframeApi).exists()).toBe(true)
   })
 })

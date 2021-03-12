@@ -4,7 +4,7 @@ import ArticleContentAudio from '~/components/ArticleContentAudio'
 import ArticleContentInfobox from '~/components/ArticleContentInfobox'
 import ArticleContentSlideshow from '~/components/ArticleContentSlideshow'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
-import IframeYoutube from '~/components/IframeYoutube'
+import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ArticleContentImage from '~/components/ArticleContentImage'
 
 export default {
@@ -15,7 +15,7 @@ export default {
     ArticleContentInfobox,
     ArticleContentSlideshow,
     ArticleContentVideo,
-    IframeYoutube,
+    YoutubeEmbedByIframeApi,
     ArticleContentImage,
   },
   props: {
@@ -56,7 +56,9 @@ export default {
       case 'slideshow':
         return <ArticleContentSlideshow items={props.paragraph.content} />
       case 'youtube':
-        return <IframeYoutube videoId={props.paragraph.content[0].id} />
+        return (
+          <YoutubeEmbedByIframeApi videoId={props.paragraph.content[0].id} />
+        )
       case 'video':
         return <ArticleContentVideo video={content} />
       case 'image':

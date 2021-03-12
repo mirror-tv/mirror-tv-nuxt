@@ -3,7 +3,7 @@
     <slot />
     <div class="editor-choices-container">
       <ClientOnly>
-        <IframeYoutube
+        <YoutubeEmbedByIframeApi
           :videoId="highlightSlug"
           class="editor-choices__first-item item"
           @is-ended="setTimer()"
@@ -36,11 +36,11 @@
 
 <script>
 import { sendGaEvent } from '~/utils/google-analytics'
-import IframeYoutube from '~/components/IframeYoutube'
+import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 
 export default {
   components: {
-    IframeYoutube,
+    YoutubeEmbedByIframeApi,
   },
   props: {
     items: {

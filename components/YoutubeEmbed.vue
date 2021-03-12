@@ -19,7 +19,7 @@ export default {
       type: String,
       required: true,
     },
-    // 只有桌機版有效，若要在手機版也可以自動播放請改用 IframeYoutube.vue
+    // 只有桌機版有效，若要在手機版也可以自動播放請改用 YoutubeEmbedByIframeApi.vue
     enableAutoplay: {
       type: Boolean,
       default: false,

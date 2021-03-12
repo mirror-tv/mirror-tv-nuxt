@@ -16,7 +16,7 @@
             text="鏡電視LIVE"
           />
           <ClientOnly>
-            <IframeYoutube
+            <YoutubeEmbedByIframeApi
               v-if="!isViewportWidthUpXxl"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
@@ -63,7 +63,7 @@
             text="鏡電視LIVE"
           />
           <ClientOnly>
-            <IframeYoutube
+            <YoutubeEmbedByIframeApi
               v-if="isViewportWidthUpXxl"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
@@ -106,7 +106,7 @@ import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
 import YoutubeEmbed from '~/components/YoutubeEmbed.vue'
-import IframeYoutube from '~/components/IframeYoutube.vue'
+import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
 import ShowCard from '~/components/ShowCard'
@@ -166,7 +166,7 @@ export default {
     ButtonLoadmore,
     FacebookPagePlugin,
     YoutubeEmbed,
-    IframeYoutube,
+    YoutubeEmbedByIframeApi,
     LinkYoutubeStyle,
     UiFlashNews,
     ShowCard,

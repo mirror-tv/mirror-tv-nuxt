@@ -4,7 +4,7 @@
       <main class="main">
         <template v-if="isVideoNews">
           <div class="post__hero">
-            <IframeYoutube :videoId="slug" />
+            <YoutubeEmbedByIframeApi :videoId="slug" />
             <p class="figcaption" v-text="imageCaption" />
           </div>
         </template>
@@ -88,7 +88,7 @@ import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
-import IframeYoutube from '~/components/IframeYoutube'
+import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import ShareFacebook from '~/components/ShareFacebook'
@@ -138,7 +138,7 @@ export default {
     ArticleContentHandler,
     ArticleCredit,
     ArticleTag,
-    IframeYoutube,
+    YoutubeEmbedByIframeApi,
     ListArticleAside,
     ListArticleRelated,
     ShareFacebook,
