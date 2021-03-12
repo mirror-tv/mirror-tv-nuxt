@@ -1,6 +1,6 @@
 # mirror-tv-nuxt
 
-> mirror-tv-nuxt
+**Note: requires Node.js v14.x**
 
 ## Build Setup
 
