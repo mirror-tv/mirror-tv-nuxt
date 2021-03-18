@@ -2,8 +2,8 @@
   <a :href="href" class="link" target="_blank" rel="noopener noreferrer">
     <div class="link__left-block">
       <slot name="left-block">
-        <img src="~/assets/img/anchor-youtube-logo.svg" alt="鏡新聞" />
-        <span>鏡新聞</span>
+        <img src="~/assets/img/anchor-youtube-logo.svg" alt="鏡主播" />
+        <span>鏡主播</span>
       </slot>
     </div>
     <div class="link__right-block">
@@ -11,9 +11,9 @@
         <img
           class="subscription-icon"
           src="~/assets/img/anchor-microphone.svg"
-          alt="訂閱"
+          alt="追蹤"
         />
-        <span>訂閱</span>
+        <span>追蹤</span>
       </slot>
     </div>
   </a>
