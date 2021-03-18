@@ -85,6 +85,7 @@
           <HeadingBordered class="home__heading" text="節目" />
           <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
         </div>
+        <LinkAnchorStyle />
         <FacebookPagePlugin />
         <LinkYoutubeStyle />
       </aside>
@@ -110,6 +111,7 @@ import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
 import ShowCard from '~/components/ShowCard'
+import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
@@ -170,6 +172,7 @@ export default {
     LinkYoutubeStyle,
     UiFlashNews,
     ShowCard,
+    LinkAnchorStyle,
   },
   data() {
     return {
