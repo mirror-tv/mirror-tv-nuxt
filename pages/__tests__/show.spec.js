@@ -14,9 +14,7 @@ const mockShow = {
     urlDesktopSized: 'https://image.com/a',
     urlMobileSized: 'https://image.com/b',
   },
-  schedule: {
-    name: 'scheduleName',
-  },
+  name: 'scheduleName',
 }
 
 const createWrapper = createWrapperHelper({
@@ -36,13 +34,13 @@ describe('page content', () => {
   const wrapper = createWrapper(page)
   test('Should have proper page title', () => {
     const title = wrapper.get('h1')
-    expect(title.text()).toBe(mockShow.schedule.name)
+    expect(title.text()).toBe(mockShow.name)
   })
   test('Should have proper leading image', () => {
     const pictureImage = wrapper.get('picture img')
     const pictureSource = wrapper.get('picture source')
     expect(pictureImage.attributes().src).toBe(mockShow.picture.urlMobileSized)
-    expect(pictureImage.attributes().alt).toBe(mockShow.schedule.name)
+    expect(pictureImage.attributes().alt).toBe(mockShow.name)
     expect(pictureSource.attributes().srcset).toBe(
       mockShow.picture.urlDesktopSized
     )

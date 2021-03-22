@@ -1,13 +1,31 @@
 <template>
   <section class="g-page g-page--with-aside show">
     <div class="g-page__wrapper">
-      <h1 class="show__name" v-text="scheduleName" />
+      <h1 class="show__name" v-text="showName" />
       <picture v-if="picture" class="show__banner-image">
         <source :srcset="picture.urlDesktopSized" media="(min-width: 768px)" />
-        <img :src="picture.urlMobileSized" :alt="scheduleName" />
+        <img :src="picture.urlMobileSized" :alt="showName" />
       </picture>
       <main class="main">
         <div class="show__introduction" v-text="introduction" />
+        <ol class="host__container">
+          <li v-for="host in hosts" :key="host.name" class="host__wrapper">
+            <img
+              v-if="host.image"
+              :src="host.image.urlMobileSized"
+              :alt="host.name"
+            />
+            <img
+              v-else
+              src="~assets/img/image-default.png"
+              alt="default image"
+            />
+            <div class="host__wrapper-content">
+              <h3>主持人 ｜ {{ host.name }}</h3>
+              <p v-if="host.bio">{{ host.bio }}</p>
+            </div>
+          </li>
+        </ol>
       </main>
       <aside class="g-aside">
         <FacebookPagePlugin v-if="facebookUrl" :href="facebookUrl" />
@@ -69,7 +87,7 @@ export default {
     }
   },
   head() {
-    const title = `${this.scheduleName} - ${SITE_NAME}`
+    const title = `${this.showName} - ${SITE_NAME}`
     const image = this.show?.bannerImg?.urlDesktopSized
     return {
       title,
@@ -117,17 +135,20 @@ export default {
     introduction() {
       return this.show.introduction
     },
-    scheduleName() {
-      return this.show.schedule?.name
+    showName() {
+      return this.show.name
     },
     picture() {
       return this.show.picture
+    },
+    hosts() {
+      return this.show.hostName ?? []
     },
     hasPlaylistItems() {
       return this.playlistItems.length
     },
     youtubePlaylistId() {
-      const youtubePlaylistUrl = this.show.youtubePlaylistUrl ?? ''
+      const youtubePlaylistUrl = this.show.playList01 ?? ''
       if (youtubePlaylistUrl.includes('playlist?list=')) {
         return youtubePlaylistUrl.split('list=')[1]
       }
@@ -210,13 +231,15 @@ export default {
     }
   }
   &__name {
-    width: 100%;
+    color: $color-blue;
     font-size: 20px;
     font-weight: 500;
     line-height: 23px;
+    letter-spacing: 0.5px;
+    margin: 24px 0;
     @include media-breakpoint-up(md) {
       font-size: 30px;
-      line-height: 35px;
+      line-height: 42px;
     }
   }
   &__banner-image {
@@ -285,6 +308,68 @@ export default {
     .g-button-load-more {
       @include media-breakpoint-up(md) {
         margin: 0 auto;
+      }
+    }
+  }
+}
+
+.host {
+  &__container {
+    margin-top: 24px;
+  }
+  &__wrapper {
+    display: flex;
+    position: relative;
+    margin-bottom: 24px;
+    padding: 6px 0 6px 24px;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 10px;
+      background: linear-gradient(
+        to bottom,
+        #d8eaeb 25%,
+        #fff 25%,
+        #fff 50%,
+        #e7e7e7 50%,
+        #e7e7e7 75%,
+        #c1c2c2 75%
+      );
+    }
+    img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      object-position: center;
+      @include default-background-image;
+      @include media-breakpoint-up(md) {
+        width: 80px;
+        height: 80px;
+      }
+    }
+    &-content {
+      margin-left: 10px;
+      h3 {
+        font-size: 20px;
+        line-height: 20px;
+        margin-bottom: 8px;
+        @include media-breakpoint-up(md) {
+          margin-bottom: 12px;
+        }
+      }
+      p {
+        font-size: 16px;
+        line-height: 26px;
+        text-align: left;
+        word-wrap: break-word;
+        word-break: break-all;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
     }
   }

@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     getBannerImgUrl() {
-      return this.show.bannerImg?.urlMobileSized
+      return this.show.bannerImg?.urlOriginal
     },
   },
 }

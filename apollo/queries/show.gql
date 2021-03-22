@@ -7,9 +7,7 @@ query fetchShowBySlug (
     }
   ) {
     slug
-    schedule {
-      name
-    }
+    name
     bannerImg {
       urlDesktopSized
     }
@@ -17,23 +15,29 @@ query fetchShowBySlug (
       urlDesktopSized
       urlMobileSized
     }
+    hostName {
+      name
+      bio
+      image {
+        urlMobileSized
+      }
+    }
     introduction
     facebookUrl
-    youtubePlaylistUrl
+    playList01
+    playList02
   }
 }
 query fetchAllShows {
   allShows {
     slug
-    schedule {
-      name
-    }
+    name
     bannerImg {
-      urlMobileSized
+      urlOriginal
     }
 
     introduction
     facebookUrl
-    trailerUrl
+    playList01
   }
 }
