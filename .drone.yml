@@ -181,18 +181,6 @@ steps:
   #       - stag
   #       - master
 
-  - name: sendStagingWebhookKeel
-    pull: if-not-exists
-    image: curlimages/curl
-    commands:
-      - curl -H "Content-Type: application/json" --request POST --data "{}" http://keel-stag.mnews.tw/v1/webhooks/native
-#      - curl -H "Content-Type: application/json" --request POST --data "{\"name\":\"gcr.io/mirror-tv-275709/${DRONE_REPO_NAME}\",\"tag\":\"${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}\"}" http://keel-stag.mnews.tw/v1/webhooks/native
-    when:
-      branch:
-        - stag
-      event:
-        - push
-
   - name: finishSlack
     pull: if-not-exists
     image: plugins/slack
