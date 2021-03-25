@@ -21,10 +21,17 @@ const createWrapper = createWrapperHelper({
   data() {
     return {
       show: mockShow,
-      playlistItems: [
-        { id: 'mock001', title: 'mock' },
-        { id: 'mock002', title: 'mock' },
-        { id: 'mock003', title: 'mock' },
+      playlists: [
+        {
+          id: 'mock1001',
+          sectionName: 'mock',
+          nextPageToken: 'mock',
+          items: [
+            { id: 'mock001', title: 'mock' },
+            { id: 'mock002', title: 'mock' },
+            { id: 'mock003', title: 'mock' },
+          ],
+        },
       ],
     }
   },

@@ -32,21 +32,25 @@
       </aside>
     </div>
     <div class="g-page__wrapper">
-      <div v-if="hasPlaylistItems" class="show__collect">
-        <h3>選集</h3>
+      <div
+        v-for="list in validPlaylists"
+        :key="list.sectionName"
+        class="show__collect"
+      >
+        <h3 v-text="list.sectionName" />
         <ol>
-          <li v-for="item in playlistItems" :key="item.id">
+          <li v-for="item in list.items" :key="item.id">
             <YoutubeEmbedByIframeApi
               :videoId="item.id"
               @send-first-play-ga="sendGaClickEvent('video')"
             />
-            <h4 v-text="item.title"></h4>
+            <h4 v-text="item.title" />
           </li>
         </ol>
         <ButtonLoadmore
-          v-if="nextPageToken"
+          v-if="list.nextPageToken"
           class="g-button-load-more"
-          @click.native="handleClickLoadmore()"
+          @click.native="handleClickLoadmore(list)"
         />
       </div>
     </div>
@@ -82,8 +86,7 @@ export default {
   data() {
     return {
       show: {},
-      playlistItems: [],
-      nextPageToken: '',
+      playlists: [],
     }
   },
   head() {
@@ -144,39 +147,58 @@ export default {
     hosts() {
       return this.show.hostName ?? []
     },
-    hasPlaylistItems() {
-      return this.playlistItems.length
-    },
-    youtubePlaylistId() {
-      const youtubePlaylistUrl = this.show.playList01 ?? ''
-      if (youtubePlaylistUrl.includes('playlist?list=')) {
-        return youtubePlaylistUrl.split('list=')[1]
-      }
-      return youtubePlaylistUrl.split('https://youtu.be/')[1]
+    validPlaylists() {
+      return this.playlists.filter((list) => list.items.length !== 0)
     },
   },
   mounted() {
-    this.loadYoutubeListData()
+    this.initPlaylists()
+    this.loadPlaylists()
   },
   methods: {
+    initPlaylists() {
+      const { playList01 = '', playList02 = '' } = this.show
+      const youtubeUrls = [playList01, playList02]
+      youtubeUrls.forEach((item, i) => {
+        const [
+          url,
+          sectionName = `選單 ${String.fromCharCode(i + 65)}`,
+        ] = item.split('：')
+        const id = url.includes('playlist?list=')
+          ? url.split('list=')[1]
+          : url.split('https://youtu.be/')[1]
+
+        this.playlists.push({
+          id,
+          sectionName,
+          nextPageToken: '',
+          items: [],
+        })
+      })
+    },
+    loadPlaylists() {
+      this.playlists.forEach((list) => {
+        this.loadYoutubeListData(list)
+      })
+    },
     reducePlaylistItems(item) {
       return {
         id: item?.snippet?.resourceId?.videoId,
         title: item?.snippet?.title,
       }
     },
-    async loadYoutubeListData() {
-      if (this.youtubePlaylistId) {
+    async loadYoutubeListData(list) {
+      if (list.id) {
         try {
-          const pageToken = this.nextPageToken
-            ? `&pageToken=${this.nextPageToken}`
+          const pageToken = list.nextPageToken
+            ? `&pageToken=${list.nextPageToken}`
             : ''
           const response = await this.$fetchYoutubeData(
-            `/playlistItems?part=snippet${pageToken}&playlistId=${this.youtubePlaylistId}&maxResults=8`
+            `/playlistItems?part=snippet${pageToken}&playlistId=${list.id}&maxResults=8`
           )
-          this.nextPageToken = response?.nextPageToken
+          list.nextPageToken = response?.nextPageToken
           response?.items?.forEach((item) => {
-            this.playlistItems.push(this.reducePlaylistItems(item))
+            list.items.push(this.reducePlaylistItems(item))
           })
         } catch (error) {
           // eslint-disable-next-line no-console
@@ -187,8 +209,8 @@ export default {
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('show')('click')(label)
     },
-    handleClickLoadmore() {
-      this.loadYoutubeListData()
+    handleClickLoadmore(list) {
+      this.loadYoutubeListData(list)
       this.sendGaClickEvent('load more button')
     },
   },
