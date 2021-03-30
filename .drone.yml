@@ -188,7 +188,7 @@ steps:
     commands:
       - curl --request POST
         --data "{\"name\":\"gcr.io/mirror-tv-275709/${DRONE_REPO_NAME}\",\"tag\":\"${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}\"}"
-        http://keel-dev.mnews.tw/v1/webhooks/native
+        https://keel-dev.mnews.tw/v1/webhooks/native
     when:
       branch:
         - dev
@@ -201,7 +201,7 @@ steps:
     commands:
       - curl --request POST
         --data "{\"name\":\"gcr.io/mirror-tv-275709/${DRONE_REPO_NAME}\",\"tag\":\"${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}\"}"
-        http://keel-stag.mnews.tw/v1/webhooks/native
+        https://keel-stag.mnews.tw/v1/webhooks/native
     when:
       branch:
         - stag
@@ -243,4 +243,3 @@ volumes:
 
 image_pull_secrets:
   - gcr_docker_config
-
