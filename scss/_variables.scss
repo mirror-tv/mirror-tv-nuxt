@@ -8,10 +8,12 @@ $grid-breakpoints: (
   md: 768px,
   lg: 992px,
   xl: 1200px,
-  xxl: 1440px // 依照設計的 breakpoint 調整
+  xxl: 1440px // 依照設計的 breakpoint 調整,,,,
 ) !default;
 
+$max-width-xl: 1120px;
 $max-width-xxl: 1200px;
+$aside-width-xl: 384px;
 $aside-width-xxl: 384px;
 
 $color-grey: #e7e7e7;

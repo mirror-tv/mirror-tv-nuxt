@@ -150,8 +150,8 @@ export default {
   flex-direction: column;
   @include media-breakpoint-up(xl) {
     padding: 22px 0;
-    padding-left: calc((100vw - #{$max-width-xxl}) / 2);
-    padding-right: calc((100vw - #{$max-width-xxl}) / 2);
+    padding-left: calc((100vw - #{$max-width-xl}) / 2);
+    padding-right: calc((100vw - #{$max-width-xl}) / 2);
     flex-direction: row;
     align-items: center;
     position: relative;
