@@ -205,8 +205,10 @@ export default {
   &__search-form {
     display: none;
   }
-  @include media-breakpoint-up(md) {
-    padding: 0 40px;
+  @include media-breakpoint-up(xl) {
+    width: $max-width-xxl;
+    padding: 0;
+    margin: 0 auto;
     height: 80px;
     background-color: #fff;
     &__search-form {
@@ -304,25 +306,10 @@ export default {
 }
 
 .bottom-wrapper {
-  background: $color-blue-deep;
-  @include media-breakpoint-up(md) {
-    background: linear-gradient(
-      to bottom,
-      $color-blue-deep 49%,
-      $color-grey 49%,
-      $color-grey 98%,
-      transparent 98%
-    );
-    overflow: hidden;
-    height: 76px;
-  }
-  &__category {
-    background-color: $color-blue;
-    @include media-breakpoint-up(md) {
-      background-color: transparent;
-    }
-  }
-  &__show {
+  background-color: #1eb1e6;
+  @include media-breakpoint-up(xl) {
+    padding-left: calc((100% - #{$max-width-xxl}) / 2);
+    padding-right: calc((100% - #{$max-width-xxl}) / 2);
     background-color: $color-blue-deep;
     @include media-breakpoint-up(md) {
       background-color: transparent;
