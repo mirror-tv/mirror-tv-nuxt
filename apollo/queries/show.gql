@@ -1,11 +1,5 @@
-query fetchShowBySlug (
-  $slug: String!
-) {
-  allShows(
-    where: {
-      slug: $slug
-    }
-  ) {
+query fetchShowBySlug($slug: String!) {
+  allShows(where: { slug: $slug }) {
     slug
     name
     bannerImg {
@@ -29,9 +23,10 @@ query fetchShowBySlug (
   }
 }
 query fetchAllShows {
-  allShows {
+  allShows(sortBy: sortOrder_ASC) {
     slug
     name
+    sortOrder
     bannerImg {
       urlOriginal
     }
