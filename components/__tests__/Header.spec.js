@@ -171,20 +171,6 @@ describe('Features about the bottom of the header', function () {
       )
     })
   })
-
-  test('Should truncate textContent in nav if more than five character', function () {
-    const mockCategories = [{ name: '123456789moreThanfiveCharacter' }]
-    const wrapper = createWrapper(Header, {
-      data() {
-        return {
-          allCategories: mockCategories,
-        }
-      },
-    })
-    const nav = wrapper.find('.category-nav')
-    expect(nav.text()).toBe('12345')
-    expect(nav.text()).not.toBe(mockCategories[0])
-  })
 })
 
 describe('GA', () => {

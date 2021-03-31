@@ -100,9 +100,9 @@ input {
     font-weight: 500;
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     height: 30px;
-    padding: 0;
+    padding: 0 0 0 8px; // 修正 cursor/caret 的位置
     &:focus {
       outline: 1px solid #c1c2c2;
       color: initial;
@@ -129,7 +129,7 @@ input {
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     width: 48px;
     height: 48px;
     padding: 9px;
@@ -150,7 +150,7 @@ input {
       fill: $color-blue;
     }
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       svg path {
         fill: #c1c2c2;
       }
@@ -161,7 +161,7 @@ input {
 .clear-button {
   position: absolute;
   right: 8px;
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     display: none;
   }
 }

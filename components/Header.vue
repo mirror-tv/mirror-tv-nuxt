@@ -8,7 +8,7 @@
       >
         <picture>
           <source
-            media="(min-width: 1200px)"
+            media="(min-width: 768px)"
             srcset="~/assets/img/Mnews_Logo-b.svg"
           />
           <img src="~/assets/img/Mnews_Logo_mobile-white.svg" alt="logo" />
@@ -68,26 +68,43 @@
         { 'header__bottom-wrapper--hide': !showCategories },
       ]"
     >
-      <nav class="bottom-wrapper__navs navs">
-        <div
-          v-for="category in allCategories"
-          :key="`category-nav-${category.slug}`"
-          class="navs__category-nav category-nav"
-        >
-          <nuxt-link
-            class="category-nav__link"
-            :to="`/category/${category.slug}`"
-            @click.native="closeHamburgerButton"
-            v-text="truncate(category.name)"
-          />
-        </div>
-      </nav>
+      <div class="scroll-hide">
+        <nav class="bottom-wrapper__category navs">
+          <div
+            v-for="category in allCategories"
+            :key="`category-nav-${category.slug}`"
+            class="navs__category-nav category-nav"
+          >
+            <nuxt-link
+              class="category-nav__link"
+              :to="`/category/${category.slug}`"
+              @click.native="closeHamburgerButton"
+              v-text="category.name"
+            />
+          </div>
+        </nav>
+        <nav class="bottom-wrapper__show navs">
+          <div
+            v-for="show in allShows"
+            :key="`show-nav-${show.slug}`"
+            class="navs__category-nav show-nav"
+          >
+            <nuxt-link
+              class="category-nav__link"
+              :to="`/show/${show.slug}`"
+              @click.native="closeHamburgerButton"
+              v-text="show.name"
+            />
+          </div>
+        </nav>
+      </div>
     </div>
   </header>
 </template>
 
 <script>
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
+import { fetchAllShows } from '~/apollo/queries/show.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
 import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
@@ -100,6 +117,9 @@ export default {
       error(error) {
         handleError(this.$nuxt, error.networkError.statusCode)
       },
+    },
+    allShows: {
+      query: fetchAllShows,
     },
   },
   components: {
@@ -150,9 +170,6 @@ export default {
     handleCloseSearchButton() {
       this.showSearchFormWrapper = false
     },
-    truncate(text) {
-      return text.substring(0, 5)
-    },
     handleSearchFormSubmit() {
       if (this.searchKeyword) {
         this.$router.push(`/search/${this.searchKeyword}`)
@@ -171,7 +188,7 @@ export default {
   &__bottom-wrapper {
     &--hide {
       display: none;
-      @include media-breakpoint-up(xl) {
+      @include media-breakpoint-up(md) {
         display: block;
       }
     }
@@ -188,26 +205,31 @@ export default {
   &__search-form {
     display: none;
   }
-  @include media-breakpoint-up(xl) {
-    width: $max-width-xl;
-    padding: 0;
-    margin: 0 auto;
+  @include media-breakpoint-up(md) {
+    padding: 0 40px;
     height: 80px;
     background-color: #fff;
     &__search-form {
       display: flex;
     }
   }
+  @include media-breakpoint-up(xl) {
+    padding: 0;
+    width: 992px;
+    margin: 0 auto;
+  }
+  @include media-breakpoint-up(xxl) {
+    width: 1200px;
+  }
 }
 
 .logo {
-  padding: 9px 0;
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     padding: 6px 0;
   }
   img {
     width: 100px;
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       width: 200px;
     }
   }
@@ -219,7 +241,7 @@ export default {
   &__search-button {
     margin: 0 0 0 1.5px;
   }
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     display: none;
   }
 }
@@ -265,7 +287,7 @@ export default {
   display: none;
   &--visible {
     display: initial;
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       display: none;
     }
   }
@@ -282,32 +304,60 @@ export default {
 }
 
 .bottom-wrapper {
-  background-color: #1eb1e6;
-  @include media-breakpoint-up(xl) {
-    padding-left: calc((100% - #{$max-width-xl}) / 2);
-    padding-right: calc((100% - #{$max-width-xl}) / 2);
+  background: $color-blue-deep;
+  @include media-breakpoint-up(md) {
+    background: linear-gradient(
+      to bottom,
+      $color-blue-deep 49%,
+      $color-grey 49%,
+      $color-grey 98%,
+      #fff 98%
+    );
+    overflow: hidden;
+    height: 76px;
+  }
+  &__category {
+    background-color: $color-blue;
+    @include media-breakpoint-up(md) {
+      background-color: transparent;
+    }
+  }
+  &__show {
     background-color: $color-blue-deep;
+    @include media-breakpoint-up(md) {
+      background-color: transparent;
+    }
+  }
+}
+
+.scroll-hide {
+  @include media-breakpoint-up(md) {
+    overflow-x: auto;
+    height: 84px;
   }
 }
 
 .navs {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 32px;
-  margin-left: calc((100% - 81px * 3) / 2);
-  margin-right: calc((100% - 81px * 3) / 2);
-  @include media-breakpoint-between(md, lg) {
-    margin-left: calc((100% - 81px * 4) / 2);
-    margin-right: calc((100% - 81px * 4) / 2);
-  }
-  @include media-breakpoint-between(lg, xl) {
-    margin-left: calc((100% - 81px * 6) / 2);
-    margin-right: calc((100% - 81px * 6) / 2);
+  padding-top: 37px;
+  @include media-breakpoint-up(md) {
+    flex-wrap: nowrap;
+    padding: 0 40px;
   }
   @include media-breakpoint-up(xl) {
-    margin: 0;
+    padding: 0;
+    width: 992px;
+    margin: 0 auto;
+  }
+  @include media-breakpoint-up(xxl) {
+    width: 1200px;
   }
   &__category-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 33.33333%;
     margin: 0 0 32px 0;
 
     @mixin separator_line() {
@@ -317,60 +367,12 @@ export default {
       height: 16px;
       background-color: #fff;
     }
-    &::before {
-      @include separator_line;
-    }
-    &:last-child,
-    &:nth-child(3n) {
-      &::after {
-        @include separator_line;
-      }
-    }
-    @include media-breakpoint-between(md, lg) {
-      &:nth-child(3n) {
-        &::after {
-          display: none;
-        }
-      }
-      &:nth-child(4n) {
-        &::after {
-          @include separator_line;
-        }
-      }
-      &:last-child {
-        &::after {
-          @include separator_line;
-        }
-      }
-    }
-    @include media-breakpoint-between(lg, xl) {
-      &:nth-child(3n),
-      &:nth-child(4n) {
-        &::after {
-          display: none;
-        }
-      }
-      &:nth-child(6n) {
-        &::after {
-          @include separator_line;
-        }
-      }
-      &:last-child {
-        &::after {
-          @include separator_line;
-        }
-      }
-    }
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
+      width: auto;
       margin: 0;
-      &:nth-child(3n),
-      &:nth-child(4n),
-      &:nth-child(6n) {
-        &::after {
-          display: none;
-        }
-      }
       &::before {
+        @include separator_line;
+
         background-color: $color-grey-deep;
       }
       &:last-child {
@@ -385,40 +387,73 @@ export default {
 
   .category-nav {
     color: #fff;
-    display: flex;
-    align-items: center;
     border-bottom: 2px solid transparent;
-    transition: border-bottom 0.15s ease-out, box-shadow 0.15s ease-out;
-    &:hover {
-      border-bottom: 2px solid transparent;
-      box-shadow: none;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 28px;
+    @include media-breakpoint-up(sm) {
+      font-size: 16px;
     }
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       &:hover {
         border-bottom: 2px solid #ffcc01;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+        transition: border-bottom 0.15s ease-out;
       }
       a {
-        padding: 0 15px;
+        padding: 0 16px;
+      }
+    }
+  }
+
+  .show-nav {
+    color: $color-grey;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 19px;
+    border-bottom: 2px solid transparent;
+    @include media-breakpoint-up(sm) {
+      font-size: 16px;
+      line-height: 28px;
+    }
+    @include media-breakpoint-up(md) {
+      color: $color-blue-deep;
+      font-weight: 600;
+      &:hover {
+        border-bottom: 2px solid #ffcc01;
+        box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.5);
+        transition: border-bottom 0.15s ease-out;
+      }
+      a {
+        padding: 0 20px;
+      }
+    }
+    &::before {
+      background-color: $color-grey;
+      @include media-breakpoint-up(md) {
+        background-color: $color-blue-deep;
+      }
+    }
+    &:last-child {
+      &::after {
+        background-color: $color-grey;
+        @include media-breakpoint-up(md) {
+          background-color: $color-blue-deep;
+        }
       }
     }
   }
 
   .category-nav__link {
-    padding: 0 10px;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    width: 77px;
-    height: 28px;
-    line-height: 28px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding: 0 7px;
     text-align: center;
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       width: auto;
       height: 35px;
       line-height: 35px;
+      overflow: hidden;
+      white-space: nowrap;
     }
   }
 }
