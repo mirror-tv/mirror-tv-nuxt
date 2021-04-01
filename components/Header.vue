@@ -311,7 +311,7 @@ export default {
       $color-blue-deep 49%,
       $color-grey 49%,
       $color-grey 98%,
-      #fff 98%
+      transparent 98%
     );
     overflow: hidden;
     height: 76px;
@@ -333,7 +333,7 @@ export default {
 .scroll-hide {
   @include media-breakpoint-up(md) {
     overflow-x: auto;
-    height: 84px;
+    height: 86px;
   }
 }
 
@@ -423,7 +423,7 @@ export default {
       &:hover {
         border-bottom: 2px solid #ffcc01;
         box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.5);
-        transition: border-bottom 0.15s ease-out;
+        transition: border-bottom 0.15s ease-out, box-shadow 0.15s ease-out;
       }
       a {
         padding: 0 20px;

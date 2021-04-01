@@ -23,7 +23,7 @@ query fetchShowBySlug($slug: String!) {
   }
 }
 query fetchAllShows {
-  allShows(sortBy: sortOrder_ASC) {
+  allShows(sortBy: [ sortOrder_ASC, updatedAt_DESC ]) {
     slug
     name
     sortOrder
