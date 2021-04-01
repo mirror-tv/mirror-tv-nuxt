@@ -34,7 +34,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(sm) {
     position: static;
   }
 }

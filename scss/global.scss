@@ -1,47 +1,76 @@
 .g {
   &-page {
+    // mobile range
     min-height: calc(100vh - 50px); // header height
     padding: calc(50px + 8px) 16px 48px;
+
+    // tablet range
+    @include media-breakpoint-up(sm) {
+      padding: 48px 40px 50px;
+    }
+
+    // desktop narrow range
     @include media-breakpoint-up(md) {
-      padding: calc(50px + 60px) 0 50px;
+      padding: 12px 40px 48px;
     }
-    @include media-breakpoint-up(xxl) {
-      padding: 12px 0 48px;
+    // desktop UHD range
+    @include media-breakpoint-up(xl) {
+      padding: 60px 0 48px;
     }
+
     &__wrapper {
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
-      @include media-breakpoint-up(xxl) {
-        max-width: 800px;
+
+      // tablet range
+      @include media-breakpoint-up(sm) {
+        max-width: 688px;
+      }
+
+      // desktop narrow range
+      @include media-breakpoint-up(md) {
+        max-width: 1120px;
+        display: flex;
+      }
+
+      // desktop xl range
+      @include media-breakpoint-up(xl) {
+        max-width: 1200px;
       }
     }
   }
   &-page--with-aside {
+    // mobile range
     .main {
       margin: 8px auto 0;
-    }
-    @include media-breakpoint-up(md) {
-      .main {
+      // tablet range
+      @include media-breakpoint-up(sm) {
         padding: 0;
         margin-top: 0;
       }
-    }
-    @include media-breakpoint-up(xxl) {
-      .g-page__wrapper {
-        display: flex;
-        max-width: 1200px;
+
+      // desktop narrow range
+      @include media-breakpoint-up(md) {
+        width: calc(100% - #{$aside-width-md} - 48px);
+        margin: 0;
       }
-      .main {
-        width: calc(100% - #{$aside-width-xxl} - 48px);
+
+      // desktop xl range
+      @include media-breakpoint-up(lg) {
+        width: calc(100% - #{$aside-width-lg} - 48px);
         margin: 0;
       }
     }
   }
+
   &-aside {
+    // mobile range
     margin: 70px auto 0;
-    @include media-breakpoint-up(xxl) {
-      width: $aside-width-xxl;
+
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
+      width: $aside-width-md;
       padding: 32px 32px 53px;
       margin: 0 0 0 48px;
     }
@@ -50,11 +79,20 @@
       margin-right: auto;
       + * {
         margin-top: 16px;
-        
       }
       + .link {
         margin-top: 44px;
       }
+    }
+
+    // desktop wide range
+    @include media-breakpoint-up(lg) {
+      width: $aside-width-lg;
+    }
+
+    // desktop xl range
+    @include media-breakpoint-up(xl) {
+      width: $aside-width-xl;
     }
   }
   &-list {

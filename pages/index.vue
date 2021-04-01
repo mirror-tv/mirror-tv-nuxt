@@ -17,7 +17,7 @@
           />
           <ClientOnly>
             <YoutubeEmbedByIframeApi
-              v-if="!isViewportWidthUpXxl"
+              v-if="!isViewportWidthUpLg"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
             />
@@ -64,7 +64,7 @@
           />
           <ClientOnly>
             <YoutubeEmbedByIframeApi
-              v-if="isViewportWidthUpXxl"
+              v-if="isViewportWidthUpLg"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
             />
@@ -212,7 +212,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isViewportWidthUpXxl: 'viewport/isViewportWidthUpXxl',
+      isViewportWidthUpLg: 'viewport/isViewportWidthUpLg',
     }),
     editorChoicesSlug() {
       return this.editorChoices.map((item) => item.slug)
@@ -310,7 +310,8 @@ export default {
   }
   &__live-stream {
     margin: 48px 0 0;
-    @include media-breakpoint-up(xxl) {
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
       display: none;
     }
   }
@@ -319,7 +320,8 @@ export default {
     margin-top: 48px;
   }
   &__aside {
-    @include media-breakpoint-up(xxl) {
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
       margin-top: 0;
       background-color: $color-grey;
     }
@@ -359,7 +361,7 @@ export default {
           height: auto;
         }
       }
-      @include media-breakpoint-up(xxl) {
+      @include media-breakpoint-up(lg) {
         .swiper-slide__slide {
           width: 632px !important;
         }
@@ -401,7 +403,8 @@ export default {
 .aside {
   &__live-stream {
     display: none;
-    @include media-breakpoint-up(xxl) {
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
       display: block;
     }
   }
@@ -418,7 +421,10 @@ export default {
 
 .show-list {
   .home__heading {
-    margin: 30px 0 0;
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
+      margin: 30px 0 0;
+    }
   }
 }
 
@@ -455,7 +461,7 @@ export default {
       }
     }
   }
-  @include media-breakpoint-up(xxl) {
+  @include media-breakpoint-up(lg) {
     width: calc(100% + 24px);
     transform: translateX(-12px);
     li {
@@ -467,7 +473,7 @@ export default {
 
 .g-button-load-more {
   margin: 24px auto 0;
-  @include media-breakpoint-up(xxl) {
+  @include media-breakpoint-up(lg) {
     margin: 32px auto 0;
   }
 }
