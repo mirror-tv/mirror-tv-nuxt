@@ -14,7 +14,7 @@
       padding: 12px 40px 48px;
     }
     // desktop UHD range
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(xxl) {
       padding: 60px 0 48px;
     }
 
@@ -34,8 +34,8 @@
         display: flex;
       }
 
-      // desktop xl range
-      @include media-breakpoint-up(xl) {
+      // desktop xxl range
+      @include media-breakpoint-up(xxl) {
         max-width: 1200px;
       }
     }
@@ -90,8 +90,8 @@
       width: $aside-width-lg;
     }
 
-    // desktop xl range
-    @include media-breakpoint-up(xl) {
+    // desktop xxl range
+    @include media-breakpoint-up(xxl) {
       width: $aside-width-xl;
     }
   }

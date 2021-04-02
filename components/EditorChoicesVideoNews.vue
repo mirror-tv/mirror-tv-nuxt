@@ -136,14 +136,21 @@ export default {
   }
 }
 .editor-choices {
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     width: 100%;
   }
   &-container {
+    // desktop narrow range
     @include media-breakpoint-up(md) {
       display: flex;
       flex-wrap: wrap;
       width: 100%;
+      min-height: 300px;
+    }
+
+    // desktop wide range
+    @include media-breakpoint-up(lg) {
+      min-height: 405px;
     }
   }
   &__first-item {
@@ -151,12 +158,22 @@ export default {
     left: -20px;
     width: calc(100% + 40px);
     margin: 20px 0 0;
-    @include media-breakpoint-up(md) {
+    // tablet range
+    @include media-breakpoint-up(sm) {
       left: 0;
-      width: 318px;
+      width: 100%;
     }
-    @include media-breakpoint-up(xxl) {
-      width: 720px;
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
+      flex: 1;
+      max-width: 720px;
+      margin-right: 24px;
+    }
+    // desktop wide range
+    @include media-breakpoint-up(lg) {
+      max-width: auto;
+      //   min-width: 720px;
+      margin-right: 24px;
     }
     &.iframe-wrapper {
       padding-top: calc((100% + 40px) * 0.5625);
@@ -177,16 +194,21 @@ export default {
     width: calc(100% + 40px);
     padding: 20px 0;
     transform: translateX(-20px);
-    border-bottom: 1px solid #d8d8d8;
-    @include media-breakpoint-up(md) {
+    border: 1px solid #d8d8d8;
+    // tablet range
+    @include media-breakpoint-up(sm) {
       position: relative;
       flex: 1;
       transform: translateX(0);
       width: auto;
-      margin: 20px 0 0 10px;
+      margin: 16px 0 0;
       padding: 0;
-      border: none;
       overflow: hidden;
+    }
+
+    // desktop wide range
+    @include media-breakpoint-up(lg) {
+      max-width: 456px;
     }
     .item {
       display: flex;
@@ -210,13 +232,20 @@ export default {
     }
   }
   .scrollable-container {
-    @include media-breakpoint-up(xl) {
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      min-height: 300px;
       overflow-y: auto;
+    }
+
+    // desktop wide range
+    @include media-breakpoint-up(lg) {
+      min-height: 405px;
     }
   }
 }
