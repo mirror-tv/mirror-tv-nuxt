@@ -17,7 +17,7 @@
           />
           <ClientOnly>
             <YoutubeEmbedByIframeApi
-              v-if="!isViewportWidthUpLg"
+              v-if="!isViewportWidthUpMd"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
             />
@@ -64,7 +64,7 @@
           />
           <ClientOnly>
             <YoutubeEmbedByIframeApi
-              v-if="isViewportWidthUpLg"
+              v-if="isViewportWidthUpMd"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
             />
@@ -83,11 +83,18 @@
 
         <div class="aside__show-list show-list">
           <HeadingBordered class="home__heading" text="節目" />
-          <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
+          <div class="show-list__wrapper">
+            <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
+          </div>
         </div>
-        <LinkAnchorStyle />
-        <FacebookPagePlugin />
-        <LinkYoutubeStyle />
+
+        <div class="aside__link-list link-list">
+          <div class="link-list__wrapper">
+            <LinkAnchorStyle />
+            <FacebookPagePlugin />
+            <LinkYoutubeStyle />
+          </div>
+        </div>
       </aside>
     </div>
   </section>
@@ -212,7 +219,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isViewportWidthUpLg: 'viewport/isViewportWidthUpLg',
+      isViewportWidthUpMd: 'viewport/isViewportWidthUpMd',
     }),
     editorChoicesSlug() {
       return this.editorChoices.map((item) => item.slug)
@@ -426,6 +433,33 @@ export default {
       margin: 30px 0 0;
     }
   }
+  &__wrapper {
+    padding-bottom: 12px;
+
+    // tablet range
+    @include media-breakpoint-up(sm) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-bottom: 4px;
+    }
+  }
+}
+
+.link-list {
+  display: flex;
+  justify-content: flex-end;
+  &__wrapper {
+    // tablet range
+    @include media-breakpoint-up(sm) {
+      width: 50%;
+    }
+
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
+      width: 100%;
+    }
+  }
 }
 
 .list-latest {
@@ -433,7 +467,8 @@ export default {
   li + li {
     margin-top: 16px;
   }
-  @include media-breakpoint-up(md) {
+  // tablet range
+  @include media-breakpoint-up(sm) {
     display: flex;
     flex-wrap: wrap;
     width: calc(100% + 30px);
@@ -461,12 +496,19 @@ export default {
       }
     }
   }
-  @include media-breakpoint-up(lg) {
+  // desktop narrow range
+  @include media-breakpoint-up(md) {
     width: calc(100% + 24px);
     transform: translateX(-12px);
     li {
-      width: calc((100% - 72px) / 3);
+      width: calc((100% - 48px) / 2);
       margin: 20px 12px 0;
+    }
+  }
+  // desktop wide range
+  @include media-breakpoint-up(lg) {
+    li {
+      width: calc((100% - 72px) / 3);
     }
   }
 }

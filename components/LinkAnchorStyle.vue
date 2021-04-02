@@ -52,6 +52,16 @@ export default {
       height: 28px;
       + * {
         margin-left: 24px;
+
+        // tablet range
+        @include media-breakpoint-up(sm) {
+          margin-left: 16px;
+        }
+
+        // desktop wide range
+        @include media-breakpoint-up(lg) {
+          margin-left: 24px;
+        }
       }
     }
   }
@@ -62,6 +72,16 @@ export default {
     width: 120px;
     letter-spacing: 0.8px;
     background-color: rgb(28, 178, 230);
+
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
+      width: 80px;
+    }
+
+    // desktop wide range
+    @include media-breakpoint-up(lg) {
+      width: 120px;
+    }
 
     img {
       height: 31px;
