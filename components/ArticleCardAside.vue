@@ -38,6 +38,14 @@ export default {
   display: flex;
   &__info-wrapper {
     margin: 0 0 0 20px;
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
+      margin: 0 0 0 10px;
+    }
+    // desktop wide range
+    @include media-breakpoint-up(lg) {
+      margin: 0 0 0 20px;
+    }
   }
 }
 
@@ -46,7 +54,22 @@ export default {
   min-width: 130px;
   height: 87px;
   min-height: 87px;
-  @include media-breakpoint-up(xl) {
+  // tablet range
+  @include media-breakpoint-up(sm) {
+    width: 120px;
+    min-width: 120px;
+    height: 80px;
+    min-height: 80px;
+  }
+  // desktop narrow range
+  @include media-breakpoint-up(md) {
+    width: 80px;
+    min-width: 80px;
+    height: 80px;
+    min-height: 80px;
+  }
+  // desktop wide range
+  @include media-breakpoint-up(lg) {
     width: 150px;
     min-width: 150px;
     height: 100px;

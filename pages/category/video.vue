@@ -371,7 +371,6 @@ export default {
   justify-content: flex-end;
   &__wrapper {
     width: 100%;
-
     // tablet range
     @include media-breakpoint-up(sm) {
       width: 50%;

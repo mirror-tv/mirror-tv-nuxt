@@ -71,6 +71,11 @@
           :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
         />
+        <ListArticleAside
+          class="aside__list-latest"
+          :listTitle="'熱門新聞'"
+          :listData="listArticleAsideLatestData"
+        />
       </aside>
     </div>
   </section>
@@ -427,29 +432,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
-  + * {
-    margin-top: 40px;
-  }
-  @include media-breakpoint-up(xxl) {
-    width: 600px;
-    + aside {
-      margin: 0 0 0 auto;
-    }
-  }
-}
-
 .g-page--with-aside {
   padding-top: 50px;
   .g-page__wrapper {
-    max-width: 500px;
-    @include media-breakpoint-up(xxl) {
+    // desktop narrow range
+    @include media-breakpoint-up(md) {
+      max-width: 1120px;
+    }
+    @include media-breakpoint-up(xl) {
       width: 1080px;
       max-width: none;
     }
   }
   .main {
-    margin: 0;
+    max-width: 600px;
+    margin: auto;
   }
 }
 
@@ -561,14 +558,35 @@ export default {
   color: #000;
   font-size: 14px;
   line-height: 1.57;
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     padding: 7px 0 0;
   }
 }
 
 .aside {
-  @include media-breakpoint-up(xxl) {
+  // tablet range
+  @include media-breakpoint-up(sm) {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+
+    > * {
+      + * {
+        margin-top: 0;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    display: block;
     background-color: $color-grey;
+
+    > * {
+      + * {
+        margin-top: 16px;
+      }
+    }
+
     ::v-deep {
       .list__list-item {
         .article-img {
@@ -578,10 +596,14 @@ export default {
     }
   }
   &__list-latest {
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       padding: 0 !important;
       border: none !important;
     }
+  }
+
+  & .list-title {
+    margin-top: 30px !important;
   }
 }
 </style>
