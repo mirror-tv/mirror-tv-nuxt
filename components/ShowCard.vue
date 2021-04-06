@@ -31,13 +31,13 @@ export default {
   cursor: pointer;
 
   // tablet range
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     width: calc((100% - 20px) / 2);
     padding-top: 18.75%;
   }
 
-  // desktop narrow range
-  @include media-breakpoint-up(md) {
+  // desktop range
+  @include media-breakpoint-up(xl) {
     width: 100%;
     padding-top: 37.5%;
   }
@@ -50,7 +50,7 @@ export default {
     left: 0;
 
     // tablet range
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       max-width: 336px;
       max-height: 126px;
     }

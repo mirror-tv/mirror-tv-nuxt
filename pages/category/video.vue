@@ -244,30 +244,22 @@ export default {
       }
       .main {
         margin-top: 32px;
-        // desktop narrow range
-        @include media-breakpoint-up(md) {
-          margin-top: 60px;
-          width: calc(100% - 284px - 48px);
-        }
-        // desktop wide range
-        @include media-breakpoint-up(lg) {
+
+        // desktop  range
+        @include media-breakpoint-up(xl) {
           width: calc(100% - 384px - 64px);
         }
       }
     }
   }
   .g-aside {
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop  range
+    @include media-breakpoint-up(xl) {
       margin-top: 60px;
       padding-top: 0;
+      margin-left: 64px;
       border-left: 1px solid #d8d8d8;
       border-right: 1px solid #d8d8d8;
-    }
-
-    // desktop wide range
-    @include media-breakpoint-up(lg) {
-      margin-left: 64px;
     }
 
     .heading-bordered-wrapper {
@@ -325,7 +317,7 @@ export default {
   &__posts {
     padding: 0 20px;
     margin-top: 20px;
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       padding: 0;
     }
   }
@@ -347,17 +339,16 @@ export default {
 
 .show-list {
   .home__heading {
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop range
+    @include media-breakpoint-up(xl) {
       margin: 30px 0 0;
     }
   }
   &__wrapper {
-    margin-top: 20px;
     padding-bottom: 12px;
 
     // tablet range
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -372,12 +363,12 @@ export default {
   &__wrapper {
     width: 100%;
     // tablet range
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       width: 50%;
     }
 
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop  range
+    @include media-breakpoint-up(xl) {
       width: 100%;
     }
   }

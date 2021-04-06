@@ -17,7 +17,7 @@
           />
           <ClientOnly>
             <YoutubeEmbedByIframeApi
-              v-if="!isViewportWidthUpMd"
+              v-if="!isViewportWidthUpXl"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
             />
@@ -64,7 +64,7 @@
           />
           <ClientOnly>
             <YoutubeEmbedByIframeApi
-              v-if="isViewportWidthUpMd"
+              v-if="isViewportWidthUpXl"
               :enableAutoplay="true"
               videoId="coYw-eVU0Ks"
             />
@@ -219,7 +219,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isViewportWidthUpMd: 'viewport/isViewportWidthUpMd',
+      isViewportWidthUpXl: 'viewport/isViewportWidthUpXl',
     }),
     editorChoicesSlug() {
       return this.editorChoices.map((item) => item.slug)
@@ -304,12 +304,14 @@ export default {
   &__flash-news {
     width: calc(100% + 16px);
     transform: translateX(-8px);
+    // tablet range
     @include media-breakpoint-up(md) {
       width: auto;
       transform: none;
     }
     + * {
       margin-top: 16px;
+      // tablet range
       @include media-breakpoint-up(md) {
         margin-top: 30px;
       }
@@ -317,8 +319,8 @@ export default {
   }
   &__live-stream {
     margin: 48px 0 0;
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop range
+    @include media-breakpoint-up(xl) {
       display: none;
     }
   }
@@ -327,8 +329,8 @@ export default {
     margin-top: 48px;
   }
   &__aside {
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop range
+    @include media-breakpoint-up(xl) {
       margin-top: 0;
       background-color: $color-grey;
     }
@@ -343,7 +345,8 @@ export default {
       .article-img-wrapper {
         padding-top: 56.25%;
       }
-      @include media-breakpoint-up(md) {
+      // desktop range
+      @include media-breakpoint-up(xl) {
         .swiper-slide__slide {
           position: relative;
           width: 476px;
@@ -368,7 +371,8 @@ export default {
           height: auto;
         }
       }
-      @include media-breakpoint-up(lg) {
+      // desktop UHD range
+      @include media-breakpoint-up(xxl) {
         .swiper-slide__slide {
           width: 632px !important;
         }
@@ -385,7 +389,7 @@ export default {
         }
       }
     }
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(xl) {
       width: auto;
       transform: none;
       &__heading {
@@ -410,8 +414,8 @@ export default {
 .aside {
   &__live-stream {
     display: none;
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop range
+    @include media-breakpoint-up(xl) {
       display: block;
     }
   }
@@ -428,8 +432,8 @@ export default {
 
 .show-list {
   .home__heading {
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop range
+    @include media-breakpoint-up(xl) {
       margin: 30px 0 0;
     }
   }
@@ -437,7 +441,7 @@ export default {
     padding-bottom: 12px;
 
     // tablet range
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -452,12 +456,12 @@ export default {
   &__wrapper {
     width: 100%;
     // tablet range
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       width: 50%;
     }
 
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop  range
+    @include media-breakpoint-up(xl) {
       width: 100%;
     }
   }
@@ -469,7 +473,7 @@ export default {
     margin-top: 16px;
   }
   // tablet range
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     display: flex;
     flex-wrap: wrap;
     width: calc(100% + 30px);
@@ -497,19 +501,13 @@ export default {
       }
     }
   }
-  // desktop narrow range
-  @include media-breakpoint-up(md) {
+  // desktop  range
+  @include media-breakpoint-up(xl) {
     width: calc(100% + 24px);
     transform: translateX(-12px);
     li {
-      width: calc((100% - 48px) / 2);
-      margin: 20px 12px 0;
-    }
-  }
-  // desktop wide range
-  @include media-breakpoint-up(lg) {
-    li {
       width: calc((100% - 72px) / 3);
+      margin: 20px 12px 0;
     }
   }
 }

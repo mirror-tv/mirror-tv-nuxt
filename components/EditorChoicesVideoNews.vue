@@ -140,16 +140,11 @@ export default {
     width: 100%;
   }
   &-container {
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop  range
+    @include media-breakpoint-up(xl) {
       display: flex;
       flex-wrap: wrap;
       width: 100%;
-      min-height: 300px;
-    }
-
-    // desktop wide range
-    @include media-breakpoint-up(lg) {
       min-height: 405px;
     }
   }
@@ -159,25 +154,21 @@ export default {
     width: calc(100% + 40px);
     margin: 20px 0 0;
     // tablet range
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       left: 0;
       width: 100%;
     }
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+
+    // desktop range
+    @include media-breakpoint-up(xl) {
       flex: 1;
-      max-width: 720px;
-      margin-right: 24px;
-    }
-    // desktop wide range
-    @include media-breakpoint-up(lg) {
       max-width: auto;
       //   min-width: 720px;
       margin-right: 24px;
     }
     &.iframe-wrapper {
       padding-top: calc((100% + 40px) * 0.5625);
-      @include media-breakpoint-up(md) {
+      @include media-breakpoint-up(xl) {
         padding-top: calc(318px * 0.5625);
       }
       @include media-breakpoint-up(xxl) {
@@ -191,12 +182,13 @@ export default {
     }
   }
   &__remaining {
-    width: calc(100% + 40px);
+    margin-top: 8px;
+    width: calc(100% + 24px);
     padding: 20px 0;
-    transform: translateX(-20px);
+    transform: translateX(-12px);
     border: 1px solid #d8d8d8;
     // tablet range
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       position: relative;
       flex: 1;
       transform: translateX(0);
@@ -206,8 +198,8 @@ export default {
       overflow: hidden;
     }
 
-    // desktop wide range
-    @include media-breakpoint-up(lg) {
+    // desktop range
+    @include media-breakpoint-up(xl) {
       max-width: 456px;
     }
     .item {
@@ -232,20 +224,15 @@ export default {
     }
   }
   .scrollable-container {
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
+    // desktop range
+    @include media-breakpoint-up(xl) {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      min-height: 300px;
-      overflow-y: auto;
-    }
-
-    // desktop wide range
-    @include media-breakpoint-up(lg) {
       min-height: 405px;
+      overflow-y: auto;
     }
   }
 }
