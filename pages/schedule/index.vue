@@ -100,20 +100,28 @@ export default {
   &.g-page {
     padding-top: calc(50px + 20px);
     padding-bottom: 48px;
+    @include media-breakpoint-up(sm) {
+      padding-top: 20px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
     @include media-breakpoint-up(md) {
-      padding-top: calc(50px + 24px);
+      padding-top: 48px;
       padding-bottom: 32px;
     }
-    @include media-breakpoint-up(xxl) {
-      padding-top: 24px;
+    @include media-breakpoint-up(xl) {
+      padding-top: 60px;
       padding-bottom: 60px;
     }
   }
   .g-page__wrapper {
-    max-width: 552px;
+    max-width: 600px;
     text-align: center;
-    @include media-breakpoint-up(xxl) {
-      max-width: 1014px;
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+    @include media-breakpoint-up(xl) {
+      max-width: 992px;
     }
     > span {
       color: #9b9b9b;
@@ -122,7 +130,7 @@ export default {
   &__table {
     max-width: 600px;
     margin: 24px auto 0;
-    @include media-breakpoint-up(xxl) {
+    @include media-breakpoint-up(xl) {
       margin-top: 48px;
     }
   }
@@ -131,7 +139,7 @@ export default {
     @include media-breakpoint-up(md) {
       margin-top: 62px auto 12px;
     }
-    @include media-breakpoint-up(xxl) {
+    @include media-breakpoint-up(xl) {
       margin-top: 82px auto 18px;
     }
   }

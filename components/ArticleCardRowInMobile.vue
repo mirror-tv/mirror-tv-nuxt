@@ -91,7 +91,7 @@ export default {
   flex-direction: column;
   height: 100%;
   @include media-breakpoint-up(xl) {
-    width: 180px;
+    width: 100%;
   }
   &__bottom-wrapper {
     @include media-breakpoint-up(xl) {
@@ -152,7 +152,7 @@ export default {
     min-height: 130px;
     position: relative;
     @include media-breakpoint-up(xl) {
-      width: 180px;
+      width: 100%;
       min-width: 180px;
       height: 120px;
       min-height: 120px;

@@ -92,7 +92,7 @@ export default {
       transform: translateY(-50%) rotate(135deg);
     }
   }
-  @include media-breakpoint-up(xxl) {
+  @include media-breakpoint-up(xl) {
     position: static;
   }
 }
@@ -107,18 +107,18 @@ export default {
   @include media-breakpoint-up(md) {
     padding: 12px 24px;
   }
-  @include media-breakpoint-up(xxl) {
+  @include media-breakpoint-up(xl) {
     background-color: transparent;
     cursor: default;
   }
   &--md {
-    @include media-breakpoint-up(xxl) {
+    @include media-breakpoint-up(xl) {
       display: none;
     }
   }
   &--xxl {
     display: none;
-    @include media-breakpoint-up(xxl) {
+    @include media-breakpoint-up(xl) {
       display: flex;
       justify-content: space-between;
       padding: 0;

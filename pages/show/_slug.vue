@@ -219,31 +219,45 @@ export default {
 
 <style lang="scss" scoped>
 .show {
+  &.g-page {
+    @include media-breakpoint-up(sm) {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
   &.g-page--with-aside {
     .g-page__wrapper {
-      max-width: 700px;
+      max-width: 688px;
       @include media-breakpoint-up(md) {
         display: flex;
         flex-wrap: wrap;
       }
-      @include media-breakpoint-up(xxl) {
+      @include media-breakpoint-up(xl) {
         max-width: 1120px;
+      }
+      @include media-breakpoint-up(xxl) {
+        max-width: 1200px;
       }
       .main {
         margin: 24px auto 0;
         @include media-breakpoint-up(md) {
-          max-width: 470px;
+          width: 308px;
           margin: 28px 0 0;
         }
-        @include media-breakpoint-up(xxl) {
-          max-width: 640px;
+        @include media-breakpoint-up(lg) {
+          width: 308px;
+        }
+        @include media-breakpoint-up(xl) {
+          width: 600px;
         }
       }
       .g-aside {
+        width: 100%;
         margin: 24px auto 0;
         @include media-breakpoint-up(md) {
-          width: 200px;
-          margin: 24px 0 0 auto;
+          width: 320px;
+          padding: 0;
+          margin: 28px 0 0 auto;
         }
         @include media-breakpoint-up(xxl) {
           width: 320px;
@@ -260,6 +274,7 @@ export default {
     letter-spacing: 0.5px;
     margin: 24px 0;
     @include media-breakpoint-up(md) {
+      width: 100%;
       font-size: 30px;
       line-height: 42px;
     }

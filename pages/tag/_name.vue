@@ -3,8 +3,8 @@
     <div class="g-page__wrapper">
       <h1 class="g-list-heading" v-text="routeName" />
       <p v-if="!hasItems">目前沒有相關的文章</p>
-      <ol v-else class="g-list">
-        <li v-for="post in posts" :key="post.slug" class="g-list__item">
+      <ol v-else class="tag__list">
+        <li v-for="post in posts" :key="post.slug" class="tag__list__item">
           <ArticleCard
             :href="post.href"
             :articleImgURL="post.image"
@@ -135,3 +135,62 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.g {
+  &-page {
+    @include media-breakpoint-up(sm) {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    &__wrapper {
+      @include media-breakpoint-up(md) {
+        max-width: 688px;
+        display: block;
+      }
+      @include media-breakpoint-up(xl) {
+        max-width: 1120px;
+      }
+      @include media-breakpoint-up(xxl) {
+        max-width: 1200px;
+      }
+    }
+  }
+}
+.tag__list {
+  @include media-breakpoint-up(md) {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    &::after {
+      content: '';
+      width: calc((100% - 40px) / 3);
+    }
+  }
+  @include media-breakpoint-up(xl) {
+    &::after {
+      content: '';
+      width: calc((100% - 96px) / 4);
+    }
+  }
+  @include media-breakpoint-up(xxl) {
+    &::after {
+      content: '';
+      width: calc((100% - 48px) / 4);
+    }
+  }
+  &__item {
+    margin-top: 24px;
+    @include media-breakpoint-up(md) {
+      width: calc((100% - 40px) / 3);
+    }
+    @include media-breakpoint-up(xl) {
+      width: calc((100% - 96px) / 4);
+    }
+    @include media-breakpoint-up(xxl) {
+      width: calc((100% - 48px) / 4);
+    }
+  }
+}
+</style>
