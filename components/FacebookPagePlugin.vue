@@ -3,7 +3,7 @@
     class="fb-page"
     :data-href="href"
     data-tabs=""
-    data-width="768px"
+    data-width="500px"
     data-height="162px"
     data-small-header="false"
     data-adapt-container-width="true"

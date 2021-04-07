@@ -1,7 +1,7 @@
 <template>
   <section class="g-page">
     <div class="g-page__wrapper">
-      <h1 class="g-list-heading" v-text="$route.params.keyword" />
+      <h1 class="search__name" v-text="$route.params.keyword" />
       <ol class="search__list">
         <li v-for="post in listData" :key="post.id" class="search__list__item">
           <ArticleCard
@@ -16,6 +16,7 @@
             @click.native="sendGaClickEvent('related articles')"
           />
         </li>
+        <div class="position-correct" />
       </ol>
       <ButtonLoadmore
         v-show="showLoadMoreButton"
@@ -149,39 +150,60 @@ export default {
     }
   }
 }
-.search__list {
-  @include media-breakpoint-up(md) {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    &::after {
-      content: '';
-      width: calc((100% - 40px) / 3);
-    }
-  }
-  @include media-breakpoint-up(xl) {
-    &::after {
-      content: '';
-      width: calc((100% - 96px) / 4);
-    }
-  }
-  @include media-breakpoint-up(xxl) {
-    &::after {
-      content: '';
-      width: calc((100% - 48px) / 4);
-    }
-  }
-  &__item {
-    margin-top: 24px;
+.search {
+  &__name {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    letter-spacing: 0.5px;
+    color: $color-blue-deep;
+    margin: 24px 0;
     @include media-breakpoint-up(md) {
-      width: calc((100% - 40px) / 3);
+      margin: 0 0 24px;
+    }
+  }
+  &__list {
+    @include media-breakpoint-up(md) {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      &::after {
+        content: '';
+        width: calc((100% - 40px) / 3);
+      }
     }
     @include media-breakpoint-up(xl) {
-      width: calc((100% - 96px) / 4);
+      &::after {
+        content: '';
+        width: calc((100% - 96px) / 4);
+      }
+      .position-correct {
+        width: calc((100% - 96px) / 4);
+        overflow: hidden;
+      }
     }
     @include media-breakpoint-up(xxl) {
-      width: calc((100% - 48px) / 4);
+      &::after {
+        content: '';
+        width: calc((100% - 48px) / 4);
+      }
+      .position-correct {
+        width: calc((100% - 48px) / 4);
+        overflow: hidden;
+      }
+    }
+    &__item {
+      margin-bottom: 24px;
+      @include media-breakpoint-up(md) {
+        width: calc((100% - 40px) / 3);
+      }
+      @include media-breakpoint-up(xl) {
+        width: calc((100% - 96px) / 4);
+      }
+      @include media-breakpoint-up(xxl) {
+        width: calc((100% - 48px) / 4);
+      }
     }
   }
 }

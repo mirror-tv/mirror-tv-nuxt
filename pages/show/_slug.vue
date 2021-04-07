@@ -28,36 +28,67 @@
         </ol>
       </main>
       <aside class="g-aside">
-        <FacebookPagePlugin
-          v-if="facebookUrl"
-          :href="facebookUrl"
-          class="test"
-        />
+        <FacebookPagePlugin v-if="facebookUrl" :href="facebookUrl" />
       </aside>
     </div>
     <div class="g-page__wrapper">
-      <div
-        v-for="list in validPlaylists"
-        :key="list.sectionName"
-        class="show__collect"
-      >
-        <h3 v-text="list.sectionName" />
-        <ol>
-          <li v-for="item in list.items" :key="item.id">
-            <YoutubeEmbedByIframeApi
-              :videoId="item.id"
-              @send-first-play-ga="sendGaClickEvent('video')"
+      <template v-if="isMobile">
+        <div class="show__button__wrapper">
+          <button :class="{ active: isActive }" @click="isActive = true">
+            <span>{{ firstName }}</span>
+          </button>
+          <button :class="{ active: !isActive }" @click="isActive = false">
+            <span>{{ secondName }}</span>
+          </button>
+        </div>
+        <div
+          v-for="(list, i) in validPlaylists"
+          :key="list.sectionName"
+          class="show__collect"
+        >
+          <template v-if="(i === 0 && isActive) || (i === 1 && !isActive)">
+            <ol>
+              <li v-for="item in list.items" :key="item.id">
+                <YoutubeEmbedByIframeApi
+                  :videoId="item.id"
+                  @send-first-play-ga="sendGaClickEvent('video')"
+                />
+                <h4 v-text="item.title" />
+              </li>
+              <div class="position-correct" />
+            </ol>
+            <ButtonLoadmore
+              v-if="list.nextPageToken"
+              class="g-button-load-more"
+              @click.native="handleClickLoadmore(list)"
             />
-            <h4 v-text="item.title" />
-          </li>
-          <div class="position-correct" />
-        </ol>
-        <ButtonLoadmore
-          v-if="list.nextPageToken"
-          class="g-button-load-more"
-          @click.native="handleClickLoadmore(list)"
-        />
-      </div>
+          </template>
+        </div>
+      </template>
+      <template v-else>
+        <div
+          v-for="list in validPlaylists"
+          :key="list.sectionName"
+          class="show__collect"
+        >
+          <h3 v-text="list.sectionName" />
+          <ol>
+            <li v-for="item in list.items" :key="item.id">
+              <YoutubeEmbedByIframeApi
+                :videoId="item.id"
+                @send-first-play-ga="sendGaClickEvent('video')"
+              />
+              <h4 v-text="item.title" />
+            </li>
+            <div class="position-correct" />
+          </ol>
+          <ButtonLoadmore
+            v-if="list.nextPageToken"
+            class="g-button-load-more"
+            @click.native="handleClickLoadmore(list)"
+          />
+        </div>
+      </template>
     </div>
   </section>
 </template>
@@ -84,6 +115,9 @@ export default {
         if (!loading) {
           const { playList01 = '', playList02 = '' } = data.allShows?.[0] || {}
           const youtubeUrls = [playList01, playList02]
+          if (process.browser) {
+            this.isMobile = window.innerWidth < 768
+          }
           if (this.playlists.length < youtubeUrls.length) {
             youtubeUrls.forEach((item, i) => {
               if (item) {
@@ -122,6 +156,8 @@ export default {
     return {
       show: {},
       playlists: [],
+      isMobile: false,
+      isActive: true,
     }
   },
   head() {
@@ -185,6 +221,12 @@ export default {
     validPlaylists() {
       return this.playlists.filter((list) => list.items.length !== 0)
     },
+    firstName() {
+      return this.show.playList01?.split('：')[1] ?? '選單 A'
+    },
+    secondName() {
+      return this.show.playList02?.split('：')[1] ?? '選單 B'
+    },
   },
   methods: {
     reducePlaylistItems(item) {
@@ -199,8 +241,9 @@ export default {
           const pageToken = list.nextPageToken
             ? `&pageToken=${list.nextPageToken}`
             : ''
+          const num = this.isMobile ? 2 : 8
           const response = await this.$fetchYoutubeData(
-            `/playlistItems?part=snippet${pageToken}&playlistId=${list.id}&maxResults=8`
+            `/playlistItems?part=snippet${pageToken}&playlistId=${list.id}&maxResults=${num}`
           )
           list.nextPageToken = response?.nextPageToken
           response?.items?.forEach((item) => {
@@ -259,10 +302,7 @@ export default {
       }
       .g-aside {
         width: 100%;
-        margin: 24px auto 0;
-        .test {
-          width: 100%;
-        }
+        margin: 48px auto 0;
         @include media-breakpoint-up(md) {
           width: 320px;
           padding: 0;
@@ -319,7 +359,7 @@ export default {
     text-align: justify;
   }
   &__collect {
-    margin-top: 24px;
+    margin-top: 12px;
     &__loadmore {
       display: flex;
       justify-content: center;
@@ -343,15 +383,22 @@ export default {
         }
       }
       @include media-breakpoint-up(xl) {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
         &::after {
           content: '';
           width: calc((100% - 96px) / 4);
         }
         .position-correct {
           width: calc((100% - 96px) / 4);
+          overflow: hidden;
+        }
+      }
+      @include media-breakpoint-up(xxl) {
+        &::after {
+          content: '';
+          width: calc((100% - 48px) / 4);
+        }
+        .position-correct {
+          width: calc((100% - 48px) / 4);
           overflow: hidden;
         }
       }
@@ -375,6 +422,28 @@ export default {
       @include media-breakpoint-up(md) {
         margin: 0 auto;
       }
+    }
+  }
+  &__button__wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+    width: 100%;
+    button {
+      width: 50%;
+      padding: 6px 0;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 28px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      color: $color-blue;
+      outline: none;
+      border: solid 3px $color-blue;
+    }
+    .active {
+      color: white;
+      background-color: $color-blue;
     }
   }
 }
