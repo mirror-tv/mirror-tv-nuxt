@@ -28,7 +28,11 @@
         </ol>
       </main>
       <aside class="g-aside">
-        <FacebookPagePlugin v-if="facebookUrl" :href="facebookUrl" />
+        <FacebookPagePlugin
+          v-if="facebookUrl"
+          :href="facebookUrl"
+          class="test"
+        />
       </aside>
     </div>
     <div class="g-page__wrapper">
@@ -46,6 +50,7 @@
             />
             <h4 v-text="item.title" />
           </li>
+          <div class="position-correct" />
         </ol>
         <ButtonLoadmore
           v-if="list.nextPageToken"
@@ -73,6 +78,36 @@ export default {
       variables() {
         return {
           slug: this.$route.params.slug,
+        }
+      },
+      result({ data, loading }) {
+        if (!loading) {
+          const { playList01 = '', playList02 = '' } = data.allShows?.[0] || {}
+          const youtubeUrls = [playList01, playList02]
+          if (this.playlists.length < youtubeUrls.length) {
+            youtubeUrls.forEach((item, i) => {
+              if (item) {
+                const [
+                  url,
+                  sectionName = `選單 ${String.fromCharCode(i + 65)}`,
+                ] = item.split('：')
+                const id = url.includes('playlist?list=')
+                  ? url.split('list=')[1]
+                  : url.split('https://youtu.be/')[1]
+
+                this.playlists.push({
+                  id,
+                  sectionName,
+                  nextPageToken: '',
+                  items: [],
+                })
+              }
+            })
+
+            this.playlists.forEach((list) => {
+              this.loadYoutubeListData(list)
+            })
+          }
         }
       },
       update: (data) => data.allShows?.[0] || {},
@@ -151,36 +186,7 @@ export default {
       return this.playlists.filter((list) => list.items.length !== 0)
     },
   },
-  mounted() {
-    this.initPlaylists()
-    this.loadPlaylists()
-  },
   methods: {
-    initPlaylists() {
-      const { playList01 = '', playList02 = '' } = this.show
-      const youtubeUrls = [playList01, playList02]
-      youtubeUrls.forEach((item, i) => {
-        const [
-          url,
-          sectionName = `選單 ${String.fromCharCode(i + 65)}`,
-        ] = item.split('：')
-        const id = url.includes('playlist?list=')
-          ? url.split('list=')[1]
-          : url.split('https://youtu.be/')[1]
-
-        this.playlists.push({
-          id,
-          sectionName,
-          nextPageToken: '',
-          items: [],
-        })
-      })
-    },
-    loadPlaylists() {
-      this.playlists.forEach((list) => {
-        this.loadYoutubeListData(list)
-      })
-    },
     reducePlaylistItems(item) {
       return {
         id: item?.snippet?.resourceId?.videoId,
@@ -254,6 +260,9 @@ export default {
       .g-aside {
         width: 100%;
         margin: 24px auto 0;
+        .test {
+          width: 100%;
+        }
         @include media-breakpoint-up(md) {
           width: 320px;
           padding: 0;
@@ -319,7 +328,7 @@ export default {
       color: $color-blue;
       font-size: 20px;
       font-weight: 500;
-      line-height: 23px;
+      line-height: 28px;
       letter-spacing: 0.5px;
       margin-bottom: 12px;
     }
@@ -328,11 +337,31 @@ export default {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
+        &::after {
+          content: '';
+          width: calc((100% - 64px) / 3);
+        }
+      }
+      @include media-breakpoint-up(xl) {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        &::after {
+          content: '';
+          width: calc((100% - 96px) / 4);
+        }
+        .position-correct {
+          width: calc((100% - 96px) / 4);
+          overflow: hidden;
+        }
       }
       li {
         margin-bottom: 24px;
         @include media-breakpoint-up(md) {
-          width: calc(100% * 8 / 35);
+          width: calc((100% - 64px) / 3);
+        }
+        @include media-breakpoint-up(xl) {
+          width: calc((100% - 96px) / 4);
         }
         h4 {
           font-size: 16px;
