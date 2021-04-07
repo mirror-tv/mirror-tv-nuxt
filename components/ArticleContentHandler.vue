@@ -6,6 +6,7 @@ import ArticleContentSlideshow from '~/components/ArticleContentSlideshow'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ArticleContentImage from '~/components/ArticleContentImage'
+import ArticleContentBlockQuote from '~/components/ArticleContentBlockQuote'
 
 export default {
   functional: true,
@@ -17,6 +18,7 @@ export default {
     ArticleContentVideo,
     YoutubeEmbedByIframeApi,
     ArticleContentImage,
+    ArticleContentBlockQuote,
   },
   props: {
     paragraph: {
@@ -39,6 +41,13 @@ export default {
           <div class="g-article-annotation">
             <ArticleContentAnnotationHandler content={content} />
           </div>
+        )
+      case 'blockquote':
+        return (
+          <ArticleContentBlockQuote
+            class="g-article-blockquote"
+            blockquote={content}
+          />
         )
       case 'quoteby':
         return (
@@ -88,32 +97,6 @@ export default {
     text-align: justify;
     > * {
       max-width: 100%;
-    }
-  }
-  &-quote-by {
-    position: relative;
-    padding: 0 55px;
-    line-height: 1.75;
-    text-align: justify;
-    &::before,
-    &::after {
-      content: '';
-      display: inline-block;
-      position: absolute;
-      top: 0;
-      width: 30px;
-      height: 30px;
-      background-image: url('~assets/img/quote.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
-    }
-    &::before {
-      left: 0;
-    }
-    &::after {
-      right: 0;
-      transform: rotate(180deg);
     }
   }
   &-annotation {

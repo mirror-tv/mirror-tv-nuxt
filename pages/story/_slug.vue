@@ -524,9 +524,9 @@ export default {
     border: 3px solid;
     border-image: linear-gradient(
         to bottom,
-        $color-blue 20%,
-        white 20%,
-        white 80%,
+        $color-blue 16px,
+        white 0,
+        white calc(100% - 16px),
         $color-blue 80%
       )
       5;
