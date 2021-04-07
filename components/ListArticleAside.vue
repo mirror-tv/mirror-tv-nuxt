@@ -59,14 +59,15 @@ export default {
   margin: 0 0 40px;
 
   // tablet range
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     border: 1px solid $color-grey-deep;
     padding: 24px;
   }
 
-  // desktop narrow range
-  @include media-breakpoint-up(md) {
-    padding: 31px;
+  // desktop range
+  @include media-breakpoint-up(xl) {
+    border: none;
+    padding: 32px;
   }
   &__list {
     margin: 20px 0 0 0;

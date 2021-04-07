@@ -434,19 +434,25 @@ export default {
 <style lang="scss" scoped>
 .g-page--with-aside {
   padding-top: 50px;
-  .g-page__wrapper {
-    // desktop narrow range
-    @include media-breakpoint-up(md) {
-      max-width: 1120px;
-    }
-    @include media-breakpoint-up(xl) {
-      width: 1080px;
-      max-width: none;
-    }
-  }
+
   .main {
-    max-width: 600px;
+    max-width: 560px;
     margin: auto;
+
+    // tablet range
+    @include media-breakpoint-up(md) {
+      max-width: 600px;
+    }
+
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      max-width: 560px;
+    }
+
+    // desktop UHD range
+    @include media-breakpoint-up(xxl) {
+      max-width: 600px;
+    }
   }
 }
 
@@ -565,7 +571,8 @@ export default {
 
 .aside {
   // tablet range
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
+    width: 688px;
     display: flex;
     align-items: stretch;
     justify-content: space-between;
@@ -577,7 +584,9 @@ export default {
     }
   }
 
-  @include media-breakpoint-up(md) {
+  // desktop range
+  @include media-breakpoint-up(xl) {
+    width: 384px;
     display: block;
     background-color: $color-grey;
 
@@ -596,9 +605,17 @@ export default {
     }
   }
   &__list-latest {
+    // tablet range
     @include media-breakpoint-up(md) {
-      padding: 0 !important;
-      border: none !important;
+      &:first-child {
+        margin-right: 16px;
+      }
+    }
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      &:first-child {
+        margin-right: 0;
+      }
     }
   }
 
