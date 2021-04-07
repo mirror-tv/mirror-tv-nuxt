@@ -436,23 +436,8 @@ export default {
   padding-top: 50px;
 
   .main {
-    max-width: 560px;
+    max-width: 600px;
     margin: auto;
-
-    // tablet range
-    @include media-breakpoint-up(md) {
-      max-width: 600px;
-    }
-
-    // desktop range
-    @include media-breakpoint-up(xl) {
-      max-width: 560px;
-    }
-
-    // desktop UHD range
-    @include media-breakpoint-up(xxl) {
-      max-width: 600px;
-    }
   }
 }
 

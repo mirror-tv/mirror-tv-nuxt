@@ -7,6 +7,7 @@ import ArticleContentVideo from '~/components/ArticleContentVideo'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ArticleContentImage from '~/components/ArticleContentImage'
 import ArticleContentBlockQuote from '~/components/ArticleContentBlockQuote'
+import ArticleContentQuoteBy from '~/components/ArticleContentQuoteBy'
 
 export default {
   functional: true,
@@ -19,6 +20,7 @@ export default {
     YoutubeEmbedByIframeApi,
     ArticleContentImage,
     ArticleContentBlockQuote,
+    ArticleContentQuoteBy,
   },
   props: {
     paragraph: {
@@ -51,7 +53,7 @@ export default {
         )
       case 'quoteby':
         return (
-          <div class="g-article-quote-by" domPropsInnerHTML={content.quote} />
+          <ArticleContentQuoteBy class="g-article-quote-by" content={content} />
         )
       case 'embeddedcode':
         return (

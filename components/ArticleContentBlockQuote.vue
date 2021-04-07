@@ -22,14 +22,15 @@ export default {
 .blockquote {
   position: relative;
   padding: 0 55px;
-  line-height: 1.75;
+  font-size: 16px;
+  line-height: 180%;
   text-align: justify;
+  color: #014db8;
   &::before,
   &::after {
     content: '';
     display: inline-block;
     position: absolute;
-    top: 0;
     width: 30px;
     height: 30px;
     background-image: url('~assets/img/quote.svg');
@@ -38,9 +39,11 @@ export default {
     background-position: center center;
   }
   &::before {
+    top: 5px;
     left: 0;
   }
   &::after {
+    bottom: 19px;
     right: 0;
     transform: rotate(180deg);
   }
