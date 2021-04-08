@@ -598,9 +598,9 @@ export default {
     }
     // desktop range
     @include media-breakpoint-up(xl) {
+      padding: 0;
       &:first-child {
         margin-right: 0;
-        padding: 0;
       }
     }
   }
