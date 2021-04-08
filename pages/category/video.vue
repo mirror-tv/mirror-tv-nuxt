@@ -46,12 +46,14 @@
       <aside class="g-aside">
         <HeadingBordered :showIcon="true" text="鏡電視LIVE" />
         <YoutubeEmbedByIframeApi :enableAutoplay="true" videoId="coYw-eVU0Ks" />
-        <HeadingBordered :showIcon="true" text="直播現場" />
-        <YoutubeEmbed
-          v-for="item in playlistItems"
-          :key="item"
-          :videoId="item"
-        />
+        <template v-if="null">
+          <HeadingBordered :showIcon="true" text="直播現場" />
+          <YoutubeEmbed
+            v-for="item in playlistItems"
+            :key="item"
+            :videoId="item"
+          />
+        </template>
 
         <div class="aside__show-list show-list">
           <HeadingBordered class="home__heading" text="節目" />
@@ -345,6 +347,7 @@ export default {
     }
   }
   &__wrapper {
+    margin-top: 12px;
     padding-bottom: 12px;
 
     // tablet range

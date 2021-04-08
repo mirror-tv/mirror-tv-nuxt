@@ -22,16 +22,18 @@
               videoId="coYw-eVU0Ks"
             />
           </ClientOnly>
-          <HeadingBordered
-            :showIcon="true"
-            class="home__heading"
-            text="直播現場"
-          />
-          <YoutubeEmbed
-            v-for="item in playlistItems"
-            :key="item"
-            :videoId="item"
-          />
+          <template v-if="null">
+            <HeadingBordered
+              :showIcon="true"
+              class="home__heading"
+              text="直播現場"
+            />
+            <YoutubeEmbed
+              v-for="item in playlistItems"
+              :key="item"
+              :videoId="item"
+            />
+          </template>
         </div>
         <div class="main__list-latest-wrapper list-latest-wrapper">
           <HeadingBordered text="最新新聞" class="home__heading" />
@@ -69,16 +71,18 @@
               videoId="coYw-eVU0Ks"
             />
           </ClientOnly>
-          <HeadingBordered
-            :showIcon="true"
-            class="home__heading"
-            text="直播現場"
-          />
-          <YoutubeEmbed
-            v-for="item in playlistItems"
-            :key="item"
-            :videoId="item"
-          />
+          <template v-if="null">
+            <HeadingBordered
+              :showIcon="true"
+              class="home__heading"
+              text="直播現場"
+            />
+            <YoutubeEmbed
+              v-for="item in playlistItems"
+              :key="item"
+              :videoId="item"
+            />
+          </template>
         </div>
 
         <div class="aside__show-list show-list">
