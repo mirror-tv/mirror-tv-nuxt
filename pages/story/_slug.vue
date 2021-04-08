@@ -600,6 +600,7 @@ export default {
     @include media-breakpoint-up(xl) {
       &:first-child {
         margin-right: 0;
+        padding: 0;
       }
     }
   }
