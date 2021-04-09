@@ -46,18 +46,29 @@
       <aside class="g-aside">
         <HeadingBordered :showIcon="true" text="鏡電視LIVE" />
         <YoutubeEmbedByIframeApi :enableAutoplay="true" videoId="coYw-eVU0Ks" />
-        <HeadingBordered :showIcon="true" text="直播現場" />
-        <YoutubeEmbed
-          v-for="item in playlistItems"
-          :key="item"
-          :videoId="item"
-        />
-        <HeadingBordered class="home__heading" text="節目" />
-        <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
+        <template v-if="null">
+          <HeadingBordered :showIcon="true" text="直播現場" />
+          <YoutubeEmbed
+            v-for="item in playlistItems"
+            :key="item"
+            :videoId="item"
+          />
+        </template>
 
-        <LinkAnchorStyle />
-        <FacebookPagePlugin />
-        <LinkYoutubeStyle />
+        <div class="aside__show-list show-list">
+          <HeadingBordered class="home__heading" text="節目" />
+          <div class="show-list__wrapper">
+            <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
+          </div>
+        </div>
+
+        <div class="aside__link-list link-list">
+          <div class="link-list__wrapper">
+            <LinkAnchorStyle />
+            <FacebookPagePlugin />
+            <LinkYoutubeStyle />
+          </div>
+        </div>
       </aside>
     </div>
   </section>
@@ -230,27 +241,41 @@ export default {
 .video {
   &.g-page--with-aside {
     .g-page__wrapper {
-      @include media-breakpoint-up(xxl) {
+      @include media-breakpoint-up(md) {
         flex-wrap: wrap;
       }
       .main {
         margin-top: 32px;
-        @include media-breakpoint-up(xxl) {
-          margin-top: 60px;
+
+        // desktop  range
+        @include media-breakpoint-up(xl) {
+          width: calc(100% - 384px - 64px);
         }
       }
     }
   }
   .g-aside {
-    @include media-breakpoint-up(xxl) {
+    // desktop  range
+    @include media-breakpoint-up(xl) {
       margin-top: 60px;
+      padding-top: 0;
+      margin-left: 64px;
       border-left: 1px solid #d8d8d8;
+      border-right: 1px solid #d8d8d8;
+    }
+
+    .heading-bordered-wrapper {
+      margin-top: 48px;
+
+      &:first-child {
+        margin-top: 0;
+      }
     }
   }
 }
 
 .editor-choices {
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     margin: 22px 0 0;
   }
 }
@@ -258,7 +283,7 @@ export default {
 .category-posts {
   + .category-posts {
     margin-top: 40px;
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       margin-top: 50px;
     }
   }
@@ -266,7 +291,7 @@ export default {
     position: relative;
     left: -20px;
     width: calc(100% + 40px);
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       left: auto;
       width: auto;
     }
@@ -274,7 +299,7 @@ export default {
   &__heading {
     width: 110px;
     margin-left: 20px;
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       margin-left: 4px;
     }
   }
@@ -294,8 +319,8 @@ export default {
   &__posts {
     padding: 0 20px;
     margin-top: 20px;
-    @include media-breakpoint-up(xl) {
-      padding: 0 4px;
+    @include media-breakpoint-up(md) {
+      padding: 0;
     }
   }
 }
@@ -311,6 +336,44 @@ export default {
     bottom: 0;
     width: 100%;
     height: 100%;
+  }
+}
+
+.show-list {
+  .home__heading {
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      margin: 30px 0 0;
+    }
+  }
+  &__wrapper {
+    margin-top: 12px;
+    padding-bottom: 12px;
+
+    // tablet range
+    @include media-breakpoint-up(md) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-bottom: 4px;
+    }
+  }
+}
+
+.link-list {
+  display: flex;
+  justify-content: flex-end;
+  &__wrapper {
+    width: 100%;
+    // tablet range
+    @include media-breakpoint-up(md) {
+      width: 50%;
+    }
+
+    // desktop  range
+    @include media-breakpoint-up(xl) {
+      width: 100%;
+    }
   }
 }
 </style>

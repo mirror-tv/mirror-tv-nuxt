@@ -87,7 +87,7 @@ export default {
     &__time {
       min-width: 100px;
       @include media-breakpoint-up(md) {
-        padding-left: 24px;
+        padding-left: 38px;
       }
     }
     &__name {
@@ -102,7 +102,7 @@ export default {
       color: #9b9b9b;
       @include media-breakpoint-up(md) {
         display: table-cell;
-        padding-right: 24px;
+        padding-right: 12px;
       }
     }
   }

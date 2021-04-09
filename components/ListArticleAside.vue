@@ -56,9 +56,18 @@ export default {
 .list-wrapper {
   display: flex;
   flex-direction: column;
-  @include media-breakpoint-up(xl) {
+  margin: 0 0 40px;
+
+  // tablet range
+  @include media-breakpoint-up(md) {
     border: 1px solid $color-grey-deep;
-    padding: 31px;
+    padding: 24px;
+  }
+
+  // desktop range
+  @include media-breakpoint-up(xl) {
+    border: none;
+    padding: 32px;
   }
   &__list {
     margin: 20px 0 0 0;

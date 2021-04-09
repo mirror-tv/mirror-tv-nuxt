@@ -6,6 +6,8 @@ import ArticleContentSlideshow from '~/components/ArticleContentSlideshow'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ArticleContentImage from '~/components/ArticleContentImage'
+import ArticleContentBlockQuote from '~/components/ArticleContentBlockQuote'
+import ArticleContentQuoteBy from '~/components/ArticleContentQuoteBy'
 
 export default {
   functional: true,
@@ -17,6 +19,8 @@ export default {
     ArticleContentVideo,
     YoutubeEmbedByIframeApi,
     ArticleContentImage,
+    ArticleContentBlockQuote,
+    ArticleContentQuoteBy,
   },
   props: {
     paragraph: {
@@ -40,9 +44,16 @@ export default {
             <ArticleContentAnnotationHandler content={content} />
           </div>
         )
+      case 'blockquote':
+        return (
+          <ArticleContentBlockQuote
+            class="g-article-blockquote"
+            blockquote={content}
+          />
+        )
       case 'quoteby':
         return (
-          <div class="g-article-quote-by" domPropsInnerHTML={content.quote} />
+          <ArticleContentQuoteBy class="g-article-quote-by" content={content} />
         )
       case 'embeddedcode':
         return (
@@ -88,32 +99,6 @@ export default {
     text-align: justify;
     > * {
       max-width: 100%;
-    }
-  }
-  &-quote-by {
-    position: relative;
-    padding: 0 55px;
-    line-height: 1.75;
-    text-align: justify;
-    &::before,
-    &::after {
-      content: '';
-      display: inline-block;
-      position: absolute;
-      top: 0;
-      width: 30px;
-      height: 30px;
-      background-image: url('~assets/img/quote.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
-    }
-    &::before {
-      left: 0;
-    }
-    &::after {
-      right: 0;
-      transform: rotate(180deg);
     }
   }
   &-annotation {

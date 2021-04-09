@@ -136,14 +136,16 @@ export default {
   }
 }
 .editor-choices {
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     width: 100%;
   }
   &-container {
-    @include media-breakpoint-up(md) {
+    // desktop  range
+    @include media-breakpoint-up(xl) {
       display: flex;
       flex-wrap: wrap;
       width: 100%;
+      min-height: 405px;
     }
   }
   &__first-item {
@@ -151,16 +153,22 @@ export default {
     left: -20px;
     width: calc(100% + 40px);
     margin: 20px 0 0;
+    // tablet range
     @include media-breakpoint-up(md) {
       left: 0;
-      width: 318px;
+      width: 100%;
     }
-    @include media-breakpoint-up(xxl) {
-      width: 720px;
+
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      flex: 1;
+      max-width: auto;
+      //   min-width: 720px;
+      margin-right: 24px;
     }
     &.iframe-wrapper {
       padding-top: calc((100% + 40px) * 0.5625);
-      @include media-breakpoint-up(md) {
+      @include media-breakpoint-up(xl) {
         padding-top: calc(318px * 0.5625);
       }
       @include media-breakpoint-up(xxl) {
@@ -174,19 +182,25 @@ export default {
     }
   }
   &__remaining {
-    width: calc(100% + 40px);
+    margin-top: 8px;
+    width: calc(100% + 24px);
     padding: 20px 0;
-    transform: translateX(-20px);
-    border-bottom: 1px solid #d8d8d8;
+    transform: translateX(-12px);
+    border: 1px solid #d8d8d8;
+    // tablet range
     @include media-breakpoint-up(md) {
       position: relative;
       flex: 1;
       transform: translateX(0);
       width: auto;
-      margin: 20px 0 0 10px;
+      margin: 16px 0 0;
       padding: 0;
-      border: none;
       overflow: hidden;
+    }
+
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      max-width: 456px;
     }
     .item {
       display: flex;
@@ -210,12 +224,14 @@ export default {
     }
   }
   .scrollable-container {
+    // desktop range
     @include media-breakpoint-up(xl) {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      min-height: 405px;
       overflow-y: auto;
     }
   }

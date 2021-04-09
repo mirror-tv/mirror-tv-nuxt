@@ -146,27 +146,39 @@ export default {
 }
 .item {
   display: inline-block;
-  width: calc((100% - 14px) / 2);
+  width: calc((100%) / 2);
   vertical-align: top;
   white-space: normal;
-  @include media-breakpoint-up(xl) {
-    width: calc((100% - 50px) / 3);
+  // tablet range
+  @include media-breakpoint-up(sm) {
+    width: calc((100% - 64px) / 3);
+  }
+  // desktop narrow range
+  @include media-breakpoint-up(md) {
+    width: calc((100% - 14px) / 2);
+  }
+  // desktop narrow range
+  @include media-breakpoint-up(md) {
+    width: calc((100% - 64px) / 3);
   }
   + .item {
-    margin-left: 14px;
-    @include media-breakpoint-up(xl) {
-      margin-left: 25px;
+    margin-left: 16px;
+    @include media-breakpoint-up(sm) {
+      margin-left: 32px;
     }
   }
   &__image {
     position: relative;
     width: 100%;
-    height: 87px;
+    padding-top: 56.25%;
     font-size: 12px;
-    @include media-breakpoint-up(xl) {
-      height: 120px;
+    @include media-breakpoint-up(lg) {
+      //   height: 120px;
     }
     img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;

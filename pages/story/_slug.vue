@@ -71,6 +71,11 @@
           :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
         />
+        <ListArticleAside
+          class="aside__list-latest"
+          :listTitle="'熱門新聞'"
+          :listData="listArticleAsideLatestData"
+        />
       </aside>
     </div>
   </section>
@@ -427,29 +432,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
-  + * {
-    margin-top: 40px;
-  }
-  @include media-breakpoint-up(xxl) {
-    width: 600px;
-    + aside {
-      margin: 0 0 0 auto;
-    }
-  }
-}
-
 .g-page--with-aside {
   padding-top: 50px;
-  .g-page__wrapper {
-    max-width: 500px;
-    @include media-breakpoint-up(xxl) {
-      width: 1080px;
-      max-width: none;
-    }
-  }
+
   .main {
-    margin: 0;
+    max-width: 600px;
+    margin: auto;
   }
 }
 
@@ -521,9 +509,9 @@ export default {
     border: 3px solid;
     border-image: linear-gradient(
         to bottom,
-        $color-blue 20%,
-        white 20%,
-        white 80%,
+        $color-blue 16px,
+        white 0,
+        white calc(100% - 16px),
         $color-blue 80%
       )
       5;
@@ -561,14 +549,38 @@ export default {
   color: #000;
   font-size: 14px;
   line-height: 1.57;
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     padding: 7px 0 0;
   }
 }
 
 .aside {
-  @include media-breakpoint-up(xxl) {
+  // tablet range
+  @include media-breakpoint-up(md) {
+    width: 688px;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+
+    > * {
+      + * {
+        margin-top: 0;
+      }
+    }
+  }
+
+  // desktop range
+  @include media-breakpoint-up(xl) {
+    width: 384px;
+    display: block;
     background-color: $color-grey;
+
+    > * {
+      + * {
+        margin-top: 16px;
+      }
+    }
+
     ::v-deep {
       .list__list-item {
         .article-img {
@@ -578,10 +590,23 @@ export default {
     }
   }
   &__list-latest {
-    @include media-breakpoint-up(xl) {
-      padding: 0 !important;
-      border: none !important;
+    // tablet range
+    @include media-breakpoint-up(md) {
+      &:first-child {
+        margin-right: 16px;
+      }
     }
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      padding: 0;
+      &:first-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  & .list-title {
+    margin-top: 30px !important;
   }
 }
 </style>

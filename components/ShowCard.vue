@@ -30,12 +30,30 @@ export default {
   margin-bottom: 20px;
   cursor: pointer;
 
+  // tablet range
+  @include media-breakpoint-up(md) {
+    width: calc((100% - 20px) / 2);
+    padding-top: 18.75%;
+  }
+
+  // desktop range
+  @include media-breakpoint-up(xl) {
+    width: 100%;
+    padding-top: 37.5%;
+  }
+
   &__banner {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
+
+    // tablet range
+    @include media-breakpoint-up(md) {
+      max-width: 336px;
+      max-height: 126px;
+    }
 
     img {
       width: 100%;
