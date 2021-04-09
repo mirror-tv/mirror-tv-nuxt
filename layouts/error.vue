@@ -1,16 +1,30 @@
 <template>
   <div :class="[{ 'server-error': !is404, 'not-found': is404 }, 'error']">
-    <div class="container">
-      <template v-if="is404">
-        <h1 class="error__heading">404</h1>
-        <NuxtLink class="error__link" to="/">Home</NuxtLink>
+    <div v-if="is404" class="container">
+      <div class="error_info">
+        <h1 class="error_info_heading">404</h1>
+        <NuxtLink class="error_info_link" to="/">Home</NuxtLink>
+      </div>
+
+      <div class="error__wire_left">
         <img class="error__icon plug" src="~/assets/img/plug.svg" />
+        <div class="error__wire_1" />
+        <div class="error__wire_2" />
+      </div>
+
+      <div class="error__wire_right">
         <img class="error__icon socket" src="~/assets/img/socket.svg" />
-      </template>
-      <template v-else>
-        <h1 class="error__heading">50</h1>
-        <p>這個網頁無法正常運作</p>
-      </template>
+        <div class="error__wire_1" />
+        <div class="error__wire_2" />
+      </div>
+    </div>
+
+    <div v-else class="container">
+      <div class="error_info">
+        <h1 class="error_info_heading">50<span class="drop_zero">0</span></h1>
+
+        <p class="error_info_text">這個網頁無法正常運作</p>
+      </div>
     </div>
   </div>
 </template>
@@ -26,7 +40,7 @@ export default {
   },
   computed: {
     is404() {
-      return this.error.statusCode === 404
+      return this.error.statusCode !== 404
     },
   },
 }
@@ -40,128 +54,175 @@ $font: Arial Rounded MT Bold, Arial;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  color: #fff;
-  font-size: 16px;
-  letter-spacing: 2px;
   background-color: #003365;
-  overflow: hidden;
-  @include media-breakpoint-up(md) {
-    font-size: 30px;
-  }
+
   .container {
     position: relative;
   }
-  &__heading {
-    font-size: 50px;
-    font-family: $font;
-    line-height: 1;
-    @include media-breakpoint-up(md) {
-      font-size: 200px;
-      + * {
-        margin-top: 5px;
+  .error_info {
+    color: #fff;
+    &_heading {
+      font-family: $font;
+      font-size: 51px;
+      line-height: 1;
+      margin-bottom: 12px;
+      // tablet range
+      @include media-breakpoint-up(md) {
+        font-size: 110px;
+      }
+    }
+
+    &_link {
+      display: inline-block;
+      padding: 9px 0;
+      color: #ffcc01;
+      font-size: 20px;
+      font-family: $font;
+      font-weight: bold;
+      letter-spacing: 1.3px;
+      text-decoration: underline;
+      // tablet range
+      @include media-breakpoint-up(md) {
+        padding: 0;
+        font-size: 58px;
       }
     }
   }
-  &__link {
-    display: inline-block;
-    padding: 9px 0;
-    color: #ffcc01;
-    font-size: 20px;
-    font-family: $font;
-    font-weight: bold;
-    letter-spacing: 1.3px;
-    text-decoration: underline;
-    @include media-breakpoint-up(md) {
-      padding: 0;
-      font-size: 50px;
-    }
-  }
+
   &.not-found {
     .container {
       text-align: center;
       transform: translateY(-50%);
     }
-    .error__heading {
-      &::before,
-      &::after {
-        content: '';
-        position: absolute;
-        top: 33px;
-        display: block;
-        width: calc(50vw - 50px);
-        height: 4px;
-        background-color: $color-grey-deep;
-        @include media-breakpoint-up(md) {
-          top: 125px;
-          width: calc(50vw - 150px);
-          height: 10px;
+
+    .error__wire_left,
+    .error__wire_right {
+      position: absolute;
+      display: flex;
+      height: 83px;
+      width: 50vw;
+      top: 35px;
+
+      // tablet range
+      @include media-breakpoint-up(md) {
+        top: 75px;
+      }
+
+      .error__wire_1 {
+        width: 0%;
+        height: 100%;
+        border-bottom: 4px solid #979797;
+        // desktop range
+        @include media-breakpoint-up(xl) {
+          width: auto;
+          flex: 1;
         }
       }
-      &::before {
-        left: calc(-10% - 20px);
-        transform: translateX(-100%);
-        @include media-breakpoint-up(md) {
-          left: calc(-10% - 50px);
-        }
-      }
-      &::after {
-        right: calc(-10% - 20px);
-        transform: translateX(100%);
-        @include media-breakpoint-up(md) {
-          right: calc(-10% - 50px);
+      .error__wire_2 {
+        width: 100%;
+        height: 100%;
+        border-top: 4px solid #979797;
+        border-left: 4px solid #979797;
+        // desktop range
+        @include media-breakpoint-up(xl) {
+          width: 197px;
         }
       }
     }
+
+    .error__wire_left {
+      left: -11.72px;
+      transform: translate(-110%, 0);
+      // tablet range
+      @include media-breakpoint-up(md) {
+        left: -49px;
+      }
+    }
+
+    .error__wire_right {
+      right: -11.72px;
+      transform: translate(110%, 0) scaleX(-1);
+      // tablet range
+      @include media-breakpoint-up(md) {
+        right: -49px;
+      }
+    }
+
     .error__icon {
       position: absolute;
-      top: 25px;
-      height: 20px;
+      top: 0;
+      height: 34px;
+      // tablet range
       @include media-breakpoint-up(md) {
-        top: 100px;
-        height: 60px;
+        height: 45px;
       }
       &.plug {
-        left: 0;
-        transform: translateX(calc(-100% - 20px));
-        @include media-breakpoint-up(md) {
-          transform: translateX(calc(-100% - 50px));
-        }
+        right: 0;
+        transform: translate(35%, -46%);
       }
       &.socket {
         right: 0;
-        transform: translateX(calc(100% + 20px));
-        @include media-breakpoint-up(md) {
-          transform: translateX(calc(100% + 50px));
-        }
+        transform: translate(15%, -46%) rotate(180deg);
       }
     }
   }
+
   &.server-error {
     .container {
-      transform: translate(-20px, -100%);
+      width: 190px;
+      transform: translateY(-50%);
+
+      // tablet range
       @include media-breakpoint-up(md) {
-        transform: translate(-20%, -50%);
+        width: 370px;
       }
+
+      // desktop range
       @include media-breakpoint-up(xl) {
-        transform: translate(-50%, -50%);
+        width: 420px;
       }
     }
-    .error__heading {
-      position: relative;
-      text-align: right;
-      transform: translateX(5px);
-      @include media-breakpoint-up(md) {
-        transform: translateX(10px);
-      }
-      &::after {
-        content: '0';
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        transform: translate(calc(100%), 50%) rotate(25deg);
+    .error_info {
+      display: flex;
+      flex-direction: column;
+      &_heading {
+        align-self: flex-end;
+        display: inline-block;
+        font-size: 70px;
+        color: #fff;
+        letter-spacing: 4px;
+        margin: 0;
+
+        // tablet range
         @include media-breakpoint-up(md) {
-          transform: translate(calc(100% + 10px), 25%) rotate(25deg);
+          font-size: 152px;
+          letter-spacing: 6px;
         }
+
+        // desktop range
+        @include media-breakpoint-up(xl) {
+          font-size: 184px;
+          letter-spacing: 5px;
+        }
+      }
+
+      &_text {
+        font-size: 14px;
+
+        // tablet range
+        @include media-breakpoint-up(md) {
+          font-size: 26px;
+        }
+
+        // desktop range
+        @include media-breakpoint-up(xl) {
+          font-size: 28px;
+        }
+      }
+
+      .drop_zero {
+        display: inline-block;
+        transform: rotate(29deg) translate(30%, 30%);
       }
     }
   }

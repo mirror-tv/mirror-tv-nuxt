@@ -12,10 +12,9 @@
             <div class="audio-player__pause_icon_bar" />
             <div class="audio-player__pause_icon_bar" />
           </div>
-
-          <!-- <div class="audio-player__play_triangle"></div> -->
         </div>
       </div>
+
       <div class="audio-player__duration">
         <input v-model="currentSec" type="range" min="0" :max="totalSec" />
 
