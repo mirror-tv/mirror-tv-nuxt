@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     is404() {
-      return this.error.statusCode !== 404
+      return this.error.statusCode === 404
     },
   },
 }
