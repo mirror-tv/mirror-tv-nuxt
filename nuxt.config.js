@@ -154,8 +154,12 @@ module.exports = {
    */
   modules: [
     '@nuxtjs/apollo',
+    '@nuxtjs/axios',
     ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 * 24 }],
   ],
+  axios: {
+    proxy: true,
+  },
   hooks: {
     // Doc: https://nuxtjs.org/docs/2.x/internals-glossary/internals-renderer#hooks
     render: {

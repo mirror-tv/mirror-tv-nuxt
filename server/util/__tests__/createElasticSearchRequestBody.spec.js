@@ -10,21 +10,21 @@ test('Should return proper value', function () {
             multi_match: {
               query: 'one',
               type: 'phrase',
-              fields: ['title^2', 'brief', 'content'],
+              fields: ['name', 'briefHtml', 'contentHtml'],
             },
           },
           {
             multi_match: {
               query: 'two',
               type: 'phrase',
-              fields: ['title^2', 'brief', 'content'],
+              fields: ['name', 'briefHtml', 'contentHtml'],
             },
           },
           {
             multi_match: {
               query: 'three',
               type: 'phrase',
-              fields: ['title^2', 'brief', 'content'],
+              fields: ['name', 'briefHtml', 'contentHtml'],
             },
           },
         ],

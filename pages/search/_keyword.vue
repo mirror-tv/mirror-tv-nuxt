@@ -51,11 +51,18 @@ export default {
   },
   async fetch() {
     const query = this.keywordDecoded
-    const response = await axios.post('/api/search', {
-      query,
-      from: 0,
-      size: this.listDataMaxResults,
-    })
+    // console.log('query in search', query)
+    let response
+
+    try {
+      response = await this.$axios.$post('/api/search', {
+        query,
+        from: 0,
+        size: this.listDataMaxResults,
+      })
+    } catch (err) {
+      //   console.log('err happended when fetching search respond', err)
+    }
     this.setListData(response)
     this.setListDataTotal(response)
     this.listDataCurrentPage += 1
@@ -107,7 +114,7 @@ export default {
       sendGaEvent(this.$ga)('search')('click')(label)
     },
     setListData(response = {}) {
-      let listData = response.data?.body?.hits?.hits ?? []
+      let listData = response?.body?.hits?.hits ?? []
       listData = listData.map(this.mapDataToComponentProps)
       this.listData.push(...listData)
     },

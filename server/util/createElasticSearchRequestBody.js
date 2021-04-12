@@ -13,7 +13,7 @@ module.exports = function createElasticSearchRequestBody(queryString = '') {
       multi_match: {
         query,
         type: 'phrase',
-        fields: ['title^2', 'brief', 'content'],
+        fields: ['name', 'briefHtml', 'contentHtml'],
       },
     }))
   }
