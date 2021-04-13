@@ -7,7 +7,8 @@
         <img :src="picture.urlMobileSized" :alt="showName" />
       </picture>
       <main class="main">
-        <div class="show__introduction" v-text="introduction" />
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div class="show__introduction" v-html="introduction" />
         <ol class="host__container">
           <li v-for="host in hosts" :key="host.name" class="host__wrapper">
             <img
@@ -207,7 +208,8 @@ export default {
       return this.show.facebookUrl
     },
     introduction() {
-      return this.show.introduction
+      const string = this.show.introduction.replace(/\n|\r\n/g, '<br>')
+      return string
     },
     showName() {
       return this.show.name
