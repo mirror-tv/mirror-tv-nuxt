@@ -414,7 +414,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return dayjs(date).format('YYYY.MM.DD HH:mm')
+      return `${dayjs(date).format('YYYY.MM.DD HH:mm')} 臺北時間`
     },
     reducerArticleCard(post) {
       return {
