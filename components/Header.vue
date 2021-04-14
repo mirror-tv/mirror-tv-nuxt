@@ -73,13 +73,31 @@
           <div
             v-for="category in allCategories"
             :key="`category-nav-${category.slug}`"
-            class="navs__category-nav category-nav"
+            class="navs__category-nav navs__xl-seperator-fix category-nav"
           >
             <nuxt-link
               class="category-nav__link"
               :to="`/category/${category.slug}`"
               @click.native="closeHamburgerButton"
               v-text="category.name"
+            />
+          </div>
+          <div
+            class="navs__category-nav category-nav other-nav other-nav-ombuds"
+          >
+            <nuxt-link
+              class="category-nav__link"
+              :to="`/ombuds`"
+              @click.native="closeHamburgerButton"
+              v-text="'公評人專區'"
+            />
+          </div>
+          <div class="navs__category-nav category-nav other-nav">
+            <nuxt-link
+              class="category-nav__link"
+              :to="`/story/about`"
+              @click.native="closeHamburgerButton"
+              v-text="'關於我們'"
             />
           </div>
         </nav>
@@ -347,11 +365,18 @@ export default {
   }
   @include media-breakpoint-up(xl) {
     padding: 0;
-    width: 992px;
-    margin: 0 auto;
+    margin-right: 16px;
+    margin-left: calc(((100vw - 1200px) / 2) + 100px);
   }
   @include media-breakpoint-up(xxl) {
-    width: 1200px;
+    margin-left: calc((100vw - 1200px) / 2);
+  }
+  @mixin separator_line() {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 16px;
+    background-color: #fff;
   }
   &__category-nav {
     display: flex;
@@ -359,14 +384,6 @@ export default {
     justify-content: center;
     width: 33.33333%;
     margin: 0 0 32px 0;
-
-    @mixin separator_line() {
-      content: '';
-      display: inline-block;
-      width: 2px;
-      height: 16px;
-      background-color: #fff;
-    }
     @include media-breakpoint-up(md) {
       width: auto;
       margin: 0;
@@ -376,6 +393,17 @@ export default {
         background-color: $color-grey-deep;
       }
       &:last-child {
+        &::after {
+          @include separator_line;
+
+          background-color: $color-grey-deep;
+        }
+      }
+    }
+  }
+  &__xl-seperator-fix {
+    @include media-breakpoint-up(xl) {
+      &:nth-last-child(3) {
         &::after {
           @include separator_line;
 
@@ -402,6 +430,18 @@ export default {
       }
       a {
         padding: 0 16px;
+      }
+    }
+  }
+
+  .other-nav {
+    display: none;
+    @include media-breakpoint-up(md) {
+      display: flex;
+    }
+    &-ombuds {
+      @include media-breakpoint-up(xl) {
+        margin-left: auto;
       }
     }
   }
