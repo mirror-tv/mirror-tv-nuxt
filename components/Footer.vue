@@ -13,18 +13,6 @@
               alt="facebook"
             />
           </a>
-          <a
-            class="social-network-services line"
-            href=""
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            <img
-              class="social-network-service-img"
-              src="~/assets/img/LINE_logo.png"
-              alt="line"
-            />
-          </a>
           <a href="" target="_blank" rel="noreferrer noopener">
             <img
               class="social-network-service-img"
@@ -39,12 +27,6 @@
           <p class="info-wrapper__info">
             <span>客服專線：</span>
             <span>(02)7752-5678</span>
-          </p>
-          <p class="info-wrapper__info">
-            <span>外部公評人特別申訴信箱：</span>
-            <a href="mailto:NewsOmbudsman@mnews.tw" rel="noreferrer noopener">
-              NewsOmbudsman@mnews.tw
-            </a>
           </p>
         </div>
       </div>
@@ -159,7 +141,8 @@ export default {
   &__middle {
     margin: 20px 0 0 0;
     @include media-breakpoint-up(xl) {
-      margin: 0 160px 0 48px;
+      margin-left: 48px;
+      width: 618px;
     }
   }
   &__right {
@@ -188,20 +171,12 @@ export default {
     padding: 14px;
   }
 }
-.social-network-services {
-  &.line {
-    padding: 18px 7.5px;
-  }
-}
 
 .social-network-service-img {
   opacity: 0.6;
   &[alt='facebook'],
   &[alt='instagram'] {
     height: 20px;
-  }
-  &[alt='line'] {
-    height: 12px;
   }
 }
 
