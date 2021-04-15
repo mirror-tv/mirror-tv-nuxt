@@ -8,8 +8,9 @@
       >
         <HeadingBordered text="編輯精選" />
       </EditorChoicesVideoNews>
+
       <main class="main">
-        <div class="category-posts-wrapper">
+        <div class="main__category-posts-wrapper category-posts-wrapper">
           <div
             v-for="category in categoriesFiltered"
             :key="category.slug"
@@ -44,16 +45,63 @@
         </div>
       </main>
       <aside class="g-aside">
-        <HeadingBordered :showIcon="true" text="鏡電視LIVE" />
-        <YoutubeEmbedByIframeApi :enableAutoplay="true" videoId="coYw-eVU0Ks" />
-        <template v-if="null">
-          <HeadingBordered :showIcon="true" text="直播現場" />
-          <YoutubeEmbed
-            v-for="item in playlistItems"
-            :key="item"
-            :videoId="item"
+        <div class="aside__live-stream live-stream">
+          <HeadingBordered
+            :showIcon="true"
+            text="鏡電視LIVE"
+            class="video__heading"
           />
-        </template>
+          <YoutubeEmbedByIframeApi
+            :enableAutoplay="true"
+            videoId="coYw-eVU0Ks"
+          />
+          <template v-if="null">
+            <HeadingBordered
+              :showIcon="true"
+              text="直播現場"
+              class="video__heading"
+            />
+            <YoutubeEmbed
+              v-for="item in playlistItems"
+              :key="item"
+              :videoId="item"
+            />
+          </template>
+        </div>
+
+        <div class="aside__category-posts-wrapper category-posts-wrapper">
+          <div
+            v-for="category in categoriesFiltered"
+            :key="category.slug"
+            class="category-posts"
+          >
+            <a
+              :href="`/category/${category.slug}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              @click="sendGaClickEvent('categories page')"
+            >
+              <HeadingBordered
+                class="category-posts__heading"
+                :text="category.name"
+              />
+              <span class="category-posts__link" />
+            </a>
+            <ArticleListSlides
+              :items="getPostsByCategory(category.slug).items"
+              :total="getPostsByCategory(category.slug).total"
+              class="category-posts__posts"
+              @click-slide-item="sendGaClickEvent('articles')"
+              @click-slide-next="
+                sendGaClickEvent('right button for more articles')
+              "
+              @click-slide-prev="
+                sendGaClickEvent('left button for more articles')
+              "
+              @load-more="handleLoadMorePostsByCategory(category.slug, $event)"
+            />
+          </div>
+        </div>
 
         <div class="aside__show-list show-list">
           <HeadingBordered class="home__heading" text="節目" />
@@ -250,27 +298,53 @@ export default {
         // desktop  range
         @include media-breakpoint-up(xl) {
           width: calc(100% - 384px - 64px);
+          margin-top: 60px;
+        }
+
+        &__category-posts-wrapper {
+          display: none;
+          // desktop range
+          @include media-breakpoint-up(xl) {
+            display: block;
+          }
+        }
+      }
+
+      .aside {
+        &__category-posts-wrapper {
+          display: block;
+          // desktop range
+          @include media-breakpoint-up(xl) {
+            display: none;
+          }
         }
       }
     }
   }
   .g-aside {
+    margin-top: 48px;
+
+    > * {
+      + * {
+        margin-top: 32px;
+      }
+    }
     // desktop  range
     @include media-breakpoint-up(xl) {
       margin-top: 60px;
-      padding-top: 0;
+      padding-top: 8px;
       margin-left: 64px;
       border-left: 1px solid #d8d8d8;
       border-right: 1px solid #d8d8d8;
     }
 
-    .heading-bordered-wrapper {
-      margin-top: 48px;
+    // .heading-bordered-wrapper {
+    //   margin-top: 48px;
 
-      &:first-child {
-        margin-top: 0;
-      }
-    }
+    //   &:first-child {
+    //     margin-top: 0;
+    //   }
+    // }
   }
 }
 
@@ -280,11 +354,21 @@ export default {
   }
 }
 
+.live-stream {
+  * + .video__heading {
+    margin: 40px 0 0;
+  }
+  .iframe-wrapper {
+    margin-top: 16px;
+  }
+}
+
 .category-posts {
   + .category-posts {
-    margin-top: 40px;
+    margin-top: 24px;
+    // tablet range
     @include media-breakpoint-up(md) {
-      margin-top: 50px;
+      margin-top: 48px;
     }
   }
   &-wrapper {

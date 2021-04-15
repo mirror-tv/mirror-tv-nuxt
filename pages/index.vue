@@ -85,6 +85,28 @@
           </template>
         </div>
 
+        <div class="aside__list-latest-wrapper list-latest-wrapper">
+          <HeadingBordered text="最新新聞" class="home__heading" />
+          <ol class="list-latest">
+            <li v-for="post in latestPosts" :key="post.id">
+              <ArticleCard
+                :href="post.href"
+                :labelTitle="post.labelTitle"
+                :articleImgURL="post.articleImgURL"
+                :articleTitle="post.articleTitle"
+                :articleDate="post.articleDate"
+                :articleStyle="post.articleStyle"
+                @click.native="sendGaClickEvent('latest articles')"
+              />
+            </li>
+          </ol>
+          <ButtonLoadmore
+            v-show="showLoadMoreButton"
+            class="g-button-load-more button-load-more"
+            @click.native="handleClickMore"
+          />
+        </div>
+
         <div class="aside__show-list show-list">
           <HeadingBordered class="home__heading" text="節目" />
           <div class="show-list__wrapper">
@@ -332,6 +354,13 @@ export default {
   &__list-latest-wrapper {
     margin-top: 48px;
   }
+  &__list-latest-wrapper {
+    display: none;
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      display: block;
+    }
+  }
   &__aside {
     // desktop range
     @include media-breakpoint-up(xl) {
@@ -421,6 +450,14 @@ export default {
     // desktop range
     @include media-breakpoint-up(xl) {
       display: block;
+    }
+  }
+
+  &__list-latest-wrapper {
+    display: block;
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      display: none;
     }
   }
 }
