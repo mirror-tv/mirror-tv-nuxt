@@ -208,8 +208,15 @@ export default {
       return this.show.facebookUrl
     },
     introduction() {
-      const string = this.show.introduction.replace(/\n|\r\n/g, '<br>')
-      return string
+      if (
+        this.show.introduction &&
+        typeof this.show.introduction === 'string'
+      ) {
+        const string = this.show.introduction.replace(/\n|\r\n/g, '<br>')
+        return string
+      } else {
+        return null
+      }
     },
     showName() {
       return this.show.name
