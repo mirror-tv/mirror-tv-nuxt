@@ -95,9 +95,9 @@
         <div class="aside__link-list link-list">
           <div class="link-list__wrapper">
             <LinkAnchorStyle />
-            <FacebookPagePlugin />
             <LinkYoutubeStyle />
           </div>
+          <FacebookPagePlugin />
         </div>
       </aside>
     </div>
@@ -456,17 +456,28 @@ export default {
 
 .link-list {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: flex-start;
+  // tablet range
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
+
+  // desktop  range
+  @include media-breakpoint-up(xl) {
+    flex-direction: column;
+  }
+
   &__wrapper {
-    width: 100%;
+    flex: 1;
     // tablet range
     @include media-breakpoint-up(md) {
-      width: 50%;
+      margin-right: 16px;
     }
 
     // desktop  range
     @include media-breakpoint-up(xl) {
-      width: 100%;
+      margin-right: 0;
     }
   }
 }

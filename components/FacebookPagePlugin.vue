@@ -61,6 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 .fb-page {
+  flex: 1;
   display: block;
   max-width: 100%;
   overflow: hidden;

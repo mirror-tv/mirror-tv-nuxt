@@ -65,8 +65,8 @@
         <div class="aside__link-list link-list">
           <div class="link-list__wrapper">
             <LinkAnchorStyle />
-            <FacebookPagePlugin />
             <LinkYoutubeStyle />
+            <FacebookPagePlugin />
           </div>
         </div>
       </aside>

@@ -41,6 +41,7 @@ export default {
   font-size: 20px;
   font-weight: 500;
   background-color: #4a4a4a;
+  margin-bottom: 24px;
   &__left-block {
     flex: 1;
     display: flex;
