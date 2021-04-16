@@ -589,6 +589,7 @@ export default {
       }
     }
   }
+
   &__list-latest {
     // tablet range
     @include media-breakpoint-up(md) {
@@ -598,7 +599,7 @@ export default {
     }
     // desktop range
     @include media-breakpoint-up(xl) {
-      padding: 0;
+      padding: 0 !important;
       &:first-child {
         margin-right: 0;
       }
