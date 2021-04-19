@@ -195,6 +195,9 @@ export default {
         height: 347px;
         margin-bottom: 0;
       }
+      @include media-breakpoint-up(lg) {
+        margin-bottom: 36px;
+      }
     }
   }
   &__block {

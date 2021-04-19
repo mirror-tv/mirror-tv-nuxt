@@ -10,21 +10,28 @@
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div class="show__introduction" v-html="introduction" />
         <ol class="host__container">
-          <li v-for="host in hosts" :key="host.name" class="host__wrapper">
-            <img
-              v-if="host.image"
-              :src="host.image.urlMobileSized"
-              :alt="host.name"
-            />
-            <img
-              v-else
-              src="~assets/img/image-default.png"
-              alt="default image"
-            />
-            <div class="host__wrapper-content">
-              <h3>主持人 ｜ {{ host.name }}</h3>
-              <p v-if="host.bio">{{ host.bio }}</p>
-            </div>
+          <li v-for="host in hosts" :key="host.name">
+            <a
+              :href="`/anchorperson/${host.slug}`"
+              target="_blank"
+              rel="noreferrer noopener"
+              class="host__wrapper"
+            >
+              <img
+                v-if="host.image"
+                :src="host.image.urlMobileSized"
+                :alt="host.name"
+              />
+              <img
+                v-else
+                src="~assets/img/image-default.png"
+                alt="default image"
+              />
+              <div class="host__wrapper-content">
+                <h3>主持人 ｜ {{ host.name }}</h3>
+                <p v-if="host.bio">{{ host.bio }}</p>
+              </div>
+            </a>
           </li>
         </ol>
       </main>

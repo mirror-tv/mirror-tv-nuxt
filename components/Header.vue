@@ -76,6 +76,14 @@
             class="navs__category-nav navs__xl-seperator-fix category-nav"
           >
             <nuxt-link
+              v-if="category.slug === 'home'"
+              class="category-nav__link"
+              to="/"
+              @click.native="closeHamburgerButton"
+              v-text="category.name"
+            />
+            <nuxt-link
+              v-else
               class="category-nav__link"
               :to="`/category/${category.slug}`"
               @click.native="closeHamburgerButton"
