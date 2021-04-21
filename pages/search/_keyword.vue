@@ -9,7 +9,7 @@
           <li
             v-for="post in listData"
             :key="post.id"
-            class="search__list__item"
+            class="search-result__list__item"
           >
             <ArticleCard
               :href="post.href"
