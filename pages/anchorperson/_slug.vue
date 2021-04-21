@@ -52,11 +52,11 @@
           </div>
         </div>
         <div v-if="isDesktop" class="anchor__info--intro-desktop">
-          <p v-text="anchorBio" />
+          <p v-html="anchorBio" />
         </div>
       </section>
       <div v-if="!isDesktop" class="anchor__intro">
-        <p v-text="anchorBio" />
+        <p v-html="anchorBio" />
       </div>
     </div>
   </section>
@@ -67,6 +67,7 @@ import { SITE_NAME } from '~/constants'
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
+import { handleLineBreak } from '~/utils/text-handler'
 
 export default {
   apollo: {
@@ -142,7 +143,7 @@ export default {
       return this.anchor.twitter
     },
     anchorBio() {
-      return this.anchor.bio
+      return handleLineBreak(this.anchor.bio)
     },
   },
   mounted() {

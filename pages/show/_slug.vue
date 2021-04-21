@@ -109,6 +109,7 @@ import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
+import { handleLineBreak } from '~/utils/text-handler'
 
 export default {
   apollo: {
@@ -215,15 +216,7 @@ export default {
       return this.show.facebookUrl
     },
     introduction() {
-      if (
-        this.show.introduction &&
-        typeof this.show.introduction === 'string'
-      ) {
-        const string = this.show.introduction.replace(/\n|\r\n/g, '<br>')
-        return string
-      } else {
-        return null
-      }
+      return handleLineBreak(this.show.introduction)
     },
     showName() {
       return this.show.name
