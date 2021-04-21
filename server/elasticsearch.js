@@ -8,7 +8,7 @@ const createElasticSearchRequestBody = require('./util/createElasticSearchReques
 // 為了測試通過而保留，在 server/index.js 已設定
 router.use(bodyParser.json())
 
-router.post('/', async function (req, res, next) {
+router.get('/', async function (req, res, next) {
   const { query, from = 0, size = 12 } = req.body
 
   const client = new Client({ node: ELASTICSEARCH_URL })

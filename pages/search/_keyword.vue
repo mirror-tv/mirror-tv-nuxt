@@ -66,7 +66,7 @@ export default {
     let response
 
     try {
-      response = await this.$axios.$post('/api/search', {
+      response = await this.$axios.$get('/api/search', {
         query,
         from: 0,
         size: this.listDataMaxResults,

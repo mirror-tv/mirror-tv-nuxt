@@ -85,7 +85,7 @@ describe('/api/search', function () {
     expect.assertions(3)
 
     const query = 'something'
-    const res = await request(app).post('/').send({
+    const res = await request(app).get('/').send({
       query,
     })
 
@@ -106,7 +106,7 @@ describe('/api/search', function () {
     const query = 'something'
     const from = 10
     const size = 123
-    const res = await request(app).post('/').send({
+    const res = await request(app).get('/').send({
       query,
       from,
       size,
@@ -130,7 +130,7 @@ describe('/api/search', function () {
       Promise.reject(new Error('error throw by elasticsearch'))
     )
 
-    const res = await request(app).post('/')
+    const res = await request(app).get('/')
     expect(res.statusCode).toBe(500)
     expect(res.text).toContain('error throw by elasticsearch')
   })
