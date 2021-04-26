@@ -4,7 +4,10 @@
       <main class="main">
         <template v-if="isVideoNews">
           <div class="post__hero">
-            <YoutubeEmbedByIframeApi :videoId="slug" />
+            <YoutubeEmbedByIframeApi
+              v-if="heroVideoUrl"
+              :videoId="heroVideoUrl"
+            />
             <p class="figcaption" v-text="imageCaption" />
           </div>
         </template>
@@ -327,6 +330,11 @@ export default {
       } catch {
         return []
       }
+    },
+    heroVideoUrl() {
+      return this.postPublished?.heroVideo?.youtubeUrl
+        ? this.postPublished?.heroVideo?.youtubeUrl?.split('watch?v=')[1]
+        : ''
     },
     credits() {
       return Object.keys(this.postPublished || {})

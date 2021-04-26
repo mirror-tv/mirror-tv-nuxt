@@ -52,10 +52,12 @@
           </div>
         </div>
         <div v-if="isDesktop" class="anchor__info--intro-desktop">
+          <!-- eslint-disable vue/no-v-html -->
           <p v-html="anchorBio" />
         </div>
       </section>
       <div v-if="!isDesktop" class="anchor__intro">
+        <!-- eslint-disable vue/no-v-html -->
         <p v-html="anchorBio" />
       </div>
     </div>

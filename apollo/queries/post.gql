@@ -16,6 +16,7 @@ query fetchPostPublishedBySlug($slug: String!) {
       desktop: urlDesktopSized
     }
     heroVideo {
+      youtubeUrl
       coverPhoto {
         tiny: urlTinySized
         mobile: urlMobileSized
