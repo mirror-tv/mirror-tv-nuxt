@@ -1,13 +1,9 @@
 query fetchPostPublishedBySlug($slug: String!) {
-  postPublished: allPosts(
-    where: {
-      state: published,
-      slug: $slug,
-    }
-  ) {
+  postPublished: allPosts(where: { state: published, slug: $slug }) {
     style
     name
     brief
+    briefApiData
     contentApiData
     publishTime
     updatedAt
@@ -47,8 +43,8 @@ query fetchPostPublishedBySlug($slug: String!) {
       slug
     }
     engineers {
-     name 
-     slug
+      name
+      slug
     }
     vocals {
       name

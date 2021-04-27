@@ -40,8 +40,10 @@
           <ShareFacebook @click.native="sendGaClickEvent('facebook icon')" />
           <ShareLine @click.native="sendGaClickEvent('line icon')" />
         </div>
+
         <!-- eslint-disable vue/no-v-html -->
         <div v-if="brief" class="post__brief" v-html="brief" />
+
         <article class="post__content">
           <template v-if="isContentString">
             {{ content }}
@@ -54,6 +56,7 @@
             />
           </template>
         </article>
+
         <div v-if="hasTags" class="post__tags">
           <ArticleTag
             v-for="tag in tags"
@@ -311,8 +314,9 @@ export default {
   computed: {
     brief() {
       try {
-        const brief = JSON.parse(this.postPublished?.brief)
-        return brief?.html
+        const briefString = this.postPublished?.briefApiData.replace(/'/g, '"')
+        const brief = JSON.parse(briefString)
+        return brief?.[0].content?.[0]
       } catch {
         return ''
       }
@@ -325,7 +329,12 @@ export default {
     },
     content() {
       try {
-        const content = JSON.parse(this.postPublished?.contentApiData)
+        const contentString = this.postPublished?.contentApiData.replace(
+          /'/g,
+          '"'
+        )
+        const content = JSON.parse(contentString)
+
         return content?.filter((item) => item) || []
       } catch {
         return []
