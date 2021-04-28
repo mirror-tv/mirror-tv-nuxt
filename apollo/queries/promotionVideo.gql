@@ -1,0 +1,5 @@
+query fetchAllPromotionVideos {
+  allPromotionVideos(sortBy: [ sortOrder_ASC, updatedAt_DESC ]) {
+    ytUrl
+  }
+}

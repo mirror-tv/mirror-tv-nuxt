@@ -55,18 +55,16 @@
             :enableAutoplay="true"
             videoId="coYw-eVU0Ks"
           />
-          <template v-if="null">
-            <HeadingBordered
-              :showIcon="true"
-              text="直播現場"
-              class="video__heading"
-            />
-            <YoutubeEmbed
-              v-for="item in playlistItems"
-              :key="item"
-              :videoId="item"
-            />
-          </template>
+          <HeadingBordered
+            :showIcon="true"
+            text="直播現場"
+            class="video__heading"
+          />
+          <YoutubeEmbed
+            v-for="item in playlistItems"
+            :key="item"
+            :videoId="item"
+          />
         </div>
 
         <div class="aside__category-posts-wrapper category-posts-wrapper">
@@ -99,6 +97,17 @@
                 sendGaClickEvent('left button for more articles')
               "
               @load-more="handleLoadMorePostsByCategory(category.slug, $event)"
+            />
+          </div>
+        </div>
+
+        <div class="aside__show-list show-list">
+          <HeadingBordered class="home__heading" text="發燒單元" />
+          <div class="promotion-list">
+            <YoutubeEmbed
+              v-for="item in promotionVideos"
+              :key="item"
+              :videoId="item"
             />
           </div>
         </div>
@@ -140,6 +149,7 @@ import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import { fetchVideoEditorChoices } from '~/apollo/queries/videoEditorChoices.gql'
 import { fetchPostsByCategorySlug } from '~/apollo/queries/posts.gql'
+import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
 
 export default {
@@ -155,6 +165,14 @@ export default {
         return data.allVideoEditorChoices
           .filter((item) => item.videoEditor)
           .map((item) => item.videoEditor)
+      },
+    },
+    promotionVideos: {
+      query: fetchAllPromotionVideos,
+      update(data) {
+        return data?.allPromotionVideos
+          .filter((item, i) => i < 5)
+          .map((item) => item.ytUrl?.split('watch?v=')[1])
       },
     },
     allShows: {
@@ -179,6 +197,7 @@ export default {
     return {
       allCategories: [],
       playlistItems: [],
+      promotionVideos: [],
       videoEditorChoices: [],
 
       // 避免取值時為 undefined
@@ -425,10 +444,14 @@ export default {
 
 .show-list {
   .home__heading {
+    min-width: 110px;
     // desktop range
     @include media-breakpoint-up(xl) {
       margin: 30px 0 0;
     }
+  }
+  .promotion-list {
+    margin-top: 12px;
   }
   &__wrapper {
     margin-top: 12px;
