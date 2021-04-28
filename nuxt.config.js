@@ -102,6 +102,10 @@ module.exports = {
             },
           ]
         : []),
+      {
+        hid: 'googleOptimize',
+        src: 'https://www.googleoptimize.com/optimize.js?id=OPT-N56G7LW',
+      },
     ],
     noscript: [
       // comScore Tag
