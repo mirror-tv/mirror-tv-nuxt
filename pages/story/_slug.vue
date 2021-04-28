@@ -369,7 +369,12 @@ export default {
       return this.tags?.length > 0
     },
     image() {
-      return this.postPublished?.heroImage ?? {}
+      return (
+        this.postPublished?.heroImage ?? {
+          mobile: require('~/assets/img/image-default.png'),
+          desktop: require('~/assets/img/image-default.png'),
+        }
+      )
     },
     imageCaption() {
       return this.postPublished?.heroCaption
