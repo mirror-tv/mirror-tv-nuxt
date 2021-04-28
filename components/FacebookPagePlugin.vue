@@ -22,7 +22,7 @@ export default {
   props: {
     href: {
       type: String,
-      default: 'https://www.facebook.com/mirrormediaTV',
+      default: 'https://www.facebook.com/mnewsTW/',
     },
     pageName: {
       type: String,
