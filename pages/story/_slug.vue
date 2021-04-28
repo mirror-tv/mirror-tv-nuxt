@@ -454,7 +454,7 @@ export default {
 
   .main {
     max-width: 600px;
-    margin: auto;
+    margin: 0 auto;
   }
 }
 
