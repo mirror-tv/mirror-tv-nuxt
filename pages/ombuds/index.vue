@@ -1,7 +1,7 @@
 <template>
   <div class="g-page ombuds">
     <section class="ombuds__banner">
-      <img src="~assets/img/image-default.png" alt="ombudsman banner" />
+      <img src="~assets/img/ombuds-banner.jpg" alt="ombudsman banner" />
     </section>
     <div class="ombuds__content">
       <h2>公評人</h2>
@@ -205,17 +205,15 @@ export default {
     position: relative;
     display: block;
     width: calc(100% + 32px);
-    height: calc(100vw * 0.42);
+    height: 100vw * 0.25;
     transform: translateX(-16px);
     margin-bottom: 28px;
     @include media-breakpoint-up(md) {
       width: calc(100% + 80px);
-      max-height: 260px;
       transform: translateX(-40px);
       margin-bottom: 60px;
     }
     @include media-breakpoint-up(xl) {
-      max-height: 360px;
       margin-bottom: 90px;
     }
     @include media-breakpoint-up(xxl) {
@@ -232,7 +230,6 @@ export default {
       height: 100%;
       object-fit: cover;
       object-position: center;
-      background-color: $color-grey;
       @include media-breakpoint-up(md) {
         top: -2px; // 為了覆蓋 header 下方的空白
       }
