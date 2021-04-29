@@ -37,15 +37,15 @@
         <a href="/story/privacy" target="_blank" rel="noreferrer noopener">
           隱私權政策
         </a>
+        <a href="/adsales" target="_blank" rel="noreferrer noopener">
+          整合行銷
+        </a>
         <a
           href="/story/webauthorization"
           target="_blank"
           rel="noreferrer noopener"
         >
           內容授權
-        </a>
-        <a href="/story/ad-sales" target="_blank" rel="noreferrer noopener">
-          廣告合作
         </a>
         <a
           href="/story/press-self-regulation"
