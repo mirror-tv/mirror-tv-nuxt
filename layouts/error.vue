@@ -3,7 +3,31 @@
     <div v-if="is404" class="container">
       <div class="error_info">
         <h1 class="error_info_heading">404</h1>
-        <NuxtLink class="error_info_link" to="/">Home</NuxtLink>
+        <NuxtLink class="error_info_link" to="/">HOME</NuxtLink>
+      </div>
+
+      <div class="article_container">
+        <h3>熱門文章</h3>
+        <div class="article_list">
+          <a
+            v-for="article in latestArticleList"
+            :key="article.slug"
+            :href="article.href"
+            rel="noreferrer noopener"
+          >
+            <img
+              v-if="article.imgURL"
+              :src="article.imgURL"
+              :alt="article.title"
+            />
+            <img
+              v-else
+              src="~assets/img/image-default.png"
+              :alt="article.title"
+            />
+            <h4>{{ article.title }}</h4>
+          </a>
+        </div>
       </div>
 
       <div class="error__wire_left">
@@ -30,6 +54,8 @@
 </template>
 
 <script>
+import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
+
 export default {
   layout: 'empty',
   props: {
@@ -38,9 +64,39 @@ export default {
       required: true,
     },
   },
+  apollo: {
+    allPostsLatest: {
+      query: allPublishedPosts,
+      variables: {
+        first: 3,
+      },
+      update: (data) => data.allPublishedPosts,
+    },
+  },
   computed: {
     is404() {
       return this.error.statusCode === 404
+    },
+    latestArticleList() {
+      const listData = this.allPostsLatest ?? []
+      return listData.map((post) => this.reducerArticleCard(post))
+    },
+  },
+  methods: {
+    reducerArticleCard(post) {
+      return {
+        slug: post.slug,
+        href: `/story/${post.slug}`,
+        imgURL: post.heroImage?.urlMobileSized,
+        title: this.truncated(post.name),
+      }
+    },
+    truncated(title) {
+      const limit = 23
+      if (title.length <= limit) {
+        return title
+      }
+      return title.substring(0, limit).concat('...')
     },
   },
 }
@@ -53,38 +109,94 @@ $font: Arial Rounded MT Bold, Arial;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background-color: #003365;
+  min-height: 100vh;
+  overflow: hidden;
 
   .container {
     position: relative;
   }
   .error_info {
     color: #fff;
+    margin-bottom: 48px;
     &_heading {
       font-family: $font;
-      font-size: 51px;
+      font-size: 85px;
       line-height: 1;
-      margin-bottom: 12px;
+      margin: 30px 0 20px;
       // tablet range
       @include media-breakpoint-up(md) {
-        font-size: 110px;
+        font-size: 150px;
+        margin: 0 0 60px;
       }
     }
 
     &_link {
       display: inline-block;
-      padding: 9px 0;
       color: #ffcc01;
       font-size: 20px;
       font-family: $font;
-      font-weight: bold;
-      letter-spacing: 1.3px;
+      letter-spacing: 3.3px;
+      line-height: 23px;
       text-decoration: underline;
       // tablet range
       @include media-breakpoint-up(md) {
         padding: 0;
-        font-size: 58px;
+        font-weight: 400;
+        font-size: 50px;
+        line-height: 58px;
+      }
+    }
+  }
+  .article_container {
+    padding: 0 16px;
+    h3 {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 28px;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .article_list {
+      @include media-breakpoint-up(md) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      a {
+        display: flex;
+        width: 100%;
+        padding: 0 16px;
+        text-align: left;
+        @include media-breakpoint-up(md) {
+          display: block;
+          width: 180px;
+          margin-right: 24px;
+          padding: 0;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+        img {
+          width: 80px;
+          height: 80px;
+          object-fit: cover;
+          object-position: center;
+          background-color: $color-grey;
+          margin: 0 16px 16px 0;
+          @include media-breakpoint-up(md) {
+            margin: 0 0 12px 0;
+            width: 100%;
+            height: 120px;
+          }
+        }
+        h4 {
+          width: 100%;
+          font-size: 16px;
+          line-height: 22px;
+          color: #fff;
+        }
       }
     }
   }
@@ -92,7 +204,7 @@ $font: Arial Rounded MT Bold, Arial;
   &.not-found {
     .container {
       text-align: center;
-      transform: translateY(-50%);
+      // transform: translateY(-50%);
     }
 
     .error__wire_left,
@@ -101,11 +213,11 @@ $font: Arial Rounded MT Bold, Arial;
       display: flex;
       height: 83px;
       width: 50vw;
-      top: 35px;
+      top: 86px;
 
       // tablet range
       @include media-breakpoint-up(md) {
-        top: 75px;
+        top: 100px;
       }
 
       .error__wire_1 {
@@ -131,20 +243,26 @@ $font: Arial Rounded MT Bold, Arial;
     }
 
     .error__wire_left {
-      left: -11.72px;
-      transform: translate(-110%, 0);
+      left: 50px;
+      transform: translate(-100%, 0);
+      @include media-breakpoint-up(sm) {
+        left: 110px;
+      }
       // tablet range
       @include media-breakpoint-up(md) {
-        left: -49px;
+        left: 60px;
       }
     }
 
     .error__wire_right {
-      right: -11.72px;
-      transform: translate(110%, 0) scaleX(-1);
+      right: 50px;
+      transform: translate(100%, 0) scaleX(-1);
+      @include media-breakpoint-up(sm) {
+        right: 110px;
+      }
       // tablet range
       @include media-breakpoint-up(md) {
-        right: -49px;
+        right: 60px;
       }
     }
 
