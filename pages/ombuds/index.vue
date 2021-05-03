@@ -74,6 +74,7 @@
             </div>
           </a>
         </li>
+        <div class="position-correct" />
       </ol>
     </div>
   </div>
@@ -134,13 +135,6 @@ export default {
           t2: 'FAQ',
           herf: '/story/faq',
           ga: '常見問題FAQ',
-        },
-        {
-          img: require('~/assets/img/ombuds/icon-p6.svg'),
-          t1: '季報',
-          t2: '年報',
-          herf: '',
-          ga: '季報‧年報',
         },
         {
           img: require('~/assets/img/ombuds/icon-p7.svg'),
@@ -503,7 +497,7 @@ export default {
         margin-bottom: 20px;
       }
       @include media-breakpoint-up(xl) {
-        width: calc((100% - (16px * 6)) / 7);
+        width: calc((100% - (16px * 5)) / 6);
         margin-bottom: 20px;
       }
       &-icon {
@@ -525,6 +519,16 @@ export default {
           font-size: 18px;
           line-height: 25px;
         }
+      }
+    }
+    .position-correct {
+      width: calc((100% - 9px) / 2);
+      overflow: hidden;
+      @include media-breakpoint-up(md) {
+        width: calc((100% - (36px * 3)) / 4);
+      }
+      @include media-breakpoint-up(xl) {
+        display: none;
       }
     }
   }

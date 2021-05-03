@@ -13,7 +13,11 @@
               alt="facebook"
             />
           </a>
-          <a href="" target="_blank" rel="noreferrer noopener">
+          <a
+            href="https://www.instagram.com/mnewstv"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img
               class="social-network-service-img"
               src="~/assets/img/IG-logo.svg"
