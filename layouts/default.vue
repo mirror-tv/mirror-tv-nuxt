@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Header class="header" />
+    <Header
+      class="header"
+      @click-hamburger-button="handleClickHamburgerButton($event)"
+    />
     <nuxt />
     <Footer class="footer" />
     <ClientOnly>
@@ -23,7 +26,16 @@ export default {
     TheGdpr,
   },
   setup() {
+    function handleClickHamburgerButton(payload) {
+      payload
+        ? (document.body.style.position = 'fixed')
+        : (document.body.style.position = 'relative')
+    }
     useViewport()
+
+    return {
+      handleClickHamburgerButton,
+    }
   },
 }
 </script>

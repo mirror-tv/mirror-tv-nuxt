@@ -204,6 +204,9 @@ export default {
         this.searchKeyword = ''
       }
     },
+    showCategories() {
+      this.$emit('click-hamburger-button', this.showCategories)
+    },
   },
   methods: {
     sendGaClickEvent(eventLabel) {
@@ -363,8 +366,6 @@ export default {
 }
 
 .search-form-wrapper-mobile {
-  background-color: $color-grey;
-  padding: 20px;
   display: none;
   &--visible {
     display: initial;
@@ -373,6 +374,7 @@ export default {
     }
   }
   &__search-form {
+    border: solid 20px $color-grey;
     position: relative;
     z-index: 2;
   }
@@ -390,7 +392,11 @@ export default {
 
 .bottom-wrapper {
   background: $color-blue-deep;
+  max-height: calc(100vh - 50px);
+  overflow-y: auto;
   @include media-breakpoint-up(md) {
+    max-height: auto;
+    overflow-y: hidden;
     background: linear-gradient(
       to bottom,
       $color-blue-deep 49%,
@@ -454,6 +460,9 @@ export default {
   }
   &-extension {
     padding-top: 20px;
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
   }
   &__category-nav {
     display: flex;
@@ -571,6 +580,9 @@ export default {
     @include media-breakpoint-up(sm) {
       font-size: 16px;
       line-height: 28px;
+    }
+    @include media-breakpoint-up(md) {
+      display: none;
     }
   }
 
