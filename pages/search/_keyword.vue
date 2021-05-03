@@ -46,6 +46,8 @@ import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import SearchNoResult from '~/components/SearchNoResult.vue'
 
+import { getImageUrl } from '~/utils/post-image-handler'
+
 export default {
   components: {
     ArticleCard,
@@ -118,7 +120,7 @@ export default {
       return {
         id: source.id,
         href: `/story/${source.slug}`,
-        articleImgURL: source.heroImage?.urlMobileSized,
+        articleImgURL: getImageUrl(source),
         articleTitle: source.name,
         articleDescription: this.stripHtmlTag(source.brief),
         articleDate: new Date(source.publishTime),

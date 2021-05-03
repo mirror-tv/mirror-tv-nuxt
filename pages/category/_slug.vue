@@ -69,6 +69,7 @@ import { allPublishedPostsByCategorySlug } from '~/apollo/queries/allPublishedPo
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 
+import { getImageUrl } from '~/utils/post-image-handler'
 const pageSize = 13
 
 export default {
@@ -171,7 +172,7 @@ export default {
     reducerArticleCard(post) {
       return {
         href: `/story/${post.slug}`,
-        articleImgURL: post.heroImage?.urlMobileSized,
+        articleImgURL: getImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }

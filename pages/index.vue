@@ -157,6 +157,7 @@ import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
 
+import { getImageUrl } from '~/utils/post-image-handler'
 const PAGE_SIZE = 12
 
 export default {
@@ -294,20 +295,13 @@ export default {
     })
   },
   methods: {
-    getImageUrl(post) {
-      if (post.style === 'videoNews') {
-        const coverPhoto = post.heroVideo?.coverPhoto
-        return coverPhoto?.urlMobileSized || coverPhoto?.urlOriginal
-      }
-      return post.heroImage?.urlMobileSized
-    },
     reducerArticleCard(post) {
       return {
         id: post.id,
         slug: post.slug,
         href: `/story/${post.slug}`,
         labelTitle: post.categories?.[0]?.name ?? ' ',
-        articleImgURL: this.getImageUrl(post),
+        articleImgURL: getImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
         articleStyle: post.style,
