@@ -38,8 +38,8 @@ export default {
 <style lang="scss" scoped>
 .share {
   display: inline-block;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   padding: 4px;
   span {
     display: flex;

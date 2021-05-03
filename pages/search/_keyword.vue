@@ -1,23 +1,32 @@
 <template>
   <section class="g-page">
     <div class="g-page__wrapper">
-      <h1 class="search__name" v-text="$route.params.keyword" />
-      <ol class="search__list">
-        <li v-for="post in listData" :key="post.id" class="search__list__item">
-          <ArticleCard
-            :href="post.href"
-            :articleImgURL="post.articleImgURL"
-            :articleTitle="post.articleTitle"
-            :articleTitleStyle="'bold'"
-            :articleTitleHighlightText="keywordDecoded"
-            :articleDescription="post.articleDescription"
-            :articleDate="post.articleDate"
-            :mobileLayoutDirection="'column'"
-            @click.native="sendGaClickEvent('related articles')"
-          />
-        </li>
-        <div class="position-correct" />
-      </ol>
+      <SearchNoResult v-if="noSearchResult" :keyword="$route.params.keyword" />
+
+      <div v-else class="search-result">
+        <h1 class="search-result__name" v-text="$route.params.keyword" />
+        <ol class="search-result__list">
+          <li
+            v-for="post in listData"
+            :key="post.id"
+            class="search-result__list__item"
+          >
+            <ArticleCard
+              :href="post.href"
+              :articleImgURL="post.articleImgURL"
+              :articleTitle="post.articleTitle"
+              :articleTitleStyle="'bold'"
+              :articleTitleHighlightText="keywordDecoded"
+              :articleDescription="post.articleDescription"
+              :articleDate="post.articleDate"
+              :mobileLayoutDirection="'column'"
+              @click.native="sendGaClickEvent('related articles')"
+            />
+          </li>
+          <div class="position-correct" />
+        </ol>
+      </div>
+
       <ButtonLoadmore
         v-show="showLoadMoreButton"
         class="g-button-load-more"
@@ -35,11 +44,13 @@ import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
+import SearchNoResult from '~/components/SearchNoResult.vue'
 
 export default {
   components: {
     ArticleCard,
     ButtonLoadmore,
+    SearchNoResult,
   },
   data() {
     return {
@@ -49,13 +60,20 @@ export default {
       listDataTotal: undefined,
     }
   },
+
   async fetch() {
     const query = this.keywordDecoded
-    const response = await axios.post('/api/search', {
-      query,
-      from: 0,
-      size: this.listDataMaxResults,
-    })
+    let response
+
+    try {
+      response = await this.$axios.$post('/api/search', {
+        query,
+        from: 0,
+        size: this.listDataMaxResults,
+      })
+    } catch (err) {
+      //   console.log('err happended when fetching search respond', err)
+    }
     this.setListData(response)
     this.setListDataTotal(response)
     this.listDataCurrentPage += 1
@@ -87,6 +105,9 @@ export default {
         this.listDataMaxResults * this.listDataCurrentPage < this.listDataTotal
       )
     },
+    noSearchResult() {
+      return !this.listData.length > 0
+    },
   },
   methods: {
     stripHtmlTag(html = '') {
@@ -107,7 +128,7 @@ export default {
       sendGaEvent(this.$ga)('search')('click')(label)
     },
     setListData(response = {}) {
-      let listData = response.data?.body?.hits?.hits ?? []
+      let listData = response?.body?.hits?.hits ?? []
       listData = listData.map(this.mapDataToComponentProps)
       this.listData.push(...listData)
     },
@@ -150,7 +171,7 @@ export default {
     }
   }
 }
-.search {
+.search-result {
   &__name {
     font-size: 20px;
     font-weight: 500;

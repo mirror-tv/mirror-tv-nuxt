@@ -22,7 +22,7 @@ export default {
   props: {
     href: {
       type: String,
-      default: 'https://www.facebook.com/mirrormediaTV',
+      default: 'https://www.facebook.com/mnewsTW/',
     },
     pageName: {
       type: String,
@@ -61,6 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 .fb-page {
+  flex: 1;
   display: block;
   max-width: 100%;
   overflow: hidden;

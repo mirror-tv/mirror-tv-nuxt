@@ -7,23 +7,31 @@
         <img :src="picture.urlMobileSized" :alt="showName" />
       </picture>
       <main class="main">
-        <div class="show__introduction" v-text="introduction" />
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div class="show__introduction" v-html="introduction" />
         <ol class="host__container">
-          <li v-for="host in hosts" :key="host.name" class="host__wrapper">
-            <img
-              v-if="host.image"
-              :src="host.image.urlMobileSized"
-              :alt="host.name"
-            />
-            <img
-              v-else
-              src="~assets/img/image-default.png"
-              alt="default image"
-            />
-            <div class="host__wrapper-content">
-              <h3>主持人 ｜ {{ host.name }}</h3>
-              <p v-if="host.bio">{{ host.bio }}</p>
-            </div>
+          <li v-for="host in hosts" :key="host.name">
+            <a
+              :href="`/anchorperson/${host.slug}`"
+              target="_blank"
+              rel="noreferrer noopener"
+              class="host__wrapper"
+            >
+              <img
+                v-if="host.image"
+                :src="host.image.urlMobileSized"
+                :alt="host.name"
+              />
+              <img
+                v-else
+                src="~assets/img/image-default.png"
+                alt="default image"
+              />
+              <div class="host__wrapper-content">
+                <h3>主持人 ｜ {{ host.name }}</h3>
+                <p v-if="host.bio">{{ host.bio }}</p>
+              </div>
+            </a>
           </li>
         </ol>
       </main>
@@ -101,6 +109,7 @@ import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
+import { handleLineBreak } from '~/utils/text-handler'
 
 export default {
   apollo: {
@@ -207,7 +216,7 @@ export default {
       return this.show.facebookUrl
     },
     introduction() {
-      return this.show.introduction
+      return handleLineBreak(this.show.introduction)
     },
     showName() {
       return this.show.name

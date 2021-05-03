@@ -10,10 +10,14 @@ query allPublishedPostsByCategorySlug(
     where: {
       categories_some: { slug: $categorySlug }
       slug_not_in: [
-        "privacy"
-        "ad-sales"
-        "press-self-regulation"
-        "webauthorization"
+        "privacy",
+        "ad-sales",
+        "press-self-regulation",
+        "webauthorization",
+        "biography",
+        "complaint",
+        "standards",
+        "faq",
       ]
       state: published
     }
@@ -30,10 +34,14 @@ query allPublishedPostsByCategorySlug(
     where: {
       categories_some: { slug: $categorySlug }
       slug_not_in: [
-        "privacy"
-        "ad-sales"
-        "press-self-regulation"
-        "webauthorization"
+        "privacy",
+        "ad-sales",
+        "press-self-regulation",
+        "webauthorization",
+        "biography",
+        "complaint",
+        "standards",
+        "faq",
       ]
       state: published
     }

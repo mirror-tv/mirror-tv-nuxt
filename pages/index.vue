@@ -22,18 +22,16 @@
               videoId="coYw-eVU0Ks"
             />
           </ClientOnly>
-          <template v-if="null">
-            <HeadingBordered
-              :showIcon="true"
-              class="home__heading"
-              text="直播現場"
-            />
-            <YoutubeEmbed
-              v-for="item in playlistItems"
-              :key="item"
-              :videoId="item"
-            />
-          </template>
+          <HeadingBordered
+            :showIcon="true"
+            class="home__heading"
+            text="直播現場"
+          />
+          <YoutubeEmbed
+            v-for="item in playlistItems"
+            :key="item"
+            :videoId="item"
+          />
         </div>
         <div class="main__list-latest-wrapper list-latest-wrapper">
           <HeadingBordered text="最新新聞" class="home__heading" />
@@ -71,18 +69,49 @@
               videoId="coYw-eVU0Ks"
             />
           </ClientOnly>
-          <template v-if="null">
-            <HeadingBordered
-              :showIcon="true"
-              class="home__heading"
-              text="直播現場"
-            />
+          <HeadingBordered
+            :showIcon="true"
+            class="home__heading"
+            text="直播現場"
+          />
+          <YoutubeEmbed
+            v-for="item in playlistItems"
+            :key="item"
+            :videoId="item"
+          />
+        </div>
+
+        <div class="aside__list-latest-wrapper list-latest-wrapper">
+          <HeadingBordered text="最新新聞" class="home__heading" />
+          <ol class="list-latest">
+            <li v-for="post in latestPosts" :key="post.id">
+              <ArticleCard
+                :href="post.href"
+                :labelTitle="post.labelTitle"
+                :articleImgURL="post.articleImgURL"
+                :articleTitle="post.articleTitle"
+                :articleDate="post.articleDate"
+                :articleStyle="post.articleStyle"
+                @click.native="sendGaClickEvent('latest articles')"
+              />
+            </li>
+          </ol>
+          <ButtonLoadmore
+            v-show="showLoadMoreButton"
+            class="g-button-load-more button-load-more"
+            @click.native="handleClickMore"
+          />
+        </div>
+
+        <div class="aside__show-list show-list">
+          <HeadingBordered class="home__heading" text="發燒單元" />
+          <div class="promotion-list">
             <YoutubeEmbed
-              v-for="item in playlistItems"
+              v-for="item in promotionVideos"
               :key="item"
               :videoId="item"
             />
-          </template>
+          </div>
         </div>
 
         <div class="aside__show-list show-list">
@@ -95,9 +124,9 @@
         <div class="aside__link-list link-list">
           <div class="link-list__wrapper">
             <LinkAnchorStyle />
-            <FacebookPagePlugin />
             <LinkYoutubeStyle />
           </div>
+          <FacebookPagePlugin />
         </div>
       </aside>
     </div>
@@ -125,6 +154,7 @@ import ShowCard from '~/components/ShowCard'
 import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
+import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
 
 const PAGE_SIZE = 12
@@ -165,6 +195,14 @@ export default {
         return data.allPosts
       },
     },
+    promotionVideos: {
+      query: fetchAllPromotionVideos,
+      update(data) {
+        return data?.allPromotionVideos
+          .filter((item, i) => i < 5)
+          .map((item) => item.ytUrl?.split('watch?v=')[1])
+      },
+    },
     allShows: {
       query: fetchAllShows,
       update(data) {
@@ -194,6 +232,7 @@ export default {
       playlistItems: [],
       postsCount: 0,
       allShows: [],
+      promotionVideos: [],
     }
   },
   async fetch() {
@@ -332,6 +371,13 @@ export default {
   &__list-latest-wrapper {
     margin-top: 48px;
   }
+  &__list-latest-wrapper {
+    display: none;
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      display: block;
+    }
+  }
   &__aside {
     // desktop range
     @include media-breakpoint-up(xl) {
@@ -423,6 +469,14 @@ export default {
       display: block;
     }
   }
+
+  &__list-latest-wrapper {
+    display: block;
+    // desktop range
+    @include media-breakpoint-up(xl) {
+      display: none;
+    }
+  }
 }
 
 .live-stream {
@@ -436,10 +490,14 @@ export default {
 
 .show-list {
   .home__heading {
+    min-width: 110px;
     // desktop range
     @include media-breakpoint-up(xl) {
       margin: 30px 0 0;
     }
+  }
+  .promotion-list {
+    margin-top: 12px;
   }
   &__wrapper {
     padding-bottom: 12px;
@@ -456,17 +514,28 @@ export default {
 
 .link-list {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: flex-start;
+  // tablet range
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
+
+  // desktop  range
+  @include media-breakpoint-up(xl) {
+    flex-direction: column;
+  }
+
   &__wrapper {
-    width: 100%;
+    flex: 1;
     // tablet range
     @include media-breakpoint-up(md) {
-      width: 50%;
+      margin-right: 16px;
     }
 
     // desktop  range
     @include media-breakpoint-up(xl) {
-      width: 100%;
+      margin-right: 0;
     }
   }
 }

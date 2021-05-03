@@ -9,10 +9,9 @@ const createElasticSearchRequestBody = require('./util/createElasticSearchReques
 router.use(bodyParser.json())
 
 router.post('/', async function (req, res, next) {
-  const { query, from = 0, size = 12 } = req.body
-
   const client = new Client({ node: ELASTICSEARCH_URL })
 
+  const { query, from = 0, size = 12 } = req.body
   try {
     const result = await client.search({
       index: 'tv.posts',

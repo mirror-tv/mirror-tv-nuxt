@@ -102,6 +102,10 @@ module.exports = {
             },
           ]
         : []),
+      {
+        hid: 'googleOptimize',
+        src: 'https://www.googleoptimize.com/optimize.js?id=OPT-N56G7LW',
+      },
     ],
     noscript: [
       // comScore Tag
@@ -154,8 +158,12 @@ module.exports = {
    */
   modules: [
     '@nuxtjs/apollo',
+    '@nuxtjs/axios',
     ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 * 24 }],
   ],
+  axios: {
+    proxy: true,
+  },
   hooks: {
     // Doc: https://nuxtjs.org/docs/2.x/internals-glossary/internals-renderer#hooks
     render: {

@@ -4,7 +4,10 @@
       <main class="main">
         <template v-if="isVideoNews">
           <div class="post__hero">
-            <YoutubeEmbedByIframeApi :videoId="slug" />
+            <YoutubeEmbedByIframeApi
+              v-if="heroVideoUrl"
+              :videoId="heroVideoUrl"
+            />
             <p class="figcaption" v-text="imageCaption" />
           </div>
         </template>
@@ -37,8 +40,10 @@
           <ShareFacebook @click.native="sendGaClickEvent('facebook icon')" />
           <ShareLine @click.native="sendGaClickEvent('line icon')" />
         </div>
+
         <!-- eslint-disable vue/no-v-html -->
         <div v-if="brief" class="post__brief" v-html="brief" />
+
         <article class="post__content">
           <template v-if="isContentString">
             {{ content }}
@@ -51,6 +56,7 @@
             />
           </template>
         </article>
+
         <div v-if="hasTags" class="post__tags">
           <ArticleTag
             v-for="tag in tags"
@@ -308,8 +314,9 @@ export default {
   computed: {
     brief() {
       try {
-        const brief = JSON.parse(this.postPublished?.brief)
-        return brief?.html
+        const briefString = this.postPublished?.briefApiData.replace(/'/g, '"')
+        const brief = JSON.parse(briefString)
+        return brief?.[0].content?.[0]
       } catch {
         return ''
       }
@@ -322,11 +329,21 @@ export default {
     },
     content() {
       try {
-        const content = JSON.parse(this.postPublished?.contentApiData)
+        const contentString = this.postPublished?.contentApiData.replace(
+          /'/g,
+          '"'
+        )
+        const content = JSON.parse(contentString)
+
         return content?.filter((item) => item) || []
       } catch {
         return []
       }
+    },
+    heroVideoUrl() {
+      return this.postPublished?.heroVideo?.youtubeUrl
+        ? this.postPublished?.heroVideo?.youtubeUrl?.split('watch?v=')[1]
+        : ''
     },
     credits() {
       return Object.keys(this.postPublished || {})
@@ -352,7 +369,12 @@ export default {
       return this.tags?.length > 0
     },
     image() {
-      return this.postPublished?.heroImage ?? {}
+      return (
+        this.postPublished?.heroImage ?? {
+          mobile: require('~/assets/img/image-default.png'),
+          desktop: require('~/assets/img/image-default.png'),
+        }
+      )
     },
     imageCaption() {
       return this.postPublished?.heroCaption
@@ -414,7 +436,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return dayjs(date).format('YYYY.MM.DD HH:mm')
+      return `${dayjs(date).format('YYYY.MM.DD HH:mm')} 臺北時間`
     },
     reducerArticleCard(post) {
       return {
@@ -437,7 +459,7 @@ export default {
 
   .main {
     max-width: 600px;
-    margin: auto;
+    margin: 0 auto;
   }
 }
 
@@ -589,6 +611,7 @@ export default {
       }
     }
   }
+
   &__list-latest {
     // tablet range
     @include media-breakpoint-up(md) {
@@ -598,7 +621,7 @@ export default {
     }
     // desktop range
     @include media-breakpoint-up(xl) {
-      padding: 0;
+      padding: 0 !important;
       &:first-child {
         margin-right: 0;
       }

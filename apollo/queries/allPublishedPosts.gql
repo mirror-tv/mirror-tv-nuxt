@@ -4,7 +4,16 @@ query allPublishedPosts($first: Int = 12, $skip: Int = 0) {
   allPublishedPosts: allPosts(
     sortBy: publishTime_DESC,
     where: {
-      slug_not_in: ["privacy", "ad-sales", "press-self-regulation", "webauthorization"]
+      slug_not_in: [
+        "privacy",
+        "ad-sales",
+        "press-self-regulation",
+        "webauthorization",
+        "biography",
+        "complaint",
+        "standards",
+        "faq",
+      ]
       state: published
     },
     first: $first,
