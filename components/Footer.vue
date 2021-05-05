@@ -10,7 +10,11 @@
         <nav
           class="left__social-network-services-nav social-network-services-nav"
         >
-          <a href="" target="_blank" rel="noreferrer noopener">
+          <a
+            href="https://www.facebook.com/mnewsTW"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img
               v-lazy="require('@/assets/img/facebook-logo-white-58.png')"
               class="social-network-service-img"

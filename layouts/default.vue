@@ -27,9 +27,16 @@ export default {
   },
   setup() {
     function handleClickHamburgerButton(payload) {
-      payload
-        ? (document.body.style.position = 'fixed')
-        : (document.body.style.position = 'relative')
+      if (payload) {
+        const scrollY = window.scrollY
+        document.body.style.position = 'fixed'
+        document.body.style.top = `-${scrollY}px`
+      } else {
+        const scrollY = document.body.style.top
+        document.body.style.position = ''
+        document.body.style.top = ''
+        window.scrollTo(0, parseInt(scrollY || '0') * -1)
+      }
     }
     useViewport()
 
