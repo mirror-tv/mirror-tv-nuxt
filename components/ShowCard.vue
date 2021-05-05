@@ -1,7 +1,7 @@
 <template>
   <div class="show-card">
     <a class="show-card__banner" :href="`/show/${show.slug}`">
-      <img :src="getBannerImgUrl" :alt="show.slug" />
+      <img v-lazy="getBannerImgUrl" :alt="show.slug" />
     </a>
   </div>
 </template>

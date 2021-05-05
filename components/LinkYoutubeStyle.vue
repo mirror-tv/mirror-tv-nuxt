@@ -2,7 +2,7 @@
   <a :href="href" class="link" target="_blank" rel="noopener noreferrer">
     <div class="link__left-block">
       <slot name="left-block">
-        <img src="~/assets/img/yt_icon_rgb.png" alt="鏡新聞" />
+        <img v-lazy="require('@/assets/img/yt_icon_rgb.png')" alt="鏡新聞" />
         <span>鏡新聞</span>
       </slot>
     </div>

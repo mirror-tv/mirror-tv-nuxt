@@ -2,14 +2,18 @@
   <footer class="footer">
     <div class="footer__top-wrapper top-wrapper">
       <div class="top-wrapper__left left">
-        <img class="logo" src="~/assets/img/Mnews_Logo_white.svg" alt="" />
+        <img
+          v-lazy="require('@/assets/img/Mnews_Logo_white.svg')"
+          class="logo"
+          alt=""
+        />
         <nav
           class="left__social-network-services-nav social-network-services-nav"
         >
           <a href="" target="_blank" rel="noreferrer noopener">
             <img
+              v-lazy="require('@/assets/img/facebook-logo-white-58.png')"
               class="social-network-service-img"
-              src="~/assets/img/facebook-logo-white-58.png"
               alt="facebook"
             />
           </a>
@@ -19,8 +23,8 @@
             rel="noreferrer noopener"
           >
             <img
+              v-lazy="require('~/assets/img/IG-logo.svg')"
               class="social-network-service-img"
-              src="~/assets/img/IG-logo.svg"
               alt="instagram"
             />
           </a>
@@ -69,8 +73,8 @@
           rel="noreferer noopener"
         >
           <img
+            v-lazy="require('@/assets/img/READrlogo-01.svg')"
             class="mirror-img"
-            src="~/assets/img/READrlogo-01.svg"
             alt="readr"
           />
         </a>
@@ -81,8 +85,8 @@
           rel="noreferer noopener"
         >
           <img
+            v-lazy="require('@/assets/img/鏡mirrormedia-RGB.svg')"
             class="mirror-img"
-            src="~/assets/img/鏡mirrormedia-RGB.svg"
             alt="mirror-media"
           />
         </a>
@@ -93,8 +97,8 @@
           rel="noreferer noopener"
         >
           <img
+            v-lazy="require('@/assets/img/mirrorfiction.png')"
             class="mirror-img"
-            src="~/assets/img/mirrorfiction.png"
             alt="mirror-fiction"
           />
         </a>
@@ -105,8 +109,8 @@
           rel="noreferer noopener"
         >
           <img
+            v-lazy="require('@/assets/img/mirrorvoice.png')"
             class="mirror-img"
-            src="~/assets/img/mirrorvoice.png"
             alt="mirror-voice"
           />
         </a>
