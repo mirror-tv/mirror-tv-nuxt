@@ -3,7 +3,7 @@
     <div class="swiper-wrapper">
       <div v-for="item in items" :key="item.title" class="swiper-slide">
         <picture>
-          <img :src="item.urlMobileSized" :alt="item.title" />
+          <img v-lazy="item.urlMobileSized" :alt="item.title" />
         </picture>
         <p class="caption" v-text="item.title" />
       </div>

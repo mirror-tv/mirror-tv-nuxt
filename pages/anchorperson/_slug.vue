@@ -9,8 +9,8 @@
       />
       <img
         v-else
+        v-lazy="require('~/assets/img/image-default.png')"
         class="anchor__content__img"
-        src="~assets/img/image-default.png"
         alt="default image"
       />
       <section class="anchor__block">
@@ -26,7 +26,10 @@
               rel="noreferrer noopener"
               @click="sendGaClickEvent('主播 fb')"
             >
-              <img src="~/assets/img/facebook-anchor-link.svg" alt="Facebook" />
+              <img
+                v-lazy="require('~/assets/img/facebook-anchor-link.svg')"
+                alt="Facebook"
+              />
             </a>
             <a
               v-if="anchorInstatgram"
@@ -36,7 +39,7 @@
               @click="sendGaClickEvent('主播 instagram')"
             >
               <img
-                src="~/assets/img/instagram-anchor-link.svg"
+                v-lazy="require('~/assets/img/instagram-anchor-link.svg')"
                 alt="Instagram"
               />
             </a>

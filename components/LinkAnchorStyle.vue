@@ -12,8 +12,8 @@
     <div class="link__right-block">
       <slot name="right-block">
         <img
+          v-lazy="require('~/assets/img/anchor-microphone.svg')"
           class="subscription-icon"
-          src="~/assets/img/anchor-microphone.svg"
           alt="追蹤"
         />
         <span>追蹤</span>

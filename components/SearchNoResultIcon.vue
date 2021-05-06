@@ -1,7 +1,7 @@
 <template>
   <div class="no-result-icon">
     <div class="no-result-icon__icon">
-      <img :src="require('@/assets/img/tv-man.svg')" alt="" />
+      <img v-lazy="require('@/assets/img/tv-man.svg')" alt="" />
     </div>
 
     <div class="no-result-icon__keyword">您的搜尋「{{ keyword }}」</div>

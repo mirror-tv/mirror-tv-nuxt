@@ -9,8 +9,8 @@
     <div class="link__right-block">
       <slot name="right-block">
         <img
+          v-lazy="require('~/assets/img/subscription.svg')"
           class="subscription-icon"
-          src="~/assets/img/subscription.svg"
           alt="訂閱"
         />
         <span>訂閱</span>

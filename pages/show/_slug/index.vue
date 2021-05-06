@@ -19,12 +19,12 @@
             >
               <img
                 v-if="host.image"
-                :src="host.image.urlMobileSized"
+                v-lazy="host.image.urlMobileSized"
                 :alt="host.name"
               />
               <img
                 v-else
-                src="~assets/img/image-default.png"
+                v-lazy="require('~/assets/img/image-default.png')"
                 alt="default image"
               />
               <div class="host__wrapper-content">
