@@ -115,7 +115,7 @@
           <div class="navs__category-nav category-nav other-nav">
             <nuxt-link
               class="category-nav__link"
-              :to="`/story/about`"
+              :to="`/story/aboutus`"
               @click.native="closeHamburgerButton"
               v-text="'關於我們'"
             />
@@ -184,7 +184,7 @@ export default {
       searchKeyword: this.$route.params.keyword,
       extensions: [
         { name: '公評人專區', path: '/ombuds' },
-        { name: '關於我們', path: '/story/about' },
+        { name: '關於我們', path: '/story/aboutus' },
         { name: '整合行銷', path: '/adsales' },
       ],
     }

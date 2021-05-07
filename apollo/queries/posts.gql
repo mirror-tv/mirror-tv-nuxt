@@ -18,6 +18,7 @@ query fetchPostsAndCountByTagName (
         "complaint",
         "standards",
         "faq",
+        "aboutus",
       ]
       tags_some: {
         name: $tagName
@@ -156,6 +157,7 @@ query fetchPostsByCategorySlug (
         "complaint",
         "standards",
         "faq",
+        "aboutus",
       ]
       style: $style
     },
@@ -194,6 +196,7 @@ query fetchPostsByCategories (
         "complaint",
         "standards",
         "faq",
+        "aboutus",
       ]
       style_not_in: [wide, projects, script, campaign, readr],
       categories_some: {
@@ -226,6 +229,7 @@ query fetchPosts(
         "complaint",
         "standards",
         "faq",
+        "aboutus",
       ]
       style_not_in: [wide, projects, script, campaign, readr]
     },

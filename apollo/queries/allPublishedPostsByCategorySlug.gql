@@ -18,6 +18,7 @@ query allPublishedPostsByCategorySlug(
         "complaint",
         "standards",
         "faq",
+        "aboutus",
       ]
       state: published
     }
@@ -42,6 +43,7 @@ query allPublishedPostsByCategorySlug(
         "complaint",
         "standards",
         "faq",
+        "aboutus",
       ]
       state: published
     }
