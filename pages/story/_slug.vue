@@ -13,12 +13,14 @@
         </template>
         <template v-else>
           <figure v-if="image.mobile" class="post__hero">
-            <img
-              v-lazy="image.mobile"
-              :alt="imageCaption"
-              :data-srcset="`${image.mobile} 0w, ${image.desktop} 1200vw`"
-              sizes="(max-width: 1199px) 100vw, 500px"
-            />
+            <div class="post__hero_image_wrapper">
+              <img
+                v-lazy="image.mobile"
+                :alt="imageCaption"
+                :data-srcset="`${image.mobile} 0w, ${image.desktop} 1200vw`"
+                sizes="(max-width: 1199px) 100vw, 500px"
+              />
+            </div>
             <figcaption class="figcaption" v-text="imageCaption" />
           </figure>
         </template>
@@ -475,8 +477,18 @@ export default {
     + * {
       margin-top: 30px;
     }
-    img {
+    &_image_wrapper {
       width: 100%;
+      padding-top: 56.25%;
+      position: relative;
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
   }
   &__category-publishTime {
