@@ -423,6 +423,9 @@ export default {
       return this.postPublished?.writers
     },
   },
+  beforeMount() {
+    this.setGaDimensionOfSource()
+  },
   mounted() {
     setIntersectionObserver({
       elements: [document.querySelector('.list-wrapper')],
@@ -447,6 +450,10 @@ export default {
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }
+    },
+    setGaDimensionOfSource() {
+      const dimensionSource = 'tv'
+      this.$ga.set('dimension2', dimensionSource)
     },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('article')('scroll')(label)
