@@ -108,6 +108,7 @@
               v-for="item in promotionVideos"
               :key="item"
               :videoId="item"
+              class="promotion-list__item"
             />
           </div>
         </div>
@@ -452,6 +453,9 @@ export default {
   }
   .promotion-list {
     margin-top: 12px;
+    &__item {
+      margin-bottom: 12px;
+    }
   }
   &__wrapper {
     margin-top: 12px;

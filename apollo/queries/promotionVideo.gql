@@ -1,5 +1,10 @@
 query fetchAllPromotionVideos {
-  allPromotionVideos(sortBy: [ sortOrder_ASC, updatedAt_DESC ]) {
+  allPromotionVideos(
+    where: {
+      state: published
+    }
+    sortBy: [ sortOrder_ASC, updatedAt_DESC ]
+  ) {
     ytUrl
   }
 }
