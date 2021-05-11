@@ -10,7 +10,7 @@
         <h3>熱門文章</h3>
         <div class="article_list">
           <a
-            v-for="article in latestArticleList"
+            v-for="article in listArticlePopularData"
             :key="article.slug"
             :href="article.href"
             rel="noreferrer noopener"
@@ -25,7 +25,7 @@
               src="~assets/img/image-default.png"
               :alt="article.title"
             />
-            <h4>{{ article.title }}</h4>
+            <p>{{ article.title }}</p>
           </a>
         </div>
       </div>
@@ -54,8 +54,6 @@
 </template>
 
 <script>
-import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
-
 export default {
   layout: 'empty',
   props: {
@@ -64,22 +62,28 @@ export default {
       required: true,
     },
   },
-  apollo: {
-    allPostsLatest: {
-      query: allPublishedPosts,
-      variables: {
-        first: 3,
-      },
-      update: (data) => data.allPublishedPosts,
-    },
+  data() {
+    return {
+      popularData: {},
+    }
+  },
+  async fetch() {
+    try {
+      this.popularData = await this.$fetchPopularListData()
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err)
+    }
   },
   computed: {
     is404() {
       return this.error.statusCode === 404
     },
-    latestArticleList() {
-      const listData = this.allPostsLatest ?? []
-      return listData.map((post) => this.reducerArticleCard(post))
+    listArticlePopularData() {
+      const listData = this.popularData?.report ?? []
+      return listData
+        .filter((item, i) => i < 3)
+        .map((report) => this.reducerArticleCard(report))
     },
   },
   methods: {
@@ -88,15 +92,8 @@ export default {
         slug: post.slug,
         href: `/story/${post.slug}`,
         imgURL: post.heroImage?.urlMobileSized,
-        title: this.truncated(post.name),
+        title: post.name,
       }
-    },
-    truncated(title) {
-      const limit = 23
-      if (title.length <= limit) {
-        return title
-      }
-      return title.substring(0, limit).concat('...')
     },
   },
 }
@@ -108,7 +105,6 @@ $font: Arial Rounded MT Bold, Arial;
 .error {
   display: flex;
   justify-content: center;
-  align-items: center;
   background-color: #003365;
   min-height: 100vh;
   overflow: hidden;
@@ -118,16 +114,19 @@ $font: Arial Rounded MT Bold, Arial;
   }
   .error_info {
     color: #fff;
-    margin-bottom: 48px;
+    margin: 40px 0 48px;
+    @include media-breakpoint-up(md) {
+      margin: 90px 0 48px;
+    }
     &_heading {
       font-family: $font;
-      font-size: 85px;
+      font-size: 70px;
       line-height: 1;
-      margin: 30px 0 20px;
+      margin-bottom: 20px;
       // tablet range
       @include media-breakpoint-up(md) {
         font-size: 150px;
-        margin: 0 0 60px;
+        margin-bottom: 50px;
       }
     }
 
@@ -162,20 +161,17 @@ $font: Arial Rounded MT Bold, Arial;
       @include media-breakpoint-up(md) {
         display: flex;
         justify-content: center;
-        align-items: center;
       }
       a {
         display: flex;
-        width: 100%;
-        padding: 0 16px;
-        text-align: left;
+        margin-bottom: 16px;
         @include media-breakpoint-up(md) {
           display: block;
           width: 180px;
-          margin-right: 24px;
+          margin: 0 24px 0 0;
           padding: 0;
           &:last-child {
-            margin-right: 0;
+            margin: 0;
           }
         }
         img {
@@ -184,18 +180,29 @@ $font: Arial Rounded MT Bold, Arial;
           object-fit: cover;
           object-position: center;
           background-color: $color-grey;
-          margin: 0 16px 16px 0;
+          margin-right: 16px;
           @include media-breakpoint-up(md) {
             margin: 0 0 12px 0;
             width: 100%;
             height: 120px;
           }
         }
-        h4 {
-          width: 100%;
+        p {
+          height: 44px; // 為了避免高度自適應，導致文字截斷破版
+          text-align: left;
           font-size: 16px;
           line-height: 22px;
           color: #fff;
+          word-wrap: break-word;
+          word-break: break-all;
+          -webkit-line-clamp: 2;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          @include media-breakpoint-up(md) {
+            height: auto;
+            -webkit-line-clamp: 3;
+          }
         }
       }
     }
@@ -211,13 +218,15 @@ $font: Arial Rounded MT Bold, Arial;
     .error__wire_right {
       position: absolute;
       display: flex;
-      height: 83px;
       width: 50vw;
       top: 86px;
+      @include media-breakpoint-up(xl) {
+        height: 86px;
+      }
 
       // tablet range
       @include media-breakpoint-up(md) {
-        top: 100px;
+        top: 190px;
       }
 
       .error__wire_1 {
@@ -243,10 +252,10 @@ $font: Arial Rounded MT Bold, Arial;
     }
 
     .error__wire_left {
-      left: 50px;
+      left: calc(50vw - 100px);
       transform: translate(-100%, 0);
       @include media-breakpoint-up(sm) {
-        left: 110px;
+        left: 170px;
       }
       // tablet range
       @include media-breakpoint-up(md) {
@@ -255,10 +264,10 @@ $font: Arial Rounded MT Bold, Arial;
     }
 
     .error__wire_right {
-      right: 50px;
+      right: calc(50vw - 100px);
       transform: translate(100%, 0) scaleX(-1);
       @include media-breakpoint-up(sm) {
-        right: 110px;
+        right: 170px;
       }
       // tablet range
       @include media-breakpoint-up(md) {
@@ -272,7 +281,7 @@ $font: Arial Rounded MT Bold, Arial;
       height: 34px;
       // tablet range
       @include media-breakpoint-up(md) {
-        height: 45px;
+        height: 68px;
       }
       &.plug {
         right: 0;
@@ -287,45 +296,46 @@ $font: Arial Rounded MT Bold, Arial;
 
   &.server-error {
     .container {
-      width: 190px;
-      transform: translateY(-50%);
+      width: 230px;
 
       // tablet range
       @include media-breakpoint-up(md) {
-        width: 370px;
+        width: 400px;
       }
 
       // desktop range
       @include media-breakpoint-up(xl) {
-        width: 420px;
+        width: 484px;
       }
     }
     .error_info {
       display: flex;
       flex-direction: column;
+      margin-top: 120px;
       &_heading {
         align-self: flex-end;
         display: inline-block;
-        font-size: 70px;
+        font-size: 100px;
         color: #fff;
-        letter-spacing: 4px;
+        letter-spacing: 3px;
         margin: 0;
 
         // tablet range
         @include media-breakpoint-up(md) {
-          font-size: 152px;
-          letter-spacing: 6px;
+          font-size: 160px;
+          letter-spacing: 10px;
         }
 
         // desktop range
         @include media-breakpoint-up(xl) {
-          font-size: 184px;
-          letter-spacing: 5px;
+          font-size: 200px;
+          letter-spacing: 8px;
         }
       }
 
       &_text {
         font-size: 14px;
+        letter-spacing: 1px;
 
         // tablet range
         @include media-breakpoint-up(md) {
@@ -334,7 +344,8 @@ $font: Arial Rounded MT Bold, Arial;
 
         // desktop range
         @include media-breakpoint-up(xl) {
-          font-size: 28px;
+          font-size: 30px;
+          letter-spacing: 2px;
         }
       }
 
