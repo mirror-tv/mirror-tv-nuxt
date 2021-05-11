@@ -39,7 +39,9 @@
           <p class="info-wrapper__info">
             <span>客服專線: </span>
             <span>(02)7752-5678 </span>
-            <span> 客服信箱: </span>
+          </p>
+          <p class="info-wrapper__info">
+            <span>客服信箱: </span>
             <a href="mailto:mnews.cs@mnews.tw">mnews.cs@mnews.tw </a>
           </p>
         </div>
