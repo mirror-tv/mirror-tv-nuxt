@@ -422,6 +422,9 @@ export default {
     writers() {
       return this.postPublished?.writers
     },
+    source() {
+      return this.postPublished?.source
+    },
   },
   beforeMount() {
     this.setGaDimensionOfSource()
@@ -452,7 +455,7 @@ export default {
       }
     },
     setGaDimensionOfSource() {
-      const dimensionSource = 'tv'
+      const dimensionSource = this.source ?? ''
       this.$ga.set('dimension2', dimensionSource)
     },
     sendGaClickEvent(label) {
