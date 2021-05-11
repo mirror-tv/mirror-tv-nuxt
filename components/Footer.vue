@@ -11,7 +11,7 @@
           class="left__social-network-services-nav social-network-services-nav"
         >
           <a
-            href="https://www.facebook.com/mnewsTW"
+            href="https://www.facebook.com/mnewstw"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -22,7 +22,7 @@
             />
           </a>
           <a
-            href="https://www.instagram.com/mnewstv"
+            href="https://www.instagram.com/mnewstw"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -37,8 +37,10 @@
       <div class="top-wrapper__middle middle">
         <div class="info-wrapper">
           <p class="info-wrapper__info">
-            <span>客服專線：</span>
-            <span>(02)7752-5678</span>
+            <span>客服專線: </span>
+            <span>(02)7752-5678 </span>
+            <span> 客服信箱: </span>
+            <a href="mailto:mnews.cs@mnews.tw">mnews.cs@mnews.tw </a>
           </p>
         </div>
       </div>
