@@ -47,7 +47,7 @@
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'熱門新聞'"
-          :listData="listArticleAsideLatestData"
+          :listData="listArticleAsidepopularData"
         />
       </aside>
     </div>
@@ -56,7 +56,6 @@
 
 <script>
 import { SITE_NAME } from '~/constants'
-
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -122,6 +121,19 @@ export default {
   data() {
     return {
       page: 0,
+      allCategories: [],
+      allPostsCategory: [],
+      allPostsCategoryMeta: [],
+      allPostsLatest: [],
+      popularData: {},
+    }
+  },
+  async fetch() {
+    try {
+      this.popularData = await this.$fetchPopularListData()
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err)
     }
   },
   head() {
@@ -158,12 +170,16 @@ export default {
       const listData = this.allPostsCategory ?? []
       return listData.map((post) => this.reducerArticleCard(post))
     },
-
     listArticleAsideLatestData() {
       const listData = this.allPostsLatest ?? []
       return listData.map((post) => this.reducerArticleCard(post))
     },
-
+    listArticleAsidepopularData() {
+      const listData = this.popularData?.report ?? []
+      return listData
+        .filter((item, i) => i < 5)
+        .map((report) => this.reducerArticleCard(report))
+    },
     showLoadMoreButton() {
       return this.allPostsCategory?.length < this.allPostsCategoryMeta?.count
     },

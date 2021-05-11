@@ -138,6 +138,7 @@ module.exports = {
   serverMiddleware: [
     '~/server-middleware/headers.js',
     '~/server-middleware/redis/index.js',
+    { path: '/api/popular', handler: '~/api/popular.js' },
     { path: '/api/youtube', handler: '~/api/youtube.js' },
     { path: '/api/tracking', handler: '~/api/tracking.js' },
   ],

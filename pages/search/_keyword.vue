@@ -39,13 +39,11 @@
 <script>
 import axios from 'axios'
 import { SITE_NAME } from '~/constants'
-
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import SearchNoResult from '~/components/SearchNoResult.vue'
-
 import { getImageUrl } from '~/utils/post-image-handler'
 
 export default {
@@ -194,6 +192,10 @@ export default {
       &::after {
         content: '';
         width: calc((100% - 40px) / 3);
+      }
+      .position-correct {
+        width: calc((100% - 40px) / 3);
+        overflow: hidden;
       }
     }
     @include media-breakpoint-up(xl) {

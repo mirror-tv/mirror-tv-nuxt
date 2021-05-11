@@ -11,6 +11,16 @@ async function fetchYoutubeData(url) {
   }
 }
 
+async function fetchPopularListData() {
+  const url = '/popularlist.json'
+  try {
+    const res = await axios.get(`${baseUrl}/api/popular${url}`)
+    return res.data
+  } catch (err) {
+    throw new FetchError(url, err.message, err.code)
+  }
+}
+
 class FetchError extends Error {
   constructor(url, message = 'Not Found', code = 404) {
     const errorMessage = `${message}, url: ${url}`
@@ -22,4 +32,5 @@ class FetchError extends Error {
 
 export default (context, inject) => {
   inject('fetchYoutubeData', (url) => fetchYoutubeData(url))
+  inject('fetchPopularListData', () => fetchPopularListData())
 }

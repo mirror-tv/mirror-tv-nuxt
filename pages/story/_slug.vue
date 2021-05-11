@@ -82,7 +82,7 @@
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'熱門新聞'"
-          :listData="listArticleAsideLatestData"
+          :listData="listArticleAsidepopularData"
         />
       </aside>
     </div>
@@ -109,6 +109,7 @@ import ShareLine from '~/components/ShareLine'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
+import { getImageUrl } from '~/utils/post-image-handler'
 
 const CREDIT_KEYS = [
   'writers',
@@ -156,6 +157,21 @@ export default {
     ListArticleRelated,
     ShareFacebook,
     ShareLine,
+  },
+  data() {
+    return {
+      postPublished: {},
+      allPostsLatest: [],
+      popularData: {},
+    }
+  },
+  async fetch() {
+    try {
+      this.popularData = await this.$fetchPopularListData()
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err)
+    }
   },
   head() {
     const title = this.title
@@ -391,6 +407,12 @@ export default {
       const listData = this.allPostsLatest ?? []
       return listData.map((post) => this.reducerArticleCard(post))
     },
+    listArticleAsidepopularData() {
+      const listData = this.popularData?.report ?? []
+      return listData
+        .filter((item, i) => i < 5)
+        .map((report) => this.reducerArticleCard(report))
+    },
     otherbyline() {
       return this.postPublished?.otherbyline
     },
@@ -449,7 +471,7 @@ export default {
     reducerArticleCard(post) {
       return {
         href: `/story/${post.slug}`,
-        articleImgURL: post.heroImage?.urlMobileSized,
+        articleImgURL: getImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }

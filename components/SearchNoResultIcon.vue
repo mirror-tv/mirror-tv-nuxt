@@ -5,7 +5,7 @@
     </div>
 
     <div class="no-result-icon__keyword">您的搜尋「{{ keyword }}」</div>
-    <div class="no-result-icon__prompt">查無搜尋結果</div>
+    <div class="no-result-icon__prompt">查無相關結果</div>
   </div>
 </template>
 
