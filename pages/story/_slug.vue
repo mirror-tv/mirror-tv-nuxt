@@ -44,7 +44,18 @@
         </div>
 
         <!-- eslint-disable vue/no-v-html -->
-        <div v-if="brief" class="post__brief" v-html="brief" />
+        <div v-if="brief" class="post__brief">
+          <template v-if="isBriefString">
+            {{ brief }}
+          </template>
+          <template v-else>
+            <ArticleContentHandler
+              v-for="paragraph in brief"
+              :key="paragraph.id"
+              :paragraph="paragraph"
+            />
+          </template>
+        </div>
 
         <article class="post__content">
           <template v-if="isContentString">
@@ -334,9 +345,9 @@ export default {
       try {
         const briefString = this.postPublished?.briefApiData.replace(/'/g, '"')
         const brief = JSON.parse(briefString)
-        return brief?.[0].content?.[0]
+        return brief?.filter((item) => item) || []
       } catch {
-        return ''
+        return []
       }
     },
     categoryTitle() {
@@ -396,6 +407,9 @@ export default {
     },
     imageCaption() {
       return this.postPublished?.heroCaption
+    },
+    isBriefString() {
+      return typeof this.brief === 'string'
     },
     isContentString() {
       return typeof this.content === 'string'
@@ -547,14 +561,7 @@ export default {
       margin-top: 10px;
     }
   }
-  &__credit {
-    p {
-      display: inline-block;
-      + p {
-        margin-left: 10px;
-      }
-    }
-  }
+
   &__social-media-share {
     display: flex;
     align-items: center;
@@ -563,14 +570,24 @@ export default {
       margin-left: 2px;
     }
   }
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% + 10px);
+    margin-top: 25px;
+    transform: translateX(-5px);
+    + * {
+      margin-top: 35px;
+    }
+  }
   &__brief {
     display: inline-block;
     margin: 30px 0 0;
     padding: 24px 10px;
-    color: $color-blue;
+    color: $color-blue !important;
     font-size: 16px;
     font-weight: 500;
-    line-height: 1.63;
+    line-height: 1.63 !important;
     text-align: justify;
     border: 3px solid;
     border-image: linear-gradient(
@@ -581,15 +598,21 @@ export default {
         $color-blue 80%
       )
       5;
+    ::v-deep {
+      > * + * {
+        margin-top: 30px;
+      }
+    }
+    > p {
+      color: $color-blue !important;
+    }
   }
-  &__tags {
-    display: flex;
-    flex-wrap: wrap;
-    width: calc(100% + 10px);
-    margin-top: 25px;
-    transform: translateX(-5px);
-    + * {
-      margin-top: 35px;
+  &__credit {
+    p {
+      display: inline-block;
+      + p {
+        margin-left: 10px;
+      }
     }
   }
   &__content {
