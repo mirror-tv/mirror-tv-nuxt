@@ -61,9 +61,7 @@ export default {
   computed: {
     listArticlePopularData() {
       const listData = this.popularData?.report ?? []
-      return listData
-        .filter((item, i) => i < 5)
-        .map((report) => this.reducerArticleCard(report))
+      return listData.map((report) => this.reducerArticleCard(report))
     },
     hasListData() {
       return this.listArticlePopularData.length

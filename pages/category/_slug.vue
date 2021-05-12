@@ -235,7 +235,7 @@ export default {
     flex-wrap: wrap;
     width: calc(100% + 30px);
     transform: translateX(-15px);
-    margin: 0;
+    margin: 0 0 32px;
   }
   li {
     margin: 0 0 20px 0;

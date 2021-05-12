@@ -157,6 +157,9 @@ export default {
       padding-left: 16px;
       padding-right: 16px;
     }
+    @include media-breakpoint-up(md) {
+      padding-top: 60px;
+    }
     &__wrapper {
       @include media-breakpoint-up(md) {
         max-width: 688px;

@@ -53,7 +53,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     position: static;
   }
 }
