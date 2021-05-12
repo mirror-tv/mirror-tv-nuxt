@@ -44,7 +44,7 @@
         </div>
 
         <!-- eslint-disable vue/no-v-html -->
-        <div v-if="brief" class="post__brief">
+        <div v-if="showBrief" class="post__brief">
           <template v-if="isBriefString">
             {{ brief }}
           </template>
@@ -349,6 +349,18 @@ export default {
       } catch {
         return []
       }
+    },
+    showBrief() {
+      const validateArray = this.brief?.map((briefContent) => {
+        return (
+          briefContent.content?.length > 1 ||
+          briefContent.content[0]?.length > 0
+        )
+      })
+
+      return validateArray.find((item) => {
+        return item
+      })
     },
     categoryTitle() {
       return this.postPublished?.categories?.[0]?.name
