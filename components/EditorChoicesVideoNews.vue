@@ -4,7 +4,7 @@
     <div class="editor-choices-container">
       <ClientOnly>
         <YoutubeEmbedByIframeApi
-          :videoId="highlightSlug"
+          :videoId="highlightId"
           class="editor-choices__first-item item"
           @is-ended="setTimer()"
           @is-playing="videoIsPlaying = true"
@@ -59,6 +59,9 @@ export default {
   computed: {
     highlightSlug() {
       return this.highlightItem?.slug
+    },
+    highlightId() {
+      return this.highlightItem?.heroVideo?.url?.split('watch?v=')[1] ?? ''
     },
     hasItems() {
       return this.items?.length
