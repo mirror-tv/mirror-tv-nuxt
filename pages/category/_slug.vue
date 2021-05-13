@@ -17,6 +17,7 @@
                 :articleImgURL="post.articleImgURL"
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
+                :articleStyle="post.articleStyle"
                 @click.native="sendGaClickEvent('category latest')"
               />
               <ArticleCard
@@ -25,6 +26,7 @@
                 :articleImgURL="post.articleImgURL"
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
+                :articleStyle="post.articleStyle"
                 :mobileLayoutDirection="'column'"
                 @click.native="sendGaClickEvent('category latest')"
               />
@@ -190,6 +192,7 @@ export default {
         href: `/story/${post.slug}`,
         articleImgURL: getImageUrl(post),
         articleTitle: post.name,
+        articleStyle: post.style,
         articleDate: new Date(post.publishTime),
       }
     },

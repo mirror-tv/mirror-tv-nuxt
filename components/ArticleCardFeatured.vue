@@ -7,6 +7,13 @@
   >
     <span class="article-img-wrapper">
       <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
+      <span v-if="isVideoNews" class="article-video-icon-wrapper">
+        <img
+          src="~/assets/img/video-play-icon.svg"
+          alt="play icon"
+          class="article-video-icon-img"
+        />
+      </span>
     </span>
     <span class="article-card__info-wrapper info-wrapper">
       <span class="article-title" v-text="articleTitle" />
@@ -38,6 +45,15 @@ export default {
     articleDate: {
       type: Date,
       default: () => new Date(),
+    },
+    articleStyle: {
+      type: String,
+      default: null,
+    },
+  },
+  computed: {
+    isVideoNews() {
+      return this.articleStyle === 'videoNews'
     },
   },
   methods: {
@@ -125,5 +141,23 @@ export default {
 .article-date {
   font-size: 14px;
   color: white;
+}
+
+.article-video-icon {
+  &-wrapper {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+  }
+  &-img {
+    display: inline-block;
+    width: 24px;
+    height: 14px;
+  }
 }
 </style>
