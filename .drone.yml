@@ -144,26 +144,26 @@ steps:
       event:
         - push
 
-  - name: deployTVDev
-    pull: if-not-exists
-    image: nytimes/drone-gke
-    settings:
-      cluster: tv-dev
-      namespace: default
-      vars:
-        app: ${DRONE_REPO_NAME}
-        image: gcr.io/mirror-tv-275709/${DRONE_REPO_NAME}:${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}
-        tier: frontend
-      verbose: true
-      zone: asia-east1-c
-    environment:
-      TOKEN:
-        from_secret: google_credentials
-    when:
-      branch:
-        - dev
-      event:
-        - push
+#  - name: deployTVDev
+#    pull: if-not-exists
+#    image: nytimes/drone-gke
+#    settings:
+#      cluster: tv-dev
+#      namespace: default
+#      vars:
+#        app: ${DRONE_REPO_NAME}
+#        image: gcr.io/mirror-tv-275709/${DRONE_REPO_NAME}:${DRONE_BRANCH}_${DRONE_COMMIT_AUTHOR}_${DRONE_BUILD_NUMBER}
+#        tier: frontend
+#      verbose: true
+#      zone: asia-east1-c
+#    environment:
+#      TOKEN:
+#        from_secret: google_credentials
+#    when:
+#      branch:
+#        - dev
+#      event:
+#        - push
 
   # - name: rebuildCache
   #   pull: if-not-exists
