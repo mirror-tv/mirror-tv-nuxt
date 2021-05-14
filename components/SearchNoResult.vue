@@ -48,6 +48,7 @@ export default {
   data() {
     return {
       popularData: {},
+      isDesktop: false,
     }
   },
   async fetch() {
@@ -61,11 +62,17 @@ export default {
   computed: {
     listArticlePopularData() {
       const listData = this.popularData?.report ?? []
-      return listData.map((report) => this.reducerArticleCard(report))
+      const num = this.isDesktop ? 4 : 3
+      return listData
+        .filter((report, i) => i < num)
+        .map((report) => this.reducerArticleCard(report))
     },
     hasListData() {
       return this.listArticlePopularData.length
     },
+  },
+  mounted() {
+    this.detectViewport()
   },
   methods: {
     reducerArticleCard(post) {
@@ -74,6 +81,15 @@ export default {
         articleImgURL: getImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
+      }
+    },
+    detectViewport() {
+      const viewportWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      if (viewportWidth >= 1200) {
+        this.isDesktop = true
       }
     },
   },
