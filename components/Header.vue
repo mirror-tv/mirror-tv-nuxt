@@ -1,9 +1,10 @@
 <template>
   <header class="header">
     <div class="header__top-wrapper top-wrapper">
-      <nuxt-link
+      <a
+        href="/"
+        rel="noreferrer noopener"
         class="logo"
-        to="/"
         @click.native="sendGaClickEvent('mnews logo')"
       >
         <picture>
@@ -13,7 +14,7 @@
           />
           <img src="~/assets/img/Mnews_Logo_mobile-white.svg" alt="logo" />
         </picture>
-      </nuxt-link>
+      </a>
       <section class="top-wrapper__right">
         <HeaderSearchForm
           class="top-wrapper__search-form"
@@ -47,9 +48,13 @@
           </button>
         </div>
         <div class="top-wrapper__adsales">
-          <nuxt-link class="top-wrapper__adsales-button" to="/adsales">
+          <a
+            href="/adsales"
+            rel="noreferrer noopener"
+            class="top-wrapper__adsales-button"
+          >
             整合行銷
-          </nuxt-link>
+          </a>
         </div>
       </section>
     </div>
@@ -87,17 +92,19 @@
             :key="`category-nav-${category.slug}`"
             class="navs__category-nav navs__xl-seperator-fix category-nav"
           >
-            <nuxt-link
+            <a
               v-if="category.slug === 'home'"
+              href="/"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              to="/"
               @click.native="closeHamburgerButton"
               v-text="category.name"
             />
-            <nuxt-link
+            <a
               v-else
+              :href="`/category/${category.slug}`"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="`/category/${category.slug}`"
               @click.native="closeHamburgerButton"
               v-text="category.name"
             />
@@ -105,17 +112,19 @@
           <div
             class="navs__category-nav category-nav category-nav-other category-nav-other-ombuds"
           >
-            <nuxt-link
+            <a
+              :href="`/ombuds`"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="`/ombuds`"
               @click.native="closeHamburgerButton"
               v-text="'公評人專區'"
             />
           </div>
           <div class="navs__category-nav category-nav other-nav">
-            <nuxt-link
+            <a
+              :href="`/story/aboutus`"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="`/story/aboutus`"
               @click.native="closeHamburgerButton"
               v-text="'關於我們'"
             />
@@ -127,9 +136,10 @@
             :key="`show-nav-${show.slug}`"
             class="navs__category-nav show-nav"
           >
-            <nuxt-link
+            <a
+              :href="`/show/${show.slug}`"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="`/show/${show.slug}`"
               @click.native="closeHamburgerButton"
               v-text="show.name"
             />
@@ -141,9 +151,10 @@
             :key="`extension-nav-${extension.name}`"
             class="navs__category-nav extension-nav"
           >
-            <nuxt-link
+            <a
+              :href="extension.path"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="extension.path"
               @click.native="closeHamburgerButton"
               v-text="extension.name"
             />

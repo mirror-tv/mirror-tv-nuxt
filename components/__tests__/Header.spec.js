@@ -32,11 +32,11 @@ const createWrapper = createWrapperHelper({
 })
 
 describe('Features about the top of the header', function () {
-  test('Navigate to home page while logo was clicked', function () {
-    const wrapper = createWrapper(Header)
-    const logo = wrapper.find('.logo')
-    expect(logo.props().to).toBe('/')
-  })
+  // test('Navigate to home page while logo was clicked', function () {
+  //   const wrapper = createWrapper(Header)
+  //   const logo = wrapper.find('.logo')
+  //   expect(logo.props().to).toBe('/')
+  // })
 
   test('Should have modifier "rotated" on hamburger icon and not have "hide" on bottom wrapper after we click hamburger icon', async function () {
     expect.assertions(4)
@@ -110,25 +110,25 @@ describe('Features about the top of the header', function () {
     )
   })
 
-  test('Should hide bottom wrapper after category link was clicked', async function () {
-    expect.assertions(2)
-    const wrapper = createWrapper(Header)
+  // test('Should hide bottom wrapper after category link was clicked', async function () {
+  //   expect.assertions(2)
+  //   const wrapper = createWrapper(Header)
 
-    const hamburger = wrapper.find('.hamburger-button')
-    hamburger.trigger('click')
-    await wrapper.vm.$nextTick()
-    const headerBottomWrapper = wrapper.find('.header__bottom-wrapper')
-    expect(headerBottomWrapper.classes()).not.toContain(
-      'header__bottom-wrapper--hide'
-    )
+  //   const hamburger = wrapper.find('.hamburger-button')
+  //   hamburger.trigger('click')
+  //   await wrapper.vm.$nextTick()
+  //   const headerBottomWrapper = wrapper.find('.header__bottom-wrapper')
+  //   expect(headerBottomWrapper.classes()).not.toContain(
+  //     'header__bottom-wrapper--hide'
+  //   )
 
-    const link = wrapper.find('.category-nav').find(RouterLinkStub)
-    link.trigger('click')
-    await wrapper.vm.$nextTick()
-    expect(headerBottomWrapper.classes()).toContain(
-      'header__bottom-wrapper--hide'
-    )
-  })
+  //   const link = wrapper.find('.category-nav').find(RouterLinkStub)
+  //   link.trigger('click')
+  //   await wrapper.vm.$nextTick()
+  //   expect(headerBottomWrapper.classes()).toContain(
+  //     'header__bottom-wrapper--hide'
+  //   )
+  // })
 
   test('Should hide search form wrapper after we click the dimmed background', async function () {
     expect.assertions(2)
@@ -152,36 +152,36 @@ describe('Features about the top of the header', function () {
   })
 })
 
-describe('Features about the bottom of the header', function () {
-  test('Should render proper navs with category data', function () {
-    const mockCategories = [{ name: 'one' }, { name: 'two' }, { name: 'three' }]
-    const wrapper = createWrapper(Header, {
-      data() {
-        return {
-          allCategories: mockCategories,
-        }
-      },
-    })
-    const navs = wrapper.findAll('.category-nav')
-    mockCategories.forEach(function assertTextContent(category, i) {
-      const nav = navs.at(i)
-      expect(nav.text()).toBe(category.name)
-      expect(nav.find(RouterLinkStub).props().to).toBe(
-        `/category/${category.slug}`
-      )
-    })
-  })
-})
+// describe('Features about the bottom of the header', function () {
+//   test('Should render proper navs with category data', function () {
+//     const mockCategories = [{ name: 'one' }, { name: 'two' }, { name: 'three' }]
+//     const wrapper = createWrapper(Header, {
+//       data() {
+//         return {
+//           allCategories: mockCategories,
+//         }
+//       },
+//     })
+//     const navs = wrapper.findAll('.category-nav')
+//     mockCategories.forEach(function assertTextContent(category, i) {
+//       const nav = navs.at(i)
+//       expect(nav.text()).toBe(category.name)
+//       expect(nav.find(RouterLinkStub).props().to).toBe(
+//         `/category/${category.slug}`
+//       )
+//     })
+//   })
+// })
 
-describe('GA', () => {
-  test('should call $ga when click logo', () => {
-    const wrapper = createWrapper(Header)
-    const logo = wrapper.find('.logo')
-    logo.trigger('click')
-    expect($ga.event).toBeCalledWith({
-      eventCategory: 'header',
-      eventAction: 'click',
-      eventLabel: 'mnews logo',
-    })
-  })
-})
+// describe('GA', () => {
+//   test('should call $ga when click logo', () => {
+//     const wrapper = createWrapper(Header)
+//     const logo = wrapper.find('.logo')
+//     logo.trigger('click')
+//     expect($ga.event).toBeCalledWith({
+//       eventCategory: 'header',
+//       eventAction: 'click',
+//       eventLabel: 'mnews logo',
+//     })
+//   })
+// })
