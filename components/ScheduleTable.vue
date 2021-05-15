@@ -8,28 +8,28 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in schedules" :key="item.id">
+      <tr
+        v-for="(item, index) in schedules"
+        :key="`${item.Programme}-${item['Start Time(hh)']}-${index}`"
+      >
         <td
           class="show__time"
-          v-text="`${item.hour}:${item.minute}-${getShowEndTime(index)}`"
+          v-text="
+            `${formatHourTime(item['Start Time(hh)'])}:
+             ${formatMinuteTime(item['Start Time(mm)'])}-${getShowEndTime(
+              index
+            )}
+            `
+          "
         />
         <td class="show__name">
-          <a
-            v-if="item.showUrl"
-            :href="`/show/${item.showUrl.slug}`"
-            target="_blank"
-            rel="noreferrer noopener"
-            v-text="item.name"
-          />
-          <template v-else>
-            {{ item.name }}
-          </template>
+          {{ item.Programme }}
           <span
             :class="{ replay: isReplay(item) }"
             v-text="`（${isReplay(item) ? '重' : '新'}播）`"
           />
         </td>
-        <td class="show__rating" v-text="item.parentalGuidelines" />
+        <td class="show__rating" v-text="item.Class" />
       </tr>
     </tbody>
   </table>
@@ -44,15 +44,35 @@ export default {
     },
   },
   methods: {
+    formatHourTime(time) {
+      const stringTime = time.toString()
+      if (stringTime.length > 1) {
+        return stringTime
+      } else {
+        return '0' + stringTime
+      }
+    },
+    formatMinuteTime(time) {
+      const stringTime = time.toString()
+      if (stringTime.length > 1) {
+        return stringTime
+      } else {
+        return stringTime + '0'
+      }
+    },
     getShowEndTime(index) {
       const nextShowIndex = index + 1
       if (nextShowIndex >= this.schedules.length) {
         return '24:00'
       }
-      return `${this.schedules[nextShowIndex].hour}:${this.schedules[nextShowIndex].minute}`
+      return `${this.formatHourTime(
+        this.schedules[nextShowIndex]['Start Time(hh)']
+      )}:${this.formatMinuteTime(
+        this.schedules[nextShowIndex]['Start Time(mm)']
+      )}`
     },
     isReplay(item) {
-      return item?.replay
+      return item?.TxCategory === 'Repeat'
     },
   },
 }
@@ -89,10 +109,16 @@ export default {
       @include media-breakpoint-up(md) {
         padding-left: 38px;
       }
+      @include media-breakpoint-up(xl) {
+        width: 200px;
+      }
     }
     &__name {
       padding-left: 10px;
       padding-right: 10px;
+      @include media-breakpoint-up(xl) {
+        width: 300px;
+      }
       a {
         color: $color-blue;
       }

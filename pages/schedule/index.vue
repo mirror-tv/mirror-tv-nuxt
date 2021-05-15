@@ -4,7 +4,7 @@
       <ScheduleDatepicker @update-schedule="updateSchedule" />
       <ScheduleTable
         v-if="hasSchedules"
-        :schedules="schedules"
+        :schedules="formatSchedules"
         class="schedule__table"
       />
       <template v-else>
@@ -22,10 +22,10 @@
 
 <script>
 import dayjs from 'dayjs'
+import _ from 'lodash'
 
 import { SITE_NAME } from '~/constants'
 import { getDomain } from '~/utils/meta'
-import { fetchSchedules } from '~/apollo/queries/schedules.gql'
 import ScheduleDatepicker from '~/components/ScheduleDatepicker'
 import ScheduleTable from '~/components/ScheduleTable'
 
@@ -39,19 +39,9 @@ const dayOfWeek = [
   'saturday',
 ]
 
+const mockWeek = ['11', '12', '13', '14', '15', '16', '17']
+
 export default {
-  apollo: {
-    schedules: {
-      query: fetchSchedules,
-      variables() {
-        const day = dayOfWeek[dayjs().day()]
-        return {
-          where: { [day]: true },
-        }
-      },
-      update: (data) => data.allSchedules,
-    },
-  },
   components: {
     ScheduleDatepicker,
     ScheduleTable,
@@ -59,6 +49,20 @@ export default {
   data() {
     return {
       schedules: [],
+      requestData: [],
+    }
+  },
+  async fetch() {
+    try {
+      const day = dayOfWeek[dayjs().day()]
+      const data = await this.$fetchScheduleData()
+      this.schedules = this.initData(data)
+      this.requestData = this.getData(day)
+    } catch (err) {
+      if (process.server) {
+        // eslint-disable-next-line no-console
+        console.log(err)
+      }
     }
   },
   head() {
@@ -80,16 +84,58 @@ export default {
     }
   },
   computed: {
+    formatSchedules() {
+      return this.requestData ?? []
+    },
     hasSchedules() {
-      return this.schedules.length
+      return this.formatSchedules.length
     },
   },
   methods: {
+    initData(data) {
+      return data.filter((item) => mockWeek.includes(item.Day))
+    },
+    getData(day) {
+      const data = this.schedules?.filter(
+        (item) => this.formatDay(item.WeekDay) === day
+      )
+      return this.sortData(data)
+    },
     updateSchedule(dayOfWeekIndex) {
       const day = dayOfWeek[dayOfWeekIndex]
-      this.$apollo.queries.schedules.refetch({
-        where: { [day]: true },
-      })
+      this.requestData = this.getData(day)
+    },
+    sortData(data) {
+      return _.sortBy(data, ['Start Time(hh)', 'Start Time(mm)'])
+    },
+    formatDay(day) {
+      let data = ''
+      switch (day) {
+        case 'sun':
+          data = 'sunday'
+          break
+        case 'mon':
+          data = 'monday'
+          break
+        case 'tue':
+          data = 'tuesday'
+          break
+        case 'wed':
+          data = 'wednesday'
+          break
+        case 'thu':
+          data = 'thursday'
+          break
+        case 'fri':
+          data = 'friday'
+          break
+        case 'sat':
+          data = 'saturday'
+          break
+        default:
+          break
+      }
+      return data
     },
   },
 }

@@ -141,6 +141,7 @@ module.exports = {
     { path: '/api/popular', handler: '~/api/popular.js' },
     { path: '/api/youtube', handler: '~/api/youtube.js' },
     { path: '/api/tracking', handler: '~/api/tracking.js' },
+    { path: '/api/schedule', handler: '~/api/schedule.js' },
   ],
   /*
    ** Nuxt.js dev-modules

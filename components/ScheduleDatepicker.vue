@@ -96,7 +96,6 @@ export default {
     position: static;
   }
 }
-
 .datepicker {
   width: 100%;
   padding: 12px 16px;
