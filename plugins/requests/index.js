@@ -19,6 +19,7 @@ async function fetchScheduleData() {
   } catch (err) {
     throw new FetchError(url, err.message, err.code)
   }
+}
 
 async function fetchPopularListData() {
   const url = '/popularlist.json'

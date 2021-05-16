@@ -5,7 +5,7 @@
         href="/"
         rel="noreferrer noopener"
         class="logo"
-        @click.native="sendGaClickEvent('mnews logo')"
+        @click="sendGaClickEvent('mnews logo')"
       >
         <picture>
           <source
@@ -97,7 +97,7 @@
               href="/"
               rel="noreferrer noopener"
               class="category-nav__link"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="category.name"
             />
             <a
@@ -105,7 +105,7 @@
               :href="`/category/${category.slug}`"
               rel="noreferrer noopener"
               class="category-nav__link"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="category.name"
             />
           </div>
@@ -116,7 +116,7 @@
               :href="`/ombuds`"
               rel="noreferrer noopener"
               class="category-nav__link"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="'公評人專區'"
             />
           </div>
@@ -125,7 +125,7 @@
               :href="`/story/aboutus`"
               rel="noreferrer noopener"
               class="category-nav__link"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="'關於我們'"
             />
           </div>
@@ -140,7 +140,7 @@
               :href="`/show/${show.slug}`"
               rel="noreferrer noopener"
               class="category-nav__link"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="show.name"
             />
           </div>
@@ -155,7 +155,7 @@
               :href="extension.path"
               rel="noreferrer noopener"
               class="category-nav__link"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="extension.name"
             />
           </div>
