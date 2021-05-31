@@ -120,9 +120,10 @@ export default {
 }
 
 .article-title {
-  font-size: 18px;
+  font-size: 20px;
   letter-spacing: 0.43px;
   font-weight: 500;
+  line-height: 28px;
   color: white;
   text-align: left;
   word-wrap: break-word;

@@ -2,26 +2,16 @@
   &-page {
     // mobile range
     min-height: calc(100vh - 50px); // header height
-    padding: calc(50px + 8px) 16px 48px;
+    padding: calc(50px + 36px) 16px 48px;
 
     // tablet range
     @include media-breakpoint-up(md) {
-      padding: 48px 40px 50px;
-    }
-
-    // desktop range
-    @include media-breakpoint-up(xl) {
-      padding: 16px 40px 48px;
-    }
-    // desktop UHD range
-    @include media-breakpoint-up(xxl) {
-      padding: 60px 0 48px;
+      min-height: calc(100vh - 152px); // header height
+      padding: 36px 0 50px;
     }
 
     &__wrapper {
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto;
 
       // tablet range
       @include media-breakpoint-up(md) {
@@ -43,51 +33,41 @@
   &-page--with-aside {
     // mobile range
     .main {
-      margin: 8px auto 0;
-      // tablet range
-      @include media-breakpoint-up(md) {
-        padding: 0;
-        margin-top: 0;
-      }
+      margin: 0 auto;
 
       // desktop range
       @include media-breakpoint-up(xl) {
-        width: calc(100% - #{$aside-width-xl} - 48px);
-        margin: 0;
+        width: calc(100% - #{$aside-width-xl} - 40px);
       }
 
       // desktop UHD range
       @include media-breakpoint-up(xxl) {
-        width: calc(100% - #{$aside-width-xxl} - 48px);
-        margin: 0;
+        width: calc(100% - #{$aside-width-xl} - 48px);
       }
     }
   }
 
   &-aside {
     // mobile range
-    margin: 70px auto 0;
+    margin: 0 auto;
 
     // desktop range
     @include media-breakpoint-up(xl) {
       width: $aside-width-xl;
       padding: 32px 32px 53px;
-      margin: 0 0 0 48px;
+      margin: 0 0 auto;
     }
     > * {
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto;
       + * {
         margin-top: 16px;
+        @include media-breakpoint-up(md) {
+          margin-top: 20px;
+        }
       }
       + .link {
         margin-top: 44px;
       }
-    }
-
-    // desktop xxl range
-    @include media-breakpoint-up(xxl) {
-      width: $aside-width-xxl;
     }
   }
   &-list {

@@ -4,20 +4,23 @@
 
 <style lang="scss" scoped>
 button {
-  padding: 4px 0;
+  padding: 8px 0;
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 3px;
   text-align: center;
   line-height: 28px;
   color: $color-blue;
-  border: solid 3px $color-blue;
+  border: 1px solid $color-blue;
   outline: none;
   &:hover {
-    background-color: rgba(0, 77, 188, 0.05);
+    padding: 7px 0;
+    border: 2px solid $color-blue;
   }
   &:active {
-    background-color: rgba(0, 77, 188, 0.15);
+    padding: 7px 0;
+    border: 2px solid $color-blue;
+    background-color: rgba(0, 77, 188, 0.05);
   }
 }
 </style>

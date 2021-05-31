@@ -101,7 +101,7 @@
           </div>
         </div>
 
-        <div class="aside__show-list show-list">
+        <div class="aside-list aside-promotion-list">
           <HeadingBordered class="home__heading" text="發燒單元" />
           <div class="promotion-list">
             <YoutubeEmbed
@@ -113,7 +113,7 @@
           </div>
         </div>
 
-        <div class="aside__show-list show-list">
+        <div class="aside-list aside-show-list">
           <HeadingBordered class="home__heading" text="節目" />
           <div class="show-list__wrapper">
             <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
@@ -346,7 +346,7 @@ export default {
 
     > * {
       + * {
-        margin-top: 32px;
+        margin-top: 48px;
       }
     }
     // desktop  range
@@ -368,15 +368,9 @@ export default {
   }
 }
 
-.editor-choices {
-  @include media-breakpoint-up(md) {
-    margin: 22px 0 0;
-  }
-}
-
 .live-stream {
   * + .video__heading {
-    margin: 40px 0 0;
+    margin: 48px 0 0;
   }
   .iframe-wrapper {
     margin-top: 16px;
@@ -388,6 +382,9 @@ export default {
     margin-top: 24px;
     // tablet range
     @include media-breakpoint-up(md) {
+      margin-top: 40px;
+    }
+    @include media-breakpoint-up(xl) {
       margin-top: 48px;
     }
   }
@@ -443,13 +440,9 @@ export default {
   }
 }
 
-.show-list {
+.aside-list {
   .home__heading {
     min-width: 110px;
-    // desktop range
-    @include media-breakpoint-up(xl) {
-      margin: 30px 0 0;
-    }
   }
   .promotion-list {
     margin-top: 12px;
@@ -457,7 +450,7 @@ export default {
       margin-bottom: 12px;
     }
   }
-  &__wrapper {
+  .show-list__wrapper {
     margin-top: 12px;
     padding-bottom: 12px;
 

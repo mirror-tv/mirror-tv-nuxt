@@ -148,14 +148,7 @@ export default {
     }
     &__wrapper {
       @include media-breakpoint-up(md) {
-        max-width: 688px;
         display: block;
-      }
-      @include media-breakpoint-up(xl) {
-        max-width: 1120px;
-      }
-      @include media-breakpoint-up(xxl) {
-        max-width: 1200px;
       }
     }
   }

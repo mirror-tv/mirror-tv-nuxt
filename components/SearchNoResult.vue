@@ -118,15 +118,12 @@ export default {
       width: calc(100vw - 32px);
       height: 4px;
       background-color: $color-blue;
-      @include media-breakpoint-up(sm) {
-        max-width: 600px;
-      }
       @include media-breakpoint-up(md) {
         max-width: none;
         width: 688px;
       }
       @include media-breakpoint-up(xl) {
-        width: 1118px;
+        width: 1120px;
       }
       @include media-breakpoint-up(xxl) {
         width: 1200px;

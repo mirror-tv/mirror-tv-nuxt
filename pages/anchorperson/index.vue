@@ -1,7 +1,7 @@
 <template>
   <div class="g-page anchor">
     <div class="anchor__content">
-      <section class="anchor__block">
+      <section v-if="anchors.length" class="anchor__block">
         <h1 class="anchor__title">鏡主播</h1>
         <ol class="anchor__list">
           <li v-for="anchor in anchors" :key="anchor.slug">
@@ -28,7 +28,7 @@
         </ol>
       </section>
 
-      <section>
+      <section v-if="hosts.length">
         <h1 class="anchor__title">鏡主持</h1>
         <ol class="anchor__list">
           <li v-for="host in hosts" :key="host.slug">
@@ -81,6 +81,12 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      anchors: [],
+      hosts: [],
+    }
+  },
   head() {
     const title = '鏡主播 - 鏡電視'
     const description =
@@ -121,48 +127,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.g-page {
-  padding: 58px 16px;
-  @include media-breakpoint-up(sm) {
-    padding: 8px 16px;
-  }
-  @include media-breakpoint-up(xl) {
-    padding: 35px 0 0;
-  }
-}
 .anchor {
   width: 100%;
   display: flex;
   justify-content: center;
   background-color: #303030;
   &__block {
-    margin: 20px 0 37px;
-    @include media-breakpoint-up(md) {
-      margin: 40px 0 37px;
-    }
+    margin: 0 0 48px;
     @include media-breakpoint-up(xl) {
-      margin: 40px 0 80px;
+      margin: 0 0 80px;
     }
   }
   &__title {
     position: relative;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
-    line-height: 23px;
+    line-height: 25px;
     color: #fc0;
-    margin: 24px 0 16px;
+    margin: 0 0 16px;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 80px;
+      right: 0;
+      top: 50%;
+      height: 2px;
+      background-color: #ffcc01;
+    }
     @include media-breakpoint-up(md) {
       font-size: 30px;
       line-height: 42px;
       margin: 0 0 24px;
       &::after {
         content: '';
-        position: absolute;
         left: 110px;
-        right: 0;
-        top: 50%;
-        height: 2px;
-        background-color: #ffcc01;
       }
     }
   }
@@ -172,46 +170,78 @@ export default {
     justify-content: space-between;
     &::after {
       content: '';
-      width: calc((100% - 64px) / 2);
+      width: calc((100% - 16px) / 2);
     }
     @include media-breakpoint-up(md) {
-      max-width: 608px;
-      // 使未滿的區塊向左對齊
+      max-width: 688px;
       &::after {
         content: '';
-        width: calc((100% - 32px) / 3);
+        width: calc((100% - 64px) / 3);
       }
     }
     @include media-breakpoint-up(xl) {
       max-width: 1120px;
-      // 使未滿的區塊向左對齊
       &::after {
         content: '';
         width: calc((100% - 96px) / 4);
       }
     }
+    @include media-breakpoint-up(xxl) {
+      max-width: 1200px;
+      &::after {
+        content: '';
+        width: calc((100% - 120px) / 4);
+      }
+    }
     li {
       text-align: center;
-      width: calc((100% - 32px) / 2);
-      margin: 0 0 24px;
+      width: calc((100% - 16px) / 2);
+      margin: 0 0 16px;
       @include media-breakpoint-up(md) {
-        width: calc((100% - 32px) / 3);
-        margin: 0 0 14px;
+        width: calc((100% - 64px) / 3);
+        margin: 0 0 24px;
       }
       @include media-breakpoint-up(xl) {
         width: calc((100% - 96px) / 4);
-        margin: 0 0 17px;
       }
-      img {
+      @include media-breakpoint-up(xl) {
+        width: calc((100% - 120px) / 4);
+      }
+      &:last-child {
+        margin: 0;
+      }
+      a {
+        overflow: hidden;
+        display: block;
         width: 100%;
-        height: calc((100vw - 64px) / 2 * 0.56);
-        background: lightgray;
-        object-fit: cover;
         @include media-breakpoint-up(md) {
-          height: 108px;
+          height: 117px;
         }
         @include media-breakpoint-up(xl) {
           height: 144px;
+        }
+        @include media-breakpoint-up(xxl) {
+          height: 152px;
+        }
+        img {
+          width: 100%;
+          height: calc((100vw - 48px) / 2 * 0.5625);
+          background: lightgray;
+          object-fit: cover;
+          object-position: center;
+          transition: all 0.5s ease;
+          @include media-breakpoint-up(md) {
+            height: 117px;
+          }
+          @include media-breakpoint-up(xl) {
+            height: 144px;
+          }
+          @include media-breakpoint-up(xxl) {
+            height: 152px;
+          }
+          &:hover {
+            transform: scale(1.2);
+          }
         }
       }
       h3 {
@@ -219,16 +249,25 @@ export default {
         font-size: 16px;
         line-height: 22px;
         color: #d8d8d8;
+        @include media-breakpoint-up(md) {
+          font-size: 20px;
+          font-weight: 500;
+          line-height: 1.6;
+          letter-spacing: 0.5;
+        }
       }
     }
     .position-correct {
-      width: calc((100% - 32px) / 2);
+      width: calc((100% - 16px) / 2);
       overflow: hidden;
       @include media-breakpoint-up(md) {
-        width: calc((100% - 32px) / 3);
+        width: calc((100% - 64px) / 3);
       }
       @include media-breakpoint-up(xl) {
         width: calc((100% - 96px) / 4);
+      }
+      @include media-breakpoint-up(xxl) {
+        width: calc((100% - 120px) / 4);
       }
     }
   }

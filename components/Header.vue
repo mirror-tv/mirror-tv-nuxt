@@ -288,13 +288,17 @@ export default {
     display: none;
     margin-left: 14px;
     &-button {
-      background-color: $color-grey-deep;
-      border-radius: 7px;
-      font-weight: 600;
-      font-size: 12px;
-      line-height: 17px;
-      padding: 6px 9px;
-      color: #fff;
+      font-size: 13px;
+      line-height: 18px;
+      padding: 5px 8px;
+      color: #4a4a4a;
+      border: 1px solid #d8d8d8;
+      &:hover {
+        background-color: rgba(155, 155, 155, 0.05);
+      }
+      &:active {
+        background-color: rgba(155, 155, 155, 0.15);
+      }
     }
     @include media-breakpoint-up(md) {
       display: block;

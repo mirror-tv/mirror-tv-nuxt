@@ -16,7 +16,7 @@
             rel="noreferrer noopener"
           >
             <img
-              v-lazy="require('@/assets/img/facebook-logo-white-58.png')"
+              v-lazy="require('@/assets/img/flogo.svg')"
               class="social-network-service-img"
               alt="facebook"
             />
@@ -73,7 +73,7 @@
       </div>
     </div>
     <div class="footer__bottom-wrapper bottom-wrapper">
-      <div class="icons">
+      <!-- <div class="icons">
         <a
           class="icons__readr"
           href="https://www.readr.tw"
@@ -122,7 +122,7 @@
             alt="mirror-voice"
           />
         </a>
-      </div>
+      </div> -->
       <div class="bottom-wrapper__texts texts">
         <p class="copyright">
           <span>©Mirror TV BROCASTING LTD.</span>
@@ -231,53 +231,53 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  &__texts {
-    margin: 30px 0 0 0;
-  }
+  // &__texts {
+  //   margin: 30px 0 0 0;
+  // }
 }
 
-.icons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  @include media-breakpoint-up(xl) {
-    flex-direction: row;
-  }
-  &__readr {
-    padding: 5.5px;
-    @include media-breakpoint-up(xl) {
-      order: 4;
-      margin: 0 0 0 16px;
-    }
-  }
-  &__mirror-media {
-    margin: 4.5px 0 0 0;
-    @include media-breakpoint-up(xl) {
-      order: 1;
-      margin: 0;
-      padding: 2px 0;
-    }
-  }
-  &__mirror-fiction,
-  &__mirror-voice {
-    margin: 7px 0 0 0;
-    padding: 9px 0;
-    @include media-breakpoint-up(xl) {
-      margin: 0 0 0 16px;
-      padding: 5.5px 0;
-    }
-  }
-  &__mirror-fiction {
-    @include media-breakpoint-up(xl) {
-      order: 2;
-    }
-  }
-  &__mirror-voice {
-    @include media-breakpoint-up(xl) {
-      order: 3;
-    }
-  }
-}
+// .icons {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   @include media-breakpoint-up(xl) {
+//     flex-direction: row;
+//   }
+//   &__readr {
+//     padding: 5.5px;
+//     @include media-breakpoint-up(xl) {
+//       order: 4;
+//       margin: 0 0 0 16px;
+//     }
+//   }
+//   &__mirror-media {
+//     margin: 4.5px 0 0 0;
+//     @include media-breakpoint-up(xl) {
+//       order: 1;
+//       margin: 0;
+//       padding: 2px 0;
+//     }
+//   }
+//   &__mirror-fiction,
+//   &__mirror-voice {
+//     margin: 7px 0 0 0;
+//     padding: 9px 0;
+//     @include media-breakpoint-up(xl) {
+//       margin: 0 0 0 16px;
+//       padding: 5.5px 0;
+//     }
+//   }
+//   &__mirror-fiction {
+//     @include media-breakpoint-up(xl) {
+//       order: 2;
+//     }
+//   }
+//   &__mirror-voice {
+//     @include media-breakpoint-up(xl) {
+//       order: 3;
+//     }
+//   }
+// }
 
 .mirror-img {
   &[alt='readr'] {

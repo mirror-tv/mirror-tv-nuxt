@@ -32,21 +32,15 @@ describe('items from schedules prop', function () {
       schedules: mockSchedules,
     },
   })
-  // test('Should render proper show duration', function () {
-  //   const showTimeItems = wrapper.findAll('tbody .show__time')
-  //   expect(showTimeItems.at(0).text()).toBe(
-  //     `0${mockSchedules[0]['Start Time(hh)']}:
-  //     ${mockSchedules[0]['Start Time(mm)']}0-
-  //     0${mockSchedules[1]['Start Time(hh)']}
-  //     :${mockSchedules[1]['Start Time(mm)']}0`
-  //   )
-  //   expect(showTimeItems.at(1).text()).toBe(
-  //     `0${mockSchedules[1]['Start Time(hh)']}
-  //      :${mockSchedules[1]['Start Time(mm)']}0-
-  //      24:00
-  //     `
-  //   )
-  // })
+  test('Should render proper show duration', function () {
+    const showTimeItems = wrapper.findAll('tbody .show__time')
+    expect(showTimeItems.at(0).text()).toBe(
+      `0${mockSchedules[0]['Start Time(hh)']}:${mockSchedules[0]['Start Time(mm)']}0-0${mockSchedules[1]['Start Time(hh)']}:${mockSchedules[1]['Start Time(mm)']}0`
+    )
+    expect(showTimeItems.at(1).text()).toBe(
+      `0${mockSchedules[1]['Start Time(hh)']}:${mockSchedules[1]['Start Time(mm)']}0-24:00`
+    )
+  })
   test('Should render proper show name', function () {
     const showNameItems = wrapper.findAll('tbody .show__name')
     expect(showNameItems.at(0).text()).toContain(

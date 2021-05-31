@@ -70,7 +70,10 @@ export default {
     padding: 32px;
   }
   &__list {
-    margin: 20px 0 0 0;
+    margin: 16px 0 0 0;
+    @include media-breakpoint-up(xl) {
+      margin: 20px 0 0 0;
+    }
   }
   &__more-link {
     margin: 10px 0 0 0;
@@ -85,7 +88,10 @@ export default {
 .list {
   &__list-item {
     & + & {
-      margin: 20px 0 0 0;
+      margin: 16px 0 0 0;
+      @include media-breakpoint-up(xl) {
+        margin: 20px 0 0 0;
+      }
     }
   }
 }

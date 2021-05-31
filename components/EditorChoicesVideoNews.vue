@@ -185,9 +185,9 @@ export default {
     }
   }
   &__remaining {
-    margin-top: 8px;
+    margin-top: 16px;
     width: calc(100% + 24px);
-    padding: 20px 0;
+    padding: 8px 0;
     transform: translateX(-12px);
     border: 1px solid #d8d8d8;
     // tablet range
@@ -204,6 +204,7 @@ export default {
     // desktop range
     @include media-breakpoint-up(xl) {
       max-width: 456px;
+      margin: 20px 0 0;
     }
     .item {
       display: flex;

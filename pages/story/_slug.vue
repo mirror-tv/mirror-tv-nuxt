@@ -86,14 +86,14 @@
       </main>
       <aside class="g-aside aside">
         <ListArticleAside
-          class="aside__list-latest"
-          :listTitle="'最新新聞'"
-          :listData="listArticleAsideLatestData"
+          class="aside__list-popular"
+          :listTitle="'熱門新聞'"
+          :listData="listArticleAsidepopularData"
         />
         <ListArticleAside
           class="aside__list-latest"
-          :listTitle="'熱門新聞'"
-          :listData="listArticleAsidepopularData"
+          :listTitle="'最新新聞'"
+          :listData="listArticleAsideLatestData"
         />
       </aside>
     </div>
@@ -516,10 +516,19 @@ export default {
 <style lang="scss" scoped>
 .g-page--with-aside {
   padding-top: 50px;
-
+  @include media-breakpoint-up(md) {
+    padding-top: 36px;
+  }
   .main {
-    max-width: 600px;
     margin: 0 auto;
+    @include media-breakpoint-up(md) {
+      max-width: 600px;
+    }
+  }
+  .g-aside {
+    @include media-breakpoint-up(xl) {
+      padding: 24px 32px 53px;
+    }
   }
 }
 
@@ -589,7 +598,7 @@ export default {
     margin-top: 25px;
     transform: translateX(-5px);
     + * {
-      margin-top: 35px;
+      margin-top: 48px;
     }
   }
   &__brief {
@@ -691,7 +700,10 @@ export default {
     }
   }
 
+  &__list-popular,
   &__list-latest {
+    margin-top: 48px;
+    margin-bottom: 0;
     // tablet range
     @include media-breakpoint-up(md) {
       &:first-child {
@@ -704,6 +716,12 @@ export default {
       &:first-child {
         margin-right: 0;
       }
+    }
+  }
+
+  &__list-popular {
+    @include media-breakpoint-up(xl) {
+      margin-top: 0;
     }
   }
 

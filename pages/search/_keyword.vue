@@ -151,27 +151,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.g {
-  &-page {
-    @include media-breakpoint-up(sm) {
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-    @include media-breakpoint-up(md) {
-      padding-top: 60px;
-    }
-    &__wrapper {
-      @include media-breakpoint-up(md) {
-        max-width: 688px;
-        display: block;
-      }
-      @include media-breakpoint-up(xl) {
-        max-width: 1120px;
-      }
-      @include media-breakpoint-up(xxl) {
-        max-width: 1200px;
-      }
-    }
+.g-page__wrapper {
+  @include media-breakpoint-up(md) {
+    display: block;
   }
 }
 .search-result {

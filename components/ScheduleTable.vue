@@ -15,11 +15,9 @@
         <td
           class="show__time"
           v-text="
-            `${formatHourTime(item['Start Time(hh)'])}:
-             ${formatMinuteTime(item['Start Time(mm)'])}-${getShowEndTime(
-              index
-            )}
-            `
+            `${formatHourTime(item['Start Time(hh)'])}:${formatMinuteTime(
+              item['Start Time(mm)']
+            )}-${getShowEndTime(index)}`
           "
         />
         <td class="show__name">
@@ -107,6 +105,7 @@ export default {
     &__time {
       min-width: 100px;
       @include media-breakpoint-up(md) {
+        width: 198px;
         padding-left: 38px;
       }
       @include media-breakpoint-up(xl) {
@@ -116,6 +115,9 @@ export default {
     &__name {
       padding-left: 10px;
       padding-right: 10px;
+      @include media-breakpoint-up(md) {
+        width: 300px;
+      }
       @include media-breakpoint-up(xl) {
         width: 300px;
       }

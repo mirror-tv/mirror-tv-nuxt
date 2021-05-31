@@ -27,7 +27,6 @@
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
                 :articleStyle="post.articleStyle"
-                :mobileLayoutDirection="'column'"
                 @click.native="sendGaClickEvent('category latest')"
               />
             </li>
@@ -41,15 +40,14 @@
       </main>
       <aside class="g-aside aside">
         <ListArticleAside
+          class="aside__list-popular"
+          :listTitle="'熱門新聞'"
+          :listData="listArticleAsidepopularData"
+        />
+        <ListArticleAside
           class="aside__list-latest"
           :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
-        />
-
-        <ListArticleAside
-          class="aside__list-latest"
-          :listTitle="'熱門新聞'"
-          :listData="listArticleAsidepopularData"
         />
       </aside>
     </div>
@@ -241,10 +239,24 @@ export default {
     margin: 0 0 32px;
   }
   li {
-    margin: 0 0 20px 0;
+    margin: 0 0 16px 0;
     @include media-breakpoint-up(md) {
       width: calc((100% - 90px) / 3);
       margin: 20px 15px 0;
+      ::v-deep {
+        .article-img-wrapper.shrink {
+          width: 100%;
+          min-width: none;
+          height: auto;
+          padding-top: 66.66%;
+        }
+        .bottom-wrapper.row-mobile {
+          flex-direction: column;
+        }
+        .info-wrapper {
+          margin: 0;
+        }
+      }
     }
     @include media-breakpoint-up(xl) {
       ::v-deep {
@@ -267,6 +279,7 @@ export default {
     }
   }
   &-list-item__featured {
+    margin-bottom: 32px;
     @include media-breakpoint-up(md) {
       flex-direction: row;
       ::v-deep {
@@ -305,8 +318,8 @@ export default {
   @include media-breakpoint-up(xl) {
     width: 384px;
     display: block;
-    margin-top: 32px;
     padding: 0;
+    margin-top: 60px;
 
     // background-color: $color-grey;
 
@@ -325,7 +338,9 @@ export default {
     }
   }
 
-  &__list-latest {
+  &__list-latest,
+  &__list-popular {
+    margin-top: 48px;
     // tablet range
     @include media-breakpoint-up(md) {
       &:first-child {
@@ -334,6 +349,7 @@ export default {
     }
     // desktop range
     @include media-breakpoint-up(xl) {
+      margin-top: 0;
       border: 1px solid $color-grey-deep;
 
       &:first-child {

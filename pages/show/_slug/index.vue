@@ -28,7 +28,7 @@
                 alt="default image"
               />
               <div class="host__wrapper-content">
-                <h3>主持人 ｜ {{ host.name }}</h3>
+                <h3>主持人｜{{ host.name }}</h3>
                 <p v-if="host.bio">{{ host.bio }}</p>
               </div>
             </a>
@@ -277,33 +277,16 @@ export default {
 
 <style lang="scss" scoped>
 .show {
-  &.g-page {
-    @include media-breakpoint-up(sm) {
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-  }
   &.g-page--with-aside {
     .g-page__wrapper {
-      max-width: 688px;
       @include media-breakpoint-up(md) {
-        display: flex;
         flex-wrap: wrap;
-      }
-      @include media-breakpoint-up(xl) {
-        max-width: 1120px;
-      }
-      @include media-breakpoint-up(xxl) {
-        max-width: 1200px;
       }
       .main {
         margin: 24px auto 0;
         @include media-breakpoint-up(md) {
           width: 308px;
-          margin: 28px 0 0;
-        }
-        @include media-breakpoint-up(lg) {
-          width: 308px;
+          margin: 24px 0 0;
         }
         @include media-breakpoint-up(xl) {
           width: 600px;
@@ -315,7 +298,7 @@ export default {
         @include media-breakpoint-up(md) {
           width: 320px;
           padding: 0;
-          margin: 28px 0 0 auto;
+          margin: 24px 0 0 auto;
         }
         @include media-breakpoint-up(xxl) {
           width: 320px;
@@ -328,9 +311,8 @@ export default {
     color: $color-blue;
     font-size: 20px;
     font-weight: 500;
-    line-height: 23px;
-    letter-spacing: 0.5px;
-    margin: 24px 0;
+    line-height: 28px;
+    margin-bottom: 16px;
     @include media-breakpoint-up(md) {
       width: 100%;
       font-size: 30px;
@@ -341,7 +323,7 @@ export default {
     position: relative;
     display: block;
     width: calc(100% + 32px);
-    margin: 18px auto 0;
+    margin: 0 auto;
     padding-top: 37.5%;
     transform: translateX(-16px);
     @include media-breakpoint-up(md) {
@@ -365,10 +347,18 @@ export default {
     }
   }
   &__introduction {
-    text-align: justify;
+    font-size: 16px;
+    line-height: 32px;
+    margin-bottom: 24px;
+    @include media-breakpoint-up(md) {
+      margin-bottom: 48px;
+    }
   }
   &__collect {
     margin-top: 12px;
+    @include media-breakpoint-up(md) {
+      margin-top: 24px;
+    }
     &__loadmore {
       display: flex;
       justify-content: center;
@@ -458,9 +448,6 @@ export default {
 }
 
 .host {
-  &__container {
-    margin-top: 24px;
-  }
   &__wrapper {
     display: flex;
     position: relative;
@@ -515,6 +502,10 @@ export default {
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
+    }
+    &:hover h3 {
+      font-weight: 500;
+      border-bottom: 2px solid #000;
     }
   }
 }

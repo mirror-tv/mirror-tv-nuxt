@@ -1,7 +1,8 @@
 <template>
   <div class="show-card">
     <a class="show-card__banner" :href="`/show/${show.slug}`">
-      <img v-lazy="getBannerImgUrl" :alt="show.slug" />
+      <img v-if="getBannerImgUrl" v-lazy="getBannerImgUrl" :alt="show.slug" />
+      <img v-else src="~assets/img/image-default.png" alt="default banner" />
     </a>
   </div>
 </template>
@@ -27,7 +28,7 @@ export default {
   position: relative;
   width: 100%;
   padding-top: 37.5%;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   cursor: pointer;
 
   // tablet range
