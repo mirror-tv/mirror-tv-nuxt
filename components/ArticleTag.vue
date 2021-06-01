@@ -40,6 +40,12 @@ export default {
       content: '#';
       margin-right: 1px;
     }
+    &:hover {
+      background-color: rgba(0, 77, 188, 0.05);
+    }
+    &:active {
+      background-color: rgba(0, 77, 188, 0.15);
+    }
   }
 }
 </style>

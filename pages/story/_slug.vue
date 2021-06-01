@@ -588,7 +588,7 @@ export default {
     align-items: center;
     margin: 6px 0 0;
     .share + .share {
-      margin-left: 2px;
+      margin-left: 12px;
     }
   }
   &__tags {

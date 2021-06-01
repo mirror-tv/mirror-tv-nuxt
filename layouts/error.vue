@@ -7,7 +7,7 @@
       </div>
 
       <div class="article_container">
-        <h3>熱門文章</h3>
+        <h3 v-if="listArticlePopularData.length">熱門文章</h3>
         <div class="article_list">
           <a
             v-for="article in listArticlePopularData"
@@ -158,9 +158,11 @@ $font: Arial Rounded MT Bold, Arial;
       color: #fff;
     }
     .article_list {
+      min-width: calc(100vw - 32px);
       @include media-breakpoint-up(md) {
         display: flex;
         justify-content: center;
+        min-width: 588px;
       }
       a {
         display: flex;

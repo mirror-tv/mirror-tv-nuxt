@@ -146,25 +146,16 @@ export default {
 }
 .item {
   display: inline-block;
-  width: calc((100%) / 2);
+  width: calc((100%) / 2 * 1.15);
   vertical-align: top;
   white-space: normal;
-  // tablet range
-  @include media-breakpoint-up(sm) {
-    width: calc((100% - 64px) / 3);
-  }
-  // desktop narrow range
   @include media-breakpoint-up(md) {
-    width: calc((100% - 14px) / 2);
-  }
-  // desktop narrow range
-  @include media-breakpoint-up(md) {
-    width: calc((100% - 64px) / 3);
+    width: calc((100% - 40px) / 3);
   }
   + .item {
     margin-left: 16px;
-    @include media-breakpoint-up(sm) {
-      margin-left: 32px;
+    @include media-breakpoint-up(md) {
+      margin-left: 20px;
     }
   }
   &__image {
@@ -172,9 +163,6 @@ export default {
     width: 100%;
     padding-top: 56.25%;
     font-size: 12px;
-    @include media-breakpoint-up(lg) {
-      //   height: 120px;
-    }
     img {
       position: absolute;
       top: 0;
@@ -199,18 +187,18 @@ export default {
 }
 .slide-btn {
   position: absolute;
-  top: 43px;
-  transform: translate(0, -50%);
+  top: calc((100vw - 48px) * 0.5 * 0.5625 * 0.5);
   z-index: 1;
-  width: 45px;
-  height: 45px;
-  @include media-breakpoint-up(xl) {
-    top: 60px;
+  width: 36px;
+  height: 33px;
+  outline: none;
+  @include media-breakpoint-up(md) {
+    top: 46px;
   }
   &__arrow {
     position: relative;
     height: 100%;
-    background-color: #fff;
+    background-color: #f4f5f6;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
     &::after {
       content: '';
@@ -219,30 +207,52 @@ export default {
       left: 50%;
       width: 13px;
       height: 13px;
-      border: 2px solid rgba(1, 77, 184, 0.6);
-      border-color: transparent transparent rgba(1, 77, 184, 0.6)
-        rgba(1, 77, 184, 0.6);
+      border: 2px solid #2c585e;
+      border-color: transparent transparent #2c585e #2c585e;
       transform: translate(calc(-50% + 3px), -50%) rotate(45deg);
+    }
+    &:hover {
+      background-color: #4a4a4a;
+      opacity: 0.8;
+      &::after {
+        border: 2px solid #fff;
+        border-color: transparent transparent #fff #fff;
+      }
+    }
+    &:active {
+      background-color: #4a4a4a;
+      opacity: 0.8;
+      &::after {
+        border: 2px solid #fff;
+        border-color: transparent transparent #fff #fff;
+      }
     }
   }
   &.prev {
-    left: 1px;
-    padding: 5px 5px 5px 0;
-    @include media-breakpoint-up(xl) {
-      left: 4px;
-    }
+    left: 0;
   }
   &.next {
-    right: 1px;
-    padding: 5px 0 5px 5px;
-    @include media-breakpoint-up(xl) {
-      right: 4px;
-    }
+    right: 0;
     .slide-btn__arrow {
       &::after {
-        border-color: rgba(1, 77, 184, 0.6) rgba(1, 77, 184, 0.6) transparent
-          transparent;
+        border-color: #2c585e #2c585e transparent transparent;
         transform: translate(calc(-50% - 3px), -50%) rotate(45deg);
+      }
+      &:hover {
+        background-color: #4a4a4a;
+        opacity: 0.8;
+        &::after {
+          border: 2px solid #fff;
+          border-color: #fff #fff transparent transparent;
+        }
+      }
+      &:active {
+        background-color: #4a4a4a;
+        opacity: 0.8;
+        &::after {
+          border: 2px solid #fff;
+          border-color: #fff #fff transparent transparent;
+        }
       }
     }
   }

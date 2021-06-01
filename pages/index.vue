@@ -19,7 +19,7 @@
             <YoutubeEmbedByIframeApi
               v-if="!isViewportWidthUpXl"
               :enableAutoplay="true"
-              videoId="coYw-eVU0Ks"
+              :videoId="liveVideoId"
             />
           </ClientOnly>
           <HeadingBordered
@@ -54,7 +54,10 @@
             @click.native="handleClickMore"
           />
         </div>
-        <div v-if="listPopularData" class="aside-list main__popular-list">
+        <div
+          v-if="listPopularData.length"
+          class="aside-list main__popular-list"
+        >
           <HeadingBordered class="home__heading" text="熱門文章" />
           <ol class="popular-list">
             <li
@@ -80,7 +83,7 @@
             <YoutubeEmbedByIframeApi
               v-if="isViewportWidthUpXl"
               :enableAutoplay="true"
-              videoId="coYw-eVU0Ks"
+              :videoId="liveVideoId"
             />
           </ClientOnly>
           <HeadingBordered
@@ -129,7 +132,10 @@
           />
         </div>
 
-        <div v-if="listPopularData" class="aside-list aside__popular-list">
+        <div
+          v-if="listPopularData.length"
+          class="aside-list aside__popular-list"
+        >
           <HeadingBordered class="home__heading" text="熱門文章" />
           <ol class="popular-list">
             <li
@@ -186,6 +192,7 @@ import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
+import { fetchLiveVideoId } from '~/apollo/queries/video.gql'
 
 import { getImageUrl } from '~/utils/post-image-handler'
 const PAGE_SIZE = 12
@@ -240,6 +247,12 @@ export default {
         return data.allShows
       },
     },
+    liveVideo: {
+      query: fetchLiveVideoId,
+      update(data) {
+        return data.allVideos[0]
+      },
+    },
   },
   components: {
     Swiper,
@@ -265,6 +278,7 @@ export default {
       allShows: [],
       promotionVideos: [],
       popularData: {},
+      liveVideo: {},
     }
   },
   async fetch() {
@@ -317,6 +331,9 @@ export default {
       return listData
         .filter((report, i) => i < 10)
         .map((report) => this.reducerPopularList(report))
+    },
+    liveVideoId() {
+      return this.liveVideo?.youtubeUrl?.split('watch?v=')[1] ?? ''
     },
   },
   mounted() {
@@ -605,6 +622,9 @@ export default {
       a {
         font-size: 16px;
         line-height: 22px;
+        &:hover {
+          border-bottom: 1px solid #000;
+        }
       }
     }
   }
@@ -652,7 +672,7 @@ export default {
     margin: 0;
     li {
       width: calc((100% - 90px) / 3);
-      margin: 20px 15px 0;
+      margin: 16px 15px 0;
     }
     &::v-deep {
       .article-card {
@@ -678,7 +698,7 @@ export default {
     transform: translateX(-12px);
     li {
       width: calc((100% - 72px) / 3);
-      margin: 20px 12px 0;
+      margin: 16px 12px 0;
     }
   }
 }

@@ -53,7 +53,7 @@
           />
           <YoutubeEmbedByIframeApi
             :enableAutoplay="true"
-            videoId="coYw-eVU0Ks"
+            :videoId="liveVideoId"
           />
           <HeadingBordered
             :showIcon="true"
@@ -152,6 +152,7 @@ import { fetchVideoEditorChoices } from '~/apollo/queries/videoEditorChoices.gql
 import { fetchPostsByCategorySlug } from '~/apollo/queries/posts.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
+import { fetchLiveVideoId } from '~/apollo/queries/video.gql'
 
 export default {
   apollo: {
@@ -182,6 +183,12 @@ export default {
         return data.allShows
       },
     },
+    liveVideo: {
+      query: fetchLiveVideoId,
+      update(data) {
+        return data.allVideos[0]
+      },
+    },
   },
   components: {
     ArticleListSlides,
@@ -210,6 +217,7 @@ export default {
       personPosts: {},
       politicsPosts: {},
       allShows: [],
+      liveVideo: {},
     }
   },
   async fetch() {
@@ -252,6 +260,9 @@ export default {
     },
     categoriesSlug() {
       return this.allCategories?.map((category) => category.slug)
+    },
+    liveVideoId() {
+      return this.liveVideo?.youtubeUrl?.split('watch?v=')[1] ?? ''
     },
   },
   mounted() {
@@ -418,7 +429,7 @@ export default {
     }
   }
   &__posts {
-    padding: 0 20px;
+    padding: 0 16px;
     margin-top: 20px;
     @include media-breakpoint-up(md) {
       padding: 0;

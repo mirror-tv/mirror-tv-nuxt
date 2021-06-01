@@ -29,5 +29,8 @@ export default {
   font-size: 16px;
   word-break: break-word;
   overflow-wrap: break-word;
+  &:hover {
+    border-bottom: 1px solid #000;
+  }
 }
 </style>

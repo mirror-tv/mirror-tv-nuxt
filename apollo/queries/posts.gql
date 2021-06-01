@@ -33,6 +33,7 @@ query fetchPostsAndCountByTagName (
   }
   _allPostsMeta(
     where: {
+      state: published,
       tags_some: {
         name: $tagName
       }

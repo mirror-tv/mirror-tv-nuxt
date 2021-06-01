@@ -64,29 +64,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.g-page {
-  width: 100%;
-  @include media-breakpoint-up(xl) {
-    margin-top: 40px;
-  }
-  @include media-breakpoint-up(xxl) {
-    margin-top: 0;
-  }
-}
 .adsales__container {
   width: 100%;
   margin: 0 auto;
   @include media-breakpoint-up(md) {
-    width: 660px;
+    width: 600px;
     background-color: #000;
     padding: 10px;
   }
   @include media-breakpoint-up(xl) {
-    width: 1048px;
+    width: 1120px;
     padding: 16px 20px;
   }
   @include media-breakpoint-up(xxl) {
-    width: 1240px;
+    width: 1200px;
   }
   a {
     display: block;

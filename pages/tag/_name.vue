@@ -138,31 +138,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.g {
-  &-page {
-    @include media-breakpoint-up(sm) {
-      padding-top: 0;
-    }
-    @include media-breakpoint-up(md) {
-      padding-top: 48px;
-    }
-    &__wrapper {
-      @include media-breakpoint-up(md) {
-        display: block;
-      }
-    }
+.g-page__wrapper {
+  @include media-breakpoint-up(md) {
+    display: block;
   }
 }
 .tag {
   &__name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
-    line-height: 28px;
-    letter-spacing: 0.5px;
-    color: $color-blue-deep;
-    margin: 24px 0;
+    line-height: 25px;
+    color: $color-blue;
+    margin: 0 0 20px;
     @include media-breakpoint-up(md) {
-      margin: 0 0 24px;
+      font-size: 20px;
+      line-height: 32px;
+      letter-spacing: 0.5px;
     }
   }
   &__list {
@@ -197,11 +188,13 @@ export default {
       }
     }
     &__item {
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       @include media-breakpoint-up(md) {
+        margin-bottom: 48px;
         width: calc((100% - 40px) / 3);
       }
       @include media-breakpoint-up(xl) {
+        margin-bottom: 40px;
         width: calc((100% - 96px) / 4);
       }
       @include media-breakpoint-up(xxl) {
