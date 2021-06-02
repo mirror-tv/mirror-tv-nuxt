@@ -113,16 +113,16 @@
             class="navs__category-nav category-nav category-nav-other category-nav-other-ombuds"
           >
             <a
-              :href="`/ombuds`"
+              href="/ombuds"
               rel="noreferrer noopener"
               class="category-nav__link"
               @click="closeHamburgerButton"
               v-text="'公評人專區'"
             />
           </div>
-          <div class="navs__category-nav category-nav other-nav">
+          <div class="navs__category-nav category-nav category-nav-other">
             <a
-              :href="`/story/aboutus`"
+              href="/story/aboutus"
               rel="noreferrer noopener"
               class="category-nav__link"
               @click="closeHamburgerButton"
@@ -446,7 +446,7 @@ export default {
 .scroll-hide {
   @include media-breakpoint-up(md) {
     overflow-x: auto;
-    height: 86px;
+    height: 96px;
   }
 }
 

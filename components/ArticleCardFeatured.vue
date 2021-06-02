@@ -68,9 +68,11 @@ export default {
 .article-card {
   display: flex;
   flex-direction: column;
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
   @include media-breakpoint-up(xl) {
     width: 581px;
-    flex-direction: row;
   }
   &__info-wrapper {
     @include media-breakpoint-up(xl) {

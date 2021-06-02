@@ -343,12 +343,14 @@ export default {
     margin-top: 48px;
     // tablet range
     @include media-breakpoint-up(md) {
+      width: 50%;
       &:first-child {
         margin-right: 16px;
       }
     }
     // desktop range
     @include media-breakpoint-up(xl) {
+      width: 100%;
       margin-top: 0;
       border: 1px solid $color-grey-deep;
 
