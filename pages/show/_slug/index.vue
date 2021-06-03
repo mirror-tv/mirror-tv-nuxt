@@ -41,7 +41,7 @@
     </div>
     <div class="g-page__wrapper">
       <template v-if="isMobile">
-        <div class="show__button__wrapper">
+        <div v-if="validPlaylists.length > 1" class="show__button__wrapper">
           <button :class="{ active: isActive }" @click="isActive = true">
             <span>{{ firstName }}</span>
           </button>
@@ -55,6 +55,7 @@
           class="show__collect"
         >
           <template v-if="(i === 0 && isActive) || (i === 1 && !isActive)">
+            <h3 v-if="validPlaylists.length <= 1" v-text="list.sectionName" />
             <ol>
               <li v-for="item in list.items" :key="item.id">
                 <YoutubeEmbedByIframeApi
@@ -127,7 +128,7 @@ export default {
           if (process.browser) {
             this.isMobile = window.innerWidth < 768
           }
-          if (this.playlists.length < youtubeUrls.length) {
+          if (!this.playlists.length) {
             youtubeUrls.forEach((item, i) => {
               if (item) {
                 const [

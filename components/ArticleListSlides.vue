@@ -78,9 +78,10 @@ export default {
       return this.total > 30 ? 30 : this.total
     },
     transformStyle() {
-      const margin = this.isMobile ? 14 : 25
+      const margin = this.isMobile ? 16 : 20
+      const marginNum = this.isMobile ? 2 : 1
       return `translateX(calc(-${(this.pageForSlide - 1) * 100}% - ${
-        (this.pageForSlide - 1) * margin
+        (this.pageForSlide - 1) * margin * marginNum
       }px))`
     },
   },
@@ -106,7 +107,7 @@ export default {
         window.innerWidth ||
         document.documentElement.clientWidth ||
         document.body.clientWidth
-      if (viewportWidth >= 1200) {
+      if (viewportWidth > 767) {
         this.isMobile = false
       }
     },
@@ -146,7 +147,7 @@ export default {
 }
 .item {
   display: inline-block;
-  width: calc((100%) / 2 * 1.15);
+  width: calc((100%) / 2);
   vertical-align: top;
   white-space: normal;
   @include media-breakpoint-up(md) {
@@ -187,7 +188,7 @@ export default {
 }
 .slide-btn {
   position: absolute;
-  top: calc((100vw - 48px) * 0.5 * 0.5625 * 0.5);
+  top: calc((100vw - 48px) * 0.5 * 0.5625 * 0.35);
   z-index: 1;
   width: 36px;
   height: 33px;
