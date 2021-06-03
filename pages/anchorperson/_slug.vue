@@ -167,7 +167,6 @@ export default {
       width: 688px;
     }
     @include media-breakpoint-up(xl) {
-      align-items: center;
       width: 1120px;
     }
     @include media-breakpoint-up(xxl) {

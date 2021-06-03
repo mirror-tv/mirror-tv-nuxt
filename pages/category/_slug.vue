@@ -43,11 +43,13 @@
           class="aside__list-popular"
           :listTitle="'熱門新聞'"
           :listData="listArticleAsidepopularData"
+          :hasBorderInXl="true"
         />
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
+          :hasBorderInXl="true"
         />
       </aside>
     </div>
@@ -352,7 +354,6 @@ export default {
     @include media-breakpoint-up(xl) {
       width: 100%;
       margin-top: 0;
-      border: 1px solid $color-grey-deep;
 
       &:first-child {
         margin-right: 0;

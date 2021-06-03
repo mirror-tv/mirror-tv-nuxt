@@ -1,5 +1,5 @@
 <template>
-  <div class="list-wrapper">
+  <div class="list-wrapper" :class="{ 'xl-border': hasBorderInXl }">
     <HeadingBordered
       class="list-wrapper__list-title list-title"
       :text="listTitle"
@@ -48,6 +48,10 @@ export default {
       type: String,
       default: '',
     },
+    hasBorderInXl: {
+      type: Boolean,
+      default: false,
+    },
   },
 }
 </script>
@@ -78,6 +82,12 @@ export default {
   &__more-link {
     margin: 10px 0 0 0;
     align-self: flex-end;
+  }
+}
+
+.xl-border {
+  @include media-breakpoint-up(xl) {
+    border: 1px solid $color-grey-deep;
   }
 }
 

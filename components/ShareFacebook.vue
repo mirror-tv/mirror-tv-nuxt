@@ -45,6 +45,7 @@ export default {
   width: 40px;
   height: 40px;
   span {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,6 +53,28 @@ export default {
     height: 100%;
     border-radius: 50%;
     border: 1px solid #d8d8d8;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: 50%;
+      background-color: transparent;
+    }
+    &:hover {
+      &::after {
+        background-color: #9b9b9b;
+        opacity: 0.05;
+      }
+    }
+    &:active {
+      &::after {
+        background-color: #9b9b9b;
+        opacity: 0.15;
+      }
+    }
   }
   img {
     display: block;

@@ -486,7 +486,7 @@ export default {
       margin-left: 10px;
       h3 {
         font-size: 20px;
-        line-height: 20px;
+        line-height: 22px;
         margin-bottom: 8px;
         @include media-breakpoint-up(md) {
           margin-bottom: 12px;
@@ -506,7 +506,8 @@ export default {
     }
     &:hover h3 {
       font-weight: 500;
-      border-bottom: 2px solid #000;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
   }
 }

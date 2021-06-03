@@ -186,6 +186,7 @@ export default {
 
 <style lang="scss" scoped>
 .g-page {
+  padding-top: 50px;
   @include media-breakpoint-up(md) {
     padding-top: 0;
   }
@@ -254,17 +255,15 @@ export default {
         width: 806px;
       }
       &__wrapper {
-        padding: 0 16px;
         @include media-breakpoint-up(md) {
           display: flex;
-          padding: 0;
         }
         &-img {
           position: relative;
           display: block;
-          width: calc(100% + 64px);
+          width: calc(100% + 32px);
           height: calc(100vw * 0.63);
-          transform: translateX(-32px);
+          transform: translateX(-16px);
           margin-bottom: 24px;
           @include media-breakpoint-up(md) {
             margin: 0 24px 0 0;
@@ -321,7 +320,7 @@ export default {
             font-weight: 600;
             font-size: 16px;
             line-height: 28px;
-            margin-left: calc(100% - 75px);
+            margin-left: calc(100% - 80px);
             &::before {
               content: '';
               position: absolute;
@@ -334,7 +333,7 @@ export default {
             &::after {
               content: '';
               position: absolute;
-              top: 20%;
+              top: 24%;
               border: solid black;
               border-width: 0 2px 2px 0;
               display: inline-block;

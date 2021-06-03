@@ -188,13 +188,19 @@ export default {
 }
 .slide-btn {
   position: absolute;
-  top: calc((100vw - 48px) * 0.5 * 0.5625 * 0.35);
+  top: calc((100vw - 48px) * 0.5 * 0.5625 * 0.08);
   z-index: 1;
-  width: 36px;
-  height: 33px;
+  width: 48px;
+  height: 81px;
   outline: none;
+  &:hover,
+  &:active,
+  &:focus {
+    box-shadow: none;
+    background-color: transparent;
+  }
   @include media-breakpoint-up(md) {
-    top: 46px;
+    top: 30px;
   }
   &__arrow {
     position: relative;
@@ -231,9 +237,11 @@ export default {
   }
   &.prev {
     left: 0;
+    padding: 24px 12px 24px 0;
   }
   &.next {
     right: 0;
+    padding: 24px 0 24px 12px;
     .slide-btn__arrow {
       &::after {
         border-color: #2c585e #2c585e transparent transparent;
