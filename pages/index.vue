@@ -173,7 +173,7 @@
 import { mapGetters } from 'vuex'
 
 import { getDomain } from '~/utils/meta'
-import { fetchPosts, fetchPostsByCategories } from '~/apollo/queries/posts.gql'
+import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
@@ -196,24 +196,84 @@ import { fetchLiveVideoId } from '~/apollo/queries/video.gql'
 
 import { getImageUrl } from '~/utils/post-image-handler'
 const PAGE_SIZE = 12
+const globalFilteredSlug = [
+  'privacy',
+  'ad-sales',
+  'press-self-regulation',
+  'webauthorization',
+  'biography',
+  'complaint',
+  'standards',
+  'faq',
+  'aboutus',
+]
 
 export default {
   apollo: {
     editorChoices: {
       query: fetchEditorChoices,
       update(data) {
+        if (data) {
+          const editorChoicesSlug = data.allEditorChoices?.map(
+            (item) => item.choice.slug
+          )
+          this.filteredSlug = editorChoicesSlug.concat(globalFilteredSlug)
+        }
         return data.allEditorChoices
           ?.filter((item) => item.choice)
+          ?.filter((item, i) => i < 5)
           ?.map((item) => this.reducerArticleCard(item.choice))
       },
+      // 放在 result 內，可確保已取得 editor-choice 資料，但無法進行 SSR 渲染
+      // result({ data, loading }) {
+      //   if (!loading) {
+      //     const editorChoicesSlug = data.allEditorChoices?.map(
+      //       (item) => item.choice.slug
+      //     )
+      //     this.filteredSlug = editorChoicesSlug.concat(globalFilteredSlug)
+      //     this.$apollo.addSmartQuery('allPublishedPosts', {
+      //       prefetch: true,
+      //       query: fetchPosts,
+      //       variables() {
+      //         return {
+      //           first: PAGE_SIZE,
+      //           skip: 0,
+      //           withCount: true,
+      //           withCoverPhoto: true,
+      //           filteredSlug: this.filteredSlug,
+      //         }
+      //       },
+      //       update(rawData) {
+      //         this.postsCount = rawData._allPostsMeta?.count
+      //         return rawData.allPosts
+      //       },
+      //       error(error) {
+      //         handleError(this.$nuxt, error.networkError.statusCode)
+      //       },
+      //     })
+      //   }
+      // },
     },
+    // flashNews: {
+    //   query: fetchPostsByCategories,
+    //   variables: {
+    //     first: 8,
+    //     categories: ['person', 'international'],
+    //   },
+    //   update(data) {
+    //     return data.allPosts
+    //   },
+    // },
     allPublishedPosts: {
       query: fetchPosts,
-      variables: {
-        first: PAGE_SIZE,
-        skip: 0,
-        withCount: true,
-        withCoverPhoto: true,
+      variables() {
+        return {
+          first: PAGE_SIZE,
+          skip: 0,
+          withCount: true,
+          withCoverPhoto: true,
+          filteredSlug: this.filteredSlug,
+        }
       },
       update(data) {
         this.postsCount = data._allPostsMeta?.count
@@ -221,16 +281,6 @@ export default {
       },
       error(error) {
         handleError(this.$nuxt, error.networkError.statusCode)
-      },
-    },
-    flashNews: {
-      query: fetchPostsByCategories,
-      variables: {
-        first: 8,
-        categories: ['person', 'international'], // 暫時
-      },
-      update(data) {
-        return data.allPosts
       },
     },
     promotionVideos: {
@@ -271,7 +321,7 @@ export default {
     return {
       allPublishedPosts: [],
       editorChoices: [],
-      flashNews: [],
+      // flashNews: [],
       page: 0,
       playlistItems: [],
       postsCount: 0,
@@ -279,6 +329,8 @@ export default {
       promotionVideos: [],
       popularData: {},
       liveVideo: {},
+      testNum: 0,
+      filteredSlug: [],
     }
   },
   async fetch() {
@@ -311,17 +363,17 @@ export default {
     ...mapGetters({
       isViewportWidthUpXl: 'viewport/isViewportWidthUpXl',
     }),
-    editorChoicesSlug() {
-      return this.editorChoices.map((item) => item.slug)
-    },
+    // editorChoicesSlug() {
+    //   return this.editorChoices.map((item) => item.slug)
+    // },
     showEditorChoices() {
       return this.editorChoices?.length > 0
     },
     latestPosts() {
       const listData = this.allPublishedPosts ?? []
-      return listData
-        .filter((post) => !this.editorChoicesSlug.includes(post.slug))
-        .map((post) => this.reducerArticleCard(post))
+      return listData.map((post) => this.reducerArticleCard(post))
+      // .filter((post) => !this.editorChoicesSlug.includes(post.slug))
+      // .map((post) => this.reducerArticleCard(post))
     },
     showLoadMoreButton() {
       return this.allPublishedPosts?.length < this.postsCount
@@ -334,6 +386,15 @@ export default {
     },
     liveVideoId() {
       return this.liveVideo?.youtubeUrl?.split('watch?v=')[1] ?? ''
+    },
+    flashNews() {
+      const editorData = this.editorChoices.map((post) =>
+        this.reducerEditorData(post)
+      )
+      const posts = this.allPublishedPosts
+        .filter((post, i) => i < 8)
+        .map((post) => this.reducerFlashNews(post))
+      return editorData.concat(posts)
     },
   },
   mounted() {
@@ -368,6 +429,18 @@ export default {
         title: report.name,
       }
     },
+    reducerEditorData(post) {
+      return {
+        slug: post.slug,
+        name: post.articleTitle,
+      }
+    },
+    reducerFlashNews(post) {
+      return {
+        slug: post.slug,
+        name: post.name,
+      }
+    },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('home')('click')(label)
     },
@@ -379,6 +452,7 @@ export default {
           skip: PAGE_SIZE * this.page,
           withCount: false,
           withCoverPhoto: true,
+          filteredSlug: this.filteredSlug,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newPosts = fetchMoreResult.allPosts

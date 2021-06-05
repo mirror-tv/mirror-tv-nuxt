@@ -216,22 +216,13 @@ query fetchPosts(
   $skip: Int = 0,
   $withCount: Boolean = false,
   $withCoverPhoto: Boolean = false,
+  $filteredSlug: [String] = [""],
 ) {
   allPosts(
     sortBy: publishTime_DESC,
     where: {
       state: published,
-      slug_not_in: [
-        "privacy",
-        "ad-sales",
-        "press-self-regulation",
-        "webauthorization",
-        "biography",
-        "complaint",
-        "standards",
-        "faq",
-        "aboutus",
-      ]
+      slug_not_in: $filteredSlug,
       style_not_in: [wide, projects, script, campaign, readr]
     },
     first: $first,
