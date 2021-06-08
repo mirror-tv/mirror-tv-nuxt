@@ -172,7 +172,9 @@ import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
 
 export default {
   name: 'Header',
-
+  serverCacheKey() {
+    return 'StaticHeader'
+  },
   components: {
     HeaderSearchForm,
   },

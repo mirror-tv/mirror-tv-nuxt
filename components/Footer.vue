@@ -137,6 +137,9 @@
 <script>
 export default {
   name: 'Footer',
+  serverCacheKey() {
+    return 'StaticFooter'
+  },
 }
 </script>
 

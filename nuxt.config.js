@@ -160,7 +160,7 @@ module.exports = {
   modules: [
     '@nuxtjs/apollo',
     '@nuxtjs/axios',
-    ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 * 24 }],
+    ['@nuxtjs/component-cache', { max: 10000, maxAge: 1000 * 60 * 60 * 24 }],
   ],
   axios: {
     proxy: true,
