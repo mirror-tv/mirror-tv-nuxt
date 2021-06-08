@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import _ from 'lodash'
 import { SITE_NAME } from '~/constants'
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
@@ -65,13 +67,10 @@ import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import ListArticleAside from '~/components/ListArticleAside'
-
 import { allPublishedPostsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
-
 import { getImageUrl } from '~/utils/post-image-handler'
-const pageSize = 13
 
 export default {
   apollo: {
@@ -91,8 +90,9 @@ export default {
       variables() {
         return {
           categorySlug: this.pageSlug,
-          first: pageSize,
+          first: this.getPageSize(),
           skip: 0,
+          filteredSlug: this.filteredSlug,
         }
       },
     },
@@ -101,6 +101,7 @@ export default {
       variables() {
         return {
           categorySlug: this.pageSlug,
+          filteredSlug: this.filteredSlug,
         }
       },
       update: (data) => data.meta,
@@ -157,6 +158,34 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      topPosts: 'category/displayedTopPosts',
+    }),
+    currentTopPost() {
+      const data = this.topPosts?.[this.pageName] ?? {}
+      const sortedData = _.sortBy(data, 'publishTime') ?? []
+      return sortedData[0] ?? {}
+    },
+    currentTopPostSlug() {
+      return this.currentTopPost?.slug ?? ''
+    },
+    filteredSlug() {
+      const slugs = [
+        'privacy',
+        'ad-sales',
+        'press-self-regulation',
+        'webauthorization',
+        'biography',
+        'complaint',
+        'standards',
+        'faq',
+        'aboutus',
+      ]
+      if (this.currentTopPostSlug) {
+        slugs.push(this.currentTopPostSlug)
+      }
+      return slugs
+    },
     category() {
       return this.allCategories.find(
         (category) => category.slug === this.pageSlug
@@ -169,8 +198,10 @@ export default {
       return this.$route.params.slug
     },
     listArticleMainData() {
-      const listData = this.allPostsCategory ?? []
-      return listData.map((post) => this.reducerArticleCard(post))
+      const listData = this.currentTopPostSlug
+        ? [this.currentTopPost].concat(this.allPostsCategory)
+        : this.allPostsCategory
+      return listData?.map((post) => this.reducerArticleCard(post))
     },
     listArticleAsideLatestData() {
       const listData = this.allPostsLatest ?? []
@@ -204,8 +235,9 @@ export default {
       this.$apollo.queries.allPostsCategory.fetchMore({
         variables: {
           categorySlug: this.pageSlug,
-          first: pageSize,
-          skip: pageSize * this.page,
+          first: 12,
+          skip: 12 * this.page,
+          filteredSlug: this.filteredSlug,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newPosts = fetchMoreResult.allPostsCategory
@@ -215,6 +247,9 @@ export default {
         },
       })
       this.sendGaClickEvent('more')
+    },
+    getPageSize() {
+      return this.currentTopPostSlug ? 12 : 13
     },
   },
 }

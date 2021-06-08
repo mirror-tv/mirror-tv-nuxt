@@ -88,7 +88,7 @@
       <div class="scroll-hide">
         <nav class="bottom-wrapper__category navs">
           <div
-            v-for="category in allCategories"
+            v-for="category in categories"
             :key="`category-nav-${category.slug}`"
             class="navs__category-nav navs__xl-seperator-fix category-nav"
           >
@@ -166,25 +166,13 @@
 </template>
 
 <script>
-import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
-import { fetchAllShows } from '~/apollo/queries/show.gql'
+import { mapGetters } from 'vuex'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleError } from '~/utils/error-handler'
 import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
 
 export default {
   name: 'Header',
-  apollo: {
-    allCategories: {
-      query: fetchFeaturedCategories,
-      error(error) {
-        handleError(this.$nuxt, error.networkError.statusCode)
-      },
-    },
-    allShows: {
-      query: fetchAllShows,
-    },
-  },
+
   components: {
     HeaderSearchForm,
   },
@@ -201,9 +189,10 @@ export default {
     }
   },
   computed: {
-    categories() {
-      return this.$store.state.categories
-    },
+    ...mapGetters({
+      categories: 'category/displayedCategories',
+      allShows: 'category/displayedShows',
+    }),
     isCurrentPageOnSearch() {
       return this.$route.name === 'search-keyword'
     },

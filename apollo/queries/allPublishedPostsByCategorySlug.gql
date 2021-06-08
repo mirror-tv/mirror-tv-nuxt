@@ -4,22 +4,13 @@ query allPublishedPostsByCategorySlug(
   $categorySlug: String!
   $first: Int = 13
   $skip: Int = 0
+  $filteredSlug: [String] = [""],
 ) {
   allPostsCategory: allPosts(
     sortBy: publishTime_DESC
     where: {
       categories_some: { slug: $categorySlug }
-      slug_not_in: [
-        "privacy",
-        "ad-sales",
-        "press-self-regulation",
-        "webauthorization",
-        "biography",
-        "complaint",
-        "standards",
-        "faq",
-        "aboutus",
-      ]
+      slug_not_in: $filteredSlug,
       state: published
     }
     first: $first
@@ -34,17 +25,7 @@ query allPublishedPostsByCategorySlug(
     sortBy: publishTime_DESC
     where: {
       categories_some: { slug: $categorySlug }
-      slug_not_in: [
-        "privacy",
-        "ad-sales",
-        "press-self-regulation",
-        "webauthorization",
-        "biography",
-        "complaint",
-        "standards",
-        "faq",
-        "aboutus",
-      ]
+      slug_not_in: $filteredSlug,
       state: published
     }
   ) {
