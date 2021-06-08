@@ -335,7 +335,7 @@ export default {
   },
   async fetch() {
     try {
-      this.popularData = await this.$fetchPopularListData()
+      this.popularData = await this.$fetchGcsData('/popularlist')
       const reponse = await this.$fetchYoutubeData(
         '/playlistItems?part=snippet&playlistId=PLT6yxVwBEbi2dWegLu37V63_tP-nI6em_&maxResults=3'
       )

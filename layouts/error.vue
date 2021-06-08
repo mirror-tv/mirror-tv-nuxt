@@ -69,7 +69,7 @@ export default {
   },
   async fetch() {
     try {
-      this.popularData = await this.$fetchPopularListData()
+      this.popularData = await this.$fetchGcsData('/popularlist')
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log(err)

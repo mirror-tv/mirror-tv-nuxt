@@ -35,7 +35,7 @@ export const mutations = {
 
 export const actions = {
   async fetchHeaderData() {
-    const response = await this.$fetchHeaderRawData()
+    const response = await this.$fetchGcsData('/featured_categories_post')
     return response
   },
 }

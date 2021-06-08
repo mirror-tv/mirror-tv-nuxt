@@ -11,30 +11,9 @@ async function fetchYoutubeData(url) {
   }
 }
 
-async function fetchScheduleData() {
-  const url = '/program_list.json'
+async function fetchGcsData(url) {
   try {
-    const res = await axios.get(`${baseUrl}/api/schedule${url}`)
-    return res.data
-  } catch (err) {
-    throw new FetchError(url, err.message, err.code)
-  }
-}
-
-async function fetchPopularListData() {
-  const url = '/popularlist.json'
-  try {
-    const res = await axios.get(`${baseUrl}/api/popular${url}`)
-    return res.data
-  } catch (err) {
-    throw new FetchError(url, err.message, err.code)
-  }
-}
-
-async function fetchHeaderRawData() {
-  const url = '/featured_categories_post.json'
-  try {
-    const res = await axios.get(`${baseUrl}/api/header${url}`)
+    const res = await axios.get(`${baseUrl}/api/gcs${url}`)
     return res.data
   } catch (err) {
     throw new FetchError(url, err.message, err.code)
@@ -52,7 +31,5 @@ class FetchError extends Error {
 
 export default (context, inject) => {
   inject('fetchYoutubeData', (url) => fetchYoutubeData(url))
-  inject('fetchHeaderRawData', () => fetchHeaderRawData())
-  inject('fetchScheduleData', () => fetchScheduleData())
-  inject('fetchPopularListData', () => fetchPopularListData())
+  inject('fetchGcsData', (url) => fetchGcsData(url))
 }

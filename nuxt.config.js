@@ -138,11 +138,9 @@ module.exports = {
   serverMiddleware: [
     '~/server-middleware/headers.js',
     '~/server-middleware/redis/index.js',
-    { path: '/api/popular', handler: '~/api/popular.js' },
     { path: '/api/youtube', handler: '~/api/youtube.js' },
     { path: '/api/tracking', handler: '~/api/tracking.js' },
-    { path: '/api/schedule', handler: '~/api/schedule.js' },
-    { path: '/api/header', handler: '~/api/header.js' },
+    { path: '/api/gcs', handler: '~/api/gcs.js' },
   ],
   /*
    ** Nuxt.js dev-modules
