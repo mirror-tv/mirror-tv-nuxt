@@ -2,21 +2,33 @@
   <footer class="footer">
     <div class="footer__top-wrapper top-wrapper">
       <div class="top-wrapper__left left">
-        <img class="logo" src="~/assets/img/Mnews_Logo_white.svg" alt="" />
+        <img
+          v-lazy="require('@/assets/img/Mnews_Logo_white.svg')"
+          class="logo"
+          alt=""
+        />
         <nav
           class="left__social-network-services-nav social-network-services-nav"
         >
-          <a href="" target="_blank" rel="noreferrer noopener">
+          <a
+            href="https://www.facebook.com/mnewstw"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img
+              v-lazy="require('@/assets/img/flogo.svg')"
               class="social-network-service-img"
-              src="~/assets/img/facebook-logo-white-58.png"
               alt="facebook"
             />
           </a>
-          <a href="" target="_blank" rel="noreferrer noopener">
+          <a
+            href="https://www.instagram.com/mnewstw"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img
+              v-lazy="require('~/assets/img/IG-logo.svg')"
               class="social-network-service-img"
-              src="~/assets/img/IG-logo.svg"
               alt="instagram"
             />
           </a>
@@ -25,8 +37,12 @@
       <div class="top-wrapper__middle middle">
         <div class="info-wrapper">
           <p class="info-wrapper__info">
-            <span>客服專線：</span>
-            <span>(02)7752-5678</span>
+            <span>客服專線: </span>
+            <span>(02)7752-5678 </span>
+          </p>
+          <p class="info-wrapper__info">
+            <span>客服信箱: </span>
+            <a href="mailto:mnews.cs@mnews.tw">mnews.cs@mnews.tw </a>
           </p>
         </div>
       </div>
@@ -57,7 +73,7 @@
       </div>
     </div>
     <div class="footer__bottom-wrapper bottom-wrapper">
-      <div class="icons">
+      <!-- <div class="icons">
         <a
           class="icons__readr"
           href="https://www.readr.tw"
@@ -65,8 +81,8 @@
           rel="noreferer noopener"
         >
           <img
+            v-lazy="require('@/assets/img/READrlogo-01.svg')"
             class="mirror-img"
-            src="~/assets/img/READrlogo-01.svg"
             alt="readr"
           />
         </a>
@@ -77,8 +93,8 @@
           rel="noreferer noopener"
         >
           <img
+            v-lazy="require('@/assets/img/鏡mirrormedia-RGB.svg')"
             class="mirror-img"
-            src="~/assets/img/鏡mirrormedia-RGB.svg"
             alt="mirror-media"
           />
         </a>
@@ -89,8 +105,8 @@
           rel="noreferer noopener"
         >
           <img
+            v-lazy="require('@/assets/img/mirrorfiction.png')"
             class="mirror-img"
-            src="~/assets/img/mirrorfiction.png"
             alt="mirror-fiction"
           />
         </a>
@@ -101,17 +117,17 @@
           rel="noreferer noopener"
         >
           <img
+            v-lazy="require('@/assets/img/mirrorvoice.png')"
             class="mirror-img"
-            src="~/assets/img/mirrorvoice.png"
             alt="mirror-voice"
           />
         </a>
-      </div>
+      </div> -->
       <div class="bottom-wrapper__texts texts">
         <p class="copyright">
           <span>©Mirror TV BROCASTING LTD.</span>
           <span>All Rights Reserved.</span>
-          <span>鏡新聞股份有限公司 版權所有</span>
+          <span>鏡電視股份有限公司 版權所有</span>
         </p>
       </div>
     </div>
@@ -121,6 +137,9 @@
 <script>
 export default {
   name: 'Footer',
+  serverCacheKey() {
+    return 'StaticFooter'
+  },
 }
 </script>
 
@@ -215,53 +234,53 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  &__texts {
-    margin: 30px 0 0 0;
-  }
+  // &__texts {
+  //   margin: 30px 0 0 0;
+  // }
 }
 
-.icons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  @include media-breakpoint-up(xl) {
-    flex-direction: row;
-  }
-  &__readr {
-    padding: 5.5px;
-    @include media-breakpoint-up(xl) {
-      order: 4;
-      margin: 0 0 0 16px;
-    }
-  }
-  &__mirror-media {
-    margin: 4.5px 0 0 0;
-    @include media-breakpoint-up(xl) {
-      order: 1;
-      margin: 0;
-      padding: 2px 0;
-    }
-  }
-  &__mirror-fiction,
-  &__mirror-voice {
-    margin: 7px 0 0 0;
-    padding: 9px 0;
-    @include media-breakpoint-up(xl) {
-      margin: 0 0 0 16px;
-      padding: 5.5px 0;
-    }
-  }
-  &__mirror-fiction {
-    @include media-breakpoint-up(xl) {
-      order: 2;
-    }
-  }
-  &__mirror-voice {
-    @include media-breakpoint-up(xl) {
-      order: 3;
-    }
-  }
-}
+// .icons {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   @include media-breakpoint-up(xl) {
+//     flex-direction: row;
+//   }
+//   &__readr {
+//     padding: 5.5px;
+//     @include media-breakpoint-up(xl) {
+//       order: 4;
+//       margin: 0 0 0 16px;
+//     }
+//   }
+//   &__mirror-media {
+//     margin: 4.5px 0 0 0;
+//     @include media-breakpoint-up(xl) {
+//       order: 1;
+//       margin: 0;
+//       padding: 2px 0;
+//     }
+//   }
+//   &__mirror-fiction,
+//   &__mirror-voice {
+//     margin: 7px 0 0 0;
+//     padding: 9px 0;
+//     @include media-breakpoint-up(xl) {
+//       margin: 0 0 0 16px;
+//       padding: 5.5px 0;
+//     }
+//   }
+//   &__mirror-fiction {
+//     @include media-breakpoint-up(xl) {
+//       order: 2;
+//     }
+//   }
+//   &__mirror-voice {
+//     @include media-breakpoint-up(xl) {
+//       order: 3;
+//     }
+//   }
+// }
 
 .mirror-img {
   &[alt='readr'] {

@@ -5,7 +5,7 @@
     rel="noreferrer noopener"
     class="article-card"
   >
-    <img class="article-card__img" :src="articleImgURL" :alt="articleTitle" />
+    <img v-lazy="articleImgURL" class="article-card__img" :alt="articleTitle" />
     <div class="article-card__info-wrapper">
       <div v-if="hasCategoryOrDate" class="article-card__sub-info">
         <span class="article-card__category" v-text="articleCategory" />

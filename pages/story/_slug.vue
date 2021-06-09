@@ -13,12 +13,14 @@
         </template>
         <template v-else>
           <figure v-if="image.mobile" class="post__hero">
-            <img
-              v-lazy="image.mobile"
-              :alt="imageCaption"
-              :data-srcset="`${image.mobile} 0w, ${image.desktop} 1200vw`"
-              sizes="(max-width: 1199px) 100vw, 500px"
-            />
+            <div class="post__hero_image_wrapper">
+              <img
+                v-lazy="image.mobile"
+                :alt="imageCaption"
+                :data-srcset="`${image.mobile} 0w, ${image.desktop} 1200vw`"
+                sizes="(max-width: 1199px) 100vw, 500px"
+              />
+            </div>
             <figcaption class="figcaption" v-text="imageCaption" />
           </figure>
         </template>
@@ -42,7 +44,18 @@
         </div>
 
         <!-- eslint-disable vue/no-v-html -->
-        <div v-if="brief" class="post__brief" v-html="brief" />
+        <div v-if="showBrief" class="post__brief">
+          <template v-if="isBriefString">
+            {{ brief }}
+          </template>
+          <template v-else>
+            <ArticleContentHandler
+              v-for="paragraph in brief"
+              :key="paragraph.id"
+              :paragraph="paragraph"
+            />
+          </template>
+        </div>
 
         <article class="post__content">
           <template v-if="isContentString">
@@ -73,13 +86,13 @@
       </main>
       <aside class="g-aside aside">
         <ListArticleAside
-          class="aside__list-latest"
-          :listTitle="'最新新聞'"
-          :listData="listArticleAsideLatestData"
+          class="aside__list-popular"
+          :listTitle="'熱門新聞'"
+          :listData="listArticleAsidepopularData"
         />
         <ListArticleAside
           class="aside__list-latest"
-          :listTitle="'熱門新聞'"
+          :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
         />
       </aside>
@@ -107,6 +120,7 @@ import ShareLine from '~/components/ShareLine'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
+import { getImageUrl } from '~/utils/post-image-handler'
 
 const CREDIT_KEYS = [
   'writers',
@@ -154,6 +168,21 @@ export default {
     ListArticleRelated,
     ShareFacebook,
     ShareLine,
+  },
+  data() {
+    return {
+      postPublished: {},
+      allPostsLatest: [],
+      popularData: {},
+    }
+  },
+  async fetch() {
+    try {
+      this.popularData = await this.$fetchGcsData('/popularlist')
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err)
+    }
   },
   head() {
     const title = this.title
@@ -316,10 +345,22 @@ export default {
       try {
         const briefString = this.postPublished?.briefApiData.replace(/'/g, '"')
         const brief = JSON.parse(briefString)
-        return brief?.[0].content?.[0]
+        return brief?.filter((item) => item) || []
       } catch {
-        return ''
+        return []
       }
+    },
+    showBrief() {
+      const validateArray = this.brief?.map((briefContent) => {
+        return (
+          briefContent.content?.length > 1 ||
+          briefContent.content[0]?.length > 0
+        )
+      })
+
+      return validateArray.find((item) => {
+        return item
+      })
     },
     categoryTitle() {
       return this.postPublished?.categories?.[0]?.name
@@ -379,6 +420,9 @@ export default {
     imageCaption() {
       return this.postPublished?.heroCaption
     },
+    isBriefString() {
+      return typeof this.brief === 'string'
+    },
     isContentString() {
       return typeof this.content === 'string'
     },
@@ -388,6 +432,12 @@ export default {
     listArticleAsideLatestData() {
       const listData = this.allPostsLatest ?? []
       return listData.map((post) => this.reducerArticleCard(post))
+    },
+    listArticleAsidepopularData() {
+      const listData = this.popularData?.report ?? []
+      return listData
+        .filter((item, i) => i < 5)
+        .map((report) => this.reducerArticleCard(report))
     },
     otherbyline() {
       return this.postPublished?.otherbyline
@@ -420,6 +470,12 @@ export default {
     writers() {
       return this.postPublished?.writers
     },
+    source() {
+      return this.postPublished?.source
+    },
+  },
+  beforeMount() {
+    this.setGaDimensionOfSource()
   },
   mounted() {
     setIntersectionObserver({
@@ -441,10 +497,14 @@ export default {
     reducerArticleCard(post) {
       return {
         href: `/story/${post.slug}`,
-        articleImgURL: post.heroImage?.urlMobileSized,
+        articleImgURL: getImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }
+    },
+    setGaDimensionOfSource() {
+      const dimensionSource = this.source ?? ''
+      this.$ga.set('dimension2', dimensionSource)
     },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('article')('scroll')(label)
@@ -456,10 +516,19 @@ export default {
 <style lang="scss" scoped>
 .g-page--with-aside {
   padding-top: 50px;
-
+  @include media-breakpoint-up(md) {
+    padding-top: 36px;
+  }
   .main {
-    max-width: 600px;
     margin: 0 auto;
+    @include media-breakpoint-up(md) {
+      max-width: 600px;
+    }
+  }
+  .g-aside {
+    @include media-breakpoint-up(xl) {
+      padding: 24px 32px 53px;
+    }
   }
 }
 
@@ -475,8 +544,18 @@ export default {
     + * {
       margin-top: 30px;
     }
-    img {
+    &_image_wrapper {
       width: 100%;
+      padding-top: 56.25%;
+      position: relative;
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
   }
   &__category-publishTime {
@@ -495,38 +574,40 @@ export default {
     text-align: right;
   }
   &__title {
-    margin: 10px 0 0;
+    margin: 8px 0 0;
     color: #000;
     font-size: 32px;
     font-weight: 500;
     + * {
-      margin-top: 10px;
+      margin-top: 8px;
     }
   }
-  &__credit {
-    p {
-      display: inline-block;
-      + p {
-        margin-left: 10px;
-      }
-    }
-  }
+
   &__social-media-share {
     display: flex;
     align-items: center;
-    margin: 6px 0 0;
     .share + .share {
-      margin-left: 2px;
+      margin-left: 12px;
+    }
+  }
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% + 10px);
+    margin-top: 25px;
+    transform: translateX(-5px);
+    + * {
+      margin-top: 48px;
     }
   }
   &__brief {
     display: inline-block;
     margin: 30px 0 0;
     padding: 24px 10px;
-    color: $color-blue;
+    color: $color-blue !important;
     font-size: 16px;
     font-weight: 500;
-    line-height: 1.63;
+    line-height: 1.63 !important;
     text-align: justify;
     border: 3px solid;
     border-image: linear-gradient(
@@ -537,15 +618,20 @@ export default {
         $color-blue 80%
       )
       5;
+    ::v-deep {
+      > * + * {
+        margin-top: 30px;
+      }
+    }
+    > p {
+      color: $color-blue !important;
+    }
   }
-  &__tags {
-    display: flex;
-    flex-wrap: wrap;
-    width: calc(100% + 10px);
-    margin-top: 25px;
-    transform: translateX(-5px);
-    + * {
-      margin-top: 35px;
+  &__credit {
+    margin-bottom: 12px;
+    p {
+      display: inline-block;
+      margin-right: 12px;
     }
   }
   &__content {
@@ -612,7 +698,10 @@ export default {
     }
   }
 
+  &__list-popular,
   &__list-latest {
+    margin-top: 48px;
+    margin-bottom: 0;
     // tablet range
     @include media-breakpoint-up(md) {
       &:first-child {
@@ -625,6 +714,12 @@ export default {
       &:first-child {
         margin-right: 0;
       }
+    }
+  }
+
+  &__list-popular {
+    @include media-breakpoint-up(xl) {
+      margin-top: 0;
     }
   }
 

@@ -3,7 +3,7 @@
     <div class="swiper-wrapper">
       <div v-for="item in items" :key="item.title" class="swiper-slide">
         <picture>
-          <img :src="item.urlMobileSized" :alt="item.title" />
+          <img :src="item.mobile.url" :alt="item.title" class="swiper-lazy" />
         </picture>
         <p class="caption" v-text="item.title" />
       </div>
@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       swiperOption: {
+        loop: true,
         pagination: {
           el: '.swiper-pagination',
           type: 'fraction',
@@ -92,7 +93,8 @@ export default {
   }
   .swiper-button-nav {
     position: absolute;
-    top: calc((100vw - 40px) * 2 / 3 + 14px - 10px);
+    top: calc((100% - 54px - 8px) / 2);
+    transform: translateY(-50%);
     left: -2px;
     z-index: 20;
     padding: 10px;

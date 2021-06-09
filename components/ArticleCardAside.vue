@@ -43,7 +43,7 @@ export default {
       margin: 0 0 0 10px;
     }
     // desktop wide range
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(xl) {
       margin: 0 0 0 20px;
     }
   }
@@ -52,24 +52,17 @@ export default {
 .article-img-wrapper {
   width: 130px;
   min-width: 130px;
-  height: 87px;
-  min-height: 87px;
-  // tablet range
-  @include media-breakpoint-up(sm) {
+  height: 130px;
+  min-height: 130px;
+  // desktop narrow range
+  @include media-breakpoint-up(md) {
     width: 120px;
     min-width: 120px;
     height: 80px;
     min-height: 80px;
   }
-  // desktop narrow range
-  @include media-breakpoint-up(md) {
-    width: 80px;
-    min-width: 80px;
-    height: 80px;
-    min-height: 80px;
-  }
   // desktop wide range
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(xl) {
     width: 150px;
     min-width: 150px;
     height: 100px;

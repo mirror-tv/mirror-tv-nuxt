@@ -19,7 +19,7 @@
             <YoutubeEmbedByIframeApi
               v-if="!isViewportWidthUpXl"
               :enableAutoplay="true"
-              videoId="coYw-eVU0Ks"
+              :videoId="liveVideoId"
             />
           </ClientOnly>
           <HeadingBordered
@@ -54,6 +54,23 @@
             @click.native="handleClickMore"
           />
         </div>
+        <div
+          v-if="listPopularData.length"
+          class="aside-list main__popular-list"
+        >
+          <HeadingBordered class="home__heading" text="熱門文章" />
+          <ol class="popular-list">
+            <li
+              v-for="item in listPopularData"
+              :key="item.title"
+              class="popular-list__item"
+            >
+              <a :href="item.href" target="_blank" rel="noreferrer noopener">
+                {{ item.title }}
+              </a>
+            </li>
+          </ol>
+        </div>
       </main>
       <aside class="g-aside main__aside aside">
         <div class="aside__live-stream live-stream">
@@ -66,7 +83,7 @@
             <YoutubeEmbedByIframeApi
               v-if="isViewportWidthUpXl"
               :enableAutoplay="true"
-              videoId="coYw-eVU0Ks"
+              :videoId="liveVideoId"
             />
           </ClientOnly>
           <HeadingBordered
@@ -79,6 +96,18 @@
             :key="item"
             :videoId="item"
           />
+        </div>
+
+        <div class="aside-list promotion-list">
+          <HeadingBordered class="home__heading" text="發燒單元" />
+          <div class="promotion-list">
+            <YoutubeEmbed
+              v-for="item in promotionVideos"
+              :key="item"
+              :videoId="item"
+              class="promotion-list__item"
+            />
+          </div>
         </div>
 
         <div class="aside__list-latest-wrapper list-latest-wrapper">
@@ -103,18 +132,25 @@
           />
         </div>
 
-        <div class="aside__show-list show-list">
-          <HeadingBordered class="home__heading" text="發燒單元" />
-          <div class="promotion-list">
-            <YoutubeEmbed
-              v-for="item in promotionVideos"
-              :key="item"
-              :videoId="item"
-            />
-          </div>
+        <div
+          v-if="listPopularData.length"
+          class="aside-list aside__popular-list"
+        >
+          <HeadingBordered class="home__heading" text="熱門文章" />
+          <ol class="popular-list">
+            <li
+              v-for="item in listPopularData"
+              :key="item.title"
+              class="popular-list__item"
+            >
+              <a :href="item.href" target="_blank" rel="noreferrer noopener">
+                {{ item.title }}
+              </a>
+            </li>
+          </ol>
         </div>
 
-        <div class="aside__show-list show-list">
+        <div class="aside-list show-list">
           <HeadingBordered class="home__heading" text="節目" />
           <div class="show-list__wrapper">
             <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
@@ -137,7 +173,7 @@
 import { mapGetters } from 'vuex'
 
 import { getDomain } from '~/utils/meta'
-import { fetchPosts, fetchPostsByCategories } from '~/apollo/queries/posts.gql'
+import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
@@ -156,26 +192,88 @@ import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
+import { fetchLiveVideoId } from '~/apollo/queries/video.gql'
 
+import { getImageUrl } from '~/utils/post-image-handler'
 const PAGE_SIZE = 12
+const globalFilteredSlug = [
+  'privacy',
+  'ad-sales',
+  'press-self-regulation',
+  'webauthorization',
+  'biography',
+  'complaint',
+  'standards',
+  'faq',
+  'aboutus',
+]
 
 export default {
   apollo: {
     editorChoices: {
       query: fetchEditorChoices,
       update(data) {
+        if (data) {
+          const editorChoicesSlug = data.allEditorChoices?.map(
+            (item) => item.choice.slug
+          )
+          this.filteredSlug = editorChoicesSlug.concat(globalFilteredSlug)
+        }
         return data.allEditorChoices
           ?.filter((item) => item.choice)
+          ?.filter((item, i) => i < 5)
           ?.map((item) => this.reducerArticleCard(item.choice))
       },
+      // 放在 result 內，可確保已取得 editor-choice 資料，但無法進行 SSR 渲染
+      // result({ data, loading }) {
+      //   if (!loading) {
+      //     const editorChoicesSlug = data.allEditorChoices?.map(
+      //       (item) => item.choice.slug
+      //     )
+      //     this.filteredSlug = editorChoicesSlug.concat(globalFilteredSlug)
+      //     this.$apollo.addSmartQuery('allPublishedPosts', {
+      //       prefetch: true,
+      //       query: fetchPosts,
+      //       variables() {
+      //         return {
+      //           first: PAGE_SIZE,
+      //           skip: 0,
+      //           withCount: true,
+      //           withCoverPhoto: true,
+      //           filteredSlug: this.filteredSlug,
+      //         }
+      //       },
+      //       update(rawData) {
+      //         this.postsCount = rawData._allPostsMeta?.count
+      //         return rawData.allPosts
+      //       },
+      //       error(error) {
+      //         handleError(this.$nuxt, error.networkError.statusCode)
+      //       },
+      //     })
+      //   }
+      // },
     },
+    // flashNews: {
+    //   query: fetchPostsByCategories,
+    //   variables: {
+    //     first: 8,
+    //     categories: ['person', 'international'],
+    //   },
+    //   update(data) {
+    //     return data.allPosts
+    //   },
+    // },
     allPublishedPosts: {
       query: fetchPosts,
-      variables: {
-        first: PAGE_SIZE,
-        skip: 0,
-        withCount: true,
-        withCoverPhoto: true,
+      variables() {
+        return {
+          first: PAGE_SIZE,
+          skip: 0,
+          withCount: true,
+          withCoverPhoto: true,
+          filteredSlug: this.filteredSlug,
+        }
       },
       update(data) {
         this.postsCount = data._allPostsMeta?.count
@@ -183,16 +281,6 @@ export default {
       },
       error(error) {
         handleError(this.$nuxt, error.networkError.statusCode)
-      },
-    },
-    flashNews: {
-      query: fetchPostsByCategories,
-      variables: {
-        first: 8,
-        categories: ['person', 'international'], // 暫時
-      },
-      update(data) {
-        return data.allPosts
       },
     },
     promotionVideos: {
@@ -207,6 +295,12 @@ export default {
       query: fetchAllShows,
       update(data) {
         return data.allShows
+      },
+    },
+    liveVideo: {
+      query: fetchLiveVideoId,
+      update(data) {
+        return data.allVideos[0]
       },
     },
   },
@@ -227,16 +321,21 @@ export default {
     return {
       allPublishedPosts: [],
       editorChoices: [],
-      flashNews: [],
+      // flashNews: [],
       page: 0,
       playlistItems: [],
       postsCount: 0,
       allShows: [],
       promotionVideos: [],
+      popularData: {},
+      liveVideo: {},
+      testNum: 0,
+      filteredSlug: [],
     }
   },
   async fetch() {
     try {
+      this.popularData = await this.$fetchGcsData('/popularlist')
       const reponse = await this.$fetchYoutubeData(
         '/playlistItems?part=snippet&playlistId=PLT6yxVwBEbi2dWegLu37V63_tP-nI6em_&maxResults=3'
       )
@@ -245,7 +344,7 @@ export default {
     } catch (error) {
       if (process.server) {
         // eslint-disable-next-line no-console
-        console.error('[ERROR]Youtube API:', error.message)
+        console.error(error.message)
       }
     }
   },
@@ -264,20 +363,38 @@ export default {
     ...mapGetters({
       isViewportWidthUpXl: 'viewport/isViewportWidthUpXl',
     }),
-    editorChoicesSlug() {
-      return this.editorChoices.map((item) => item.slug)
-    },
+    // editorChoicesSlug() {
+    //   return this.editorChoices.map((item) => item.slug)
+    // },
     showEditorChoices() {
       return this.editorChoices?.length > 0
     },
     latestPosts() {
       const listData = this.allPublishedPosts ?? []
-      return listData
-        .filter((post) => !this.editorChoicesSlug.includes(post.slug))
-        .map((post) => this.reducerArticleCard(post))
+      return listData.map((post) => this.reducerArticleCard(post))
+      // .filter((post) => !this.editorChoicesSlug.includes(post.slug))
+      // .map((post) => this.reducerArticleCard(post))
     },
     showLoadMoreButton() {
       return this.allPublishedPosts?.length < this.postsCount
+    },
+    listPopularData() {
+      const listData = this.popularData?.report ?? []
+      return listData
+        .filter((report, i) => i < 10)
+        .map((report) => this.reducerPopularList(report))
+    },
+    liveVideoId() {
+      return this.liveVideo?.youtubeUrl?.split('watch?v=')[1] ?? ''
+    },
+    flashNews() {
+      const editorData = this.editorChoices.map((post) =>
+        this.reducerEditorData(post)
+      )
+      const posts = this.allPublishedPosts
+        .filter((post, i) => i < 8)
+        .map((post) => this.reducerFlashNews(post))
+      return editorData.concat(posts)
     },
   },
   mounted() {
@@ -294,23 +411,34 @@ export default {
     })
   },
   methods: {
-    getImageUrl(post) {
-      if (post.style === 'videoNews') {
-        const coverPhoto = post.heroVideo?.coverPhoto
-        return coverPhoto?.urlMobileSized || coverPhoto?.urlOriginal
-      }
-      return post.heroImage?.urlMobileSized
-    },
     reducerArticleCard(post) {
       return {
         id: post.id,
         slug: post.slug,
         href: `/story/${post.slug}`,
         labelTitle: post.categories?.[0]?.name ?? ' ',
-        articleImgURL: this.getImageUrl(post),
+        articleImgURL: getImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
         articleStyle: post.style,
+      }
+    },
+    reducerPopularList(report) {
+      return {
+        href: `/story/${report.slug}`,
+        title: report.name,
+      }
+    },
+    reducerEditorData(post) {
+      return {
+        slug: post.slug,
+        name: post.articleTitle,
+      }
+    },
+    reducerFlashNews(post) {
+      return {
+        slug: post.slug,
+        name: post.name,
       }
     },
     sendGaClickEvent(label) {
@@ -324,6 +452,7 @@ export default {
           skip: PAGE_SIZE * this.page,
           withCount: false,
           withCoverPhoto: true,
+          filteredSlug: this.filteredSlug,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newPosts = fetchMoreResult.allPosts
@@ -362,19 +491,19 @@ export default {
   }
   &__live-stream {
     margin: 48px 0 0;
+    @include media-breakpoint-up(md) {
+      margin: 32px 0 0;
+    }
     // desktop range
     @include media-breakpoint-up(xl) {
       display: none;
     }
   }
-  &__aside,
-  &__list-latest-wrapper {
-    margin-top: 48px;
-  }
   &__list-latest-wrapper {
     display: none;
     // desktop range
     @include media-breakpoint-up(xl) {
+      margin-top: 48px;
       display: block;
     }
   }
@@ -386,6 +515,9 @@ export default {
     }
     > * + .heading-bordered-wrapper {
       margin-top: 40px;
+      @include media-breakpoint-up(md) {
+        margin-top: 48px;
+      }
     }
   }
   .editor-choices-wrapper {
@@ -460,6 +592,13 @@ export default {
     }
   }
 }
+.g-aside {
+  > * {
+    + * {
+      margin-top: 0;
+    }
+  }
+}
 
 .aside {
   &__live-stream {
@@ -472,6 +611,10 @@ export default {
 
   &__list-latest-wrapper {
     display: block;
+    margin-top: 40px;
+    @include media-breakpoint-up(md) {
+      margin-top: 48px;
+    }
     // desktop range
     @include media-breakpoint-up(xl) {
       display: none;
@@ -482,24 +625,45 @@ export default {
 .live-stream {
   * + .home__heading {
     margin: 40px 0 0;
+    @include media-breakpoint-up(md) {
+      margin-top: 48px;
+    }
   }
   .iframe-wrapper + .iframe-wrapper {
     margin-top: 16px;
   }
 }
 
-.show-list {
-  .home__heading {
-    min-width: 110px;
-    // desktop range
+.aside-list {
+  &.main__popular-list {
+    display: none;
     @include media-breakpoint-up(xl) {
-      margin: 30px 0 0;
+      display: block;
+      .home__heading {
+        margin-top: 60px;
+      }
+    }
+  }
+  &.aside__popular-list {
+    display: block;
+    @include media-breakpoint-up(xl) {
+      display: none;
+    }
+  }
+  .home__heading {
+    margin: 40px 0 0;
+    min-width: 110px;
+    @include media-breakpoint-up(md) {
+      margin-top: 48px;
     }
   }
   .promotion-list {
     margin-top: 12px;
+    &__item {
+      margin-bottom: 12px;
+    }
   }
-  &__wrapper {
+  .show-list__wrapper {
     padding-bottom: 12px;
 
     // tablet range
@@ -508,6 +672,34 @@ export default {
       flex-wrap: wrap;
       justify-content: space-between;
       padding-bottom: 4px;
+    }
+  }
+  .popular-list {
+    &__item {
+      position: relative;
+      padding: 16px 0 16px 28px;
+      border-bottom: 1px solid #f4f5f7;
+      ::before {
+        content: '';
+        position: absolute;
+        top: 24px;
+        left: 8px;
+        border: 4px solid #f4f5f6;
+        border-radius: 50%;
+      }
+      @include media-breakpoint-up(md) {
+        padding: 12px 0 12px 28px;
+        ::before {
+          top: 20px;
+        }
+      }
+      a {
+        font-size: 16px;
+        line-height: 22px;
+        &:hover {
+          border-bottom: 1px solid #000;
+        }
+      }
     }
   }
 }
@@ -554,7 +746,7 @@ export default {
     margin: 0;
     li {
       width: calc((100% - 90px) / 3);
-      margin: 20px 15px 0;
+      margin: 16px 15px 0;
     }
     &::v-deep {
       .article-card {
@@ -580,7 +772,7 @@ export default {
     transform: translateX(-12px);
     li {
       width: calc((100% - 72px) / 3);
-      margin: 20px 12px 0;
+      margin: 16px 12px 0;
     }
   }
 }

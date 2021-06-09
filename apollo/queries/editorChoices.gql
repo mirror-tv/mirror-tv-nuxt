@@ -7,7 +7,7 @@ query fetchEditorChoices {
       }
     },
     sortBy: [sortOrder_ASC,  createdAt_DESC]
-    first: 5
+    first: 8
   ) {
     choice {
       id

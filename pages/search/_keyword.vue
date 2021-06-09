@@ -28,7 +28,7 @@
       </div>
 
       <ButtonLoadmore
-        v-show="showLoadMoreButton"
+        v-show="enableLoadMore"
         class="g-button-load-more"
         @click.native="handleClickMore"
       />
@@ -39,12 +39,12 @@
 <script>
 import axios from 'axios'
 import { SITE_NAME } from '~/constants'
-
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import SearchNoResult from '~/components/SearchNoResult.vue'
+import { getImageUrl } from '~/utils/post-image-handler'
 
 export default {
   components: {
@@ -100,7 +100,7 @@ export default {
     keywordDecoded() {
       return decodeURI(this.$route.params.keyword)
     },
-    showLoadMoreButton() {
+    enableLoadMore() {
       return (
         this.listDataMaxResults * this.listDataCurrentPage < this.listDataTotal
       )
@@ -118,7 +118,7 @@ export default {
       return {
         id: source.id,
         href: `/story/${source.slug}`,
-        articleImgURL: source.heroImage?.urlMobileSized,
+        articleImgURL: getImageUrl(source),
         articleTitle: source.name,
         articleDescription: this.stripHtmlTag(source.brief),
         articleDate: new Date(source.publishTime),
@@ -151,36 +151,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.g {
-  &-page {
-    @include media-breakpoint-up(sm) {
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-    &__wrapper {
-      @include media-breakpoint-up(md) {
-        max-width: 688px;
-        display: block;
-      }
-      @include media-breakpoint-up(xl) {
-        max-width: 1120px;
-      }
-      @include media-breakpoint-up(xxl) {
-        max-width: 1200px;
-      }
-    }
+.g-page__wrapper {
+  @include media-breakpoint-up(md) {
+    display: block;
   }
 }
 .search-result {
   &__name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
-    line-height: 28px;
-    letter-spacing: 0.5px;
-    color: $color-blue-deep;
-    margin: 24px 0;
+    line-height: 25px;
+    color: $color-blue;
+    margin: 0 0 20px;
     @include media-breakpoint-up(md) {
-      margin: 0 0 24px;
+      font-size: 20px;
+      line-height: 32px;
+      letter-spacing: 0.5px;
     }
   }
   &__list {
@@ -192,6 +178,10 @@ export default {
       &::after {
         content: '';
         width: calc((100% - 40px) / 3);
+      }
+      .position-correct {
+        width: calc((100% - 40px) / 3);
+        overflow: hidden;
       }
     }
     @include media-breakpoint-up(xl) {
@@ -215,11 +205,13 @@ export default {
       }
     }
     &__item {
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       @include media-breakpoint-up(md) {
+        margin-bottom: 48px;
         width: calc((100% - 40px) / 3);
       }
       @include media-breakpoint-up(xl) {
+        margin-bottom: 40px;
         width: calc((100% - 96px) / 4);
       }
       @include media-breakpoint-up(xxl) {

@@ -9,12 +9,15 @@ module.exports = function (req, res, next) {
     return next()
   }
 
-  if (url.match(/^\/(story|tag)\//gs)) {
-    res.set('cache-control', 'public, max-age=900')
-  } else if (url.match(/^\/(category|search)\//gs)) {
+  if (url.match(/^\/(category)\//gs)) {
+    res.set('cache-control', 'public, max-age=300')
+  } else if (url.match(/^\/(story|show|ombuds|search|tag)\//gs)) {
     res.set('cache-control', 'public, max-age=600')
+  } else if (url.match(/^\/(anchor|anchorperson)\//gs)) {
+    res.set('cache-control', 'public, max-age=1800')
   } else if (url.match(/^\/$/gs)) {
-    res.set('cache-control', 'public, max-age=180')
+    // home
+    res.set('cache-control', 'public, max-age=300')
   }
 
   return next()

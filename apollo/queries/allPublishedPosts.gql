@@ -13,6 +13,7 @@ query allPublishedPosts($first: Int = 12, $skip: Int = 0) {
         "complaint",
         "standards",
         "faq",
+        "aboutus",
       ]
       state: published
     },

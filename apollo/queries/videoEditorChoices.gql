@@ -17,6 +17,7 @@ query fetchVideoEditorChoices {
         urlMobileSized
       }
       heroVideo {
+        url
         coverPhoto {
           urlOriginal
           urlDesktopSized

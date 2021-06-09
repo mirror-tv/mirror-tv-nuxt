@@ -92,10 +92,10 @@ module.exports = {
               hid: 'comScore',
               innerHTML: `
                 var _comscore = _comscore || [];
-                _comscore.push({ c1: "2", c2: "24318560" });
+                _comscore.push({ c1: "2", c2: "35880649" });
                 (function() {
-                  var s = document.createElement("script"), el = document.getElementsByTagName("script")[0];
-                  s.async = true; s.src = "https://sb.scorecardresearch.com/cs/24318560/beacon.js";
+                  var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;
+                  s.src = "https://sb.scorecardresearch.com/cs/35880649/beacon.js";
                   el.parentNode.insertBefore(s, el);
                 })();
               `,
@@ -112,7 +112,7 @@ module.exports = {
       {
         hid: 'comScoreNoScript',
         innerHTML:
-          '<img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=24318560&amp;cv=3.6.0&amp;cj=1" />',
+          '<img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=35880649&amp;cv=3.6.0&amp;cj=1">',
       },
     ],
   },
@@ -140,6 +140,7 @@ module.exports = {
     '~/server-middleware/redis/index.js',
     { path: '/api/youtube', handler: '~/api/youtube.js' },
     { path: '/api/tracking', handler: '~/api/tracking.js' },
+    { path: '/api/gcs', handler: '~/api/gcs.js' },
   ],
   /*
    ** Nuxt.js dev-modules
@@ -159,7 +160,7 @@ module.exports = {
   modules: [
     '@nuxtjs/apollo',
     '@nuxtjs/axios',
-    ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 * 24 }],
+    ['@nuxtjs/component-cache', { max: 10000, maxAge: 1000 * 60 * 60 * 24 }],
   ],
   axios: {
     proxy: true,

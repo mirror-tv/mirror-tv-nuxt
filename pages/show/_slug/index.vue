@@ -19,16 +19,16 @@
             >
               <img
                 v-if="host.image"
-                :src="host.image.urlMobileSized"
+                v-lazy="host.image.urlMobileSized"
                 :alt="host.name"
               />
               <img
                 v-else
-                src="~assets/img/image-default.png"
+                v-lazy="require('~/assets/img/image-default.png')"
                 alt="default image"
               />
               <div class="host__wrapper-content">
-                <h3>主持人 ｜ {{ host.name }}</h3>
+                <h3>主持人｜{{ host.name }}</h3>
                 <p v-if="host.bio">{{ host.bio }}</p>
               </div>
             </a>
@@ -41,7 +41,7 @@
     </div>
     <div class="g-page__wrapper">
       <template v-if="isMobile">
-        <div class="show__button__wrapper">
+        <div v-if="validPlaylists.length > 1" class="show__button__wrapper">
           <button :class="{ active: isActive }" @click="isActive = true">
             <span>{{ firstName }}</span>
           </button>
@@ -55,6 +55,7 @@
           class="show__collect"
         >
           <template v-if="(i === 0 && isActive) || (i === 1 && !isActive)">
+            <h3 v-if="validPlaylists.length <= 1" v-text="list.sectionName" />
             <ol>
               <li v-for="item in list.items" :key="item.id">
                 <YoutubeEmbedByIframeApi
@@ -127,7 +128,7 @@ export default {
           if (process.browser) {
             this.isMobile = window.innerWidth < 768
           }
-          if (this.playlists.length < youtubeUrls.length) {
+          if (!this.playlists.length) {
             youtubeUrls.forEach((item, i) => {
               if (item) {
                 const [
@@ -277,33 +278,16 @@ export default {
 
 <style lang="scss" scoped>
 .show {
-  &.g-page {
-    @include media-breakpoint-up(sm) {
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-  }
   &.g-page--with-aside {
     .g-page__wrapper {
-      max-width: 688px;
       @include media-breakpoint-up(md) {
-        display: flex;
         flex-wrap: wrap;
-      }
-      @include media-breakpoint-up(xl) {
-        max-width: 1120px;
-      }
-      @include media-breakpoint-up(xxl) {
-        max-width: 1200px;
       }
       .main {
         margin: 24px auto 0;
         @include media-breakpoint-up(md) {
           width: 308px;
-          margin: 28px 0 0;
-        }
-        @include media-breakpoint-up(lg) {
-          width: 308px;
+          margin: 24px 0 0;
         }
         @include media-breakpoint-up(xl) {
           width: 600px;
@@ -315,7 +299,7 @@ export default {
         @include media-breakpoint-up(md) {
           width: 320px;
           padding: 0;
-          margin: 28px 0 0 auto;
+          margin: 24px 0 0 auto;
         }
         @include media-breakpoint-up(xxl) {
           width: 320px;
@@ -328,9 +312,8 @@ export default {
     color: $color-blue;
     font-size: 20px;
     font-weight: 500;
-    line-height: 23px;
-    letter-spacing: 0.5px;
-    margin: 24px 0;
+    line-height: 28px;
+    margin-bottom: 16px;
     @include media-breakpoint-up(md) {
       width: 100%;
       font-size: 30px;
@@ -341,7 +324,7 @@ export default {
     position: relative;
     display: block;
     width: calc(100% + 32px);
-    margin: 18px auto 0;
+    margin: 0 auto;
     padding-top: 37.5%;
     transform: translateX(-16px);
     @include media-breakpoint-up(md) {
@@ -365,10 +348,18 @@ export default {
     }
   }
   &__introduction {
-    text-align: justify;
+    font-size: 16px;
+    line-height: 32px;
+    margin-bottom: 24px;
+    @include media-breakpoint-up(md) {
+      margin-bottom: 48px;
+    }
   }
   &__collect {
     margin-top: 12px;
+    @include media-breakpoint-up(md) {
+      margin-top: 24px;
+    }
     &__loadmore {
       display: flex;
       justify-content: center;
@@ -458,9 +449,6 @@ export default {
 }
 
 .host {
-  &__container {
-    margin-top: 24px;
-  }
   &__wrapper {
     display: flex;
     position: relative;
@@ -498,7 +486,7 @@ export default {
       margin-left: 10px;
       h3 {
         font-size: 20px;
-        line-height: 20px;
+        line-height: 22px;
         margin-bottom: 8px;
         @include media-breakpoint-up(md) {
           margin-bottom: 12px;
@@ -515,6 +503,11 @@ export default {
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
+    }
+    &:hover h3 {
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
   }
 }

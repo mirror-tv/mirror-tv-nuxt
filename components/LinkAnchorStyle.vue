@@ -2,15 +2,18 @@
   <a :href="href" class="link" target="_blank" rel="noopener noreferrer">
     <div class="link__left-block">
       <slot name="left-block">
-        <img src="~/assets/img/anchor-youtube-logo.svg" alt="鏡主播" />
+        <img
+          v-lazy="require('~/assets/img/anchor-youtube-logo.svg')"
+          alt="鏡主播"
+        />
         <span>鏡主播</span>
       </slot>
     </div>
     <div class="link__right-block">
       <slot name="right-block">
         <img
+          v-lazy="require('~/assets/img/anchor-microphone.svg')"
           class="subscription-icon"
-          src="~/assets/img/anchor-microphone.svg"
           alt="追蹤"
         />
         <span>追蹤</span>

@@ -9,8 +9,8 @@
       />
       <img
         v-else
+        v-lazy="require('~/assets/img/image-default.png')"
         class="anchor__content__img"
-        src="~assets/img/image-default.png"
         alt="default image"
       />
       <section class="anchor__block">
@@ -24,19 +24,21 @@
               :href="anchorFacebook"
               target="_blank"
               rel="noreferrer noopener"
+              class="anchor__info-link--facebook"
               @click="sendGaClickEvent('主播 fb')"
             >
-              <img src="~/assets/img/facebook-anchor-link.svg" alt="Facebook" />
+              <img v-lazy="require('@/assets/img/flogo.svg')" alt="Facebook" />
             </a>
             <a
               v-if="anchorInstatgram"
               :href="anchorInstatgram"
               target="_blank"
               rel="noreferrer noopener"
+              class="anchor__info-link--instagram"
               @click="sendGaClickEvent('主播 instagram')"
             >
               <img
-                src="~/assets/img/instagram-anchor-link.svg"
+                v-lazy="require('~/assets/img/IG-logo.svg')"
                 alt="Instagram"
               />
             </a>
@@ -45,21 +47,18 @@
               :href="anchorTwitter"
               target="_blank"
               rel="noreferrer noopener"
+              class="anchor__info-link--twitter"
               @click="sendGaClickEvent('主播 twitter')"
             >
               <img src="~/assets/img/twitter-anchor-link.svg" alt="Twitter" />
             </a>
           </div>
         </div>
-        <div v-if="isDesktop" class="anchor__info--intro-desktop">
+        <div class="anchor__intro">
           <!-- eslint-disable vue/no-v-html -->
           <p v-html="anchorBio" />
         </div>
       </section>
-      <div v-if="!isDesktop" class="anchor__intro">
-        <!-- eslint-disable vue/no-v-html -->
-        <p v-html="anchorBio" />
-      </div>
     </div>
   </section>
 </template>
@@ -87,7 +86,7 @@ export default {
   },
   data() {
     return {
-      isDesktop: false,
+      anchor: {},
     }
   },
   head() {
@@ -148,9 +147,6 @@ export default {
       return handleLineBreak(this.anchor.bio)
     },
   },
-  mounted() {
-    this.isDesktop = process.browser && window.innerWidth >= 1200
-  },
   methods: {
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('anchorprofile')('click')(label)
@@ -160,18 +156,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.g-page {
-  padding: 70px 16px 58px;
-  @include media-breakpoint-up(sm) {
-    padding: 20px 16px;
-  }
-  @include media-breakpoint-up(md) {
-    padding: 36px 0;
-  }
-  @include media-breakpoint-up(xl) {
-    padding: 35px 0 0;
-  }
-}
 .anchor {
   width: 100%;
   display: flex;
@@ -180,97 +164,86 @@ export default {
   &__content {
     @include media-breakpoint-up(md) {
       display: flex;
-      flex-wrap: wrap;
-      height: 100%;
-      width: 656px;
+      width: 688px;
     }
     @include media-breakpoint-up(xl) {
       width: 1120px;
+    }
+    @include media-breakpoint-up(xxl) {
+      width: 1200px;
     }
     &__img {
       width: 100%;
       height: calc(100vw - 48px);
       background: lightgray;
       object-fit: cover;
-      margin-bottom: 12px;
+      object-position: center;
+      margin-bottom: 16px;
       @include media-breakpoint-up(md) {
-        width: 347px;
-        height: 347px;
+        width: 288px;
+        height: 288px;
         margin-bottom: 0;
       }
-      @include media-breakpoint-up(lg) {
-        margin-bottom: 36px;
+      @include media-breakpoint-up(xl) {
+        width: 480px;
+        height: 480px;
       }
     }
   }
   &__block {
-    margin-bottom: 33px;
     @include media-breakpoint-up(md) {
-      margin: 0 0 38px 42px;
-      width: calc(100% - 347px - 42px);
+      margin: 0 0 0 40px;
+      width: calc(100% - 288px - 40px);
     }
     @include media-breakpoint-up(xl) {
-      margin: 0 0 38px 64px;
-      width: calc(100% - 347px - 64px);
+      margin: 0 0 0 48px;
+      width: calc(100% - 480px - 48px);
     }
   }
   &__info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    margin-bottom: 24px;
     @include media-breakpoint-up(md) {
-      height: 347px;
-      align-items: flex-start;
-    }
-    @include media-breakpoint-up(xl) {
-      height: auto;
+      display: flex;
+      align-items: center;
     }
     &-name {
-      text-align: left;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      text-align: center;
+      margin-bottom: 16px;
+      @include media-breakpoint-up(md) {
+        text-align: left;
+        margin-bottom: 0;
+      }
       h2 {
-        font-size: 30px;
-        line-height: 42px;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 28px;
         color: #f4f5f6;
+        @include media-breakpoint-up(md) {
+          font-size: 30px;
+          line-height: 42px;
+        }
       }
     }
     &-link {
       display: flex;
-      align-items: flex-start;
-      height: 100%;
+      justify-content: center;
       @include media-breakpoint-up(md) {
-        align-items: flex-end;
-      }
-      @include media-breakpoint-up(xl) {
-        align-items: start;
+        justify-content: start;
+        margin-left: 12px;
       }
       a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: transparent;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-        margin-left: 10px;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        margin: 0 6px;
+        @include media-breakpoint-up(md) {
+          margin: 0 0 0 12px;
+        }
         img {
           display: block;
-          width: 40px;
-          height: 40px;
-          background: transparent;
+          width: 100%;
+          height: 100%;
         }
-      }
-    }
-    &--intro-desktop {
-      width: 100%;
-      margin-top: 9px;
-      p {
-        font-size: 16px;
-        line-height: 32px;
-        font-weight: 500;
-        color: #fff;
       }
     }
   }
@@ -278,9 +251,10 @@ export default {
     width: 100%;
     p {
       font-size: 16px;
-      line-height: 32px;
-      font-weight: 500;
       color: #fff;
+      @include media-breakpoint-up(md) {
+        line-height: 1.8;
+      }
     }
   }
 }

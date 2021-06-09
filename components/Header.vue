@@ -1,10 +1,11 @@
 <template>
   <header class="header">
     <div class="header__top-wrapper top-wrapper">
-      <nuxt-link
+      <a
+        href="/"
+        rel="noreferrer noopener"
         class="logo"
-        to="/"
-        @click.native="sendGaClickEvent('mnews logo')"
+        @click="sendGaClickEvent('mnews logo')"
       >
         <picture>
           <source
@@ -13,7 +14,7 @@
           />
           <img src="~/assets/img/Mnews_Logo_mobile-white.svg" alt="logo" />
         </picture>
-      </nuxt-link>
+      </a>
       <section class="top-wrapper__right">
         <HeaderSearchForm
           class="top-wrapper__search-form"
@@ -47,9 +48,13 @@
           </button>
         </div>
         <div class="top-wrapper__adsales">
-          <nuxt-link class="top-wrapper__adsales-button" to="/adsales">
+          <a
+            href="/adsales"
+            rel="noreferrer noopener"
+            class="top-wrapper__adsales-button"
+          >
             整合行銷
-          </nuxt-link>
+          </a>
         </div>
       </section>
     </div>
@@ -83,40 +88,44 @@
       <div class="scroll-hide">
         <nav class="bottom-wrapper__category navs">
           <div
-            v-for="category in allCategories"
+            v-for="category in categories"
             :key="`category-nav-${category.slug}`"
             class="navs__category-nav navs__xl-seperator-fix category-nav"
           >
-            <nuxt-link
+            <a
               v-if="category.slug === 'home'"
+              href="/"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              to="/"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="category.name"
             />
-            <nuxt-link
+            <a
               v-else
+              :href="`/category/${category.slug}`"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="`/category/${category.slug}`"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="category.name"
             />
           </div>
           <div
             class="navs__category-nav category-nav category-nav-other category-nav-other-ombuds"
           >
-            <nuxt-link
+            <a
+              href="/ombuds"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="`/ombuds`"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="'公評人專區'"
             />
           </div>
-          <div class="navs__category-nav category-nav other-nav">
-            <nuxt-link
+          <div class="navs__category-nav category-nav category-nav-other">
+            <a
+              href="/story/aboutus"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="`/story/about`"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="'關於我們'"
             />
           </div>
@@ -127,10 +136,11 @@
             :key="`show-nav-${show.slug}`"
             class="navs__category-nav show-nav"
           >
-            <nuxt-link
+            <a
+              :href="`/show/${show.slug}`"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="`/show/${show.slug}`"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="show.name"
             />
           </div>
@@ -141,10 +151,11 @@
             :key="`extension-nav-${extension.name}`"
             class="navs__category-nav extension-nav"
           >
-            <nuxt-link
+            <a
+              :href="extension.path"
+              rel="noreferrer noopener"
               class="category-nav__link"
-              :to="extension.path"
-              @click.native="closeHamburgerButton"
+              @click="closeHamburgerButton"
               v-text="extension.name"
             />
           </div>
@@ -155,24 +166,14 @@
 </template>
 
 <script>
-import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
-import { fetchAllShows } from '~/apollo/queries/show.gql'
+import { mapGetters } from 'vuex'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleError } from '~/utils/error-handler'
 import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
 
 export default {
   name: 'Header',
-  apollo: {
-    allCategories: {
-      query: fetchFeaturedCategories,
-      error(error) {
-        handleError(this.$nuxt, error.networkError.statusCode)
-      },
-    },
-    allShows: {
-      query: fetchAllShows,
-    },
+  serverCacheKey() {
+    return 'StaticHeader'
   },
   components: {
     HeaderSearchForm,
@@ -184,15 +185,16 @@ export default {
       searchKeyword: this.$route.params.keyword,
       extensions: [
         { name: '公評人專區', path: '/ombuds' },
-        { name: '關於我們', path: '/story/about' },
+        { name: '關於我們', path: '/story/aboutus' },
         { name: '整合行銷', path: '/adsales' },
       ],
     }
   },
   computed: {
-    categories() {
-      return this.$store.state.categories
-    },
+    ...mapGetters({
+      categories: 'category/displayedCategories',
+      allShows: 'category/displayedShows',
+    }),
     isCurrentPageOnSearch() {
       return this.$route.name === 'search-keyword'
     },
@@ -203,6 +205,9 @@ export default {
       if (!isSearchPage) {
         this.searchKeyword = ''
       }
+    },
+    showCategories() {
+      this.$emit('click-hamburger-button', this.showCategories)
     },
   },
   methods: {
@@ -274,13 +279,17 @@ export default {
     display: none;
     margin-left: 14px;
     &-button {
-      background-color: $color-grey-deep;
-      border-radius: 7px;
-      font-weight: 600;
-      font-size: 12px;
-      line-height: 17px;
-      padding: 6px 9px;
-      color: #fff;
+      font-size: 13px;
+      line-height: 18px;
+      padding: 5px 8px;
+      color: #4a4a4a;
+      border: 1px solid #d8d8d8;
+      &:hover {
+        background-color: rgba(155, 155, 155, 0.05);
+      }
+      &:active {
+        background-color: rgba(155, 155, 155, 0.15);
+      }
     }
     @include media-breakpoint-up(md) {
       display: block;
@@ -363,8 +372,6 @@ export default {
 }
 
 .search-form-wrapper-mobile {
-  background-color: $color-grey;
-  padding: 20px;
   display: none;
   &--visible {
     display: initial;
@@ -373,6 +380,7 @@ export default {
     }
   }
   &__search-form {
+    border: solid 20px $color-grey;
     position: relative;
     z-index: 2;
   }
@@ -390,7 +398,11 @@ export default {
 
 .bottom-wrapper {
   background: $color-blue-deep;
+  max-height: calc(100vh - 50px);
+  overflow-y: auto;
   @include media-breakpoint-up(md) {
+    max-height: auto;
+    overflow-y: hidden;
     background: linear-gradient(
       to bottom,
       $color-blue-deep 49%,
@@ -425,7 +437,7 @@ export default {
 .scroll-hide {
   @include media-breakpoint-up(md) {
     overflow-x: auto;
-    height: 86px;
+    height: 96px;
   }
 }
 
@@ -454,6 +466,9 @@ export default {
   }
   &-extension {
     padding-top: 20px;
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
   }
   &__category-nav {
     display: flex;
@@ -571,6 +586,9 @@ export default {
     @include media-breakpoint-up(sm) {
       font-size: 16px;
       line-height: 28px;
+    }
+    @include media-breakpoint-up(md) {
+      display: none;
     }
   }
 

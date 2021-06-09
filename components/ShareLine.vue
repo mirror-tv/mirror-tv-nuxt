@@ -6,7 +6,7 @@
     rel="noopener noreferrer"
   >
     <span>
-      <img src="~/assets/img/LINE_logo.png" alt="分享至 Line" loading="lazy" />
+      <img src="~/assets/img/line-icon.svg" alt="分享至 Line" loading="lazy" />
     </span>
   </a>
 </template>
@@ -40,20 +40,42 @@ export default {
   display: inline-block;
   width: 40px;
   height: 40px;
-  padding: 4px;
   span {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: #c1c2c2;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    border: 1px solid #d8d8d8;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: 50%;
+      background-color: transparent;
+    }
+    &:hover {
+      &::after {
+        background-color: #9b9b9b;
+        opacity: 0.05;
+      }
+    }
+    &:active {
+      &::after {
+        background-color: #9b9b9b;
+        opacity: 0.15;
+      }
+    }
   }
   img {
     display: block;
-    width: 24px;
+    width: 60%;
+    height: 60%;
   }
 }
 </style>

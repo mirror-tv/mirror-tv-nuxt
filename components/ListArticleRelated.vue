@@ -1,5 +1,6 @@
 <template>
   <div v-if="hasItems" class="list-wrapper">
+    <HeadingBordered text="相關新聞" />
     <ul class="list-wrapper__list list">
       <li
         v-for="item in listData"
@@ -18,10 +19,12 @@
 
 <script>
 import ArticleCardOnlyTitle from './ArticleCardOnlyTitle.vue'
+import HeadingBordered from '~/components/HeadingBordered'
 
 export default {
   components: {
     ArticleCardOnlyTitle,
+    HeadingBordered,
   },
   props: {
     listData: {
@@ -40,7 +43,7 @@ export default {
 <style lang="scss" scoped>
 .list-wrapper {
   &__list {
-    margin-top: 12px;
+    margin-top: 24px;
   }
 }
 

@@ -32,12 +32,48 @@ export default {
   render(h, { props }) {
     const content = props.paragraph.content?.[0]
     const type = props.paragraph?.type
+    console.log(props.paragraph)
     switch (type) {
       case 'header-one':
       case 'header-two': {
         const tag = type === 'header-one' ? 'h1' : 'h2'
         return <tag class="g-article-heading" domPropsInnerHTML={content} />
       }
+
+      case 'ordered-list-item':
+        if (typeof content === 'string') {
+          return (
+            <ol>
+              <li>{content}</li>
+            </ol>
+          )
+        } else {
+          return (
+            <ol class="g-article-ordered-list">
+              {content.map((item) => {
+                return <li>{item}</li>
+              })}
+            </ol>
+          )
+        }
+
+      case 'unordered-list-item':
+        if (typeof content === 'string') {
+          return (
+            <ul>
+              <li>{content}</li>
+            </ul>
+          )
+        } else {
+          return (
+            <ul class="g-article-ordered-list">
+              {content.map((item) => {
+                return <li>{item}</li>
+              })}
+            </ul>
+          )
+        }
+
       case 'annotation':
         return (
           <div class="g-article-annotation">
@@ -107,7 +143,7 @@ export default {
   }
   &-embedded-code {
     iframe {
-      max-width: 100%;
+      width: 100%;
     }
   }
   &-paragraph,
@@ -116,6 +152,29 @@ export default {
     a {
       color: $color-blue;
       font-weight: 500;
+    }
+  }
+  &-ordered-list {
+    margin-top: 0 !important;
+    padding-left: 2rem;
+    li {
+      list-style-type: decimal;
+      color: #000;
+      font-size: 16px;
+      line-height: 1.75;
+      text-align: justify;
+    }
+  }
+
+  &-unordered-list {
+    margin-top: 0 !important;
+    padding-left: 2rem;
+    li {
+      list-style-type: disc;
+      color: #000;
+      font-size: 16px;
+      line-height: 1.75;
+      text-align: justify;
     }
   }
 }
