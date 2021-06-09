@@ -574,19 +574,18 @@ export default {
     text-align: right;
   }
   &__title {
-    margin: 10px 0 0;
+    margin: 8px 0 0;
     color: #000;
     font-size: 32px;
     font-weight: 500;
     + * {
-      margin-top: 10px;
+      margin-top: 8px;
     }
   }
 
   &__social-media-share {
     display: flex;
     align-items: center;
-    margin: 6px 0 0;
     .share + .share {
       margin-left: 12px;
     }
@@ -629,11 +628,10 @@ export default {
     }
   }
   &__credit {
+    margin-bottom: 12px;
     p {
       display: inline-block;
-      + p {
-        margin-left: 10px;
-      }
+      margin-right: 12px;
     }
   }
   &__content {

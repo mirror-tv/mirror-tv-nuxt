@@ -35,6 +35,6 @@ describe('contacts props is otherbyline', function () {
         contacts: contactsMock,
       },
     })
-    expect(wrapper.text()).toBe(contactsMock)
+    expect(wrapper.text()).toBe(`作者｜${contactsMock}`)
   })
 })

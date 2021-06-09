@@ -1,6 +1,5 @@
 <template>
-  <!-- eslint-disable-next-line vue/no-v-html -->
-  <p v-if="hasContacts">{{ contactsLabel }}<span v-html="contactsHtml" /></p>
+  <p v-if="hasContacts">{{ contactsLabel }}<span v-text="contactsText" /></p>
 </template>
 
 <script>
@@ -27,20 +26,15 @@ export default {
   computed: {
     contactsLabel() {
       if (this.isOtherbyline) {
-        return undefined
+        return '作者｜'
       }
       return `${CONTACT_MAPPING[this.contactType]}｜`
     },
-    contactsHtml() {
+    contactsText() {
       if (this.isOtherbyline) {
         return this.contacts
       }
-      return this.contacts
-        .map(
-          (item) =>
-            `<a href="/author/${item.slug}" target="_blank" rel="noreferrer noopener">${item.name}</a>`
-        )
-        .join('、')
+      return this.contacts.map((item) => item.name).join('、')
     },
     hasContacts() {
       return this.contacts?.length > 0
@@ -53,7 +47,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ a {
-  padding: 15px 0;
+p {
+  font-size: 14px;
+  line-height: 20px;
 }
 </style>
