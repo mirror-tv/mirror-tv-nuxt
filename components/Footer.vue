@@ -127,7 +127,7 @@
         <p class="copyright">
           <span>©Mirror TV BROCASTING LTD.</span>
           <span>All Rights Reserved.</span>
-          <span>鏡新聞股份有限公司 版權所有</span>
+          <span>鏡電視股份有限公司 版權所有</span>
         </p>
       </div>
     </div>

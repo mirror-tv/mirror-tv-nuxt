@@ -9,11 +9,16 @@
         <main class="ombuds__intro__main">
           <div class="ombuds__intro__main__wrapper">
             <div class="ombuds__intro__main__wrapper-img">
-              <img src="~assets/img/image-default.png" alt="ombudsman banner" />
+              <img
+                src="~assets/img/ombuds-picture.jpg"
+                alt="ombudsman banner"
+              />
             </div>
             <div class="ombuds__intro__main__wrapper-info">
               <h3>公評人簡介</h3>
-              <p>{{ ombudsIntroduction }}</p>
+              <p v-for="intro in ombudsIntroduction" :key="intro.id">
+                {{ intro.content[0] }}
+              </p>
               <a
                 href="/story/biography"
                 target="_blank"
@@ -28,8 +33,10 @@
         </main>
         <aside class="ombuds__intro__aside">
           <div class="ombuds__intro__aside-text">
-            <h3>新聞申訴方式</h3>
-            <p>若您對弊社的新聞品質與內容有意見或ooxxvvwwzz</p>
+            <h3>我要向公評人申訴</h3>
+            <p>
+              如果您對於我們的新聞內容有意見，例如：事實錯誤、侵害人權，或違反新聞倫理等，請按下方的向公評人申訴鍵；如果您對於我們的客服有意見，請按下方的向客服申訴鍵。
+            </p>
           </div>
           <div class="ombuds__intro__aside-btn">
             <a
@@ -37,18 +44,16 @@
               target="_blank"
               rel="noreferrer noopener"
               class="ombuds__intro__aside-btn--btn1"
-              @click="sendGaClickEvent('我要申訴')"
+              @click="sendGaClickEvent('向公評人申訴')"
             >
-              我要申訴
+              向公評人申訴
             </a>
             <a
-              href="/story/complaint"
-              target="_blank"
-              rel="noreferrer noopener"
+              href="mailto:mnews.cs@mnews.tw"
               class="ombuds__intro__aside-btn--btn2"
-              @click="sendGaClickEvent('如何申訴')"
+              @click="sendGaClickEvent('向客服申訴')"
             >
-              如何申訴？
+              向客服申訴
             </a>
           </div>
         </aside>
@@ -122,13 +127,13 @@ export default {
           herf: '/story/standards',
           ga: '新聞製作準則',
         },
-        {
-          img: require('~/assets/img/ombuds/icon-p4.svg'),
-          t1: '影音',
-          t2: '紀錄',
-          herf: '/ombuds/archive',
-          ga: '影音紀錄',
-        },
+        // {
+        //   img: require('~/assets/img/ombuds/icon-p4.svg'),
+        //   t1: '影音',
+        //   t2: '紀錄',
+        //   herf: '/ombuds/archive',
+        //   ga: '影音紀錄',
+        // },
         {
           img: require('~/assets/img/ombuds/icon-p5.svg'),
           t1: '常見問題',
@@ -136,13 +141,13 @@ export default {
           herf: '/story/faq',
           ga: '常見問題FAQ',
         },
-        {
-          img: require('~/assets/img/ombuds/icon-p7.svg'),
-          t1: '聯絡',
-          t2: '我們',
-          herf: 'mailto:ombuds@mnews.tw',
-          ga: '聯絡我們',
-        },
+        // {
+        //   img: require('~/assets/img/ombuds/icon-p7.svg'),
+        //   t1: '聯絡',
+        //   t2: '我們',
+        //   herf: 'mailto:ombuds@mnews.tw',
+        //   ga: '聯絡我們',
+        // },
       ],
     }
   },
@@ -167,12 +172,10 @@ export default {
   computed: {
     ombudsIntroduction() {
       try {
-        const content = JSON.parse(this.postPublished?.contentApiData)
-        return content?.[0].content?.[0]
-          ? content?.[0].content?.[0].slice(0, 150).concat('...')
-          : ''
+        const content = JSON.parse(this.postPublished?.briefApiData)
+        return content ?? []
       } catch {
-        return ''
+        return []
       }
     },
   },
@@ -268,12 +271,14 @@ export default {
           @include media-breakpoint-up(md) {
             margin: 0 24px 0 0;
             min-width: 384px;
+            max-width: 384px;
             height: 216px;
             transform: none;
             margin-bottom: 0;
           }
           @include media-breakpoint-up(xl) {
             min-width: 480px;
+            max-width: 480px;
             height: 270px;
             margin: 0 32px 0 0;
           }
@@ -286,7 +291,7 @@ export default {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
+            object-position: 50% 22%;
             background-color: $color-grey;
           }
         }
@@ -308,12 +313,6 @@ export default {
             font-size: 16px;
             line-height: 1.8;
             margin-bottom: 8px;
-            word-wrap: break-word;
-            word-break: break-all;
-            -webkit-line-clamp: 5;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
           }
           &--btn {
             position: relative;
@@ -349,7 +348,7 @@ export default {
       background-color: #f4f5f6;
       padding: 20px 16px;
       @include media-breakpoint-up(xl) {
-        width: 207px;
+        width: 268px;
         display: block;
       }
       &-text {
@@ -405,7 +404,7 @@ export default {
           padding: 8px 0;
           margin: 0 0 8px 0;
           @include media-breakpoint-up(md) {
-            width: 140px;
+            width: 180px;
             margin: 0 8px 0 0;
           }
           @include media-breakpoint-up(xl) {
@@ -435,7 +434,7 @@ export default {
           background-color: #fff;
           padding: 8px 0;
           @include media-breakpoint-up(md) {
-            width: 140px;
+            width: 180px;
           }
           @include media-breakpoint-up(xl) {
             width: 100%;
