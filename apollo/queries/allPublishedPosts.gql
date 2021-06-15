@@ -1,20 +1,14 @@
 #import "~/apollo/fragments/listingPagePost.gql"
 
-query allPublishedPosts($first: Int = 12, $skip: Int = 0) {
+query allPublishedPosts(
+  $first: Int = 12,
+  $filteredSlug: [String] = [""],
+  $skip: Int = 0
+) {
   allPublishedPosts: allPosts(
     sortBy: publishTime_DESC,
     where: {
-      slug_not_in: [
-        "privacy",
-        "ad-sales",
-        "press-self-regulation",
-        "webauthorization",
-        "biography",
-        "complaint",
-        "standards",
-        "faq",
-        "aboutus",
-      ]
+      slug_not_in: $filteredSlug,
       state: published
     },
     first: $first,
@@ -31,6 +25,7 @@ query allPublishedPosts($first: Int = 12, $skip: Int = 0) {
   meta: _allPostsMeta(
     sortBy: publishTime_DESC,
     where: {
+      slug_not_in: $filteredSlug,
       state: published
     }
   ) {

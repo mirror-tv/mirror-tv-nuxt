@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { SITE_NAME } from '~/constants'
+import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 
 import { getDomain } from '~/utils/meta'
 import { fetchPostsAndCountByTagName } from '~/apollo/queries/posts.gql'
@@ -49,6 +49,7 @@ export default {
           tagName: this.routeName,
           maxResults: MAX_RESULTS,
           withCount: true,
+          filteredSlug: FILTERED_SLUG,
         }
       },
       update(data) {
@@ -102,6 +103,7 @@ export default {
           tagName: this.routeName,
           maxResults: MAX_RESULTS,
           skip: this.page * MAX_RESULTS,
+          filteredSlug: FILTERED_SLUG,
           withCount: false,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {

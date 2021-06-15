@@ -9,7 +9,7 @@
             @click-slide="sendGaClickEvent('editor choices')"
           />
         </div>
-        <div class="main__live-stream live-stream">
+        <div v-if="liveVideoId" class="main__live-stream live-stream">
           <HeadingBordered
             :showIcon="true"
             class="home__heading"
@@ -22,6 +22,8 @@
               :videoId="liveVideoId"
             />
           </ClientOnly>
+        </div>
+        <div v-if="hasPlaylistItems" class="main__live-stream live-stream">
           <HeadingBordered
             :showIcon="true"
             class="home__heading"
@@ -33,7 +35,10 @@
             :videoId="item"
           />
         </div>
-        <div class="main__list-latest-wrapper list-latest-wrapper">
+        <div
+          v-if="hasLatestPosts"
+          class="main__list-latest-wrapper list-latest-wrapper"
+        >
           <HeadingBordered text="最新新聞" class="home__heading" />
           <ol class="list-latest">
             <li v-for="post in latestPosts" :key="post.id">
@@ -54,10 +59,7 @@
             @click.native="handleClickMore"
           />
         </div>
-        <div
-          v-if="listPopularData.length"
-          class="aside-list main__popular-list"
-        >
+        <div v-if="hasListPopularData" class="aside-list main__popular-list">
           <HeadingBordered class="home__heading" text="熱門文章" />
           <ol class="popular-list">
             <li
@@ -73,7 +75,7 @@
         </div>
       </main>
       <aside class="g-aside main__aside aside">
-        <div class="aside__live-stream live-stream">
+        <div v-if="liveVideoId" class="aside__live-stream live-stream">
           <HeadingBordered
             :showIcon="true"
             class="home__heading"
@@ -86,6 +88,8 @@
               :videoId="liveVideoId"
             />
           </ClientOnly>
+        </div>
+        <div v-if="hasPlaylistItems" class="aside__live-stream live-stream">
           <HeadingBordered
             :showIcon="true"
             class="home__heading"
@@ -98,7 +102,7 @@
           />
         </div>
 
-        <div class="aside-list promotion-list">
+        <div v-if="hasPromotionVideos" class="aside-list promotion-list">
           <HeadingBordered class="home__heading" text="發燒單元" />
           <div class="promotion-list">
             <YoutubeEmbed
@@ -110,7 +114,10 @@
           </div>
         </div>
 
-        <div class="aside__list-latest-wrapper list-latest-wrapper">
+        <div
+          v-if="hasLatestPosts"
+          class="aside__list-latest-wrapper list-latest-wrapper"
+        >
           <HeadingBordered text="最新新聞" class="home__heading" />
           <ol class="list-latest">
             <li v-for="post in latestPosts" :key="post.id">
@@ -132,10 +139,7 @@
           />
         </div>
 
-        <div
-          v-if="listPopularData.length"
-          class="aside-list aside__popular-list"
-        >
+        <div v-if="hasListPopularData" class="aside-list aside__popular-list">
           <HeadingBordered class="home__heading" text="熱門文章" />
           <ol class="popular-list">
             <li
@@ -150,7 +154,7 @@
           </ol>
         </div>
 
-        <div class="aside-list show-list">
+        <div v-if="hasShows" class="aside-list show-list">
           <HeadingBordered class="home__heading" text="節目" />
           <div class="show-list__wrapper">
             <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
@@ -173,6 +177,7 @@
 import { mapGetters } from 'vuex'
 
 import { getDomain } from '~/utils/meta'
+import { FILTERED_SLUG } from '~/constants'
 import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
@@ -196,17 +201,6 @@ import { fetchLiveVideoId } from '~/apollo/queries/video.gql'
 
 import { getImageUrl } from '~/utils/post-image-handler'
 const PAGE_SIZE = 12
-const globalFilteredSlug = [
-  'privacy',
-  'ad-sales',
-  'press-self-regulation',
-  'webauthorization',
-  'biography',
-  'complaint',
-  'standards',
-  'faq',
-  'aboutus',
-]
 
 export default {
   apollo: {
@@ -217,42 +211,13 @@ export default {
           const editorChoicesSlug = data.allEditorChoices?.map(
             (item) => item.choice.slug
           )
-          this.filteredSlug = editorChoicesSlug.concat(globalFilteredSlug)
+          this.filteredSlug = editorChoicesSlug.concat(FILTERED_SLUG)
         }
         return data.allEditorChoices
           ?.filter((item) => item.choice)
           ?.filter((item, i) => i < 5)
           ?.map((item) => this.reducerArticleCard(item.choice))
       },
-      // 放在 result 內，可確保已取得 editor-choice 資料，但無法進行 SSR 渲染
-      // result({ data, loading }) {
-      //   if (!loading) {
-      //     const editorChoicesSlug = data.allEditorChoices?.map(
-      //       (item) => item.choice.slug
-      //     )
-      //     this.filteredSlug = editorChoicesSlug.concat(globalFilteredSlug)
-      //     this.$apollo.addSmartQuery('allPublishedPosts', {
-      //       prefetch: true,
-      //       query: fetchPosts,
-      //       variables() {
-      //         return {
-      //           first: PAGE_SIZE,
-      //           skip: 0,
-      //           withCount: true,
-      //           withCoverPhoto: true,
-      //           filteredSlug: this.filteredSlug,
-      //         }
-      //       },
-      //       update(rawData) {
-      //         this.postsCount = rawData._allPostsMeta?.count
-      //         return rawData.allPosts
-      //       },
-      //       error(error) {
-      //         handleError(this.$nuxt, error.networkError.statusCode)
-      //       },
-      //     })
-      //   }
-      // },
     },
     // flashNews: {
     //   query: fetchPostsByCategories,
@@ -363,17 +328,12 @@ export default {
     ...mapGetters({
       isViewportWidthUpXl: 'viewport/isViewportWidthUpXl',
     }),
-    // editorChoicesSlug() {
-    //   return this.editorChoices.map((item) => item.slug)
-    // },
     showEditorChoices() {
       return this.editorChoices?.length > 0
     },
     latestPosts() {
       const listData = this.allPublishedPosts ?? []
       return listData.map((post) => this.reducerArticleCard(post))
-      // .filter((post) => !this.editorChoicesSlug.includes(post.slug))
-      // .map((post) => this.reducerArticleCard(post))
     },
     showLoadMoreButton() {
       return this.allPublishedPosts?.length < this.postsCount
@@ -395,6 +355,21 @@ export default {
         .filter((post, i) => i < 8)
         .map((post) => this.reducerFlashNews(post))
       return editorData.concat(posts)
+    },
+    hasShows() {
+      return this.allShows?.length
+    },
+    hasLatestPosts() {
+      return this.latestPosts?.length
+    },
+    hasListPopularData() {
+      return this.listPopularData?.length
+    },
+    hasPlaylistItems() {
+      return this.playlistItems?.length
+    },
+    hasPromotionVideos() {
+      return this.promotionVideos?.length
     },
   },
   mounted() {
@@ -606,6 +581,7 @@ export default {
     // desktop range
     @include media-breakpoint-up(xl) {
       display: block;
+      margin-bottom: 48px;
     }
   }
 
@@ -635,13 +611,14 @@ export default {
 }
 
 .aside-list {
+  margin: 40px 0 0;
+  @include media-breakpoint-up(md) {
+    margin-top: 48px;
+  }
   &.main__popular-list {
     display: none;
     @include media-breakpoint-up(xl) {
       display: block;
-      .home__heading {
-        margin-top: 60px;
-      }
     }
   }
   &.aside__popular-list {
@@ -651,11 +628,7 @@ export default {
     }
   }
   .home__heading {
-    margin: 40px 0 0;
     min-width: 110px;
-    @include media-breakpoint-up(md) {
-      margin-top: 48px;
-    }
   }
   .promotion-list {
     margin-top: 12px;

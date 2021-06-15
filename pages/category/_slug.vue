@@ -2,7 +2,7 @@
   <section class="g-page g-page--with-aside">
     <div class="g-page__wrapper">
       <main class="main">
-        <div class="list-latest-wrapper">
+        <div v-if="hasListArticleMainData" class="list-latest-wrapper">
           <HeadingBordered class="list-latest-title" :text="pageName" />
           <ol class="list-latest">
             <li
@@ -59,7 +59,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
-import { SITE_NAME } from '~/constants'
+import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -110,6 +110,7 @@ export default {
       query: allPublishedPosts,
       variables: {
         first: 5,
+        filteredSlug: FILTERED_SLUG,
       },
       update: (data) => data.allPublishedPosts,
     },
@@ -170,17 +171,7 @@ export default {
       return this.currentTopPost?.slug ?? ''
     },
     filteredSlug() {
-      const slugs = [
-        'privacy',
-        'ad-sales',
-        'press-self-regulation',
-        'webauthorization',
-        'biography',
-        'complaint',
-        'standards',
-        'faq',
-        'aboutus',
-      ]
+      const slugs = FILTERED_SLUG
       if (this.currentTopPostSlug) {
         slugs.push(this.currentTopPostSlug)
       }
@@ -202,6 +193,9 @@ export default {
         ? [this.currentTopPost].concat(this.allPostsCategory)
         : this.allPostsCategory
       return listData?.map((post) => this.reducerArticleCard(post))
+    },
+    hasListArticleMainData() {
+      return this.listArticleMainData.length
     },
     listArticleAsideLatestData() {
       const listData = this.allPostsLatest ?? []

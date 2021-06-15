@@ -58,10 +58,12 @@
             <h3 v-if="validPlaylists.length <= 1" v-text="list.sectionName" />
             <ol>
               <li v-for="item in list.items" :key="item.id">
-                <YoutubeEmbedByIframeApi
-                  :videoId="item.id"
-                  @send-first-play-ga="sendGaClickEvent('video')"
-                />
+                <ClientOnly>
+                  <YoutubeEmbedByIframeApi
+                    :videoId="item.id"
+                    @send-first-play-ga="sendGaClickEvent('video')"
+                  />
+                </ClientOnly>
                 <h4 v-text="item.title" />
               </li>
               <div class="position-correct" />
@@ -83,10 +85,12 @@
           <h3 v-text="list.sectionName" />
           <ol>
             <li v-for="item in list.items" :key="item.id">
-              <YoutubeEmbedByIframeApi
-                :videoId="item.id"
-                @send-first-play-ga="sendGaClickEvent('video')"
-              />
+              <ClientOnly>
+                <YoutubeEmbedByIframeApi
+                  :videoId="item.id"
+                  @send-first-play-ga="sendGaClickEvent('video')"
+                />
+              </ClientOnly>
               <h4 v-text="item.title" />
             </li>
             <div class="position-correct" />

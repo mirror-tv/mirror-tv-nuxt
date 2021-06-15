@@ -4,10 +4,12 @@
       <main class="main">
         <template v-if="isVideoNews">
           <div class="post__hero">
-            <YoutubeEmbedByIframeApi
-              v-if="heroVideoUrl"
-              :videoId="heroVideoUrl"
-            />
+            <ClientOnly>
+              <YoutubeEmbedByIframeApi
+                v-if="heroVideoUrl"
+                :videoId="heroVideoUrl"
+              />
+            </ClientOnly>
             <p class="figcaption" v-text="imageCaption" />
           </div>
         </template>
@@ -103,7 +105,12 @@
 <script>
 import dayjs from 'dayjs'
 
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '~/constants'
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  FILTERED_SLUG,
+} from '~/constants'
 
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
@@ -155,6 +162,7 @@ export default {
       query: allPublishedPosts,
       variables: {
         first: 5,
+        filteredSlug: FILTERED_SLUG,
       },
       update: (data) => data.allPublishedPosts,
     },

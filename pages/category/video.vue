@@ -11,6 +11,21 @@
 
       <main class="main">
         <div class="main__category-posts-wrapper category-posts-wrapper">
+          <div v-if="hasPopularVideo" class="category-posts">
+            <HeadingBordered class="category-posts__heading" text="熱門影音" />
+            <ArticleListSlides
+              :items="popularVideo"
+              :total="popularVideo.length"
+              class="category-posts__posts"
+              @click-slide-item="sendGaClickEvent('articles')"
+              @click-slide-next="
+                sendGaClickEvent('right button for more articles')
+              "
+              @click-slide-prev="
+                sendGaClickEvent('left button for more articles')
+              "
+            />
+          </div>
           <div
             v-for="category in categoriesFiltered"
             :key="category.slug"
@@ -45,16 +60,20 @@
         </div>
       </main>
       <aside class="g-aside">
-        <div class="aside__live-stream live-stream">
+        <div v-if="liveVideoId" class="live-stream">
           <HeadingBordered
             :showIcon="true"
             text="鏡電視LIVE"
             class="video__heading"
           />
-          <YoutubeEmbedByIframeApi
-            :enableAutoplay="true"
-            :videoId="liveVideoId"
-          />
+          <ClientOnly>
+            <YoutubeEmbedByIframeApi
+              :enableAutoplay="true"
+              :videoId="liveVideoId"
+            />
+          </ClientOnly>
+        </div>
+        <div v-if="hasPlaylistItems" class="live-stream">
           <HeadingBordered
             :showIcon="true"
             text="直播現場"
@@ -68,6 +87,21 @@
         </div>
 
         <div class="aside__category-posts-wrapper category-posts-wrapper">
+          <div v-if="hasPopularVideo" class="category-posts">
+            <HeadingBordered class="category-posts__heading" text="熱門影音" />
+            <ArticleListSlides
+              :items="popularVideo"
+              :total="popularVideo.length"
+              class="category-posts__posts"
+              @click-slide-item="sendGaClickEvent('articles')"
+              @click-slide-next="
+                sendGaClickEvent('right button for more articles')
+              "
+              @click-slide-prev="
+                sendGaClickEvent('left button for more articles')
+              "
+            />
+          </div>
           <div
             v-for="category in categoriesFiltered"
             :key="category.slug"
@@ -101,7 +135,7 @@
           </div>
         </div>
 
-        <div class="aside-list aside-promotion-list">
+        <div v-if="hasPromotionVideos" class="aside-list aside-promotion-list">
           <HeadingBordered class="home__heading" text="發燒單元" />
           <div class="promotion-list">
             <YoutubeEmbed
@@ -113,7 +147,7 @@
           </div>
         </div>
 
-        <div class="aside-list aside-show-list">
+        <div v-if="hasShows" class="aside-list aside-show-list">
           <HeadingBordered class="home__heading" text="節目" />
           <div class="show-list__wrapper">
             <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
@@ -133,7 +167,7 @@
 </template>
 
 <script>
-import { SITE_NAME } from '~/constants'
+import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
@@ -218,19 +252,23 @@ export default {
       politicsPosts: {},
       allShows: [],
       liveVideo: {},
+      popularVideo: [],
     }
   },
   async fetch() {
     try {
-      const reponse = await this.$fetchYoutubeData(
+      const videoRes = await this.$fetchGcsData('/popular-videonews-list')
+      const youtubeRes = await this.$fetchYoutubeData(
         '/playlistItems?part=snippet&playlistId=PLT6yxVwBEbi2dWegLu37V63_tP-nI6em_&maxResults=3'
       )
+      this.popularVideo = videoRes?.report
       this.playlistItems =
-        reponse?.items?.map((item) => item?.snippet?.resourceId?.videoId) ?? []
+        youtubeRes?.items?.map((item) => item?.snippet?.resourceId?.videoId) ??
+        []
     } catch (error) {
       if (process.server) {
         // eslint-disable-next-line no-console
-        console.error('[ERROR]Youtube API:', error.message)
+        console.error(error.message)
       }
     }
   },
@@ -264,6 +302,18 @@ export default {
     liveVideoId() {
       return this.liveVideo?.youtubeUrl?.split('watch?v=')[1] ?? ''
     },
+    hasShows() {
+      return this.allShows?.length
+    },
+    hasPopularVideo() {
+      return this.popularVideo?.length
+    },
+    hasPlaylistItems() {
+      return this.playlistItems?.length
+    },
+    hasPromotionVideos() {
+      return this.promotionVideos?.length
+    },
   },
   mounted() {
     if (this.categoriesSlug?.length > 0) {
@@ -279,6 +329,7 @@ export default {
             category: slug,
             style: 'videoNews',
             withCount: true,
+            filteredSlug: FILTERED_SLUG,
           }),
           update: (rawData) => {
             const data = {
@@ -300,6 +351,7 @@ export default {
         variables: {
           category: slug,
           skip: page * 10,
+          filteredSlug: FILTERED_SLUG,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           this.$set(this[`${slug}Posts`], 'items', [
