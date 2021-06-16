@@ -21,6 +21,9 @@
       "pre-commit": "lint-staged && jest"
     }
   },
+  "engines": {
+    "node": ">=14"
+  },
   "dependencies": {
     "@elastic/elasticsearch": "^7.10.0",
     "@godaddy/terminus": "^4.6.0",
