@@ -106,9 +106,10 @@ export default {
     },
     getImage(item) {
       return (
-        item.heroImage?.urlMobileSized ||
-        item.heroVideo?.coverPhoto?.urlDesktopSized ||
-        item.heroVideo?.coverPhoto?.urlOriginal
+        (item.heroImage?.urlMobileSized ||
+          item.heroVideo?.coverPhoto?.urlDesktopSized ||
+          item.heroVideo?.coverPhoto?.urlOriginal) ??
+        require('~/assets/img/image-default.png')
       )
     },
   },
