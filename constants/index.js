@@ -17,4 +17,11 @@ const FILTERED_SLUG = [
   'aboutus',
 ]
 
-export { SITE_DESCRIPTION, SITE_NAME, SITE_URL, FILTERED_SLUG }
+const PDF_URL = [
+  {
+    'press-self-regulation':
+      'https://storage.googleapis.com/static-mnews-tw-dev/press-self-regulation.pdf',
+  },
+]
+
+export { SITE_DESCRIPTION, SITE_NAME, SITE_URL, FILTERED_SLUG, PDF_URL }
