@@ -669,6 +669,7 @@ export default {
   }
   &__iframe {
     width: 100%;
+    margin-bottom: 48px;
     iframe {
       width: 100%;
       height: 75vh;
