@@ -10,7 +10,7 @@ describe('contacts props is not otherbyline', function () {
         contacts: contactsMock,
       },
     })
-    expect(wrapper.text()).toBe(`作者｜${contactsMock[0].name}`)
+    expect(wrapper.text()).toBe(`記者｜${contactsMock[0].name}`)
   })
 
   test('Should render props multiple credits', function () {
@@ -35,6 +35,6 @@ describe('contacts props is otherbyline', function () {
         contacts: contactsMock,
       },
     })
-    expect(wrapper.text()).toBe(`作者｜${contactsMock}`)
+    expect(wrapper.text()).toBe(`記者｜${contactsMock}`)
   })
 })

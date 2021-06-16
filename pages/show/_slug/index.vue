@@ -1,7 +1,6 @@
 <template>
   <section class="g-page g-page--with-aside show">
     <div class="g-page__wrapper">
-      <h1 class="show__name" v-text="showName" />
       <picture v-if="picture" class="show__banner-image">
         <source :srcset="picture.urlDesktopSized" media="(min-width: 768px)" />
         <img :src="picture.urlMobileSized" :alt="showName" />
@@ -310,18 +309,6 @@ export default {
           padding: 0;
         }
       }
-    }
-  }
-  &__name {
-    color: $color-blue;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 28px;
-    margin-bottom: 16px;
-    @include media-breakpoint-up(md) {
-      width: 100%;
-      font-size: 30px;
-      line-height: 42px;
     }
   }
   &__banner-image {
