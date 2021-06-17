@@ -8,6 +8,7 @@ import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ArticleContentImage from '~/components/ArticleContentImage'
 import ArticleContentBlockQuote from '~/components/ArticleContentBlockQuote'
 import ArticleContentQuoteBy from '~/components/ArticleContentQuoteBy'
+import UiEmbeddedCode from '~/components/UiEmbeddedCode'
 
 export default {
   functional: true,
@@ -21,6 +22,7 @@ export default {
     ArticleContentImage,
     ArticleContentBlockQuote,
     ArticleContentQuoteBy,
+    UiEmbeddedCode,
   },
   props: {
     paragraph: {
@@ -66,7 +68,7 @@ export default {
           )
         } else {
           return (
-            <ul class="g-article-ordered-list">
+            <ul class="g-article-unordered-list">
               {content.map((item) => {
                 return <li>{item}</li>
               })}
@@ -93,10 +95,7 @@ export default {
         )
       case 'embeddedcode':
         return (
-          <lazy-component
-            class="g-article-embedded-code"
-            domPropsInnerHTML={content.embeddedCode}
-          />
+          <UiEmbeddedCode class="g-article-embedded-code" content={content} />
         )
       case 'infobox':
         return <ArticleContentInfobox infobox={content} />
@@ -107,6 +106,10 @@ export default {
           <YoutubeEmbedByIframeApi videoId={props.paragraph.content[0].id} />
         )
       case 'video':
+        if (props.paragraph.content[0].url.indexOf('youtube.com')) {
+          const id = props.paragraph.content[0].url.split('watch?v=')[1]
+          return <YoutubeEmbedByIframeApi videoId={id} />
+        }
         return <ArticleContentVideo video={content} />
       case 'image':
         return <ArticleContentImage image={content} />
@@ -121,7 +124,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .g-article {
   &-heading {
     font-size: 20px;
@@ -157,8 +160,8 @@ export default {
   &-ordered-list {
     margin-top: 0 !important;
     padding-left: 2rem;
+    list-style-type: decimal;
     li {
-      list-style-type: decimal;
       color: #000;
       font-size: 16px;
       line-height: 1.75;
@@ -169,8 +172,8 @@ export default {
   &-unordered-list {
     margin-top: 0 !important;
     padding-left: 2rem;
+    list-style-type: disc;
     li {
-      list-style-type: disc;
       color: #000;
       font-size: 16px;
       line-height: 1.75;

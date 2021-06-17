@@ -4,10 +4,12 @@
       <main class="main">
         <template v-if="isVideoNews">
           <div class="post__hero">
-            <YoutubeEmbedByIframeApi
-              v-if="heroVideoUrl"
-              :videoId="heroVideoUrl"
-            />
+            <ClientOnly>
+              <YoutubeEmbedByIframeApi
+                v-if="heroVideoUrl"
+                :videoId="heroVideoUrl"
+              />
+            </ClientOnly>
             <p class="figcaption" v-text="imageCaption" />
           </div>
         </template>
@@ -70,6 +72,14 @@
           </template>
         </article>
 
+        <div v-if="pdfUrl" class="post__iframe">
+          <ClientOnly>
+            <iframe :src="pdfUrl">
+              <p>抱歉，您的裝置不支援此瀏覽形式</p>
+            </iframe>
+          </ClientOnly>
+        </div>
+
         <div v-if="hasTags" class="post__tags">
           <ArticleTag
             v-for="tag in tags"
@@ -103,7 +113,13 @@
 <script>
 import dayjs from 'dayjs'
 
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '~/constants'
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  FILTERED_SLUG,
+  PDF_URL,
+} from '~/constants'
 
 import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
@@ -155,6 +171,7 @@ export default {
       query: allPublishedPosts,
       variables: {
         first: 5,
+        filteredSlug: FILTERED_SLUG,
       },
       update: (data) => data.allPublishedPosts,
     },
@@ -473,6 +490,10 @@ export default {
     source() {
       return this.postPublished?.source
     },
+    pdfUrl() {
+      const item = PDF_URL?.find((item) => Object.keys(item)[0] === this.slug)
+      return item ? item[this.slug] : ''
+    },
   },
   beforeMount() {
     this.setGaDimensionOfSource()
@@ -643,6 +664,17 @@ export default {
     ::v-deep {
       > * + * {
         margin-top: 30px;
+      }
+    }
+  }
+  &__iframe {
+    width: 100%;
+    margin-bottom: 48px;
+    iframe {
+      width: 100%;
+      height: 75vh;
+      @include media-breakpoint-up(md) {
+        height: calc(600px * 4 / 3 + 80px);
       }
     }
   }

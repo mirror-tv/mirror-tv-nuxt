@@ -1,5 +1,9 @@
 <template>
-  <div class="list-wrapper" :class="{ 'xl-border': hasBorderInXl }">
+  <div
+    v-if="hasListData"
+    class="list-wrapper"
+    :class="{ 'xl-border': hasBorderInXl }"
+  >
     <HeadingBordered
       class="list-wrapper__list-title list-title"
       :text="listTitle"
@@ -51,6 +55,11 @@ export default {
     hasBorderInXl: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    hasListData() {
+      return this.listData?.length
     },
   },
 }

@@ -1,6 +1,6 @@
 {
   "name": "mirror-tv-nuxt",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "mirror-tv-nuxt",
   "author": "mirror-media",
   "private": true,
@@ -20,6 +20,9 @@
     "hooks": {
       "pre-commit": "lint-staged && jest"
     }
+  },
+  "engines": {
+    "node": ">=14"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.10.0",

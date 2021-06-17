@@ -4,7 +4,7 @@
 
 <script>
 const CONTACT_MAPPING = {
-  writers: '作者',
+  writers: '記者',
   photographers: '攝影',
   cameraOperators: '影音',
   designers: '設計',
@@ -26,7 +26,7 @@ export default {
   computed: {
     contactsLabel() {
       if (this.isOtherbyline) {
-        return '作者｜'
+        return '記者｜'
       }
       return `${CONTACT_MAPPING[this.contactType]}｜`
     },

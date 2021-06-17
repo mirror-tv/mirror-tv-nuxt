@@ -188,7 +188,7 @@ export default {
 }
 .slide-btn {
   position: absolute;
-  top: calc((100vw - 48px) * 0.5 * 0.5625 * 0.08);
+  top: calc((100vw - 32px) * 0.5 * 0.5625 * 0.5 - 36px);
   z-index: 1;
   width: 48px;
   height: 81px;
@@ -200,7 +200,7 @@ export default {
     background-color: transparent;
   }
   @include media-breakpoint-up(md) {
-    top: 30px;
+    top: 22px;
   }
   &__arrow {
     position: relative;

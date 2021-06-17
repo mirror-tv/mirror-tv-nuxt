@@ -37,6 +37,15 @@ async function start() {
 
   app.use(requestIp.mw())
 
+  // app.get('/robots.txt', (req, res, next) => {
+  //   if (config.dev) {
+  //     res.type('text/plain').send('User-agent: * \n' + 'Disallow: /')
+  //     return
+  //   }
+  //   // TODO: add prod robots.txt when sitemap ready
+  //   next()
+  // })
+
   // Give nuxt middleware to express
   app.use(nuxt.render)
 

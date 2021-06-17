@@ -68,7 +68,7 @@ export default {
         .map((report) => this.reducerArticleCard(report))
     },
     hasListData() {
-      return this.listArticlePopularData.length
+      return this.listArticlePopularData?.length
     },
   },
   mounted() {

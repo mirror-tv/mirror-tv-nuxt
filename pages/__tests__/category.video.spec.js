@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 
 import page from '../category/video.vue'
-import ArticleListSlides from '../../components/ArticleListSlides'
+// import ArticleListSlides from '../../components/ArticleListSlides'
 import EditorChoicesVideoNews from '../../components/EditorChoicesVideoNews'
 
 const $apollo = {
@@ -67,37 +67,37 @@ describe('items by categories', () => {
     })
   })
 
-  test('should call $ga when click slide item', () => {
-    const item = wrapper.findComponent(ArticleListSlides).find('.item')
-    item.trigger('click')
-    expect($ga.event).toBeCalledWith({
-      eventCategory: 'videonews',
-      eventAction: 'click',
-      eventLabel: 'articles',
-    })
-  })
+  // test('should call $ga when click slide item', () => {
+  //   const item = wrapper.findComponent(ArticleListSlides).find('.item')
+  //   item.trigger('click')
+  //   expect($ga.event).toBeCalledWith({
+  //     eventCategory: 'videonews',
+  //     eventAction: 'click',
+  //     eventLabel: 'articles',
+  //   })
+  // })
 
-  test('should call $ga when click slide button', async () => {
-    const rightBtn = wrapper
-      .findComponent(ArticleListSlides)
-      .find('.slide-btn.next')
-    await rightBtn.trigger('click')
+  // test('should call $ga when click slide button', async () => {
+  //   const rightBtn = wrapper
+  //     .findComponent(ArticleListSlides)
+  //     .find('.slide-btn.next')
+  //   await rightBtn.trigger('click')
 
-    expect($ga.event).toBeCalledWith({
-      eventCategory: 'videonews',
-      eventAction: 'click',
-      eventLabel: 'right button for more articles',
-    })
+  //   expect($ga.event).toBeCalledWith({
+  //     eventCategory: 'videonews',
+  //     eventAction: 'click',
+  //     eventLabel: 'right button for more articles',
+  //   })
 
-    const leftBtn = wrapper
-      .findComponent(ArticleListSlides)
-      .find('.slide-btn.prev')
-    await leftBtn.trigger('click')
+  //   const leftBtn = wrapper
+  //     .findComponent(ArticleListSlides)
+  //     .find('.slide-btn.prev')
+  //   await leftBtn.trigger('click')
 
-    expect($ga.event).toBeCalledWith({
-      eventCategory: 'videonews',
-      eventAction: 'click',
-      eventLabel: 'left button for more articles',
-    })
-  })
+  //   expect($ga.event).toBeCalledWith({
+  //     eventCategory: 'videonews',
+  //     eventAction: 'click',
+  //     eventLabel: 'left button for more articles',
+  //   })
+  // })
 })

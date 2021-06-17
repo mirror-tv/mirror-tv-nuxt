@@ -7,7 +7,13 @@ import HeadingBordered from '~/components/HeadingBordered'
 const createWrapper = createWrapperHelper({
   propsData: {
     listTitle: 'requiredTitle',
-    listData: [],
+    listData: [
+      {
+        href: 'https://www.google.com',
+        articleImgURL: 'img',
+        articleTitle: 'title',
+      },
+    ],
   },
   stubs: {
     'nuxt-link': RouterLinkStub,

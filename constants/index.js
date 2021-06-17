@@ -5,4 +5,23 @@ const SITE_DESCRIPTION =
 // 需要確認
 const SITE_URL = 'https://www.mnews.tw'
 
-export { SITE_DESCRIPTION, SITE_NAME, SITE_URL }
+const FILTERED_SLUG = [
+  'privacy',
+  'ad-sales',
+  'press-self-regulation',
+  'webauthorization',
+  'biography',
+  'complaint',
+  'standards',
+  'faq',
+  'aboutus',
+]
+
+const PDF_URL = [
+  {
+    'press-self-regulation':
+      'https://storage.googleapis.com/static-mnews-tw-dev/press-self-regulation.pdf',
+  },
+]
+
+export { SITE_DESCRIPTION, SITE_NAME, SITE_URL, FILTERED_SLUG, PDF_URL }
