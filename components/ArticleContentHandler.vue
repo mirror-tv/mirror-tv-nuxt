@@ -106,10 +106,6 @@ export default {
           <YoutubeEmbedByIframeApi videoId={props.paragraph.content[0].id} />
         )
       case 'video':
-        if (props.paragraph.content[0].url.indexOf('youtube.com')) {
-          const id = props.paragraph.content[0].url.split('watch?v=')[1]
-          return <YoutubeEmbedByIframeApi videoId={id} />
-        }
         return <ArticleContentVideo video={content} />
       case 'image':
         return <ArticleContentImage image={content} />
