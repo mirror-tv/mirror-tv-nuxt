@@ -141,6 +141,7 @@ module.exports = {
     { path: '/api/youtube', handler: '~/api/youtube.js' },
     { path: '/api/tracking', handler: '~/api/tracking.js' },
     { path: '/api/gcs', handler: '~/api/gcs.js' },
+    { path: '/check', handler: '~/server-middleware/health-check.js' },
   ],
   /*
    ** Nuxt.js dev-modules
