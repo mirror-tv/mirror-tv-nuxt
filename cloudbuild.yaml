@@ -61,7 +61,6 @@ steps:
       - apply
       - -f
       - $_FILE_TO_DEPLOY
-      - --dry-run=server
       - --validate=true
     env:
       - 'CLOUDSDK_COMPUTE_REGION=asia-east1'
