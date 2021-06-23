@@ -197,7 +197,7 @@ module.exports = {
   googleAnalytics: {
     id: () => {
       return document.domain.match(/^(www|nuxt).mnews.tw/gs)
-        ? 'UA-83609754-1'
+        ? 'G-JJHGFVP4X5'
         : 'UA-83609754-2'
     },
   },
