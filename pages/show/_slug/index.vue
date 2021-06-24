@@ -102,6 +102,7 @@
         </div>
       </template>
     </div>
+    <YoutubeToS />
   </section>
 </template>
 
@@ -111,6 +112,7 @@ import { getDomain } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
+import YoutubeToS from '~/components/YoutubeToS.vue'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { handleLineBreak } from '~/utils/text-handler'
@@ -164,6 +166,7 @@ export default {
     FacebookPagePlugin,
     YoutubeEmbedByIframeApi,
     ButtonLoadmore,
+    YoutubeToS,
   },
   data() {
     return {
@@ -281,6 +284,7 @@ export default {
 
 <style lang="scss" scoped>
 .show {
+  padding-bottom: 8px;
   &.g-page--with-aside {
     .g-page__wrapper {
       @include media-breakpoint-up(md) {

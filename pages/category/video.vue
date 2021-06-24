@@ -163,6 +163,7 @@
         </div>
       </aside>
     </div>
+    <YoutubeToS />
   </section>
 </template>
 
@@ -177,6 +178,7 @@ import HeadingBordered from '~/components/HeadingBordered'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import YoutubeEmbed from '~/components/YoutubeEmbed.vue'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi.vue'
+import YoutubeToS from '~/components/YoutubeToS.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import ShowCard from '~/components/ShowCard'
 import LinkAnchorStyle from '~/components/LinkAnchorStyle'
@@ -234,6 +236,7 @@ export default {
     LinkYoutubeStyle,
     ShowCard,
     LinkAnchorStyle,
+    YoutubeToS,
   },
   data() {
     return {
@@ -370,6 +373,7 @@ export default {
 
 <style lang="scss" scoped>
 .video {
+  padding-bottom: 8px;
   &.g-page--with-aside {
     .g-page__wrapper {
       @include media-breakpoint-up(md) {

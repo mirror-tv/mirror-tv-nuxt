@@ -1,5 +1,5 @@
 <template>
-  <section class="g-page g-page--with-aside">
+  <section class="g-page g-page--with-aside story" :isVideoNews="isVideoNews">
     <div class="g-page__wrapper">
       <main class="main">
         <template v-if="isVideoNews">
@@ -107,6 +107,7 @@
         />
       </aside>
     </div>
+    <YoutubeToS v-if="isVideoNews" />
   </section>
 </template>
 
@@ -129,6 +130,7 @@ import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
+import YoutubeToS from '~/components/YoutubeToS.vue'
 import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import ShareFacebook from '~/components/ShareFacebook'
@@ -185,6 +187,7 @@ export default {
     ListArticleRelated,
     ShareFacebook,
     ShareLine,
+    YoutubeToS,
   },
   data() {
     return {
@@ -758,5 +761,9 @@ export default {
   & .list-title {
     margin-top: 30px !important;
   }
+}
+
+[isVideoNews='true'] {
+  padding-bottom: 8px;
 }
 </style>
