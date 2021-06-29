@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <audio id="audio" preload="metadata">
+    <audio ref="audioDOM" preload="metadata">
       <source :src="audio.url" />
     </audio>
   </div>
@@ -75,7 +75,7 @@ export default {
   watch: {
     currentSec(value) {
       if (parseInt(value) !== this.targetSec) {
-        const audioDOM = document.querySelector(`#audio`)
+        const audioDOM = this.$refs.audioDOM
         audioDOM.currentTime = value
       }
     },
@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     getAudioDuration() {
-      const audioDOM = document.querySelector(`#audio`)
+      const audioDOM = this.$refs.audioDOM
       if (!audioDOM) return
 
       this.totalSec = parseInt(audioDOM.duration)
@@ -99,7 +99,8 @@ export default {
       })
     },
     playingHandler() {
-      const audioDOM = document.querySelector(`#audio`)
+      const audioDOM = this.$refs.audioDOM
+
       audioDOM.addEventListener('timeupdate', () => {
         this.totalSec = parseInt(audioDOM.duration)
         this.currentSec = parseInt(audioDOM.currentTime)

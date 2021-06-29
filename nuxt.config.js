@@ -141,6 +141,7 @@ module.exports = {
     { path: '/api/youtube', handler: '~/api/youtube.js' },
     { path: '/api/tracking', handler: '~/api/tracking.js' },
     { path: '/api/gcs', handler: '~/api/gcs.js' },
+    { path: '/check', handler: '~/server-middleware/health-check.js' },
   ],
   /*
    ** Nuxt.js dev-modules
@@ -196,7 +197,7 @@ module.exports = {
   googleAnalytics: {
     id: () => {
       return document.domain.match(/^(www|nuxt).mnews.tw/gs)
-        ? 'UA-83609754-1'
+        ? 'G-JJHGFVP4X5'
         : 'UA-83609754-2'
     },
   },

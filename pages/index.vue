@@ -170,6 +170,7 @@
         </div>
       </aside>
     </div>
+    <YoutubeToS />
   </section>
 </template>
 
@@ -189,6 +190,7 @@ import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
 import YoutubeEmbed from '~/components/YoutubeEmbed.vue'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi.vue'
+import YoutubeToS from '~/components/YoutubeToS.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
 import ShowCard from '~/components/ShowCard'
@@ -281,6 +283,7 @@ export default {
     UiFlashNews,
     ShowCard,
     LinkAnchorStyle,
+    YoutubeToS,
   },
   data() {
     return {
@@ -557,6 +560,7 @@ export default {
 }
 
 .home {
+  padding-bottom: 8px;
   > * + .main {
     margin-top: 16px;
   }
