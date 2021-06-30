@@ -1,5 +1,10 @@
 <template>
-  <a :href="href" class="link" target="_blank" rel="noopener noreferrer">
+  <a
+    href="/anchorperson"
+    class="link"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
     <div class="link__left-block">
       <slot name="left-block">
         <img
@@ -23,16 +28,7 @@
 </template>
 
 <script>
-import { getDomain } from '~/utils/meta'
-
-export default {
-  props: {
-    href: {
-      type: String,
-      default: `${getDomain()}/anchorperson`,
-    },
-  },
-}
+export default {}
 </script>
 
 <style lang="scss" scoped>
