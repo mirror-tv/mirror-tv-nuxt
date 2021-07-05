@@ -5,8 +5,9 @@ const Redis = require('ioredis')
 const {
   ENV,
   REDIS_AUTH,
-  REDIS_PORT,
   REDIS_HOST,
+  REDIS_PORT,
+  REDIS_TYPE,
 } = require('../../configs/config')
 
 const PREFIX = `${process.env.npm_package_name}_${ENV}:`
@@ -18,7 +19,7 @@ const MAX_RETRY_TIMES = 20
 let redisClient
 
 if (REDIS_HOST && REDIS_PORT && REDIS_AUTH) {
-  if (ENV === 'prod') {
+  if (REDIS_TYPE === 'cluster') {
     redisClient = new Redis.Cluster(
       [
         {
@@ -33,7 +34,7 @@ if (REDIS_HOST && REDIS_PORT && REDIS_AUTH) {
         clusterRetryStrategy: retryStrategy,
       }
     )
-  } else if (ENV === 'dev') {
+  } else {
     redisClient = new Redis({
       port: REDIS_PORT,
       host: REDIS_HOST,
