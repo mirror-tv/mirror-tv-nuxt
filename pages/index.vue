@@ -60,7 +60,7 @@
           />
         </div>
         <div v-if="hasListPopularData" class="aside-list main__popular-list">
-          <HeadingBordered class="home__heading" text="熱門文章" />
+          <HeadingBordered class="home__heading" text="熱門新聞" />
           <ol class="popular-list">
             <li
               v-for="item in listPopularData"
