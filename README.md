@@ -27,7 +27,7 @@ And we already have a build trigger([mirror-tv-nuxt-build-and-deploy](https://co
 
 For quick understanding how the CI/CD works, please see the following diagram.
 
-<img src="https://github.com/nickhsine/mirror-tv-nuxt/blob/doc-for-cicd/docs/images/ci-cd-diagram.jpg" >
+<img src="https://github.com/mirror-media/mirror-tv-nuxt/blob/dev/docs/images/ci-cd-diagram.jpg" >
 
 ### Three Branches to Control CI/CD
 Three branches are `dev`, `staging` and `prod` respectively.
