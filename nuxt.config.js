@@ -113,6 +113,13 @@ module.exports = {
         src: 'https://securepubads.g.doubleclick.net/tag/js/gpt.js',
         async: true,
       },
+
+      {
+        hid: 'adSense',
+        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+        'data-ad-client': 'ca-pub-6117138886514853',
+        async: true,
+      },
     ],
     noscript: [
       // comScore Tag
