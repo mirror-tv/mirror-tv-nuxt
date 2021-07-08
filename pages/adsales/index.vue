@@ -2,7 +2,7 @@
   <div class="g-page">
     <div class="adsales__container">
       <a :href="adSalesUrl" target="_blank" rel="noreferer noopener">
-        <img :src="imgUrl" alt="adsales picture" />
+        <img src="~/static/default.jpg" alt="adsales picture" />
         <h3>點擊圖片觀看整合行銷內容</h3>
       </a>
       <ClientOnly>
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { BASE_URL } from '~/configs/config'
 import { SITE_NAME } from '~/constants'
 import { getDomain } from '~/utils/meta'
 import { fetchAllSales } from '~/apollo/queries/allSales.gql'
@@ -53,9 +52,6 @@ export default {
     }
   },
   computed: {
-    imgUrl() {
-      return `${BASE_URL}/default.jpg`
-    },
     adSalesUrl() {
       return this.adSales?.pdfUrl
     },
