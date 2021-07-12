@@ -1,22 +1,30 @@
 <template>
   <ol class="breadcrum">
     <li class="breadcrum__item">
-      <a :href="`/`" rel="noreferer noopener" class="breadcrum__item__section">
-        {{ section }}
+      <a
+        :href="`/show/art/${section.slug}`"
+        rel="noreferer noopener"
+        class="breadcrum__item__section"
+      >
+        {{ section.name }}
       </a>
+    </li>
+    <li v-show="series" class="breadcrum__item">
       <div class="breadcrum__item-img">
         <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
       </div>
-    </li>
-    <li class="breadcrum__item">
-      <a :href="`/`" rel="noreferer noopener" class="breadcrum__item__section">
-        {{ series }}
+      <a
+        :href="`/show/art/${section.slug}/${series.slug}`"
+        rel="noreferer noopener"
+        class="breadcrum__item__section"
+      >
+        {{ series.name }}
       </a>
+    </li>
+    <li v-show="showName" class="breadcrum__item">
       <div class="breadcrum__item-img">
         <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
       </div>
-    </li>
-    <li class="breadcrum__item">
       <a :href="`/`" rel="noreferer noopener" class="breadcrum__item__section">
         {{ showName }}
       </a>
@@ -26,12 +34,18 @@
 
 <script>
 export default {
-  data() {
-    return {
-      section: '單元系列',
-      series: '單元一二三',
-      showName: '影片第一集',
-    }
+  props: {
+    section: {
+      type: String,
+      default: () => {},
+      required: true,
+    },
+    series: {
+      type: String,
+    },
+    showName: {
+      type: String,
+    },
   },
 }
 </script>
@@ -42,18 +56,19 @@ export default {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 28px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 25px;
   color: $color-blue;
-  margin: 12px 0;
+  margin: 15px 0;
   @include media-breakpoint-up(md) {
-    font-size: 30px;
-    line-height: 42px;
-    margin: 28px 0;
+    font-size: 20px;
+    line-height: 160%;
+    margin: 20px 0;
+    letter-spacing: 0.5px;
   }
   @include media-breakpoint-up(xl) {
-    margin-bottom: 40px;
+    margin: 40px 0;
   }
   &__item {
     display: flex;
