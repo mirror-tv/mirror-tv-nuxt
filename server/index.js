@@ -12,6 +12,7 @@ require('dayjs/locale/zh-tw')
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 const { redisClient } = require('../server-middleware/redis/utils')
+const { releaseTarget } = require('../constants/env-variables')
 
 config.dev = process.env.NODE_ENV !== 'production'
 
@@ -37,14 +38,23 @@ async function start() {
 
   app.use(requestIp.mw())
 
-  // app.get('/robots.txt', (req, res, next) => {
-  //   if (config.dev) {
-  //     res.type('text/plain').send('User-agent: * \n' + 'Disallow: /')
-  //     return
-  //   }
-  //   // TODO: add prod robots.txt when sitemap ready
-  //   next()
-  // })
+  app.get('/robots.txt', (req, res, next) => {
+    if (releaseTarget === 'prod') {
+      res
+        .type('text/plain')
+        .send(
+          'User-agent: * \n' +
+            'Disallow: / \n' +
+            '\n' +
+            'User-agent: Mediapartners-Google \n' +
+            'Allow: /'
+        )
+      next()
+    } else {
+      res.type('text/plain').send('User-agent: * \n' + 'Disallow: /')
+      next()
+    }
+  })
 
   // Give nuxt middleware to express
   app.use(nuxt.render)

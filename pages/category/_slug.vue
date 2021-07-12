@@ -141,7 +141,7 @@ export default {
     }
   },
   head() {
-    const title = `${this.pageName} - ${SITE_NAME}`
+    const title = this.pageName ? `${this.pageName} - ${SITE_NAME}` : SITE_NAME
     return {
       title,
       meta: [

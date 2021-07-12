@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const { BASE_URL } = require('./configs/config')
 const {
   ENABLE_REDIS,
@@ -226,6 +227,26 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
+    extend(config, ctx) {
+      /*
+       ** To avoid adding `configs/config.js` in bundles,
+       ** we should filter out `configs/config.js`
+       ** in webpack client side bundles
+       */
+      if (ctx.isClient) {
+        config.plugins.push(
+          new webpack.IgnorePlugin({
+            checkResource(resource, context) {
+              if (
+                resource.includes('configs/config') &&
+                context.includes(__dirname)
+              ) {
+                return true
+              }
+            },
+          })
+        )
+      }
+    },
   },
 }
