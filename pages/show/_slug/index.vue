@@ -127,6 +127,9 @@ export default {
         }
       },
       result({ data, loading }) {
+        if (!data.allShows?.[0]?.name) {
+          this.$nuxt.error({ statusCode: 404 })
+        }
         if (!loading) {
           const { playList01 = '', playList02 = '' } = data.allShows?.[0] || {}
           const youtubeUrls = [playList01, playList02]
@@ -177,7 +180,7 @@ export default {
     }
   },
   head() {
-    const title = `${this.showName} - ${SITE_NAME}`
+    const title = this.showName ? `${this.showName} - ${SITE_NAME}` : SITE_NAME
     const image = this.show?.bannerImg?.urlDesktopSized
     return {
       title,

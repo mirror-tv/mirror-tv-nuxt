@@ -1,16 +1,20 @@
-import { ENV } from '../configs/config'
+import { releaseTarget } from '~/constants/env-variables'
 
 function getDomain() {
-  if (process.server) {
-    if (ENV === 'prod') {
+  switch (releaseTarget) {
+    case 'dev':
+      return `https://dev.mnews.tw`
+    case 'staging':
+      return `https://staging.mnews.tw`
+    case 'prod':
       return `https://www.mnews.tw`
+    default: {
+      if (typeof window !== 'undefined') {
+        return `${window.location?.origin}`
+      }
+      return `http://localhost:3000`
     }
-    if (ENV === 'dev') {
-      return `http://dev.mnews.tw`
-    }
-    return `http://localhost:3000`
   }
-  return `${location?.origin}`
 }
 
 export { getDomain }
