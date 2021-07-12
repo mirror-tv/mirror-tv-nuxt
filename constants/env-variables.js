@@ -1,3 +1,5 @@
-const ENV = process.env.RELEASE_TARGET || 'local'
+const releaseTarget = process.env.RELEASE_TARGET || 'local'
 
-export { ENV }
+module.exports = {
+  releaseTarget,
+}

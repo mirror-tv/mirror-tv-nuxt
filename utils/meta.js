@@ -1,7 +1,7 @@
-import { ENV } from '~/constants/env-variables'
+import { releaseTarget } from '~/constants/env-variables'
 
 function getDomain() {
-  switch (ENV) {
+  switch (releaseTarget) {
     case 'dev':
       return `https://dev.mnews.tw`
     case 'staging':
