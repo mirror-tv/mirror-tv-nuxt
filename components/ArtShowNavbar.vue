@@ -1,21 +1,57 @@
 <template>
   <ol class="pages">
     <li
-      v-for="page in pages"
-      :key="page.page"
-      :class="{ 'pages__item-active': currentPage === page.page }"
+      :key="pages[0].slug"
+      :class="{ 'pages__item-active': currentPage === pages[0].slug }"
       class="pages__item"
     >
-      <a :href="`/show/${currentSlug}/${page.page}`" rel="noreferer noopener">
+      <a
+        :href="`/show/${currentSlug}/${pages[0].slug}`"
+        rel="noreferer noopener"
+        @click="handleClickPageLink(pages[0].name)"
+      >
+        {{ pages[0].name }}
+      </a>
+    </li>
+    <li
+      v-for="page in sectionList"
+      :key="page.slug"
+      :class="{ 'pages__item-active': currentPage === page.slug }"
+      class="pages__item"
+    >
+      <a
+        :href="`/show/${currentSlug}/${page.slug}`"
+        rel="noreferer noopener"
+        @click="handleClickPageLink(page.name)"
+      >
         {{ page.name }}
+      </a>
+    </li>
+    <li
+      :key="pages[1].slug"
+      :class="{ 'pages__item-active': currentPage === pages[1].slug }"
+      class="pages__item"
+    >
+      <a
+        :href="`/show/${currentSlug}/${pages[1].slug}`"
+        rel="noreferer noopener"
+        @click="handleClickPageLink(pages[1].name)"
+      >
+        {{ pages[1].name }}
       </a>
     </li>
   </ol>
 </template>
 
 <script>
+import { sendGaEvent } from '~/utils/google-analytics'
+
 export default {
   props: {
+    gaCategory: {
+      type: String,
+      default: 'ArtShow',
+    },
     currentSlug: {
       type: String,
       required: true,
@@ -24,19 +60,24 @@ export default {
       type: String,
       required: true,
     },
+    sectionList: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   data() {
     return {
       pages: [
-        { page: 'about', name: '關於節目' },
-        { page: 'series', name: '單元系列' },
-        { page: 'weekly', name: '每週藝文' },
-        { page: 'indepth', name: '深度專題' },
-        { page: 'international', name: '國際藝文' },
-        { page: 'team', name: '創作團隊' },
+        { slug: 'about', name: '關於節目' },
+        { slug: 'team', name: '創作團隊' },
       ],
     }
+  },
+  methods: {
+    handleClickPageLink(name) {
+      sendGaEvent(this.$ga)(this.gaCategory)('click')(`索引：${name}`)
+    },
   },
 }
 </script>
@@ -46,20 +87,21 @@ export default {
   position: relative;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   width: calc(100% + 32px);
   transform: translateX(-16px);
   text-align: center;
   background-color: $color-blue;
-  padding: 10px 42px 5px;
+  padding: 16px 26px;
+  row-gap: 12px;
   @include media-breakpoint-up(md) {
     flex-wrap: no-wrap;
     width: 100%;
     transform: none;
-    background-color: #fff;
-    padding: 0;
+    padding: 20px 33px;
   }
   @include media-breakpoint-up(xl) {
-    margin-bottom: 34px;
+    padding: 24px;
   }
   &__item {
     display: flex;
@@ -67,27 +109,21 @@ export default {
     align-items: center;
     width: 33.3333333%;
     color: #fff;
-    font-size: 14px;
-    line-height: 28px;
-    letter-spacing: 0.5px;
-    margin-bottom: 5px;
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: 500;
     @mixin separator_line() {
       content: '';
       display: inline-block;
       width: 2px;
       height: 16px;
-      background-color: #fff;
-    }
-    &::before {
-      @include separator_line;
-    }
-    &:nth-child(3) {
-      &::after {
-        @include separator_line;
+      background-color: rgba(255, 255, 255, 0.5);
+      @include media-breakpoint-up(md) {
+        height: 24px;
       }
     }
-    &:last-child {
-      &::after {
+    &:not(:nth-child(3n + 1)) {
+      &::before {
         @include separator_line;
       }
     }
@@ -95,41 +131,34 @@ export default {
       color: #ffdb49;
     }
     @include media-breakpoint-up(md) {
-      width: calc((100% - 25px * 5) / 6);
-      color: $color-blue;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 22px;
-      margin: 0 25px 0 0;
-      padding: 4px 0;
-      border: 3px solid $color-blue;
-      &::before {
-        display: none;
-      }
-      &:nth-child(3) {
-        &::after {
-          display: none;
+      width: auto;
+      font-size: 20px;
+      line-height: 160%;
+      letter-spacing: 0.5px;
+      &:not(:nth-child(1)) {
+        &::before {
+          margin: 0 12px;
         }
       }
-      &:last-child {
-        margin: 0;
-        &::after {
-          display: none;
+      &:nth-child(4) {
+        &::before {
+          @include separator_line;
         }
       }
       &-active {
-        color: #fff;
         background-color: $color-blue;
       }
     }
     @include media-breakpoint-up(xl) {
-      width: calc((100% - 36px * 5) / 6);
       font-size: 20px;
-      margin: 0 36px 0 0;
-      padding: 8px 0;
       &:hover {
         color: #fff;
         background-color: $color-blue;
+      }
+      &:not(:nth-child(1)) {
+        &::before {
+          margin: 0 16px;
+        }
       }
     }
     a {
