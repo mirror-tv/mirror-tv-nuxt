@@ -64,6 +64,19 @@ export default {
       type: Array,
       default: () => [],
     },
+    section: {
+      type: Object,
+      default: () => {},
+      required: true,
+    },
+    series: {
+      type: Object,
+      default: () => {},
+    },
+    artShow: {
+      type: Object,
+      default: () => {},
+    },
   },
 }
 </script>
