@@ -12,10 +12,8 @@
       <section class="artshow__about__collect">
         <ArtShowVideoList
           :showList="showList"
-          :handleClickMore="handleClickMore"
           :currentSlug="currentSlug"
           :showLoadMoreButton="showLoadMoreButton"
-          :handleClickVideo="handleClickVideo"
         />
       </section>
     </section>

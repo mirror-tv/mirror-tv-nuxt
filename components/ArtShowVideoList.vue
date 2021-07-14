@@ -5,7 +5,7 @@
         <a
           :href="`/show/${currentSlug}/video/${item.id}`"
           rel="noreferer noopener"
-          @click="handleClickVideo"
+          @click="$emit('click-video')"
         >
           <img
             v-if="item.heroVideo && item.heroVideo.coverPhoto"
@@ -21,7 +21,7 @@
     <ButtonLoadmore
       v-show="showLoadMoreButton"
       class="g-button-load-more"
-      @click.native="handleClickMore"
+      @click.native="$emit('click-more-button')"
     />
   </div>
 </template>
@@ -50,14 +50,6 @@ export default {
     showLoadMoreButton: {
       type: Boolean,
       required: true,
-    },
-    sendGaClickEvent: {
-      type: Function,
-      default: () => [],
-    },
-    handleClickVideo: {
-      type: Function,
-      default: () => {},
     },
   },
 }
