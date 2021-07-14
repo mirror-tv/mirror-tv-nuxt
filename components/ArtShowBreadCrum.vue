@@ -1,5 +1,5 @@
 <template>
-  <ol class="breadcrum">
+  <ol v-if="section" class="breadcrum">
     <li class="breadcrum__item">
       <a
         :href="`/show/art/${section.slug}`"
@@ -9,7 +9,7 @@
         {{ section.name }}
       </a>
     </li>
-    <li v-show="series" class="breadcrum__item">
+    <li v-if="series" class="breadcrum__item">
       <div class="breadcrum__item-img">
         <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
       </div>
@@ -21,12 +21,12 @@
         {{ series.name }}
       </a>
     </li>
-    <li v-show="showName" class="breadcrum__item">
+    <li v-if="show" class="breadcrum__item">
       <div class="breadcrum__item-img">
         <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
       </div>
       <a :href="`/`" rel="noreferer noopener" class="breadcrum__item__section">
-        {{ showName }}
+        {{ artShow.name }}
       </a>
     </li>
   </ol>
@@ -36,15 +36,17 @@
 export default {
   props: {
     section: {
-      type: String,
+      type: Object,
       default: () => {},
       required: true,
     },
     series: {
-      type: String,
+      type: Object,
+      default: () => {},
     },
-    showName: {
-      type: String,
+    artShow: {
+      type: Object,
+      default: () => {},
     },
   },
 }

@@ -7,11 +7,17 @@
         <img :src="picture.urlMobileSized" :alt="showName" />
       </picture>
       <ArtShowNavbar
-        v-show="shouldShowNavbar"
+        v-if="shouldShowNavbar"
         :currentSlug="currentSlug"
         :currentPage="currentPage"
         :gaCategory="gaCategory"
         :sectionList="sectionList"
+      />
+      <ArtShowBreadCrum
+        v-else
+        :section="section"
+        :series="series"
+        :artShow="artShow"
       />
       <slot />
     </div>
@@ -20,10 +26,12 @@
 
 <script>
 import ArtShowNavbar from '~/components/ArtShowNavbar'
+import ArtShowBreadCrum from '~/components/ArtShowBreadCrum'
 
 export default {
   components: {
     ArtShowNavbar,
+    ArtShowBreadCrum,
   },
   props: {
     currentSlug: {
