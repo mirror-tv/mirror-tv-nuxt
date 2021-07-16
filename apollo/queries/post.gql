@@ -1,5 +1,5 @@
 query fetchPostPublishedBySlug($slug: String!) {
-  postPublished: allPosts(where: { state: published, slug: $slug }) {
+  postPublished: allPosts(where: { slug: $slug }) {
     style
     name
     brief
