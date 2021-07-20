@@ -528,7 +528,7 @@ export default {
     },
     setGaDimensionOfSource() {
       const dimensionSource = this.source ?? ''
-      this.$ga.set('dimension2', dimensionSource)
+      this.$ga.set('dimension1', dimensionSource)
     },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('article')('scroll')(label)
