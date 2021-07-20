@@ -212,14 +212,14 @@ module.exports = {
   },
   googleAnalytics: {
     id: () => {
-      switch (process.env.RELEASE_TARGET) {
-        case 'staging':
-          return 'UA-196534751-3'
-        case 'prod':
-          return 'UA-196534751-1'
-        default:
-          return 'UA-196534751-2'
+      const domain = document.domain
+      if (domain.match(/^(www|nuxt).mnews.tw/gs)) {
+        return 'UA-196534751-1'
       }
+      if (domain.includes('staging')) {
+        return 'UA-196534751-3'
+      }
+      return 'UA-196534751-2'
     },
   },
   styleResources: {
