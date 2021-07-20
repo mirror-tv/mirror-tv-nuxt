@@ -212,11 +212,11 @@ module.exports = {
   },
   googleAnalytics: {
     id: () => {
-      const releaseTarget = process.env.RELEASE_TARGET
-      if (releaseTarget === 'prod') {
+      const domain = document.domain
+      if (domain.match(/^(www|nuxt).mnews.tw/gs)) {
         return 'UA-196534751-1'
       }
-      if (releaseTarget === 'staging') {
+      if (domain.includes('staging')) {
         return 'UA-196534751-3'
       }
       return 'UA-196534751-2'
