@@ -9,6 +9,9 @@ query allPublishedPosts(
     sortBy: publishTime_DESC,
     where: {
       slug_not_in: $filteredSlug,
+      categories_every: {
+        slug_not_in: "ombuds"
+      },
       state: published
     },
     first: $first,
@@ -26,6 +29,9 @@ query allPublishedPosts(
     sortBy: publishTime_DESC,
     where: {
       slug_not_in: $filteredSlug,
+      categories_every: {
+        slug_not_in: "ombuds"
+      },
       state: published
     }
   ) {
