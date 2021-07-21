@@ -29,6 +29,7 @@ query fetchAllShows {
     name
     sortOrder
     bannerImg {
+      urlDesktopSized
       urlOriginal
     }
 
