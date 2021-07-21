@@ -10,10 +10,6 @@ const FILTERED_SLUG = [
   'ad-sales',
   'press-self-regulation',
   'webauthorization',
-  'biography',
-  'complaint',
-  'standards',
-  'faq',
   'aboutus',
 ]
 
