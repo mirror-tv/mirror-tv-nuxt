@@ -195,7 +195,9 @@ export default {
     allCategories: {
       query: fetchFeaturedCategories,
       update: (data) =>
-        data?.allCategories.filter((category) => category.slug !== 'video'),
+        data?.allCategories.filter(
+          (category) => category.slug !== 'video' && category.slug !== 'ombuds'
+        ),
     },
     videoEditorChoices: {
       query: fetchVideoEditorChoices,

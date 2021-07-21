@@ -17,7 +17,10 @@ export default {
   },
   computed: {
     getBannerImgUrl() {
-      return this.show.bannerImg?.urlOriginal
+      return (
+        this.show.bannerImage?.urlDesktopSized ||
+        this.show.bannerImg?.urlOriginal
+      )
     },
   },
 }

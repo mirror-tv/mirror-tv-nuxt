@@ -45,15 +45,15 @@ export default {
       case 'ordered-list-item':
         if (typeof content === 'string') {
           return (
-            <ol>
-              <li>{content}</li>
+            <ol class="g-article-list order-list">
+              <li domPropsInnerHTML={content} />
             </ol>
           )
         } else {
           return (
-            <ol class="g-article-ordered-list">
+            <ol class="g-article-list order-list">
               {content.map((item) => {
-                return <li>{item}</li>
+                return <li domPropsInnerHTML={item} />
               })}
             </ol>
           )
@@ -62,15 +62,15 @@ export default {
       case 'unordered-list-item':
         if (typeof content === 'string') {
           return (
-            <ul>
-              <li>{content}</li>
+            <ul class="g-article-list unorder-list">
+              <li domPropsInnerHTML={content} />
             </ul>
           )
         } else {
           return (
-            <ul class="g-article-unordered-list">
+            <ul class="g-article-list unorder-list">
               {content.map((item) => {
-                return <li>{item}</li>
+                return <li domPropsInnerHTML={item} />
               })}
             </ul>
           )
@@ -148,32 +148,35 @@ export default {
   &-paragraph,
   &-quote-by,
   &-annotation {
-    a {
-      color: $color-blue;
-      font-weight: 500;
+    &::v-deep {
+      a {
+        color: $color-blue;
+        font-weight: 500;
+        text-decoration: underline;
+      }
     }
   }
-  &-ordered-list {
+  &-list {
     margin-top: 0 !important;
     padding-left: 2rem;
-    list-style-type: decimal;
+    &.order-list {
+      list-style-type: decimal;
+    }
+    &.unorder-list {
+      list-style-type: disc;
+    }
     li {
       color: #000;
       font-size: 16px;
       line-height: 1.75;
       text-align: justify;
-    }
-  }
-
-  &-unordered-list {
-    margin-top: 0 !important;
-    padding-left: 2rem;
-    list-style-type: disc;
-    li {
-      color: #000;
-      font-size: 16px;
-      line-height: 1.75;
-      text-align: justify;
+      &::v-deep {
+        a {
+          color: $color-blue;
+          font-weight: 500;
+          text-decoration: underline;
+        }
+      }
     }
   }
 }
