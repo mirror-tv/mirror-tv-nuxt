@@ -12,18 +12,18 @@ const SITE_NAME = '鏡新聞'
 const SITE_DESCRIPTION =
   '鏡新聞是一個由全方位媒體人用專業跟熱情澆灌出來的新聞平台！'
 
-const releaseTarget = process.env.RELEASE_TARGET
-const googleAnalyticId = getGaId(releaseTarget)
+// const releaseTarget = process.env.RELEASE_TARGET
+// const googleAnalyticId = getGaId(releaseTarget)
 
-function getGaId(target) {
-  if (target === 'prod') {
-    return 'UA-196534751-1'
-  }
-  if (target === 'staging') {
-    return 'UA-196534751-3'
-  }
-  return 'UA-196534751-2'
-}
+// function getGaId(target) {
+//   if (target === 'prod') {
+//     return 'UA-196534751-1'
+//   }
+//   if (target === 'staging') {
+//     return 'UA-196534751-3'
+//   }
+//   return 'UA-196534751-2'
+// }
 
 module.exports = {
   telemetry: false,
@@ -224,7 +224,16 @@ module.exports = {
     },
   },
   googleAnalytics: {
-    id: googleAnalyticId,
+    id: () => {
+      const domain = document.domain
+      if (domain.match(/^(www|nuxt).mnews.tw/gs)) {
+        return 'UA-196534751-1'
+      }
+      if (domain.includes('staging')) {
+        return 'UA-196534751-3'
+      }
+      return 'UA-196534751-2'
+    },
   },
   styleResources: {
     scss: ['~/scss/_*.scss'],
