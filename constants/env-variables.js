@@ -1,4 +1,4 @@
-const releaseTarget = process.env.RELEASE_TARGET || 'dev'
+const releaseTarget = process.env.RELEASE_TARGET || 'local'
 
 module.exports = {
   releaseTarget,

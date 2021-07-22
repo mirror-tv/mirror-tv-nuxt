@@ -1,4 +1,5 @@
 import { releaseTarget } from '~/constants/env-variables'
+const target = releaseTarget === 'local' ? 'dev' : releaseTarget
 
 const SITE_NAME = '鏡新聞'
 const SITE_DESCRIPTION =
@@ -17,7 +18,7 @@ const FILTERED_SLUG = [
 
 const PDF_URL = [
   {
-    'press-self-regulation': `https://storage.googleapis.com/static-mnews-tw-${releaseTarget}/regulation/press-self-regulation.pdf`,
+    'press-self-regulation': `https://storage.googleapis.com/static-mnews-tw-${target}/regulation/press-self-regulation.pdf`,
   },
 ]
 
