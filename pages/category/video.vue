@@ -331,6 +331,7 @@ export default {
         this.$apollo.addSmartQuery(`${slug}Posts`, {
           query: fetchPostsByCategorySlug,
           variables: () => ({
+            first: 12,
             category: slug,
             style: 'videoNews',
             withCount: true,
@@ -355,13 +356,15 @@ export default {
       this.$apollo.queries?.[`${slug}Posts`]?.fetchMore({
         variables: {
           category: slug,
-          skip: page * 10,
+          first: 12,
+          skip: (page - 1) * 12,
+          withCount: false,
           filteredSlug: FILTERED_SLUG,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           this.$set(this[`${slug}Posts`], 'items', [
-            ...previousResult.posts,
-            ...fetchMoreResult.posts,
+            ...previousResult.allPosts,
+            ...fetchMoreResult.allPosts,
           ])
         },
       })
