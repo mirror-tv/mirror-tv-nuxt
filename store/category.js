@@ -16,8 +16,8 @@ export const getters = {
   },
   displayedCategories(state, getters) {
     const data = getters.categories.filter((item) => item.isFeatured) ?? []
-    const sortedData = data ? sortCategories(data) : []
-    return sortedData
+    const sortedData = data.length ? sortCategories(data) : []
+    return addStaticCategories(sortedData)
   },
   displayedShows(state, getters) {
     return getters.shows ? sortShows(getters.shows) : []
@@ -50,4 +50,20 @@ function sortShows(data) {
 
 function groupPostByCategory(data) {
   return _.groupBy(data, 'categories[0][name]')
+}
+
+function addStaticCategories(data) {
+  const staticCategories = [
+    {
+      slug: 'home',
+      name: '首頁',
+      isFeatured: true,
+    },
+    {
+      slug: 'video',
+      name: '影音',
+      isFeatured: true,
+    },
+  ]
+  return staticCategories.concat(data)
 }

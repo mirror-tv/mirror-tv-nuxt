@@ -86,12 +86,15 @@ export default {
     },
   },
   watch: {
-    pageForSlide(value) {
-      if (this.canLoadMore) {
-        if (this.isMobile && this.pageForSlide * 2 + 4 > this.total) {
+    pageForSlide(newVal, oldVal) {
+      if (this.canLoadMore && newVal > oldVal) {
+        if (this.isMobile && this.pageForSlide * 2 + 2 >= this.items.length) {
           this.pageForItems += 1
           this.$emit('load-more', this.pageForItems)
-        } else if (!this.isMobile && this.pageForSlide * 3 + 6 > this.total) {
+        } else if (
+          !this.isMobile &&
+          this.pageForSlide * 3 + 3 >= this.items.length
+        ) {
           this.pageForItems += 1
           this.$emit('load-more', this.pageForItems)
         }
