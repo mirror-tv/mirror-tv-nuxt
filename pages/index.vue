@@ -177,7 +177,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import { getDomain } from '~/utils/meta'
+import { getUrlOrigin } from '~/utils/meta'
 import { FILTERED_SLUG } from '~/constants'
 import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
@@ -299,6 +299,7 @@ export default {
       liveVideo: {},
       testNum: 0,
       filteredSlug: [],
+      hasPlaylistItems: false,
     }
   },
   async fetch() {
@@ -322,7 +323,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
+          content: `${getUrlOrigin(this.$config)}${this.$route.path}`,
         },
       ],
     }
@@ -368,9 +369,9 @@ export default {
     hasListPopularData() {
       return this.listPopularData?.length
     },
-    hasPlaylistItems() {
-      return this.playlistItems?.length
-    },
+    // hasPlaylistItems() {
+    //   return this.playlistItems?.length
+    // },
     hasPromotionVideos() {
       return this.promotionVideos?.length
     },

@@ -12,19 +12,6 @@ const SITE_NAME = '鏡新聞'
 const SITE_DESCRIPTION =
   '鏡新聞是一個由全方位媒體人用專業跟熱情澆灌出來的新聞平台！'
 
-// const releaseTarget = process.env.RELEASE_TARGET
-// const googleAnalyticId = getGaId(releaseTarget)
-
-// function getGaId(target) {
-//   if (target === 'prod') {
-//     return 'UA-196534751-1'
-//   }
-//   if (target === 'staging') {
-//     return 'UA-196534751-3'
-//   }
-//   return 'UA-196534751-2'
-// }
-
 module.exports = {
   telemetry: false,
   /*
@@ -192,6 +179,13 @@ module.exports = {
     '@nuxtjs/axios',
     ['@nuxtjs/component-cache', { max: 10000, maxAge: 1000 * 60 * 60 * 24 }],
   ],
+  /*
+   ** Doc: https://nuxtjs.org/docs/2.x/directory-structure/nuxt-config
+   ** See Also: https://nuxtjs.org/blog/moving-from-nuxtjs-dotenv-to-runtime-config
+   */
+  publicRuntimeConfig: {
+    releaseTarget: process.env.RELEASE_TARGET || 'local',
+  },
   axios: {
     proxy: true,
   },

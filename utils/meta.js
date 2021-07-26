@@ -1,7 +1,5 @@
-import { releaseTarget } from '~/constants/env-variables'
-
-function getDomain() {
-  switch (releaseTarget) {
+function getUrlOrigin(contextConfig) {
+  switch (contextConfig.releaseTarget) {
     case 'dev':
       return `https://dev.mnews.tw`
     case 'staging':
@@ -17,4 +15,4 @@ function getDomain() {
   }
 }
 
-export { getDomain }
+export { getUrlOrigin }

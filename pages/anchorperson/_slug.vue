@@ -65,7 +65,7 @@
 
 <script>
 import { SITE_NAME } from '~/constants'
-import { getDomain } from '~/utils/meta'
+import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
 import { handleLineBreak } from '~/utils/text-handler'
@@ -99,7 +99,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
+          content: `${getUrlOrigin(this.$config)}${this.$route.path}`,
         },
         {
           hid: 'og:title',
