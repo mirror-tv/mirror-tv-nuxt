@@ -258,6 +258,7 @@ export default {
       allShows: [],
       liveVideo: {},
       popularVideo: [],
+      hasPlaylistItems: false,
     }
   },
   async fetch() {
@@ -313,9 +314,9 @@ export default {
     hasPopularVideo() {
       return this.popularVideo?.length
     },
-    hasPlaylistItems() {
-      return this.playlistItems?.length
-    },
+    // hasPlaylistItems() {
+    //   return this.playlistItems?.length
+    // },
     hasPromotionVideos() {
       return this.promotionVideos?.length
     },
