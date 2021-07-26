@@ -39,7 +39,7 @@
 <script>
 import axios from 'axios'
 import { SITE_NAME } from '~/constants'
-import { getDomain } from '~/utils/meta'
+import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
@@ -86,7 +86,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
+          content: `${getUrlOrigin(this.$config)}${this.$route.path}`,
         },
         {
           hid: 'og:title',

@@ -28,7 +28,7 @@
 <script>
 import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 
-import { getDomain } from '~/utils/meta'
+import { getUrlOrigin } from '~/utils/meta'
 import { fetchPostsAndCountByTagName } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
@@ -76,7 +76,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
+          content: `${getUrlOrigin(this.$config)}${this.$route.path}`,
         },
         {
           hid: 'og:title',

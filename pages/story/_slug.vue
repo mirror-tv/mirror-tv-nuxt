@@ -119,10 +119,10 @@ import {
   SITE_NAME,
   SITE_URL,
   FILTERED_SLUG,
-  PDF_URL,
 } from '~/constants'
 
-import { getDomain } from '~/utils/meta'
+import { getUrlOrigin } from '~/utils/meta'
+import { getPdfUrl } from '~/utils/story_pdf'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
@@ -210,7 +210,7 @@ export default {
     const brief = this.brief?.replace?.(/<[^>]*>?/gm, '')
     const tags = this.tags?.map?.((tag) => tag.name).join(', ')
     const image = this.image?.desktop
-    const ogUrl = `${getDomain()}${this.$route.path}`
+    const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
     return {
       title,
       meta: [
@@ -313,7 +313,7 @@ export default {
             '@context': 'http://schema.org/',
             '@type': 'Person',
             name: authorName,
-            url: `${getDomain()}/author/${
+            url: `${getUrlOrigin(this.$config)}/author/${
               this.postPublished?.writers?.[0]?.slug
             }/`,
             brand: {
@@ -346,7 +346,7 @@ export default {
             '@type': 'ListItem',
             position: items.length + 1,
             name: this.categoryTitle,
-            item: `${getDomain()}/category/${
+            item: `${getUrlOrigin(this.$config)}/category/${
               this.postPublished?.categories?.[0]?.slug
             }`,
           })
@@ -495,8 +495,7 @@ export default {
       return this.postPublished?.source
     },
     pdfUrl() {
-      const item = PDF_URL?.find((item) => Object.keys(item)[0] === this.slug)
-      return item ? item[this.slug] : ''
+      return getPdfUrl(this.$config, this.slug)
     },
   },
   beforeMount() {
