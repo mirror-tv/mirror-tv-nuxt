@@ -159,11 +159,11 @@ export default {
           slug: this.$route.params.slug,
         }
       },
-      update: (data) => data.postPublished?.[0],
-      result({ data }) {
+      update(data) {
         if (!data.postPublished?.[0]?.name) {
-          this.$nuxt.error({ statusCode: 404 })
+          this.has404Err = true
         }
+        return data.postPublished?.[0]
       },
       error(error) {
         handleError(this.$nuxt, error.networkError.statusCode)
@@ -194,6 +194,7 @@ export default {
       postPublished: {},
       allPostsLatest: [],
       popularData: {},
+      has404Err: false,
     }
   },
   async fetch() {
@@ -502,6 +503,9 @@ export default {
     this.setGaDimensionOfSource()
   },
   mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
     setIntersectionObserver({
       elements: [document.querySelector('.list-wrapper')],
       handler: (entries, observer) => {

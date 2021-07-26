@@ -76,13 +76,14 @@ export default {
   apollo: {
     allCategories: {
       query: fetchFeaturedCategories,
-      result({ data }) {
+      update(data) {
         const hasCategory = data.allCategories?.some(
           (category) => category.slug === this.pageSlug
         )
         if (!hasCategory) {
-          this.$nuxt.error({ statusCode: 404 })
+          this.has404Err = true
         }
+        return data.allCategories
       },
     },
     allPostsCategory: {
@@ -130,6 +131,7 @@ export default {
       allPostsCategoryMeta: [],
       allPostsLatest: [],
       popularData: {},
+      has404Err: false,
     }
   },
   async fetch() {
@@ -210,6 +212,11 @@ export default {
     showLoadMoreButton() {
       return this.allPostsCategory?.length < this.allPostsCategoryMeta?.count
     },
+  },
+  mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
   methods: {
     reducerArticleCard(post) {

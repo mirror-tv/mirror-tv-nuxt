@@ -126,10 +126,13 @@ export default {
           slug: this.$route.params.slug,
         }
       },
-      result({ data, loading }) {
+      update(data) {
         if (!data.allShows?.[0]?.name) {
-          this.$nuxt.error({ statusCode: 404 })
+          this.has404Err = true
         }
+        return data.allShows?.[0] || {}
+      },
+      result({ data, loading }) {
         if (!loading) {
           const { playList01 = '', playList02 = '' } = data.allShows?.[0] || {}
           const youtubeUrls = [playList01, playList02]
@@ -162,7 +165,6 @@ export default {
           }
         }
       },
-      update: (data) => data.allShows?.[0] || {},
     },
   },
   components: {
@@ -177,6 +179,7 @@ export default {
       playlists: [],
       isMobile: false,
       isActive: true,
+      has404Err: false,
     }
   },
   head() {
@@ -246,6 +249,11 @@ export default {
     secondName() {
       return this.show.playList02?.split('：')[1] ?? '選單 B'
     },
+  },
+  mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
   methods: {
     reducePlaylistItems(item) {
