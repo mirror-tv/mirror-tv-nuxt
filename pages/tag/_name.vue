@@ -28,9 +28,10 @@
 <script>
 import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 
-import { getDomain } from '~/utils/meta'
+import { getUrlOrigin } from '~/utils/meta'
 import { fetchPostsAndCountByTagName } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleError } from '~/utils/error-handler'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 
@@ -56,8 +57,8 @@ export default {
         this.postsCount = data._allPostsMeta?.count
         return data.allPosts?.map(this.restructurePost)
       },
-      error() {
-        this.$nuxt.error({ statusCode: 500 })
+      error(error) {
+        handleError(this.$nuxt, error.networkError.statusCode)
       },
     },
   },
@@ -75,7 +76,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
+          content: `${getUrlOrigin(this.$config)}${this.$route.path}`,
         },
         {
           hid: 'og:title',

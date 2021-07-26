@@ -60,7 +60,7 @@
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
 import { SITE_NAME, FILTERED_SLUG } from '~/constants'
-import { getDomain } from '~/utils/meta'
+import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCardFeatured from '~/components/ArticleCardFeatured'
@@ -76,13 +76,14 @@ export default {
   apollo: {
     allCategories: {
       query: fetchFeaturedCategories,
-      result({ data }) {
+      update(data) {
         const hasCategory = data.allCategories?.some(
           (category) => category.slug === this.pageSlug
         )
         if (!hasCategory) {
-          this.$nuxt.error({ statusCode: 404 })
+          this.has404Err = true
         }
+        return data.allCategories
       },
     },
     allPostsCategory: {
@@ -130,6 +131,7 @@ export default {
       allPostsCategoryMeta: [],
       allPostsLatest: [],
       popularData: {},
+      has404Err: false,
     }
   },
   async fetch() {
@@ -148,7 +150,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `${getDomain()}${this.$route.path}`,
+          content: `${getUrlOrigin(this.$config)}${this.$route.path}`,
         },
         {
           hid: 'og:title',
@@ -210,6 +212,11 @@ export default {
     showLoadMoreButton() {
       return this.allPostsCategory?.length < this.allPostsCategoryMeta?.count
     },
+  },
+  mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
   methods: {
     reducerArticleCard(post) {

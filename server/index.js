@@ -12,7 +12,6 @@ require('dayjs/locale/zh-tw')
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 const { redisClient } = require('../server-middleware/redis/utils')
-const { releaseTarget } = require('../constants/env-variables')
 
 config.dev = process.env.NODE_ENV !== 'production'
 
@@ -39,7 +38,7 @@ async function start() {
   app.use(requestIp.mw())
 
   app.get('/robots.txt', (req, res, next) => {
-    if (releaseTarget === 'prod') {
+    if (process.env.RELEASE_TARGET === 'prod') {
       res
         .type('text/plain')
         .send(
