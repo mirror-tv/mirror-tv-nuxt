@@ -247,7 +247,9 @@ export default {
       promotionVideos: [],
       videoEditorChoices: [],
 
-      // 避免取值時為 undefined
+      // 避免取值時為 undefined -> dev
+      politicPosts: {},
+      // 避免取值時為 undefined -> staging
       newsPosts: {},
       entertainmentPosts: {},
       financePosts: {},
@@ -255,6 +257,15 @@ export default {
       lifePosts: {},
       personPosts: {},
       politicsPosts: {},
+      // 避免取值時為 undefined -> prod
+      entPosts: {},
+      uncPosts: {},
+      lifPosts: {},
+      socPosts: {},
+      finPosts: {},
+      intPosts: {},
+      polPosts: {},
+      perPosts: {},
       allShows: [],
       liveVideo: {},
       popularVideo: [],
