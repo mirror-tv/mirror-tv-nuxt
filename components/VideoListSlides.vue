@@ -14,7 +14,7 @@
       >
         <a
           v-if="item.img"
-          :href="`/show/${currentSlug}/${item.id}`"
+          :href="`/show/${currentShow}/${item.id}`"
           rel="noreferer noopener"
           class="item__image"
         >
@@ -45,7 +45,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    currentSlug: {
+    currentShow: {
       type: String,
       default: '',
     },

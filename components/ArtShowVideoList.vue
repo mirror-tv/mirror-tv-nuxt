@@ -1,20 +1,20 @@
 <template>
   <div class="artShow_list_wrapper">
     <ol>
-      <li v-for="item in showList" :key="item.id">
+      <li v-for="artShow in artShowList" :key="artShow.id">
         <a
-          :href="`/show/${currentSlug}/video/${item.id}`"
+          :href="`/show/${currentShow}/video/${artShow.id}`"
           rel="noreferer noopener"
           @click="$emit('click-video')"
         >
           <img
-            v-if="item.heroVideo && item.heroVideo.coverPhoto"
-            :src="item.heroVideo.coverPhoto.urlOriginal"
-            :alt="item.name"
+            v-if="artShow.heroVideo && artShow.heroVideo.coverPhoto"
+            :src="artShow.heroVideo.coverPhoto.urlMobileSized"
+            :alt="artShow.name"
           />
-          <img v-else src="~assets/img/image-default.png" :alt="item.name" />
+          <img v-else src="~assets/img/image-default.png" :alt="artShow.name" />
         </a>
-        <h4 v-text="item.name" />
+        <h4 v-text="artShow.name" />
       </li>
       <div class="position-correct" />
     </ol>
@@ -34,18 +34,14 @@ export default {
     ButtonLoadmore,
   },
   props: {
-    showList: {
+    artShowList: {
       type: Array,
       default: () => [],
       required: true,
     },
-    currentSlug: {
+    currentShow: {
       type: String,
       required: true,
-    },
-    handleClickMore: {
-      type: Function,
-      default: () => {},
     },
     showLoadMoreButton: {
       type: Boolean,

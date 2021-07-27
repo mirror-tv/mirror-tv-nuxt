@@ -1,4 +1,4 @@
-query fetchAllArtShowsByShowLastest($first: Int, $skip: Int, $show: String) {
+query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $show: String) {
   allArtShows(
     first: $first
     skip: $skip
@@ -6,11 +6,11 @@ query fetchAllArtShowsByShowLastest($first: Int, $skip: Int, $show: String) {
   ) {
     id
     name
-    _label_
     heroVideo {
       youtubeUrl
       coverPhoto {
         urlOriginal
+        urlMobileSized
       }
       description
       state

@@ -1,5 +1,5 @@
 <template>
-  <ol v-if="section" class="breadcrum">
+  <ol v-if="Object.keys(section).length" class="breadcrum">
     <li class="breadcrum__item">
       <a
         :href="`/show/art/${section.slug}`"
@@ -21,7 +21,7 @@
         {{ series.name }}
       </a>
     </li>
-    <li v-if="show" class="breadcrum__item">
+    <li v-if="Object.keys(artShow).length" class="breadcrum__item">
       <div class="breadcrum__item-img">
         <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
       </div>

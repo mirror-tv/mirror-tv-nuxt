@@ -2,14 +2,17 @@
   <section class="g-page g-page--with-aside show">
     <div class="g-page__wrapper">
       <h1 class="show__name" v-text="showName" />
-      <picture v-if="picture" class="show__banner-image">
-        <source :srcset="picture.urlDesktopSized" media="(min-width: 768px)" />
-        <img :src="picture.urlMobileSized" :alt="showName" />
+      <picture v-if="bannerImg" class="show__banner-image">
+        <source
+          :srcset="bannerImg.urlDesktopSized"
+          media="(min-width: 768px)"
+        />
+        <img :src="bannerImg.urlMobileSized" :alt="showName" />
       </picture>
       <ArtShowNavbar
         v-if="shouldShowNavbar"
-        :currentSlug="currentSlug"
-        :currentPage="currentPage"
+        :currentShow="currentShow"
+        :currentSection="currentSection"
         :gaCategory="gaCategory"
         :sectionList="sectionList"
       />
@@ -34,11 +37,11 @@ export default {
     ArtShowBreadCrum,
   },
   props: {
-    currentSlug: {
+    currentShow: {
       type: String,
       required: true,
     },
-    currentPage: {
+    currentSection: {
       type: String,
       required: true,
     },
@@ -47,7 +50,7 @@ export default {
       default: '',
       required: true,
     },
-    picture: {
+    bannerImg: {
       type: Object,
       default: () => {},
       required: false,
@@ -84,10 +87,8 @@ export default {
 <style lang="scss" scoped>
 .show {
   &.g-page {
-    @include media-breakpoint-up(sm) {
-      padding-left: 16px;
-      padding-right: 16px;
-    }
+    padding-left: 16px;
+    padding-right: 16px;
   }
   &.g-page--with-aside {
     .g-page__wrapper {

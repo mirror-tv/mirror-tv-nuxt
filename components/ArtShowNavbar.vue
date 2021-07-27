@@ -2,11 +2,11 @@
   <ol class="pages">
     <li
       :key="pages[0].slug"
-      :class="{ 'pages__item-active': currentPage === pages[0].slug }"
+      :class="{ 'pages__item-active': currentSection === pages[0].slug }"
       class="pages__item"
     >
       <a
-        :href="`/show/${currentSlug}/${pages[0].slug}`"
+        :href="`/show/${currentShow}/${pages[0].slug}`"
         rel="noreferer noopener"
         @click="handleClickPageLink(pages[0].name)"
       >
@@ -16,11 +16,11 @@
     <li
       v-for="page in sectionList"
       :key="page.slug"
-      :class="{ 'pages__item-active': currentPage === page.slug }"
+      :class="{ 'pages__item-active': currentSection === page.slug }"
       class="pages__item"
     >
       <a
-        :href="`/show/${currentSlug}/${page.slug}`"
+        :href="`/show/${currentShow}/${page.slug}`"
         rel="noreferer noopener"
         @click="handleClickPageLink(page.name)"
       >
@@ -29,11 +29,11 @@
     </li>
     <li
       :key="pages[1].slug"
-      :class="{ 'pages__item-active': currentPage === pages[1].slug }"
+      :class="{ 'pages__item-active': currentSection === pages[1].slug }"
       class="pages__item"
     >
       <a
-        :href="`/show/${currentSlug}/${pages[1].slug}`"
+        :href="`/show/${currentShow}/${pages[1].slug}`"
         rel="noreferer noopener"
         @click="handleClickPageLink(pages[1].name)"
       >
@@ -52,11 +52,11 @@ export default {
       type: String,
       default: 'ArtShow',
     },
-    currentSlug: {
+    currentShow: {
       type: String,
       required: true,
     },
-    currentPage: {
+    currentSection: {
       type: String,
       required: true,
     },

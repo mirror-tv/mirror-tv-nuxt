@@ -1,4 +1,4 @@
-import page from '../show/_slug/index.vue'
+import page from '../show/_show/index.vue'
 import FacebookPagePlugin from '../../components/FacebookPagePlugin'
 import YoutubeEmbedByIframeApi from '../../components/YoutubeEmbedByIframeApi'
 
