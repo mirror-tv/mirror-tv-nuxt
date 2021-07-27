@@ -3,6 +3,7 @@ query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $show: String) {
     first: $first
     skip: $skip
     where: { series_some: { section_some: { show_some: { name: $show } } } }
+    sortBy: createdAt_DESC
   ) {
     id
     name

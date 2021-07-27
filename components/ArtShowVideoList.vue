@@ -42,10 +42,12 @@ export default {
     currentShow: {
       type: String,
       required: true,
+      default: 'art',
     },
     showLoadMoreButton: {
       type: Boolean,
       required: true,
+      default: false,
     },
   },
 }

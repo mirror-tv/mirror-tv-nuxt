@@ -40,10 +40,12 @@ export default {
     currentShow: {
       type: String,
       required: true,
+      default: 'art',
     },
     currentSection: {
       type: String,
       required: true,
+      default: 'series',
     },
     showName: {
       type: String,
@@ -70,7 +72,7 @@ export default {
     section: {
       type: Object,
       default: () => {},
-      required: true,
+      required: false,
     },
     series: {
       type: Object,
