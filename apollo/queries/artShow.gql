@@ -29,3 +29,59 @@ query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $show: String) {
     count
   }
 }
+
+query fetchAllArtShowsByShowLastest($first: Int, $skip: Int, $show: String) {
+  allArtShows(
+    first: $first
+    skip: $skip
+    where: { series_some: { section_some: { show_some: { name: $show } } } }
+  ) {
+    id
+    name
+    _label_
+    heroVideo {
+      youtubeUrl
+      coverPhoto {
+        urlOriginal
+      }
+      description
+      state
+    }
+    author {
+      name
+    }
+    series {
+      name
+    }
+  }
+  _allArtShowsMeta(
+    where: { series_some: { section_some: { show_some: { name: $show } } } }
+  ) {
+    count
+  }
+}
+
+query fetchAllArtShowsByAuthor($name: String!, $first: Int, $skip: Int) {
+  allArtShows(where: { author: { name: $name } }, first: $first, skip: $skip) {
+    id
+    name
+    _label_
+    heroVideo {
+      youtubeUrl
+      coverPhoto {
+        urlOriginal
+      }
+      description
+      state
+    }
+    author {
+      name
+    }
+    series {
+      name
+    }
+  }
+  _allArtShowsMeta(where: { author: { name: $name } }) {
+    count
+  }
+}
