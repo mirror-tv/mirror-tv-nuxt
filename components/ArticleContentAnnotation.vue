@@ -9,7 +9,7 @@
     </button>
     <div v-show="openAnnotation" class="annotation__content">
       <!-- eslint-disable vue/no-v-html -->
-      <div class="content" v-html="annotation.pureAnnotationText" />
+      <div class="content" v-html="annotation.annotation" />
     </div>
   </div>
 </template>
@@ -50,6 +50,10 @@ export default {
       &::after {
         transform: rotate(180deg);
       }
+    }
+    &:active,
+    &:focus {
+      outline: none;
     }
   }
   &__content {
