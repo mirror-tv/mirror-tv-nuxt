@@ -173,6 +173,7 @@ export default {
       width: calc((100% - 16px) / 2);
     }
     @include media-breakpoint-up(md) {
+      min-width: 688px;
       max-width: 688px;
       &::after {
         content: '';
@@ -180,6 +181,7 @@ export default {
       }
     }
     @include media-breakpoint-up(xl) {
+      min-width: 1120px;
       max-width: 1120px;
       &::after {
         content: '';
@@ -187,6 +189,7 @@ export default {
       }
     }
     @include media-breakpoint-up(xxl) {
+      min-width: 1200px;
       max-width: 1200px;
       &::after {
         content: '';
