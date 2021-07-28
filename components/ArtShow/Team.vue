@@ -1,7 +1,7 @@
 <template>
   <ol class="team__list">
     <li v-for="member in members" :key="member.name">
-      <a :href="`/show/${currentSlug}/director/tt`" rel="noreferrer noopener">
+      <a :href="`/show/${currentShow}/director/tt`" rel="noreferrer noopener">
         <img v-if="member.image" :src="member.image" :alt="member.name" />
         <img v-else src="~assets/img/image-default.png" :alt="member.name" />
       </a>
@@ -14,7 +14,7 @@
 <script>
 export default {
   props: {
-    currentSlug: {
+    currentShow: {
       type: String,
       default: '',
       required: true,

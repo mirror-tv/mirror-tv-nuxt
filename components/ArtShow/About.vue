@@ -19,7 +19,7 @@
         </ol>
         <h3>所有影片</h3>
         <VideoListSlides
-          :currentSlug="currentSlug"
+          :currentShow="currentShow"
           :items="showList"
           class="slide"
         />
@@ -31,7 +31,7 @@
         <ol>
           <li v-for="item in showList" :key="item.id">
             <a
-              :href="`/show/${currentSlug}/${item.id}`"
+              :href="`/show/${currentShow}/${item.id}`"
               rel="noreferer noopener"
             >
               <img src="~assets/img/image-default.png" :alt="item.title" />
@@ -82,7 +82,7 @@ export default {
       default: () => [],
       required: true,
     },
-    currentSlug: {
+    currentShow: {
       type: String,
       required: true,
     },
