@@ -1,5 +1,5 @@
 query fetchLiveVideoId {
-  allVideos(where: { id: 438 }) {
+  allVideos(where: { name: "mnews-live" }) {
     youtubeUrl
   }
 }
