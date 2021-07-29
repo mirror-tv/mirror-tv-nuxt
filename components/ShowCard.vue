@@ -1,6 +1,6 @@
 <template>
   <div class="show-card">
-    <a class="show-card__banner" :href="`/show/${show.slug}`">
+    <a class="show-card__banner" :href="handleShowSlug(show.slug)">
       <img v-if="getBannerImgUrl" v-lazy="getBannerImgUrl" :alt="show.slug" />
       <img v-else src="~assets/img/image-default.png" alt="default banner" />
     </a>
@@ -21,6 +21,13 @@ export default {
         this.show.bannerImage?.urlDesktopSized ||
         this.show.bannerImg?.urlOriginal
       )
+    },
+  },
+  methods: {
+    handleShowSlug(slug) {
+      return slug === 'art' || slug === 'doc'
+        ? `/show/${slug}/about`
+        : `/show/${slug}`
     },
   },
 }

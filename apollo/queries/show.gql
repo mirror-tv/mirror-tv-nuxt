@@ -4,6 +4,7 @@ query fetchShowBySlug($slug: String!) {
     name
     bannerImg {
       urlDesktopSized
+      urlMobileSized
     }
     picture {
       urlDesktopSized
@@ -24,7 +25,7 @@ query fetchShowBySlug($slug: String!) {
   }
 }
 query fetchAllShows {
-  allShows(sortBy: [ sortOrder_ASC, updatedAt_DESC ]) {
+  allShows(sortBy: [sortOrder_ASC, updatedAt_DESC]) {
     slug
     name
     sortOrder
