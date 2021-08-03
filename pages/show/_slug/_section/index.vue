@@ -1,56 +1,41 @@
 <template>
   <ArtShowWrapper
-    :currentSection="currentSection"
-    gaCategory="ArtShow_directorlist"
+    :currentSection="currentSectionSlug"
+    gaCategory="ArtShow_serieslist"
     :currentShow="currentShow"
     :showName="show.name"
     :picture="show.picture"
     :shouldShowNavbar="true"
     :sectionList="sectionList"
   >
-    <ol class="series__list">
-      <li v-for="seriesGroup in seriesGroups" :key="seriesGroup[0].slug">
-        <div
-          v-for="series in seriesGroup"
-          :key="series.slug"
-          class="series__list_item"
-          @click="sendGaClickEvent('首圖&標題&前言 整個區塊')"
+    <ul class="series__list">
+      <li
+        v-for="series in seriesList"
+        :key="series.slug"
+        class="series__list_item"
+        @click="sendGaClickEvent('首圖&標題&前言 整個區塊')"
+      >
+        <a
+          :href="`/show/${currentShow}/${currentSectionSlug}/${series.slug}`"
+          rel="noreferrer noopener"
         >
-          <a
-            :href="`/show/${currentShow}/${currentSection}/${series.slug}`"
-            rel="noreferrer noopener"
-          >
-            <div class="series__list_item_image">
-              <img
-                v-if="series.heroImage"
-                :src="series.heroImage.urlMobileSized"
-                :alt="series.name"
-              />
-              <img
-                v-else
-                src="~assets/img/image-default.png"
-                :alt="series.name"
-              />
-            </div>
-          </a>
-          <a
-            :href="`/show/${currentShow}/${currentSection}/${series.slug}`"
-            rel="noreferrer noopener"
-            class="series__list_item_info"
-          >
+          <div class="series__list_item_image">
+            <img :src="getImage(series)" :alt="series.name" />
+          </div>
+          <div class="series__list_item_info">
             <h3>{{ series.name }}</h3>
             <div class="series__list_item_info_content">
               <p
-                v-for="content in getIntroContentList(series.introduction)"
+                v-for="content in getIntroList(series.introduction)"
                 :key="content"
               >
                 {{ content }}
               </p>
             </div>
-          </a>
-        </div>
+          </div>
+        </a>
       </li>
-    </ol>
+    </ul>
   </ArtShowWrapper>
 </template>
 
@@ -58,6 +43,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { getImageUrl } from '~/utils/post-image-handler'
 import ArtShowWrapper from '~/components/ArtShowWrapper'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
@@ -79,15 +65,7 @@ export default {
           showSlug: this.currentShow,
         }
       },
-      result({ data }) {
-        data.allSections.forEach((section) => {
-          if (section.slug === this.currentSection) {
-            this.seriesList = section.series
-            this.sectionName = section.name
-          }
-        })
-      },
-      update: (data) => data.allSections || {},
+      update: (data) => data.allSections || [],
     },
   },
   components: {
@@ -96,14 +74,12 @@ export default {
   data() {
     return {
       show: {},
-      sectionName: '',
       sectionList: [],
-      seriesList: [],
     }
   },
   head() {
     const title = `${this.sectionName} - ${this.show.name} - ${SITE_NAME}`
-    const image = this.show?.bannerImg?.urlDesktopSized
+    const image = this.show?.picture?.urlDesktopSized
     return {
       title,
       meta: [
@@ -147,21 +123,31 @@ export default {
     currentShow() {
       return this.$route.params.slug ?? ''
     },
-    currentSection() {
+    currentSectionSlug() {
       return this.$route.params.section ?? ''
     },
-    seriesGroups() {
-      const group = []
-      for (let i = 0; i < this.seriesList.length; i += 2) {
-        group.push(this.seriesList.slice(i, i + 2))
-      }
-      return group
+    currentSection() {
+      return (
+        this.sectionList.find(
+          (item) => item.slug === this.currentSectionSlug
+        ) ?? {}
+      )
+    },
+    sectionName() {
+      return this.currentSection?.name ?? ''
+    },
+    seriesList() {
+      return this.currentSection?.series ?? []
     },
   },
   methods: {
-    getIntroContentList(intro) {
+    getImage(series) {
+      return getImageUrl(series)
+    },
+    getIntroList(intro) {
       const constentList = []
-      JSON.parse(intro).draft.blocks.forEach((item) => {
+      const blocks = JSON.parse(intro)?.draft?.blocks ?? []
+      blocks.forEach((item) => {
         constentList.push(item.text)
       })
       return constentList
@@ -172,80 +158,71 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
 .series__list {
-  width: 100%;
-  li {
-    width: 100%;
+  margin: 24px 0 0;
+  @include media-breakpoint-up(md) {
+    margin: 40px 0 0;
+  }
+  @include media-breakpoint-up(xl) {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  &_item {
     @include media-breakpoint-up(xl) {
-      display: flex;
-      justify-content: space-between;
-      &:not(:last-child) {
-        border-bottom: 1px solid #d8d8d8;
-      }
+      width: 50%;
     }
-    & .series__list_item {
-      padding: 24px 0;
-      border-bottom: 1px solid #d8d8d8;
-      display: flex;
-      flex-direction: column;
+    &_image {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background-color: $color-grey;
+      overflow: hidden;
+      margin: 0 0 20px;
       @include media-breakpoint-up(md) {
-        padding: 40px 0;
-        flex-direction: row;
-      }
-      @include media-breakpoint-up(xl) {
-        padding: 48px 0;
-        width: calc((100% - 60px) / 2);
-        border: 0;
-      }
-      &_image {
-        overflow: hidden;
-        width: 288px;
-        height: 162px;
-        background: lightgray;
-        max-width: 100%;
-        @include media-breakpoint-up(md) {
-          width: 192px;
-          height: 108px;
-          margin-right: 24px;
-        }
+        min-width: 192px;
+        max-width: 192px;
+        height: 108px;
+        padding-top: 0;
+        margin: 0 24px 0 0;
       }
       img {
-        @include media-breakpoint-up(md) {
-          margin-right: 24px;
-        }
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
       }
-      &_info {
-        margin-top: 20px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        flex: 1;
-        @include media-breakpoint-up(md) {
-          margin-top: 0;
-        }
-        h3 {
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 25px;
-          color: $color-blue;
-          @include media-breakpoint-up(md) {
-            font-size: 20px;
-            line-height: 160%;
-            letter-spacing: 0.5px;
-          }
-        }
-        &_content {
-          margin-top: 12px;
+    }
+    &_info {
+      @include media-breakpoint-up(xl) {
+        min-width: 314px;
+      }
+      @include media-breakpoint-up(xxl) {
+        min-width: 344px;
+      }
+      h3 {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 25px;
+        color: $color-blue;
+        margin: 0 0 12px;
+      }
+      &_content {
+        p {
           font-size: 16px;
-          line-height: 180%;
+          line-height: 1.8;
           display: -webkit-box;
           -webkit-line-clamp: 6;
           -webkit-box-orient: vertical;
-          white-space: normal;
+          overflow: hidden;
+          text-overflow: ellipsis;
           @include media-breakpoint-up(md) {
             -webkit-line-clamp: 4;
-            margin-top: 20px;
           }
           @include media-breakpoint-up(xl) {
             -webkit-line-clamp: 3;
@@ -253,8 +230,46 @@ export default {
         }
       }
     }
-    &:last-child .series__list_item:last-child {
-      border: 0;
+    & + & {
+      padding: 24px 0 0;
+      margin: 24px 0 0;
+      border-top: 1px solid #d8d8d8;
+      @include media-breakpoint-up(md) {
+        padding: 40px 0 0;
+        margin: 40px 0 0;
+      }
+      @include media-breakpoint-up(xl) {
+        padding: 0 0 48px;
+        margin: 0 0 48px;
+        border-bottom: 1px solid #d8d8d8;
+        border-top: none;
+      }
+    }
+    &:first-child {
+      @include media-breakpoint-up(xl) {
+        padding: 0 0 48px;
+        margin: 0 0 48px;
+        border-bottom: 1px solid #d8d8d8;
+      }
+    }
+    &:nth-child(odd) {
+      @include media-breakpoint-up(xl) {
+        padding: 0 60px 48px 0;
+      }
+    }
+    &:last-child,
+    &:nth-last-child(2):nth-child(odd) {
+      @include media-breakpoint-up(xl) {
+        margin: 0;
+        border-bottom: none;
+      }
+    }
+    a {
+      display: block;
+      @include media-breakpoint-up(md) {
+        width: 100%;
+        display: flex;
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ query fetchSeriesBySlug($slug: String) {
     slug
     introduction
     heroImage {
+      urlDesktopSized,
       urlMobileSized
     }
   }

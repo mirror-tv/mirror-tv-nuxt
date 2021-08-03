@@ -1,20 +1,7 @@
 <template>
   <ol class="pages">
     <li
-      :key="pages[0].slug"
-      :class="{ 'pages__item-active': currentSection === pages[0].slug }"
-      class="pages__item"
-    >
-      <a
-        :href="`/show/${currentShow}/${pages[0].slug}`"
-        rel="noreferer noopener"
-        @click="handleClickPageLink(pages[0].name)"
-      >
-        {{ pages[0].name }}
-      </a>
-    </li>
-    <li
-      v-for="page in sectionList"
+      v-for="page in formatSectionList"
       :key="page.slug"
       :class="{ 'pages__item-active': currentSection === page.slug }"
       class="pages__item"
@@ -27,34 +14,22 @@
         {{ page.name }}
       </a>
     </li>
-    <li
-      :key="pages[1].slug"
-      :class="{ 'pages__item-active': currentSection === pages[1].slug }"
-      class="pages__item"
-    >
-      <a
-        :href="`/show/${currentShow}/${pages[1].slug}`"
-        rel="noreferer noopener"
-        @click="handleClickPageLink(pages[1].name)"
-      >
-        {{ pages[1].name }}
-      </a>
-    </li>
   </ol>
 </template>
 
 <script>
 import { sendGaEvent } from '~/utils/google-analytics'
+
 export default {
   props: {
     gaCategory: {
       type: String,
-      default: 'ArtShow',
+      default: '',
     },
     currentShow: {
       type: String,
       required: true,
-      default: 'art',
+      default: '',
     },
     currentSection: {
       type: String,
@@ -66,13 +41,12 @@ export default {
       default: () => [],
     },
   },
-  data() {
-    return {
-      pages: [
-        { slug: 'about', name: '關於節目' },
-        { slug: 'team', name: '創作團隊' },
-      ],
-    }
+  computed: {
+    formatSectionList() {
+      const aboutPage = { slug: 'main', name: '關於節目' }
+      const teamPage = { slug: 'team', name: '創作團隊' }
+      return [aboutPage, ...this.sectionList, teamPage]
+    },
   },
   methods: {
     handleClickPageLink(name) {
@@ -140,7 +114,7 @@ export default {
           margin: 0 12px;
         }
       }
-      &:nth-child(4) {
+      &:nth-child(3n + 4) {
         &::before {
           @include separator_line;
         }
@@ -164,6 +138,11 @@ export default {
     a {
       display: block;
       width: 100%;
+      &:hover,
+      &:active,
+      &:focus {
+        color: #ffdb49;
+      }
     }
   }
 }

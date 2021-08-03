@@ -1,54 +1,51 @@
 <template>
   <ArtShowWrapper
-    currentSection="about"
+    currentSection="main"
     gaCategory="ArtShow_main"
     :currentShow="currentShow"
     :showName="show.name"
-    :bannerImg="show.bannerImg"
+    :picture="show.picture"
     :shouldShowNavbar="true"
     :sectionList="sectionList"
   >
-    <section class="artshow__about">
-      <section class="artshow__about__info">
+    <section class="artshow__main">
+      <div class="artshow__main__info">
         <main class="main">
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <div class="artshow__about__introduction" v-html="introduction" />
+          <div class="artshow__main__introduction" v-html="introduction" />
         </main>
         <aside class="g-aside">
           <FacebookPagePlugin v-if="facebookUrl" :href="facebookUrl" />
         </aside>
-      </section>
-      <section class="artshow__about__collect">
-        <h3>未來一週預告</h3>
-        <template v-if="trailerList.items[0]">
-          <template v-if="isMobile">
-            <ol>
-              <li v-for="item in trailerList.items" :key="item.id">
-                <YoutubeEmbedByIframeApi :videoId="item.id" />
-                <h4 v-text="item.title" />
-              </li>
-              <div class="position-correct" />
-            </ol>
-          </template>
-        </template>
-        <template v-else>
+      </div>
+      <section v-if="shouldShowTrailerList" class="artshow__main__collect">
+        <h3>節目預告</h3>
+        <ol v-if="isMobile">
+          <li v-for="item in trailerList.items" :key="item.id">
+            <YoutubeEmbedByIframeApi :videoId="item.id" />
+            <h4 v-text="item.title" />
+          </li>
+          <div class="position-correct" />
+        </ol>
+        <ClientOnly>
           <VideoListSlides
-            v-if="trailerList.items.length"
+            v-if="!isMobile"
             :items="trailerList.items"
             class="slide"
             @click-slide-item="sendGaClickEvent('預告片')"
             @click-slide-next-and-pre="sendGaClickEvent('左右看更多按鍵')"
           />
-        </template>
+        </ClientOnly>
+      </section>
+      <section v-if="shouldShowArtShowList" class="artshow__main__collect">
         <h3>所有影片</h3>
         <ClientOnly>
           <ArtShowVideoList
-            v-if="artShowList && artShowList.length"
             :artShowList="artShowList"
             :currentShow="currentShow"
             :showLoadMoreButton="showLoadMoreButton"
             @click-more-button="handleClickMore"
-            @click-video="handleClickVideo"
+            @click-video="sendGaClickEvent('所有影片的每支影片')"
           />
         </ClientOnly>
       </section>
@@ -68,6 +65,7 @@ import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { fetchAllArtShowsByShowLatest } from '~/apollo/queries/artShow.gql'
 import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
+
 export default {
   apollo: {
     show: {
@@ -105,7 +103,7 @@ export default {
           showSlug: this.currentShow,
         }
       },
-      update: (data) => data.allSections || {},
+      update: (data) => data.allSections || [],
     },
     artShowList: {
       query: fetchAllArtShowsByShowLatest,
@@ -113,12 +111,12 @@ export default {
         return {
           first: 8,
           skip: 0,
-          show: this.show.name,
+          slug: this.show.slug,
         }
       },
       update(data) {
         this.artShowCount = data?._allArtShowsMeta?.count
-        return data.allArtShows || {}
+        return data.allArtShows || []
       },
     },
   },
@@ -132,7 +130,7 @@ export default {
   data() {
     return {
       show: {},
-      artShowList: {},
+      artShowList: [],
       trailerList: {},
       isMobile: false,
       page: 0,
@@ -142,7 +140,7 @@ export default {
   },
   head() {
     const title = `${this.show.name} - ${SITE_NAME}`
-    const image = this.show?.bannerImg?.urlDesktopSized
+    const image = this.show?.picture?.urlDesktopSized
     return {
       title,
       description: this.introduction,
@@ -204,6 +202,12 @@ export default {
     facebookUrl() {
       return this.show.facebookUrl ?? ''
     },
+    shouldShowTrailerList() {
+      return this.trailerList?.items?.length
+    },
+    shouldShowArtShowList() {
+      return this.artShowList && this.artShowList?.length
+    },
   },
   methods: {
     reducePlaylistItems(item) {
@@ -229,11 +233,12 @@ export default {
     },
     handleClickMore() {
       this.page++
-      sendGaEvent(this.$ga)('ArtShow_main')('click')('看更多按鍵')
+      this.sendGaClickEvent('看更多按鍵')
       this.$apollo.queries.artShowList.fetchMore({
         variables: {
           first: 8,
           skip: 8 * this.page,
+          show: this.show.slug,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           return {
@@ -246,9 +251,6 @@ export default {
         },
       })
     },
-    handleClickVideo() {
-      sendGaEvent(this.$ga)('ArtShow_main')('click')('所有影片的每支影片')
-    },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('ArtShow_main')('click')(label)
     },
@@ -257,7 +259,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .artshow {
-  &__about {
+  &__main {
     flex: 1;
     margin-top: 24px;
     @include media-breakpoint-up(md) {
@@ -275,11 +277,7 @@ export default {
       @include media-breakpoint-up(md) {
         width: 320px;
         padding: 0;
-        margin: 28px 0 0 auto;
-      }
-      @include media-breakpoint-up(xl) {
-        width: 320px;
-        padding: 0;
+        margin: 0 0 0 auto;
       }
     }
     &__info {

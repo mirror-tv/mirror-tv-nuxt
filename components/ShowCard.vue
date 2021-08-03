@@ -26,7 +26,7 @@ export default {
   methods: {
     handleShowSlug(slug) {
       return slug === 'art' || slug === 'doc'
-        ? `/show/${slug}/about`
+        ? `/show/${slug}/main`
         : `/show/${slug}`
     },
   },

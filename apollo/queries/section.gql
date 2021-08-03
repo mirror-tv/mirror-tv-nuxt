@@ -7,6 +7,7 @@ query fetchSectionByShowSlug($showSlug: String) {
       slug
       introduction
       heroImage {
+        urlDesktopSized
         urlMobileSized
       }
     }

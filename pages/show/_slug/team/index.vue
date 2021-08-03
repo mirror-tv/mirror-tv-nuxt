@@ -1,37 +1,29 @@
 <template>
-  <div>Team page</div>
-  <!-- <ArtShowWrapper
+  <ArtShowWrapper
     currentSection="team"
     gaCategory="ArtShow_directorlist"
     :currentShow="currentShow"
     :showName="show.name"
-    :bannerImg="show.bannerImg"
+    :picture="show.picture"
     :shouldShowNavbar="true"
     :sectionList="sectionList"
   >
     <ol class="team__list">
-      <li v-for="member in show.hostName?.reverse()" :key="member.name">
+      <li v-for="member in members" :key="member.name">
         <a
-          :href="`/show/${currentShow}/director/${member.name}`"
+          :href="`/show/${currentShow}/member/${member.slug}`"
           rel="noreferrer noopener"
         >
           <div class="team__list_image">
             <img
-              v-if="member.image"
-              :src="member.image.urlMobileSized"
-              :alt="member.name"
-              @click="sendGaClickEvent('導演姓名')"
-            />
-            <img
-              v-else
-              src="~assets/img/image-default.png"
+              :src="getHostImage(member)"
               :alt="member.name"
               @click="sendGaClickEvent('導演照片')"
             />
           </div>
         </a>
         <a
-          :href="`/show/${currentShow}/director/${member.name}`"
+          :href="`/show/${currentShow}/member/${member.slug}`"
           rel="noreferrer noopener"
           @click="sendGaClickEvent('導演姓名')"
         >
@@ -40,98 +32,107 @@
       </li>
       <div class="position-correct" />
     </ol>
-  </ArtShowWrapper> -->
+  </ArtShowWrapper>
 </template>
+
 <script>
-// import { SITE_NAME } from '~/constants'
-// import { getUrlOrigin } from '~/utils/meta'
-// import { sendGaEvent } from '~/utils/google-analytics'
-// import ArtShowWrapper from '~/components/ArtShowWrapper.vue'
-// import { fetchShowBySlug } from '~/apollo/queries/show.gql'
-// import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
+import { SITE_NAME } from '~/constants'
+import { getUrlOrigin } from '~/utils/meta'
+import { sendGaEvent } from '~/utils/google-analytics'
+import { getHostImageUrl } from '~/utils/post-image-handler'
+import ArtShowWrapper from '~/components/ArtShowWrapper.vue'
+import { fetchShowBySlug } from '~/apollo/queries/show.gql'
+import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
+
 export default {
-  //   apollo: {
-  //     show: {
-  //       query: fetchShowBySlug,
-  //       variables() {
-  //         return {
-  //           slug: this.currentShow,
-  //         }
-  //       },
-  //       update: (data) => data.allShows?.[0] || {},
-  //     },
-  //     sectionList: {
-  //       query: fetchSectionByShowSlug,
-  //       variables() {
-  //         return {
-  //           showSlug: this.currentShow,
-  //         }
-  //       },
-  //       update: (data) => data.allSections || {},
-  //     },
-  //   },
-  //   components: {
-  //     ArtShowWrapper,
-  //   },
-  //   data() {
-  //     return {
-  //       show: {},
-  //       sectionList: [],
-  //     }
-  //   },
-  // head() {
-  //   const title = `創作團隊 - ${this.show.name} - ${SITE_NAME}`
-  //   const image = this.show?.bannerImg?.urlDesktopSized
-  //   return {
-  //     title,
-  //     description: this.show.introduction,
-  //     meta: [
-  //       {
-  //         hid: 'og:url',
-  //         property: 'og:url',
-  //         content: `${getUrlOrigin(this.$config)}${this.$route.path}`,
-  //       },
-  //       {
-  //         hid: 'og:title',
-  //         property: 'og:title',
-  //         content: title,
-  //       },
-  //       ...(image
-  //         ? [
-  //             {
-  //               hid: 'og:image',
-  //               property: 'og:image',
-  //               content: image,
-  //             },
-  //           ]
-  //         : []),
-  //       ...(this.show.introduction
-  //         ? [
-  //             {
-  //               hid: 'description',
-  //               name: 'description',
-  //               content: this.show.introduction,
-  //             },
-  //             {
-  //               hid: 'og:description',
-  //               property: 'og:description',
-  //               content: this.show.introduction,
-  //             },
-  //           ]
-  //         : []),
-  //     ],
-  //   }
-  // },
-  // computed: {
-  //   currentShow() {
-  //     return this.$route.params.slug ?? ''
-  //   },
-  // },
-  // methods: {
-  //   sendGaClickEvent(label) {
-  //     sendGaEvent(this.$ga)('ArtShow_directorlist')('click')(label)
-  //   },
-  // },
+  apollo: {
+    show: {
+      query: fetchShowBySlug,
+      variables() {
+        return {
+          slug: this.currentShow,
+        }
+      },
+      update: (data) => data.allShows?.[0] || {},
+    },
+    sectionList: {
+      query: fetchSectionByShowSlug,
+      variables() {
+        return {
+          showSlug: this.currentShow,
+        }
+      },
+      update: (data) => data.allSections || {},
+    },
+  },
+  components: {
+    ArtShowWrapper,
+  },
+  data() {
+    return {
+      show: {},
+      sectionList: [],
+    }
+  },
+  head() {
+    const title = `創作團隊 - ${this.show.name} - ${SITE_NAME}`
+    const image = this.show?.picture?.urlDesktopSized
+    return {
+      title,
+      description: this.show.introduction,
+      meta: [
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${getUrlOrigin(this.$config)}${this.$route.path}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title,
+        },
+        ...(image
+          ? [
+              {
+                hid: 'og:image',
+                property: 'og:image',
+                content: image,
+              },
+            ]
+          : []),
+        ...(this.show.introduction
+          ? [
+              {
+                hid: 'description',
+                name: 'description',
+                content: this.show.introduction,
+              },
+              {
+                hid: 'og:description',
+                property: 'og:description',
+                content: this.show.introduction,
+              },
+            ]
+          : []),
+      ],
+    }
+  },
+  computed: {
+    currentShow() {
+      return this.$route.params.slug ?? ''
+    },
+    members() {
+      return this.show.hostName ?? []
+    },
+  },
+  methods: {
+    getHostImage(member) {
+      return getHostImageUrl(member)
+    },
+    sendGaClickEvent(label) {
+      sendGaEvent(this.$ga)('ArtShow_directorlist')('click')(label)
+    },
+  },
 }
 </script>
 
@@ -157,7 +158,7 @@ export default {
     @include media-breakpoint-up(xl) {
       &::after {
         content: '';
-        width: calc((100% - 192px) / 4);
+        width: calc((100% - 96px) / 4);
       }
     }
     li {
@@ -165,12 +166,11 @@ export default {
       width: calc((100% - 32px) / 2);
       margin: 0 0 24px;
       @include media-breakpoint-up(md) {
-        text-align: left;
         width: calc((100% - 72px) / 3);
         margin: 0 0 30px;
       }
       @include media-breakpoint-up(xl) {
-        width: calc((100% - 192px) / 4);
+        width: calc((100% - 96px) / 4);
         margin: 0 0 50px;
       }
       div {
@@ -179,15 +179,12 @@ export default {
       img {
         width: 100%;
         height: 100%;
-        background: lightgray;
+        background: $color-grey;
         object-fit: cover;
         transform: scale(1, 1);
         transition: all 1s ease-out;
         &:hover {
           transform: scale(1.1);
-        }
-        @include media-breakpoint-up(md) {
-          height: 141px;
         }
       }
       h3 {
@@ -209,7 +206,7 @@ export default {
         width: calc((100% - 72px) / 3);
       }
       @include media-breakpoint-up(xl) {
-        width: calc((100% - 192px) / 4);
+        width: calc((100% - 96px) / 4);
       }
     }
   }

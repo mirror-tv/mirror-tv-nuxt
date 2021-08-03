@@ -16,6 +16,7 @@ query fetchShowBySlug($slug: String!) {
       bio
       image {
         urlMobileSized
+        urlOriginal
       }
     }
     introduction

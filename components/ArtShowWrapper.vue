@@ -2,12 +2,9 @@
   <section class="g-page g-page--with-aside show">
     <div class="g-page__wrapper">
       <h1 class="show__name" v-text="showName" />
-      <picture v-if="bannerImg" class="show__banner-image">
-        <source
-          :srcset="bannerImg.urlDesktopSized"
-          media="(min-width: 768px)"
-        />
-        <img :src="bannerImg.urlMobileSized" :alt="showName" />
+      <picture v-if="picture" class="show__banner-image">
+        <source :srcset="picture.urlDesktopSized" media="(min-width: 768px)" />
+        <img :src="picture.urlMobileSized" :alt="showName" />
       </picture>
       <ArtShowNavbar
         v-if="shouldShowNavbar"
@@ -17,7 +14,7 @@
         :sectionList="sectionList"
       />
       <ArtShowBreadCrum
-        v-else
+        v-if="shouldShowBreadCrum"
         :section="section"
         :series="series"
         :artShow="artShow"
@@ -30,6 +27,7 @@
 <script>
 import ArtShowNavbar from '~/components/ArtShowNavbar'
 import ArtShowBreadCrum from '~/components/ArtShowBreadCrum'
+
 export default {
   components: {
     ArtShowNavbar,
@@ -51,12 +49,15 @@ export default {
       default: '',
       required: true,
     },
-    bannerImg: {
+    picture: {
       type: Object,
       default: () => {},
-      required: false,
     },
     shouldShowNavbar: {
+      type: Boolean,
+      default: false,
+    },
+    shouldShowBreadCrum: {
       type: Boolean,
       default: false,
     },
@@ -71,7 +72,6 @@ export default {
     section: {
       type: Object,
       default: () => {},
-      required: false,
     },
     series: {
       type: Object,
@@ -108,7 +108,7 @@ export default {
     color: $color-blue;
     font-size: 20px;
     font-weight: 500;
-    line-height: 23px;
+    line-height: 28px;
     letter-spacing: 0.5px;
     margin: 12px 0;
     @include media-breakpoint-up(md) {

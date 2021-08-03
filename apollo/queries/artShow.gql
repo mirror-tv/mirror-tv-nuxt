@@ -1,12 +1,17 @@
-query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $show: String) {
+query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $slug: String) {
   allArtShows(
     first: $first
     skip: $skip
-    where: { series_some: { section_some: { show_some: { name: $show } } } }
+    where: { series_some: { section_some: { show_some: { slug: $slug } } } }
     sortBy: createdAt_DESC
   ) {
     id
+    slug
     name
+    heroImage {
+      urlMobileSized
+      urlOriginal
+    }
     heroVideo {
       youtubeUrl
       coverPhoto {
@@ -24,64 +29,103 @@ query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $show: String) {
     }
   }
   _allArtShowsMeta(
-    where: { series_some: { section_some: { show_some: { name: $show } } } }
+    where: { series_some: { section_some: { show_some: { slug: $slug } } } }
   ) {
     count
   }
 }
 
-query fetchAllArtShowsByShowLastest($first: Int, $skip: Int, $show: String) {
+query fetchAllArtShowsByAuthor(
+  $authorSlug: String!,
+  $showSlug: String!,
+  $first: Int,
+  $skip: Int
+) {
   allArtShows(
-    first: $first
+    where: {
+      author: {
+        slug: $authorSlug,
+      },
+      series_some: {
+        section_some: {
+          show_some: {
+            slug: $showSlug,
+          },
+        },
+      },
+    },
+    first: $first,
     skip: $skip
-    where: { series_some: { section_some: { show_some: { name: $show } } } }
   ) {
     id
     name
-    _label_
+    heroImage {
+      urlMobileSized
+      urlOriginal
+    }
     heroVideo {
       youtubeUrl
       coverPhoto {
+        urlMobileSized
         urlOriginal
       }
-      description
       state
-    }
-    author {
-      name
-    }
-    series {
-      name
     }
   }
   _allArtShowsMeta(
-    where: { series_some: { section_some: { show_some: { name: $show } } } }
+    where: {
+      author: {
+        slug: $authorSlug,
+      },
+      series_some: {
+        section_some: {
+          show_some: {
+            slug: $showSlug,
+          },
+        },
+      },
+    },
   ) {
     count
   }
 }
 
-query fetchAllArtShowsByAuthor($name: String!, $first: Int, $skip: Int) {
-  allArtShows(where: { author: { name: $name } }, first: $first, skip: $skip) {
+query fetchAllArtShowsBySeries(
+  $seriesSlug: String!,
+  $first: Int,
+  $skip: Int
+) {
+  allArtShows(
+    where: {
+      series_some: {
+        slug: $seriesSlug,
+      },
+    },
+    first: $first,
+    skip: $skip
+  ) {
     id
     name
-    _label_
+    heroImage {
+      urlMobileSized
+      urlOriginal
+    }
     heroVideo {
       youtubeUrl
       coverPhoto {
+        urlMobileSized
         urlOriginal
       }
-      description
       state
     }
-    author {
-      name
-    }
-    series {
-      name
-    }
   }
-  _allArtShowsMeta(where: { author: { name: $name } }) {
+  _allArtShowsMeta(
+     where: {
+      series_some: {
+        slug: $seriesSlug,
+      },
+    },
+  ) {
     count
   }
 }

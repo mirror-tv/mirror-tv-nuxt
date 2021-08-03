@@ -184,7 +184,7 @@ export default {
   },
   head() {
     const title = this.showName ? `${this.showName} - ${SITE_NAME}` : SITE_NAME
-    const image = this.show?.bannerImg?.urlDesktopSized
+    const image = this.show?.picture?.urlDesktopSized
     return {
       title,
       meta: [

@@ -4,7 +4,8 @@
     :currentShow="currentShow"
     :showName="show.name"
     :picture="show.picture"
-    :shouldShowNavbar="false"
+    :shouldShowNavbar="true"
+    :sectionList="sectionList"
   >
     <section class="artshow__director">
       <HeadingBordered
@@ -28,20 +29,29 @@
           :text="directorInfo.name"
           class="artshow__director__info-name"
         />
-        <div>
-          <p v-for="bio in bios" :key="bio" class="artshow__director__info-bio">
+        <div v-if="hasBios">
+          <p
+            v-for="(bio, i) in bios"
+            :key="`${bio}-${i}`"
+            class="artshow__director__info-bio"
+          >
             {{ bio }}
           </p>
         </div>
       </div>
+      <div v-if="hasArtShowList" class="artshow__director__collect">
+        <h3>作品列表</h3>
+        <ClientOnly>
+          <ArtShowVideoList
+            :artShowList="artShowList"
+            :currentShow="currentShow"
+            :showLoadMoreButton="showLoadMoreButton"
+            @click-more-button="handleClickMore"
+            @click-video="sendGaClickEvent('作品列表的一支影片')"
+          />
+        </ClientOnly>
+      </div>
     </section>
-    <ArtShowVideoList
-      :showList="showList"
-      :handleClickMore="handleClickMore"
-      :handleClickVideo="handleClickVideo"
-      :currentShow="currentShow"
-      :showLoadMoreButton="showLoadMoreButton"
-    />
   </ArtShowWrapper>
 </template>
 
@@ -53,8 +63,10 @@ import ArtShowWrapper from '~/components/ArtShowWrapper.vue'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
 import HeadingBordered from '~/components/HeadingBordered'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
-import { fetchContactByName } from '~/apollo/queries/contact.gql'
+import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
 import { fetchAllArtShowsByAuthor } from '~/apollo/queries/artShow.gql'
+import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
+
 export default {
   apollo: {
     show: {
@@ -67,22 +79,29 @@ export default {
       update: (data) => data.allShows?.[0] || {},
     },
     directorInfo: {
-      query: fetchContactByName,
+      query: fetchContactBySlug,
       variables() {
         return {
-          name: this.$route.params.name,
+          slug: this.$route.params.name,
         }
-      },
-      result({ data }) {
-        this.bios = data.allContacts[0].bio?.split('\n')
       },
       update: (data) => data.allContacts?.[0] || {},
     },
-    showList: {
+    sectionList: {
+      query: fetchSectionByShowSlug,
+      variables() {
+        return {
+          showSlug: this.currentShow,
+        }
+      },
+      update: (data) => data.allSections || [],
+    },
+    artShowList: {
       query: fetchAllArtShowsByAuthor,
       variables() {
         return {
-          name: this.$route.params.name,
+          authorSlug: this.$route.params.name,
+          showSlug: this.currentShow,
           first: 8,
           skip: 0,
         }
@@ -102,16 +121,16 @@ export default {
     return {
       show: {},
       directorInfo: {},
-      showList: [],
+      sectionList: [],
+      artShowList: [],
       artShowCount: 0,
       isMobile: false,
       page: 0,
-      bios: [],
     }
   },
   head() {
     const title = `${this.directorInfo.name} - ${SITE_NAME}`
-    const image = this.show?.bannerImg?.urlDesktopSized
+    const image = this.show?.picture?.urlDesktopSized
     return {
       title,
       description: this.directorInfo.bio,
@@ -159,11 +178,17 @@ export default {
     showName() {
       return this.show.name ?? ''
     },
-    picture() {
-      return this.show.picture
-    },
     showLoadMoreButton() {
-      return this.showList?.length < this.artShowCount
+      return this.artShowList?.length < this.artShowCount
+    },
+    bios() {
+      return this.directorInfo.bio?.split('\n') ?? []
+    },
+    hasBios() {
+      return this.bios.length
+    },
+    hasArtShowList() {
+      return this.artShowList.length
     },
   },
   mounted() {
@@ -180,8 +205,8 @@ export default {
       }
     },
     handleClickMore() {
-      sendGaEvent(this.$ga)('ArtShow_director')('click')('load more')
       this.page++
+      this.sendGaClickEvent('load more')
       this.$apollo.queries.showList.fetchMore({
         variables: {
           first: 8,
@@ -198,8 +223,8 @@ export default {
         },
       })
     },
-    handleClickVideo() {
-      sendGaEvent(this.$ga)('ArtShow_director')('click')('作品列表的一支影片')
+    sendGaClickEvent(label) {
+      sendGaEvent(this.$ga)('ArtShow_director')('click')(label)
     },
   },
 }
@@ -208,24 +233,28 @@ export default {
 .artshow {
   &__director {
     width: 100%;
-    margin-bottom: 55px;
+    margin: 48px 0 0;
     @include media-breakpoint-up(md) {
-      margin-bottom: 45px;
+      margin: 48px 0 40px;
     }
     @include media-breakpoint-up(xl) {
-      margin-bottom: 75px;
+      margin: 48px 0 70px;
     }
     &__name {
-      width: 130px;
+      max-width: 200px;
       @include media-breakpoint-up(md) {
-        margin-bottom: 26px;
+        margin: 0 0 24px;
       }
     }
     &__info {
       width: 100%;
+      margin: 0 0 48px;
       @include media-breakpoint-up(md) {
         display: flex;
         flex-direction: row-reverse;
+      }
+      @include media-breakpoint-up(xl) {
+        margin: 0 0 72px;
       }
       img {
         width: 100%;
@@ -233,13 +262,13 @@ export default {
         object-fit: cover;
         object-position: center;
         background-color: $color-grey;
-        margin-bottom: 24px;
+        margin: 0 0 16px;
         @include media-breakpoint-up(md) {
           width: 215px;
           height: 215px;
           margin: 0 0 0 32px;
         }
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(xl) {
           margin: 0 0 0 92px;
         }
       }
@@ -247,15 +276,29 @@ export default {
         font-weight: 500;
         font-size: 16px;
         line-height: 32px;
-        color: $color-blue;
+        color: #004dbc;
         flex: 1;
       }
       p + p {
-        margin-top: 32px;
+        margin-top: 24px;
       }
       &-name {
         width: 130px;
-        margin-bottom: 24px;
+        margin: 0 0 24px;
+      }
+    }
+    &__collect {
+      h3 {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 25px;
+        color: $color-blue;
+        margin: 0 0 20px;
+        @include media-breakpoint-up(md) {
+          font-size: 20px;
+          line-height: 1.6;
+          letter-spacing: 0.5;
+        }
       }
     }
   }

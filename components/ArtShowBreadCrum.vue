@@ -1,31 +1,35 @@
 <template>
-  <ol v-if="Object.keys(section).length" class="breadcrum">
+  <ol v-if="hasSection" class="breadcrum">
     <li class="breadcrum__item">
       <a
-        :href="`/show/art/${section.slug}`"
+        :href="`/show/${currentShow}/${section.slug}`"
         rel="noreferer noopener"
         class="breadcrum__item__section"
       >
         {{ section.name }}
       </a>
     </li>
-    <li v-if="series" class="breadcrum__item">
+    <li v-if="hasSeries" class="breadcrum__item">
       <div class="breadcrum__item-img">
         <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
       </div>
       <a
-        :href="`/show/art/${section.slug}/${series.slug}`"
+        :href="`/show/${currentShow}/${section.slug}/${series.slug}`"
         rel="noreferer noopener"
         class="breadcrum__item__section"
       >
         {{ series.name }}
       </a>
     </li>
-    <li v-if="Object.keys(artShow).length" class="breadcrum__item">
+    <li v-if="hasArtShow" class="breadcrum__item">
       <div class="breadcrum__item-img">
         <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
       </div>
-      <a :href="`/`" rel="noreferer noopener" class="breadcrum__item__section">
+      <a
+        :href="`/show/${currentShow}`"
+        rel="noreferer noopener"
+        class="breadcrum__item__section"
+      >
         {{ artShow.name }}
       </a>
     </li>
@@ -49,6 +53,20 @@ export default {
       default: () => {},
     },
   },
+  computed: {
+    currentShow() {
+      return this.$route.params.slug ?? ''
+    },
+    hasSection() {
+      return this.section && Object.keys(this.section).length
+    },
+    hasSeries() {
+      return this.series && Object.keys(this.series).length
+    },
+    hasArtShow() {
+      return this.artShow && Object.keys(this.artShow).length
+    },
+  },
 }
 </script>
 
@@ -66,22 +84,22 @@ export default {
   @include media-breakpoint-up(md) {
     font-size: 20px;
     line-height: 160%;
-    margin: 20px 0;
+    margin: 20px 0 0;
     letter-spacing: 0.5px;
   }
   @include media-breakpoint-up(xl) {
-    margin: 40px 0;
+    margin: 40px 0 0;
   }
   &__item {
     display: flex;
     align-items: center;
     &-img {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       margin: 0 5px;
       @include media-breakpoint-up(md) {
-        width: 20px;
-        height: 20px;
+        width: 14px;
+        height: 14px;
         margin: 0 12px;
       }
       img {

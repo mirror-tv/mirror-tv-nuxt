@@ -5,14 +5,9 @@
         <a
           :href="`/show/${currentShow}/video/${artShow.id}`"
           rel="noreferer noopener"
-          @click="$emit('click-video')"
+          @click="handleClickVideo"
         >
-          <img
-            v-if="artShow.heroVideo && artShow.heroVideo.coverPhoto"
-            :src="artShow.heroVideo.coverPhoto.urlMobileSized"
-            :alt="artShow.name"
-          />
-          <img v-else src="~assets/img/image-default.png" :alt="artShow.name" />
+          <img :src="getVideoImage(artShow)" :alt="artShow.name" />
         </a>
         <h4 v-text="artShow.name" />
       </li>
@@ -21,13 +16,15 @@
     <ButtonLoadmore
       v-show="showLoadMoreButton"
       class="g-button-load-more"
-      @click.native="$emit('click-more-button')"
+      @click.native="handleClickMore"
     />
   </div>
 </template>
 
 <script>
+import { getVideoImageUrl } from '~/utils/post-image-handler'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
+
 export default {
   components: {
     ButtonLoadmore,
@@ -41,12 +38,23 @@ export default {
     currentShow: {
       type: String,
       required: true,
-      default: 'art',
+      default: '',
     },
     showLoadMoreButton: {
       type: Boolean,
       required: true,
       default: false,
+    },
+  },
+  methods: {
+    handleClickVideo() {
+      this.$emit('click-video')
+    },
+    handleClickMore() {
+      this.$emit('click-more-button')
+    },
+    getVideoImage(item) {
+      return getVideoImageUrl(item)
     },
   },
 }
@@ -74,9 +82,15 @@ ol {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+  }
+  @include media-breakpoint-up(md) {
     &::after {
       content: '';
       width: calc((100% - 52px) / 2);
+    }
+    .position-correct {
+      width: calc((100% - 52px) / 2);
+      overflow: hidden;
     }
   }
   @include media-breakpoint-up(xl) {
@@ -100,14 +114,14 @@ ol {
     }
   }
   li {
-    margin-bottom: 20px;
+    margin: 0 0 20px;
     @include media-breakpoint-up(md) {
       width: calc((100% - 52px) / 2);
-      margin-bottom: 40px;
+      margin: 0 0 24px;
     }
     @include media-breakpoint-up(xl) {
       width: calc((100% - 72px) / 4);
-      margin-bottom: 48px;
+      margin: 0 0 48px;
     }
     h4 {
       font-size: 16px;

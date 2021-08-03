@@ -309,7 +309,6 @@ export default {
   },
   computed: {
     categoriesFiltered() {
-      console.log('cate', this.allCategories)
       return this.allCategories?.filter((category) => {
         return this[`${category.slug}Posts`]?.items?.length > 0
       })
@@ -336,9 +335,6 @@ export default {
   mounted() {
     if (this.categoriesSlug?.length > 0) {
       this.fetchPostsByCategory()
-      console.log('pol', this.polPosts)
-      console.log('lif', this.lifPosts)
-      console.log('life', this.lifePosts)
     }
   },
   methods: {
@@ -366,7 +362,6 @@ export default {
     },
     getPostsByCategory(slug) {
       const data = this[`${slug}Posts`]
-      console.log('data', data)
       return { items: data?.items ?? [], total: data?.total ?? 0 }
     },
     handleLoadMorePostsByCategory(slug, page) {
