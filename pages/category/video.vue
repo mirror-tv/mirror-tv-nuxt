@@ -172,6 +172,7 @@ import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleYoutubeId } from '~/utils/text-handler'
 import ArticleListSlides from '~/components/ArticleListSlides'
 import EditorChoicesVideoNews from '~/components/EditorChoicesVideoNews'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -211,8 +212,9 @@ export default {
       query: fetchAllPromotionVideos,
       update(data) {
         return data?.allPromotionVideos
+          .filter((item) => item.ytUrl)
           .filter((item, i) => i < 5)
-          .map((item) => item.ytUrl?.split('watch?v=')[1])
+          .map((item) => handleYoutubeId(item.ytUrl))
       },
     },
     allShows: {
@@ -317,7 +319,8 @@ export default {
       return this.allCategories?.map((category) => category.slug)
     },
     liveVideoId() {
-      return this.liveVideo?.youtubeUrl?.split('watch?v=')[1] ?? ''
+      const url = this.liveVideo?.youtubeUrl ?? ''
+      return url ? handleYoutubeId(url) : ''
     },
     hasShows() {
       return this.allShows?.length
