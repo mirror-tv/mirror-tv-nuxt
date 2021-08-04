@@ -82,8 +82,6 @@ ol {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-  }
-  @include media-breakpoint-up(md) {
     &::after {
       content: '';
       width: calc((100% - 52px) / 2);
@@ -96,10 +94,10 @@ ol {
   @include media-breakpoint-up(xl) {
     &::after {
       content: '';
-      width: calc((100% - 96px) / 4);
+      width: calc((100% - 72px) / 4);
     }
     .position-correct {
-      width: calc((100% - 96px) / 4);
+      width: calc((100% - 72px) / 4);
       overflow: hidden;
     }
   }
@@ -122,6 +120,9 @@ ol {
     @include media-breakpoint-up(xl) {
       width: calc((100% - 72px) / 4);
       margin: 0 0 48px;
+    }
+    @include media-breakpoint-up(xxl) {
+      width: calc((100% - 48px) / 4);
     }
     h4 {
       font-size: 16px;

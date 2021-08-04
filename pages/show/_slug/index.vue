@@ -421,6 +421,9 @@ export default {
         @include media-breakpoint-up(xl) {
           width: calc((100% - 96px) / 4);
         }
+        @include media-breakpoint-up(xxl) {
+          width: calc((100% - 48px) / 4);
+        }
         h4 {
           font-size: 16px;
           font-weight: 400;
