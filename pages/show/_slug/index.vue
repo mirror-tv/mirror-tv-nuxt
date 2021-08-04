@@ -184,7 +184,7 @@ export default {
   },
   head() {
     const title = this.showName ? `${this.showName} - ${SITE_NAME}` : SITE_NAME
-    const image = this.show?.bannerImg?.urlDesktopSized
+    const image = this.show?.picture?.urlDesktopSized
     return {
       title,
       meta: [
@@ -362,6 +362,7 @@ export default {
     }
   }
   &__collect {
+    width: 100%;
     margin-top: 12px;
     @include media-breakpoint-up(md) {
       margin-top: 24px;
@@ -386,6 +387,10 @@ export default {
         &::after {
           content: '';
           width: calc((100% - 64px) / 3);
+        }
+        .position-correct {
+          width: calc((100% - 64px) / 3);
+          overflow: hidden;
         }
       }
       @include media-breakpoint-up(xl) {

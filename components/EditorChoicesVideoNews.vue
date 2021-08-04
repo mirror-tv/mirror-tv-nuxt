@@ -36,6 +36,7 @@
 
 <script>
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleYoutubeId } from '~/utils/text-handler'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 
 export default {
@@ -61,7 +62,8 @@ export default {
       return this.highlightItem?.slug
     },
     highlightId() {
-      return this.highlightItem?.heroVideo?.url?.split('watch?v=')[1] ?? ''
+      const url = this.highlightItem?.heroVideo?.url ?? ''
+      return url ? handleYoutubeId(url) : ''
     },
     hasItems() {
       return this.items?.length

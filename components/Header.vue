@@ -137,7 +137,7 @@
             class="navs__category-nav show-nav"
           >
             <a
-              :href="`/show/${show.slug}`"
+              :href="handleShowSlug(show.slug)"
               rel="noreferrer noopener"
               class="category-nav__link"
               @click="closeHamburgerButton"
@@ -213,6 +213,11 @@ export default {
   methods: {
     sendGaClickEvent(eventLabel) {
       return sendGaEvent(this.$ga)('header')('click')(eventLabel)
+    },
+    handleShowSlug(slug) {
+      return slug === 'art' || slug === 'doc'
+        ? `/show/${slug}/main`
+        : `/show/${slug}`
     },
     handleClickHamburgerButton() {
       this.showCategories = !this.showCategories

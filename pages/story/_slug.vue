@@ -125,6 +125,7 @@ import { getUrlOrigin } from '~/utils/meta'
 import { getPdfUrl } from '~/utils/story_pdf'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
+import { handleYoutubeId } from '~/utils/text-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
@@ -403,9 +404,8 @@ export default {
       }
     },
     heroVideoUrl() {
-      return this.postPublished?.heroVideo?.youtubeUrl
-        ? this.postPublished?.heroVideo?.youtubeUrl?.split('watch?v=')[1]
-        : ''
+      const url = this.postPublished?.heroVideo?.youtubeUrl ?? ''
+      return url ? handleYoutubeId(url) : ''
     },
     credits() {
       return Object.keys(this.postPublished || {})

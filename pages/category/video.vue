@@ -172,6 +172,7 @@ import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleYoutubeId } from '~/utils/text-handler'
 import ArticleListSlides from '~/components/ArticleListSlides'
 import EditorChoicesVideoNews from '~/components/EditorChoicesVideoNews'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -211,8 +212,9 @@ export default {
       query: fetchAllPromotionVideos,
       update(data) {
         return data?.allPromotionVideos
+          .filter((item) => item.ytUrl)
           .filter((item, i) => i < 5)
-          .map((item) => item.ytUrl?.split('watch?v=')[1])
+          .map((item) => handleYoutubeId(item.ytUrl))
       },
     },
     allShows: {
@@ -309,7 +311,6 @@ export default {
   },
   computed: {
     categoriesFiltered() {
-      console.log('cate', this.allCategories)
       return this.allCategories?.filter((category) => {
         return this[`${category.slug}Posts`]?.items?.length > 0
       })
@@ -318,7 +319,8 @@ export default {
       return this.allCategories?.map((category) => category.slug)
     },
     liveVideoId() {
-      return this.liveVideo?.youtubeUrl?.split('watch?v=')[1] ?? ''
+      const url = this.liveVideo?.youtubeUrl ?? ''
+      return url ? handleYoutubeId(url) : ''
     },
     hasShows() {
       return this.allShows?.length
@@ -336,9 +338,6 @@ export default {
   mounted() {
     if (this.categoriesSlug?.length > 0) {
       this.fetchPostsByCategory()
-      console.log('pol', this.polPosts)
-      console.log('lif', this.lifPosts)
-      console.log('life', this.lifePosts)
     }
   },
   methods: {
@@ -366,7 +365,6 @@ export default {
     },
     getPostsByCategory(slug) {
       const data = this[`${slug}Posts`]
-      console.log('data', data)
       return { items: data?.items ?? [], total: data?.total ?? 0 }
     },
     handleLoadMorePostsByCategory(slug, page) {
