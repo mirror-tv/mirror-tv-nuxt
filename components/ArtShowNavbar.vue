@@ -45,7 +45,7 @@ export default {
     formatSectionList() {
       const aboutPage = { slug: 'main', name: '關於節目' }
       const teamPage = { slug: 'team', name: '創作團隊' }
-      return [aboutPage, ...this.sectionList, teamPage]
+      return [aboutPage, teamPage, ...this.sectionList]
     },
   },
   methods: {
@@ -79,27 +79,59 @@ export default {
   }
   &__item {
     display: flex;
-    justify-content: cneter;
+    justify-content: end;
     align-items: center;
-    width: 33.3333333%;
+    position: relative;
+    width: 50%;
     color: #fff;
     font-size: 18px;
-    line-height: 25px;
+    line-height: 26px;
     font-weight: 500;
     @mixin separator_line() {
       content: '';
       display: inline-block;
+      position: absolute;
+      top: calc((26px - 16px) / 2);
+      left: 0;
       width: 2px;
       height: 16px;
       background-color: rgba(255, 255, 255, 0.5);
       @include media-breakpoint-up(md) {
+        position: static;
+        top: 0;
+        left: 0;
         height: 24px;
       }
     }
-    &:not(:nth-child(3n + 1)) {
+    &:nth-child(odd) {
+      text-align: right;
+      padding: 0 12px 0 0;
+      @include media-breakpoint-up(md) {
+        text-align: center;
+        padding: 0;
+      }
+    }
+    &:nth-child(even) {
+      text-align: left;
+      padding: 0 0 0 12px;
+      @include media-breakpoint-up(md) {
+        text-align: center;
+        padding: 0;
+      }
       &::before {
         @include separator_line;
       }
+    }
+    &:not(:nth-child(3n + 1)) {
+      @include media-breakpoint-up(md) {
+        &::before {
+          @include separator_line;
+        }
+      }
+    }
+    &:last-child:nth-child(odd) {
+      text-align: center;
+      padding: 0;
     }
     &-active {
       color: #ffdb49;

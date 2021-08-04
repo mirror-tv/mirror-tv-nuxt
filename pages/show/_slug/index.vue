@@ -362,6 +362,7 @@ export default {
     }
   }
   &__collect {
+    width: 100%;
     margin-top: 12px;
     @include media-breakpoint-up(md) {
       margin-top: 24px;

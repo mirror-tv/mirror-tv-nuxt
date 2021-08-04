@@ -273,7 +273,7 @@ export default {
     }
     .g-aside {
       width: 100%;
-      margin: 48px auto 0;
+      margin: 16px auto 0;
       @include media-breakpoint-up(md) {
         width: 320px;
         padding: 0;
@@ -281,8 +281,10 @@ export default {
       }
     }
     &__info {
+      margin: 0 0 50px;
       @include media-breakpoint-up(md) {
         display: flex;
+        margin: 0 0 60px;
       }
     }
     &__introduction {
@@ -298,15 +300,10 @@ export default {
       }
     }
     &__collect {
-      margin-top: 12px;
-      .slide {
-        margin-bottom: 28px;
-        @include media-breakpoint-up(md) {
-          margin-bottom: 48px;
-        }
-        @include media-breakpoint-up(md) {
-          margin-bottom: 80px;
-        }
+      width: 100%;
+      margin: 0 0 48px;
+      @include media-breakpoint-up(xl) {
+        margin: 0 0 60px;
       }
       h3 {
         color: $color-blue;
