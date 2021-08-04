@@ -388,6 +388,10 @@ export default {
           content: '';
           width: calc((100% - 64px) / 3);
         }
+        .position-correct {
+          width: calc((100% - 64px) / 3);
+          overflow: hidden;
+        }
       }
       @include media-breakpoint-up(xl) {
         &::after {
