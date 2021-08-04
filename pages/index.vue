@@ -178,6 +178,7 @@
 import { mapGetters } from 'vuex'
 
 import { getUrlOrigin } from '~/utils/meta'
+import { handleYoutubeId } from '~/utils/text-handler'
 import { FILTERED_SLUG } from '~/constants'
 import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
@@ -254,8 +255,9 @@ export default {
       query: fetchAllPromotionVideos,
       update(data) {
         return data?.allPromotionVideos
+          .filter((item) => item.ytUrl)
           .filter((item, i) => i < 5)
-          .map((item) => item.ytUrl?.split('watch?v=')[1])
+          .map((item) => handleYoutubeId(item.ytUrl))
       },
     },
     allShows: {
@@ -349,7 +351,8 @@ export default {
         .map((report) => this.reducerPopularList(report))
     },
     liveVideoId() {
-      return this.liveVideo?.youtubeUrl?.split('watch?v=')[1] ?? ''
+      const url = this.liveVideo?.youtubeUrl ?? ''
+      return url ? handleYoutubeId(url) : ''
     },
     flashNews() {
       const editorData = this.editorChoices.map((post) =>

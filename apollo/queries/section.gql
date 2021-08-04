@@ -1,0 +1,22 @@
+query fetchSectionByShowSlug($showSlug: String) {
+  allSections(where: { show_some: { slug: $showSlug } }, sortBy: id_ASC) {
+    name
+    slug
+    series {
+      name
+      slug
+      introduction
+      heroImage {
+        urlDesktopSized
+        urlMobileSized
+      }
+    }
+  }
+}
+
+query fetchSectionBySlug($slug: String) {
+  allSections(where: { slug: $slug }) {
+    name
+    slug
+  }
+}
