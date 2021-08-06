@@ -170,7 +170,6 @@
         </div>
       </aside>
     </div>
-    <YoutubeToS />
   </section>
 </template>
 
@@ -191,7 +190,6 @@ import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
 import YoutubeEmbed from '~/components/YoutubeEmbed.vue'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi.vue'
-import YoutubeToS from '~/components/YoutubeToS.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
 import ShowCard from '~/components/ShowCard'
@@ -200,7 +198,7 @@ import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
-import { fetchLiveVideoId } from '~/apollo/queries/video.gql'
+import { fetchVideoByName } from '~/apollo/queries/video.gql'
 
 import { getImageUrl } from '~/utils/post-image-handler'
 const PAGE_SIZE = 12
@@ -222,16 +220,6 @@ export default {
           ?.map((item) => this.reducerArticleCard(item.choice))
       },
     },
-    // flashNews: {
-    //   query: fetchPostsByCategories,
-    //   variables: {
-    //     first: 8,
-    //     categories: ['person', 'international'],
-    //   },
-    //   update(data) {
-    //     return data.allPosts
-    //   },
-    // },
     allPublishedPosts: {
       query: fetchPosts,
       variables() {
@@ -267,9 +255,14 @@ export default {
       },
     },
     liveVideo: {
-      query: fetchLiveVideoId,
+      query: fetchVideoByName,
+      variables() {
+        return {
+          name: 'mnews-live',
+        }
+      },
       update(data) {
-        return data.allVideos[0]
+        return data.allVideos?.[0]
       },
     },
   },
@@ -285,13 +278,11 @@ export default {
     UiFlashNews,
     ShowCard,
     LinkAnchorStyle,
-    YoutubeToS,
   },
   data() {
     return {
       allPublishedPosts: [],
       editorChoices: [],
-      // flashNews: [],
       page: 0,
       playlistItems: [],
       postsCount: 0,

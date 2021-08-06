@@ -124,6 +124,16 @@
         </a>
       </div> -->
       <div class="bottom-wrapper__texts texts">
+        <div class="youtube-tos">
+          本網頁使用
+          <a
+            href="https://developers.google.com/youtube/terms/developer-policies#definition-youtube-api-services"
+          >
+            YouTube API 服務 </a
+          >，詳見
+          <a href="https://www.youtube.com/t/terms">YouTube 服務條款</a>、
+          <a href="https://policies.google.com/privacy">Google 隱私權與條款</a>
+        </div>
         <p class="copyright">
           <span>©Mirror TV BROCASTING LTD.</span>
           <span>All Rights Reserved.</span>
@@ -230,57 +240,39 @@ export default {
 }
 
 .bottom-wrapper {
-  padding: 30px 0;
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  // &__texts {
-  //   margin: 30px 0 0 0;
-  // }
+  .youtube-tos {
+    font-size: 14px;
+    line-height: 28px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: #4a4a4a;
+    padding: 0 8px;
+    margin: 0 0 12px;
+    a {
+      color: #004dbc;
+    }
+  }
+  .copyright {
+    color: $color-blue;
+    font-size: 14px;
+    line-height: 2;
+    letter-spacing: 0.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include media-breakpoint-up(xl) {
+      color: $color-blue-deep;
+      flex-direction: row;
+      span + span {
+        margin: 0 0 0 5px;
+      }
+    }
+  }
 }
-
-// .icons {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   @include media-breakpoint-up(xl) {
-//     flex-direction: row;
-//   }
-//   &__readr {
-//     padding: 5.5px;
-//     @include media-breakpoint-up(xl) {
-//       order: 4;
-//       margin: 0 0 0 16px;
-//     }
-//   }
-//   &__mirror-media {
-//     margin: 4.5px 0 0 0;
-//     @include media-breakpoint-up(xl) {
-//       order: 1;
-//       margin: 0;
-//       padding: 2px 0;
-//     }
-//   }
-//   &__mirror-fiction,
-//   &__mirror-voice {
-//     margin: 7px 0 0 0;
-//     padding: 9px 0;
-//     @include media-breakpoint-up(xl) {
-//       margin: 0 0 0 16px;
-//       padding: 5.5px 0;
-//     }
-//   }
-//   &__mirror-fiction {
-//     @include media-breakpoint-up(xl) {
-//       order: 2;
-//     }
-//   }
-//   &__mirror-voice {
-//     @include media-breakpoint-up(xl) {
-//       order: 3;
-//     }
-//   }
-// }
 
 .mirror-img {
   &[alt='readr'] {
@@ -309,23 +301,6 @@ export default {
     @include media-breakpoint-up(xl) {
       width: auto;
       height: 37px;
-    }
-  }
-}
-
-.copyright {
-  color: $color-blue;
-  font-size: 14px;
-  line-height: 2;
-  letter-spacing: 0.5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  @include media-breakpoint-up(xl) {
-    color: $color-blue-deep;
-    flex-direction: row;
-    span + span {
-      margin: 0 0 0 5px;
     }
   }
 }
