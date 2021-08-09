@@ -132,7 +132,7 @@ export default {
           ga: '申訴流程',
         },
         {
-          img: require('~/assets/img/ombuds/icon-p3.svg'),
+          img: require('~/assets/img/ombuds/icon-p4.svg'),
           t1: '外部公評人',
           t2: '設置章程',
           herf: '/story/law',
