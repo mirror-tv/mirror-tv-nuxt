@@ -130,6 +130,9 @@ module.exports = {
           '<img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=35880649&amp;cv=3.6.0&amp;cj=1">',
       },
     ],
+    __dangerouslyDisableSanitizersByTagID: {
+      comScore: ['innerHTML'],
+    },
   },
   /*
    ** Customize the progress-bar color
