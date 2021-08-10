@@ -107,7 +107,6 @@
         />
       </aside>
     </div>
-    <YoutubeToS v-if="isVideoNews" />
   </section>
 </template>
 
@@ -131,7 +130,6 @@ import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
 import ArticleTag from '~/components/ArticleTag.vue'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
-import YoutubeToS from '~/components/YoutubeToS.vue'
 import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import ShareFacebook from '~/components/ShareFacebook'
@@ -188,7 +186,6 @@ export default {
     ListArticleRelated,
     ShareFacebook,
     ShareLine,
-    YoutubeToS,
   },
   data() {
     return {

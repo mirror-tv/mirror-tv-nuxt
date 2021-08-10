@@ -102,7 +102,6 @@
         </div>
       </template>
     </div>
-    <YoutubeToS />
   </section>
 </template>
 
@@ -112,7 +111,6 @@ import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
-import YoutubeToS from '~/components/YoutubeToS.vue'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { handleLineBreak } from '~/utils/text-handler'
@@ -137,7 +135,7 @@ export default {
           const { playList01 = '', playList02 = '' } = data.allShows?.[0] || {}
           const youtubeUrls = [playList01, playList02]
           if (process.browser) {
-            this.isMobile = window.innerWidth < 768
+            this.innerWidth = window.innerWidth
           }
           if (!this.playlists.length) {
             youtubeUrls.forEach((item, i) => {
@@ -171,13 +169,12 @@ export default {
     FacebookPagePlugin,
     YoutubeEmbedByIframeApi,
     ButtonLoadmore,
-    YoutubeToS,
   },
   data() {
     return {
       show: {},
       playlists: [],
-      isMobile: false,
+      innerWidth: 0,
       isActive: true,
       has404Err: false,
     }
@@ -249,6 +246,9 @@ export default {
     secondName() {
       return this.show.playList02?.split('：')[1] ?? '選單 B'
     },
+    isMobile() {
+      return this.innerWidth < 768
+    },
   },
   mounted() {
     if (this.has404Err) {
@@ -268,7 +268,7 @@ export default {
           const pageToken = list.nextPageToken
             ? `&pageToken=${list.nextPageToken}`
             : ''
-          const num = this.isMobile ? 2 : 8
+          const num = this.formatVideoNum(this.innerWidth)
           const response = await this.$fetchYoutubeData(
             `/playlistItems?part=snippet${pageToken}&playlistId=${list.id}&maxResults=${num}`
           )
@@ -281,6 +281,15 @@ export default {
           console.error('[ERROR]Youtube API:', error.message)
         }
       }
+    },
+    formatVideoNum(innerWidth) {
+      if (innerWidth < 768) {
+        return 2
+      }
+      if (innerWidth >= 768 && innerWidth < 1200) {
+        return 9
+      }
+      return 8
     },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('show')('click')(label)

@@ -1,5 +1,8 @@
-query fetchLiveVideoId {
-  allVideos(where: { name: "mnews-live" }) {
+query fetchVideoByName($name: String!) {
+  allVideos(
+    where: { name: $name }
+  ) {
     youtubeUrl
+    url
   }
 }
