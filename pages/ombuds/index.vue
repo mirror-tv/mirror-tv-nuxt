@@ -4,22 +4,19 @@
       <img src="~assets/img/ombuds-banner.jpg" alt="ombudsman banner" />
     </section>
     <div class="ombuds__content">
-      <h2>公評人</h2>
+      <h2>外部公評人翁秀琪</h2>
       <section class="ombuds__intro__wrapper">
         <main class="ombuds__intro__main">
           <div class="ombuds__intro__main__wrapper">
-            <div class="ombuds__intro__main__wrapper-img">
-              <img
-                src="~assets/img/ombuds-picture.jpg"
-                alt="ombudsman banner"
-              />
+            <div class="ombuds__intro__main__wrapper-video">
+              <ArticleContentVideo :video="video" />
             </div>
             <div class="ombuds__intro__main__wrapper-info">
-              <h3>公評人簡介</h3>
               <p v-for="intro in ombudsIntroduction" :key="intro.id">
                 {{ intro.content[0] }}
               </p>
               <a
+                v-if="ombudsIntroduction.length"
                 href="/story/biography"
                 target="_blank"
                 rel="noreferrer noopener"
@@ -89,10 +86,24 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import ArticleContentVideo from '~/components/ArticleContentVideo'
+import { fetchVideoByName } from '~/apollo/queries/video.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
 
 export default {
+  components: {
+    ArticleContentVideo,
+  },
   apollo: {
+    video: {
+      query: fetchVideoByName,
+      variables() {
+        return {
+          name: 'ombuds_office_main_video',
+        }
+      },
+      update: (data) => data.allVideos?.[0],
+    },
     postPublished: {
       query: fetchPostPublishedBySlug,
       variables() {
@@ -121,19 +132,19 @@ export default {
           ga: '申訴流程',
         },
         {
-          img: require('~/assets/img/ombuds/icon-p3.svg'),
-          t1: '新聞製作',
-          t2: '準則',
-          herf: '/story/standards',
-          ga: '新聞製作準則',
+          img: require('~/assets/img/ombuds/icon-p4.svg'),
+          t1: '外部公評人',
+          t2: '設置章程',
+          herf: '/story/law',
+          ga: '外部公評人設置章程',
         },
-        // {
-        //   img: require('~/assets/img/ombuds/icon-p4.svg'),
-        //   t1: '影音',
-        //   t2: '紀錄',
-        //   herf: '/ombuds/archive',
-        //   ga: '影音紀錄',
-        // },
+        {
+          img: require('~/assets/img/ombuds/icon-p3.svg'),
+          t1: '新聞自律 /',
+          t2: '他律規範',
+          herf: '/story/standards',
+          ga: '新聞自律/他律規範',
+        },
         {
           img: require('~/assets/img/ombuds/icon-p5.svg'),
           t1: '常見問題',
@@ -141,13 +152,6 @@ export default {
           herf: '/story/faq',
           ga: '常見問題FAQ',
         },
-        // {
-        //   img: require('~/assets/img/ombuds/icon-p7.svg'),
-        //   t1: '聯絡',
-        //   t2: '我們',
-        //   herf: 'mailto:ombuds@mnews.tw',
-        //   ga: '聯絡我們',
-        // },
       ],
     }
   },
@@ -261,9 +265,7 @@ export default {
         @include media-breakpoint-up(md) {
           display: flex;
         }
-        &-img {
-          position: relative;
-          display: block;
+        &-video {
           width: calc(100% + 32px);
           height: calc(100vw * 0.63);
           transform: translateX(-16px);
@@ -282,33 +284,8 @@ export default {
             height: 270px;
             margin: 0 32px 0 0;
           }
-          img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: 50% 22%;
-            background-color: $color-grey;
-          }
         }
         &-info {
-          h3 {
-            font-size: 18px;
-            font-weight: 500;
-            line-height: 25px;
-            color: $color-blue;
-            margin-bottom: 8px;
-            @include media-breakpoint-up(md) {
-              font-weight: 500;
-              font-size: 20px;
-              line-height: 1.6;
-              letter-spacing: 0.5px;
-            }
-          }
           p {
             font-size: 16px;
             line-height: 1.8;

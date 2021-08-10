@@ -79,7 +79,7 @@ export default {
   }
   &__item {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     position: relative;
     width: 50%;

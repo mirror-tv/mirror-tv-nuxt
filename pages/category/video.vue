@@ -163,7 +163,6 @@
         </div>
       </aside>
     </div>
-    <YoutubeToS />
   </section>
 </template>
 
@@ -179,7 +178,6 @@ import HeadingBordered from '~/components/HeadingBordered'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import YoutubeEmbed from '~/components/YoutubeEmbed.vue'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi.vue'
-import YoutubeToS from '~/components/YoutubeToS.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import ShowCard from '~/components/ShowCard'
 import LinkAnchorStyle from '~/components/LinkAnchorStyle'
@@ -189,7 +187,7 @@ import { fetchVideoEditorChoices } from '~/apollo/queries/videoEditorChoices.gql
 import { fetchPostsByCategorySlug } from '~/apollo/queries/posts.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
-import { fetchLiveVideoId } from '~/apollo/queries/video.gql'
+import { fetchVideoByName } from '~/apollo/queries/video.gql'
 
 export default {
   apollo: {
@@ -224,9 +222,14 @@ export default {
       },
     },
     liveVideo: {
-      query: fetchLiveVideoId,
+      query: fetchVideoByName,
+      variables() {
+        return {
+          name: 'mnews-live',
+        }
+      },
       update(data) {
-        return data.allVideos[0]
+        return data.allVideos?.[0]
       },
     },
   },
@@ -240,7 +243,6 @@ export default {
     LinkYoutubeStyle,
     ShowCard,
     LinkAnchorStyle,
-    YoutubeToS,
   },
   data() {
     return {
