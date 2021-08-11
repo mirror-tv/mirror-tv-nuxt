@@ -19,7 +19,7 @@
         </aside>
       </div>
       <section v-if="shouldShowTrailerList" class="artshow__main__collect">
-        <h3>節目預告</h3>
+        <h3>{{ slideName }}</h3>
         <ol v-if="isMobile">
           <li v-for="item in trailerList.items" :key="item.id">
             <YoutubeEmbedByIframeApi :videoId="item.id" />
@@ -82,7 +82,8 @@ export default {
             this.isMobile = window.innerWidth < 768
           }
           if (playList01) {
-            const url = playList01.split('：')[0]
+            this.slideName = playList01?.split('：')[1] ?? '最新預告'
+            const url = playList01?.split('：')[0]
             const id = url.includes('playlist?list=')
               ? url.split('list=')[1]
               : url.split('https://youtu.be/')[1]
@@ -134,6 +135,7 @@ export default {
       trailerList: {},
       isMobile: false,
       page: 0,
+      slideName: '最新預告',
       sectionList: [],
       artShowCount: 0,
     }
