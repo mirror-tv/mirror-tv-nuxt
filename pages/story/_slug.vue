@@ -59,7 +59,7 @@
           </template>
         </div>
 
-        <article class="post__content">
+        <article itemprop="articleBody" class="post__content">
           <template v-if="isContentString">
             {{ content }}
           </template>
@@ -220,6 +220,7 @@ export default {
     const dableImage = this.image?.tiny
     const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
     const writerName = this.writers?.[0] ?? ''
+    const publishedDateIso = new Date(this.publishTime).toISOString()
     return {
       title,
       meta: [
@@ -268,6 +269,8 @@ export default {
         { property: 'dable:item_id', content: this.slug },
         { property: 'dable:author', content: writerName },
         { property: 'dable:image', content: dableImage },
+        { property: 'article:section', content: this.categoryName },
+        { property: 'article:published_time', content: publishedDateIso },
       ],
       script: [
         ...generateJsonLds.bind(this)(),
@@ -288,7 +291,6 @@ export default {
             dable('setService', 'mnews.tw')
             dable('sendLogOnce')
             dable('renderWidgetByWidth', 'dablewidget_2Xnxwk7d_xXAWmB7G')
-            dable('renderWidgetByWidth', 'dablewidget_2o2ZAAoe_Ql9RwYX4')
           `,
         },
       ],
@@ -527,6 +529,9 @@ export default {
     },
     writers() {
       return this.postPublished?.writers
+    },
+    categoryName() {
+      return this.postPublished?.categories?.[0]?.name ?? ''
     },
     source() {
       return this.postPublished?.source
