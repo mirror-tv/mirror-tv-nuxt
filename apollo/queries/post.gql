@@ -8,7 +8,11 @@ query fetchPostPublishedBySlug($slug: String!) {
     publishTime
     updatedAt
     source
+    categories {
+      name
+    }
     heroImage {
+      tiny: urlTinySized
       mobile: urlMobileSized
       desktop: urlDesktopSized
     }
