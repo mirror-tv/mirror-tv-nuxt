@@ -205,7 +205,8 @@ export default {
   },
   head() {
     const title = this.title
-    const brief = this.brief?.replace?.(/<[^>]*>?/gm, '')
+    // const brief = this.brief?.replace?.(/<[^>]*>?/gm, '')
+    const brief = this.generateBriefText()
     const tags = this.tags?.map?.((tag) => tag.name).join(', ')
     const image = this.image?.desktop
     const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
@@ -525,6 +526,10 @@ export default {
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }
+    },
+    generateBriefText() {
+      const rawText = this.brief?.[0].content?.[0] ?? ''
+      return rawText.includes('&#') ? undefined : rawText
     },
     setGaDimensionOfSource() {
       const dimensionSource = this.source ?? ''
