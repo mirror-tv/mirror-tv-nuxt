@@ -9,6 +9,7 @@ query fetchPostPublishedBySlug($slug: String!) {
     updatedAt
     source
     heroImage {
+      tiny: urlTinySized
       mobile: urlMobileSized
       desktop: urlDesktopSized
     }

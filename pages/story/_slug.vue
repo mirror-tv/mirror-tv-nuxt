@@ -93,6 +93,14 @@
           :listData="relatedPosts"
           @click-item="sendGaClickEvent('related articles')"
         />
+        <ClientOnly>
+          <div
+            id="dablewidget_2Xnxwk7d_xXAWmB7G"
+            data-widget_id-pc="2Xnxwk7d"
+            data-widget_id-mo="xXAWmB7G"
+            class="dable-widget-last"
+          />
+        </ClientOnly>
       </main>
       <aside class="g-aside aside">
         <ListArticleAside
@@ -209,7 +217,9 @@ export default {
     const brief = this.generateBriefText()
     const tags = this.tags?.map?.((tag) => tag.name).join(', ')
     const image = this.image?.desktop
+    const dableImage = this.image?.tiny
     const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
+    const writerName = this.writers?.[0] ?? ''
     return {
       title,
       meta: [
@@ -255,8 +265,36 @@ export default {
               },
             ]
           : []),
+        { property: 'dable:item_id', content: this.slug },
+        { property: 'dable:author', content: writerName },
+        { property: 'dable:image', content: dableImage },
       ],
-      script: [...generateJsonLds.bind(this)()],
+      script: [
+        ...generateJsonLds.bind(this)(),
+        {
+          hid: 'dable',
+          innerHTML: `
+            (function(d,a,b,l,e,_) {
+              d[b] = d[b] || function () {
+                (d[b].q = d[b].q || []).push(arguments)
+              }
+              e = a.createElement(l)
+              e.async = 1
+              e.charset = 'utf-8'
+              e.src = '//static.dable.io/dist/plugin.min.js'
+              _ = a.getElementsByTagName(l)[0]
+              _.parentNode.insertBefore(e, _)
+            })(window, document, 'dable', 'script')
+            dable('setService', 'mnews.tw')
+            dable('sendLogOnce')
+            dable('renderWidgetByWidth', 'dablewidget_2Xnxwk7d_xXAWmB7G')
+            dable('renderWidgetByWidth', 'dablewidget_2o2ZAAoe_Ql9RwYX4')
+          `,
+        },
+      ],
+      __dangerouslyDisableSanitizersByTagID: {
+        dable: ['innerHTML'],
+      },
     }
     function generateJsonLds() {
       const hasCategory = this.postPublished?.categories?.[0]
@@ -431,6 +469,7 @@ export default {
     image() {
       return (
         this.postPublished?.heroImage ?? {
+          tiny: require('~/assets/img/image-default.png'),
           mobile: require('~/assets/img/image-default.png'),
           desktop: require('~/assets/img/image-default.png'),
         }
@@ -689,6 +728,9 @@ export default {
   &__tag {
     margin: 0 5px;
     padding: 8px 0;
+  }
+  .dable-widget-last {
+    margin: 20px 0;
   }
 }
 
