@@ -89,6 +89,11 @@
             @click.native="sendGaClickEvent('tag')"
           />
         </div>
+        <ClientOnly>
+          <div class="popin">
+            <div id="_popIn_recommend" />
+          </div>
+        </ClientOnly>
         <ListArticleRelated
           v-if="hasRelatedPosts"
           :listData="relatedPosts"
@@ -96,6 +101,9 @@
         >
           <template #ads>
             <ClientOnly>
+              <div class="popin">
+                <div id="_popIn_recommend_word" />
+              </div>
               <div class="dable-widget-innerText">
                 <div
                   id="dablewidget_2o2ZAAoe_Ql9RwYX4"
@@ -308,9 +316,24 @@ export default {
             dable('renderWidgetByWidth', 'dablewidget_2o2ZAAoe_Ql9RwYX4')
           `,
         },
+        {
+          hid: 'popinAd',
+          innerHTML: `
+            (function() {
+              var pa = document.createElement('script')
+              pa.type = 'text/javascript'
+              pa.charset = 'utf-8'
+              pa.async = true
+              pa.src = window.location.protocol + '//api.popin.cc/searchbox/mnews_tw.js'
+              var s = document.getElementsByTagName('script')[0]
+              s.parentNode.insertBefore(pa, s)
+            })()
+          `,
+        },
       ],
       __dangerouslyDisableSanitizersByTagID: {
         dable: ['innerHTML'],
+        popinAd: ['innerHTML'],
       },
     }
     function generateJsonLds() {
