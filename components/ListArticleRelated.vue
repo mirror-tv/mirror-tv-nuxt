@@ -13,6 +13,7 @@
           @click.native="$emit('click-item')"
         />
       </li>
+      <slot name="ads"></slot>
     </ul>
   </div>
 </template>
