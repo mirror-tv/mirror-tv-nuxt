@@ -90,16 +90,30 @@
           />
         </div>
         <ListArticleRelated
+          v-if="hasRelatedPosts"
           :listData="relatedPosts"
           @click-item="sendGaClickEvent('related articles')"
-        />
+        >
+          <template #ads>
+            <ClientOnly>
+              <div class="dable-widget-innerText">
+                <div
+                  id="dablewidget_2o2ZAAoe_Ql9RwYX4"
+                  data-widget_id-pc="2o2ZAAoe"
+                  data-widget_id-mo="Ql9RwYX4"
+                />
+              </div>
+            </ClientOnly>
+          </template>
+        </ListArticleRelated>
         <ClientOnly>
-          <div
-            id="dablewidget_2Xnxwk7d_xXAWmB7G"
-            data-widget_id-pc="2Xnxwk7d"
-            data-widget_id-mo="xXAWmB7G"
-            class="dable-widget-last"
-          />
+          <div class="dable-widget-last">
+            <div
+              id="dablewidget_2Xnxwk7d_xXAWmB7G"
+              data-widget_id-pc="2Xnxwk7d"
+              data-widget_id-mo="xXAWmB7G"
+            />
+          </div>
         </ClientOnly>
       </main>
       <aside class="g-aside aside">
@@ -291,6 +305,7 @@ export default {
             dable('setService', 'mnews.tw')
             dable('sendLogOnce')
             dable('renderWidgetByWidth', 'dablewidget_2Xnxwk7d_xXAWmB7G')
+            dable('renderWidgetByWidth', 'dablewidget_2o2ZAAoe_Ql9RwYX4')
           `,
         },
       ],
@@ -733,9 +748,6 @@ export default {
   &__tag {
     margin: 0 5px;
     padding: 8px 0;
-  }
-  .dable-widget-last {
-    margin: 20px 0;
   }
 }
 
