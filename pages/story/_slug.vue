@@ -90,9 +90,7 @@
           />
         </div>
         <ClientOnly>
-          <div class="popin">
-            <div id="_popIn_recommend" />
-          </div>
+          <div id="_popIn_recommend"></div>
         </ClientOnly>
         <ListArticleRelated
           v-if="hasRelatedPosts"
@@ -101,9 +99,7 @@
         >
           <template #ads>
             <ClientOnly>
-              <div class="popin">
-                <div id="_popIn_recommend_word" />
-              </div>
+              <div id="_popIn_recommend_word"></div>
               <div class="dable-widget-innerText">
                 <div
                   id="dablewidget_2o2ZAAoe_Ql9RwYX4"
