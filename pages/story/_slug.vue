@@ -96,7 +96,6 @@
           ></LazyRenderer>
         </ClientOnly>
         <ListArticleRelated
-          v-if="hasRelatedPosts"
           :listData="relatedPosts"
           @click-item="sendGaClickEvent('related articles')"
         >
@@ -508,9 +507,6 @@ export default {
     },
     hasPostsLatest() {
       return this.allPostsLatest.length > 0
-    },
-    hasRelatedPosts() {
-      return this.relatedPosts?.length > 0
     },
     hasTags() {
       return this.tags?.length > 0
