@@ -16766,6 +16766,11 @@ vue-jest@^3.0.7:
     tsconfig "^7.0.0"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-lazy-renderer@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/vue-lazy-renderer/-/vue-lazy-renderer-1.2.1.tgz#92db4290d133b70a14f06f57e87c997e966e12ae"
+  integrity sha512-46l/B9jMGqSamv+kjz+iNqukLHUf0ASJ2ja9oBqZZS1Q3vriEe3QfMrKaQIG75CqK/bWkOCUsnX8KRaPHzovEA==
+
 vue-lazyload@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.3.3.tgz#4df50a271bde9b74c3caf7a228d6e0af50d5682f"
