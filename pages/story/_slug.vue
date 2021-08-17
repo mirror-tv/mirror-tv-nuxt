@@ -550,7 +550,7 @@ export default {
       return this.postPublished?.otherbyline
     },
     publishTime() {
-      return this.postPublished?.publishTime
+      return this.postPublished?.publishTime ?? Date.now()
     },
     photographers() {
       return this.postPublished?.photographers
