@@ -245,7 +245,8 @@ export default {
     const brief = this.generateBriefText()
     const tags = this.tags?.map?.((tag) => tag.name).join(', ')
     const image = this.image?.desktop
-    const dableImage = this.image?.tiny
+    // dable 圖片有大小限制，如果 mobile 過大，可換成 tiny
+    const dableImage = this.image?.mobile
     const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
     const writerName = this.writers?.[0] ?? ''
     const publishedDateIso = new Date(this.publishTime).toISOString()
