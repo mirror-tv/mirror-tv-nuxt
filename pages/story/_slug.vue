@@ -89,6 +89,12 @@
             @click.native="sendGaClickEvent('tag')"
           />
         </div>
+        <ClientOnly>
+          <LazyRenderer
+            id="_popIn_recommend"
+            @load="handleLoadPopinWidget"
+          ></LazyRenderer>
+        </ClientOnly>
         <ListArticleRelated
           v-if="hasRelatedPosts"
           :listData="relatedPosts"
@@ -96,23 +102,29 @@
         >
           <template #ads>
             <ClientOnly>
+              <LazyRenderer
+                id="_popIn_recommend_word"
+                @load="handleLoadPopinWidget"
+              ></LazyRenderer>
               <div class="dable-widget-innerText">
-                <div
+                <LazyRenderer
                   id="dablewidget_2o2ZAAoe_Ql9RwYX4"
                   data-widget_id-pc="2o2ZAAoe"
                   data-widget_id-mo="Ql9RwYX4"
-                />
+                  @load="handleLoadDableWidget"
+                ></LazyRenderer>
               </div>
             </ClientOnly>
           </template>
         </ListArticleRelated>
         <ClientOnly>
           <div class="dable-widget-last">
-            <div
+            <LazyRenderer
               id="dablewidget_2Xnxwk7d_xXAWmB7G"
               data-widget_id-pc="2Xnxwk7d"
               data-widget_id-mo="xXAWmB7G"
-            />
+              @load="handleLoadDableWidget"
+            ></LazyRenderer>
           </div>
         </ClientOnly>
       </main>
@@ -215,6 +227,8 @@ export default {
       allPostsLatest: [],
       popularData: {},
       has404Err: false,
+      shouldLoadPopinScript: false,
+      shouldLoadDableScript: false,
     }
   },
   async fetch() {
@@ -231,7 +245,8 @@ export default {
     const brief = this.generateBriefText()
     const tags = this.tags?.map?.((tag) => tag.name).join(', ')
     const image = this.image?.desktop
-    const dableImage = this.image?.tiny
+    // dable 圖片有大小限制，如果 mobile 過大，可換成 tiny
+    const dableImage = this.image?.mobile
     const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
     const writerName = this.writers?.[0] ?? ''
     const publishedDateIso = new Date(this.publishTime).toISOString()
@@ -290,6 +305,7 @@ export default {
         ...generateJsonLds.bind(this)(),
         {
           hid: 'dable',
+          skip: !this.shouldLoadDableScript,
           innerHTML: `
             (function(d,a,b,l,e,_) {
               d[b] = d[b] || function () {
@@ -308,9 +324,25 @@ export default {
             dable('renderWidgetByWidth', 'dablewidget_2o2ZAAoe_Ql9RwYX4')
           `,
         },
+        {
+          hid: 'popinAd',
+          skip: !this.shouldLoadPopinScript,
+          innerHTML: `
+            (function() {
+              var pa = document.createElement('script')
+              pa.type = 'text/javascript'
+              pa.charset = 'utf-8'
+              pa.async = true
+              pa.src = window.location.protocol + '//api.popin.cc/searchbox/mnews_tw.js'
+              var s = document.getElementsByTagName('script')[0]
+              s.parentNode.insertBefore(pa, s)
+            })()
+          `,
+        },
       ],
       __dangerouslyDisableSanitizersByTagID: {
         dable: ['innerHTML'],
+        popinAd: ['innerHTML'],
       },
     }
     function generateJsonLds() {
@@ -428,8 +460,8 @@ export default {
     showBrief() {
       const validateArray = this.brief?.map((briefContent) => {
         return (
-          briefContent.content?.length > 1 ||
-          briefContent.content[0]?.length > 0
+          briefContent?.content?.length > 1 ||
+          briefContent?.content[0]?.length > 0
         )
       })
 
@@ -586,8 +618,14 @@ export default {
         articleDate: new Date(post.publishTime),
       }
     },
+    handleLoadPopinWidget() {
+      this.shouldLoadPopinScript = true
+    },
+    handleLoadDableWidget() {
+      this.shouldLoadDableScript = true
+    },
     generateBriefText() {
-      const rawText = this.brief?.[0].content?.[0] ?? ''
+      const rawText = this.brief?.[0]?.content?.[0] ?? ''
       return rawText.includes('&#') ? undefined : rawText
     },
     setGaDimensionOfSource() {
@@ -749,6 +787,10 @@ export default {
     margin: 0 5px;
     padding: 8px 0;
   }
+}
+
+.dable-widget-last {
+  margin: 40px 0 0;
 }
 
 .figcaption {
