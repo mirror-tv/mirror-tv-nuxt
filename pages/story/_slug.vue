@@ -96,7 +96,6 @@
           ></LazyRenderer>
         </ClientOnly>
         <ListArticleRelated
-          v-if="hasRelatedPosts"
           :listData="relatedPosts"
           @click-item="sendGaClickEvent('related articles')"
         >
@@ -509,18 +508,15 @@ export default {
     hasPostsLatest() {
       return this.allPostsLatest.length > 0
     },
-    hasRelatedPosts() {
-      return this.relatedPosts?.length > 0
-    },
     hasTags() {
       return this.tags?.length > 0
     },
     image() {
       return (
         this.postPublished?.heroImage ?? {
-          tiny: require('~/assets/img/image-default.png'),
-          mobile: require('~/assets/img/image-default.png'),
-          desktop: require('~/assets/img/image-default.png'),
+          tiny: require('~/assets/img/image-default.jpg'),
+          mobile: require('~/assets/img/image-default.jpg'),
+          desktop: require('~/assets/img/image-default.jpg'),
         }
       )
     },
@@ -550,7 +546,7 @@ export default {
       return this.postPublished?.otherbyline
     },
     publishTime() {
-      return this.postPublished?.publishTime
+      return this.postPublished?.publishTime ?? Date.now()
     },
     photographers() {
       return this.postPublished?.photographers

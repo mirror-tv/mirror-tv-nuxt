@@ -2,7 +2,7 @@
   <div class="show-card">
     <a class="show-card__banner" :href="handleShowSlug(show.slug)">
       <img v-if="getBannerImgUrl" v-lazy="getBannerImgUrl" :alt="show.slug" />
-      <img v-else src="~assets/img/image-default.png" alt="default banner" />
+      <img v-else src="~assets/img/image-default.jpg" alt="default banner" />
     </a>
   </div>
 </template>

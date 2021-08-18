@@ -18,7 +18,7 @@
               />
               <img
                 v-else
-                src="~assets/img/image-default.png"
+                src="~assets/img/image-default.jpg"
                 :alt="anchor.name"
               />
             </a>
@@ -45,7 +45,7 @@
               />
               <img
                 v-else
-                src="~assets/img/image-default.png"
+                src="~assets/img/image-default.jpg"
                 :alt="host.name"
               />
             </a>

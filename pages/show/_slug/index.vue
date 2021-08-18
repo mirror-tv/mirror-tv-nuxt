@@ -23,7 +23,7 @@
               />
               <img
                 v-else
-                v-lazy="require('~/assets/img/image-default.png')"
+                v-lazy="require('~/assets/img/image-default.jpg')"
                 alt="default image"
               />
               <div class="host__wrapper-content">

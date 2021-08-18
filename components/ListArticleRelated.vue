@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hasItems" class="list-wrapper">
+  <div class="list-wrapper">
     <HeadingBordered text="相關新聞" />
     <ul class="list-wrapper__list list">
       <li

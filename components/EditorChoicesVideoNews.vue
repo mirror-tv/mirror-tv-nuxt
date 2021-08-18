@@ -111,7 +111,7 @@ export default {
         (item.heroImage?.urlMobileSized ||
           item.heroVideo?.coverPhoto?.urlDesktopSized ||
           item.heroVideo?.coverPhoto?.urlOriginal) ??
-        require('~/assets/img/image-default.png')
+        require('~/assets/img/image-default.jpg')
       )
     },
   },
