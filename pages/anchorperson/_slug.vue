@@ -9,7 +9,7 @@
       />
       <img
         v-else
-        v-lazy="require('~/assets/img/image-default.png')"
+        v-lazy="require('~/assets/img/image-default.jpg')"
         class="anchor__content__img"
         alt="default image"
       />

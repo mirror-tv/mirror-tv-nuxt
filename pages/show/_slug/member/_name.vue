@@ -21,7 +21,7 @@
         />
         <img
           v-else
-          src="~assets/img/image-default.png"
+          src="~assets/img/image-default.jpg"
           :alt="directorInfo.name"
         />
         <HeadingBordered

@@ -124,7 +124,7 @@ export default {
     getImage(post) {
       return (
         post.heroImage?.urlMobileSized ??
-        require('~/assets/img/image-default.png')
+        require('~/assets/img/image-default.jpg')
       )
     },
     handleSlideNext() {

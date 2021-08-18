@@ -43,7 +43,7 @@ export default {
     },
     image: {
       type: String,
-      default: require('~/assets/img/image-default.png'),
+      default: require('~/assets/img/image-default.jpg'),
     },
     facebook: {
       type: String,
