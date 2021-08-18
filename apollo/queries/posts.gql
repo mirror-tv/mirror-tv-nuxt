@@ -129,6 +129,7 @@ query fetchPosts(
     id
     publishTime
     categories {
+      slug
       name
     }
     ...listingPagePost
