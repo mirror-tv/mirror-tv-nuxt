@@ -91,15 +91,18 @@
         </div>
         <ClientOnly>
           <LazyRenderer
+            v-if="shouldShowAds"
             id="_popIn_recommend"
+            class="popin_recommend"
             @load="handleLoadPopinWidget"
           ></LazyRenderer>
         </ClientOnly>
         <ListArticleRelated
           :listData="relatedPosts"
+          :hasAdContent="shouldShowAds"
           @click-item="sendGaClickEvent('related articles')"
         >
-          <template #ads>
+          <template v-if="shouldShowAds" #ads>
             <ClientOnly>
               <LazyRenderer
                 id="_popIn_recommend_word"
@@ -119,6 +122,7 @@
         <ClientOnly>
           <div class="dable-widget-last">
             <LazyRenderer
+              v-if="shouldShowAds"
               id="dablewidget_2Xnxwk7d_xXAWmB7G"
               data-widget_id-pc="2Xnxwk7d"
               data-widget_id-mo="xXAWmB7G"
@@ -576,11 +580,19 @@ export default {
     categoryName() {
       return this.postPublished?.categories?.[0]?.name ?? ''
     },
+    categorySlug() {
+      return this.postPublished?.categories?.[0]?.slug ?? ''
+    },
     source() {
       return this.postPublished?.source
     },
     pdfUrl() {
       return getPdfUrl(this.$config, this.slug)
+    },
+    shouldShowAds() {
+      return (
+        this.categorySlug !== 'ombuds' && !FILTERED_SLUG.includes(this.slug)
+      )
     },
   },
   beforeMount() {
@@ -783,6 +795,10 @@ export default {
     margin: 0 5px;
     padding: 8px 0;
   }
+}
+
+.popin_recommend {
+  margin: 40px 0 0;
 }
 
 .dable-widget-last {
