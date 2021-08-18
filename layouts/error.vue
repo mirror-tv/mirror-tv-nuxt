@@ -22,7 +22,7 @@
             />
             <img
               v-else
-              src="~assets/img/image-default.png"
+              src="~assets/img/image-default.jpg"
               :alt="article.title"
             />
             <p>{{ article.title }}</p>
