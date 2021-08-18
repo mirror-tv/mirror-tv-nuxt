@@ -85,7 +85,7 @@ export default {}
   }
 }
 .subscription-icon {
-  width: 22px;
+  width: 18px;
   margin: 0 4px 0 0;
   //   transform: translateY(-12px);
 }
