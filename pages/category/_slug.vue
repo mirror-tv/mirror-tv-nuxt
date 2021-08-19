@@ -27,6 +27,8 @@
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
                 :articleStyle="post.articleStyle"
+                :isMicroAd="post.isMicroAd"
+                :microAdId="post.microAdId"
                 @click.native="sendGaClickEvent('category latest')"
               />
             </li>
@@ -45,6 +47,11 @@
           :listData="listArticleAsidepopularData"
           :hasBorderInXl="true"
         />
+        <ClientOnly>
+          <div v-if="!isTablet" class="micro-ad">
+            <MicroAd :unitId="microAdId" />
+          </div>
+        </ClientOnly>
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'最新新聞'"
@@ -52,6 +59,11 @@
           :hasBorderInXl="true"
         />
       </aside>
+      <ClientOnly>
+        <div v-if="isTablet" class="micro-ad">
+          <MicroAd :unitId="microAdId" />
+        </div>
+      </ClientOnly>
     </div>
   </section>
 </template>
@@ -60,6 +72,7 @@
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
 import { SITE_NAME, FILTERED_SLUG } from '~/constants'
+import { MICRO_AD_UNITS } from '~/constants/micro-ad'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -67,10 +80,13 @@ import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import ListArticleAside from '~/components/ListArticleAside'
+import MicroAd from '~/components/MicroAd.vue'
 import { allPublishedPostsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { getImageUrl } from '~/utils/post-image-handler'
+
+const MICRO_AD_INDEXES = [3, 5, 9, 11]
 
 export default {
   apollo: {
@@ -91,21 +107,16 @@ export default {
       variables() {
         return {
           categorySlug: this.pageSlug,
+          filteredSlug: this.filteredSlug,
+          withCount: true,
           first: this.getPageSize(),
           skip: 0,
-          filteredSlug: this.filteredSlug,
         }
       },
-    },
-    allPostsCategoryMeta: {
-      query: allPublishedPostsByCategorySlug,
-      variables() {
-        return {
-          categorySlug: this.pageSlug,
-          filteredSlug: this.filteredSlug,
-        }
+      update(data) {
+        this.postsCount = data._allPostsMeta?.count - MICRO_AD_INDEXES.length
+        return data.allPostsCategory
       },
-      update: (data) => data.meta,
     },
     allPostsLatest: {
       query: allPublishedPosts,
@@ -122,16 +133,19 @@ export default {
     ArticleCard,
     ButtonLoadmore,
     ListArticleAside,
+    MicroAd,
   },
   data() {
     return {
       page: 0,
       allCategories: [],
       allPostsCategory: [],
-      allPostsCategoryMeta: [],
       allPostsLatest: [],
       popularData: {},
+      postsCount: 0,
       has404Err: false,
+      isMobile: false,
+      isTablet: false,
     }
   },
   async fetch() {
@@ -194,7 +208,8 @@ export default {
       const listData = this.currentTopPostSlug
         ? [this.currentTopPost].concat(this.allPostsCategory)
         : this.allPostsCategory
-      return listData?.map((post) => this.reducerArticleCard(post))
+      const reducedList = listData?.map((post) => this.reducerArticleCard(post))
+      return this.insertMicroAds(reducedList)
     },
     hasListArticleMainData() {
       return this.listArticleMainData.length
@@ -210,10 +225,14 @@ export default {
         .map((report) => this.reducerArticleCard(report))
     },
     showLoadMoreButton() {
-      return this.allPostsCategory?.length < this.allPostsCategoryMeta?.count
+      return this.allPostsCategory?.length < this.postsCount
+    },
+    microAdId() {
+      return this.isMobile ? '4300419' : '4300420'
     },
   },
   mounted() {
+    this.detectViewport()
     if (this.has404Err) {
       this.$nuxt.error({ statusCode: 404 })
     }
@@ -228,6 +247,47 @@ export default {
         articleDate: new Date(post.publishTime),
       }
     },
+    detectViewport() {
+      const viewportWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      if (viewportWidth < 1200) {
+        this.isMobile = true
+      }
+      if (viewportWidth >= 768 && viewportWidth < 1200) {
+        this.isTablet = true
+      }
+    },
+    insertMicroAds(listData) {
+      const insertedListData = [...listData]
+      const device = this.isMobile ? 'MB' : 'PC'
+      const unitList = MICRO_AD_UNITS.HOME_CATEGORY[device]
+      const microAdList = MICRO_AD_INDEXES.map((item, i) => {
+        const unit = unitList.find(
+          (unit) => unit.name === `NA${i + 1}_${device}_HP`
+        )
+        return unit
+          ? {
+              insertIndex: item,
+              unitId: unit.id,
+            }
+          : {
+              insertIndex: item,
+              unitId: '',
+            }
+      })
+      microAdList.forEach((item, i) => {
+        if (insertedListData[item.insertIndex - 1]) {
+          insertedListData.splice(item.insertIndex, 0, {
+            isMicroAd: true,
+            microAdId: item.unitId,
+            id: `micro-ad-${i}`,
+          })
+        }
+      })
+      return insertedListData
+    },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('category')('click')(label)
     },
@@ -236,21 +296,26 @@ export default {
       this.$apollo.queries.allPostsCategory.fetchMore({
         variables: {
           categorySlug: this.pageSlug,
+          filteredSlug: this.filteredSlug,
+          withCount: false,
           first: 12,
           skip: 12 * this.page,
-          filteredSlug: this.filteredSlug,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newPosts = fetchMoreResult.allPostsCategory
           return {
             allPostsCategory: [...previousResult.allPostsCategory, ...newPosts],
+            _allPostsMeta: {
+              __typename: '_QueryMeta',
+              count: this.postsCount,
+            },
           }
         },
       })
       this.sendGaClickEvent('more')
     },
     getPageSize() {
-      return this.currentTopPostSlug ? 12 : 13
+      return this.currentTopPostSlug ? 8 : 9
     },
   },
 }
@@ -405,6 +470,16 @@ export default {
 .g-button-load-more {
   @include media-breakpoint-up(md) {
     margin: 0 auto;
+  }
+}
+
+.micro-ad {
+  margin: 40px 0;
+  @include media-breakpoint-up(mb) {
+    margin: 0;
+  }
+  @include media-breakpoint-up(xl) {
+    margin: 48px 0;
   }
 }
 </style>

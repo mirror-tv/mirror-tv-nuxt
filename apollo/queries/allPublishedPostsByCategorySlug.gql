@@ -1,17 +1,20 @@
 #import "~/apollo/fragments/listingPagePost.gql"
 
 query allPublishedPostsByCategorySlug(
-  $categorySlug: String!
-  $first: Int = 13
-  $skip: Int = 0
+  $categorySlug: String!,
   $filteredSlug: [String] = [""],
+  $withCount: Boolean = false,
+  $first: Int = 13,
+  $skip: Int = 0,
 ) {
   allPostsCategory: allPosts(
     sortBy: publishTime_DESC
     where: {
-      categories_some: { slug: $categorySlug }
+      state: published,
       slug_not_in: $filteredSlug,
-      state: published
+      categories_some: {
+        slug: $categorySlug
+      }
     }
     first: $first
     skip: $skip
@@ -21,14 +24,15 @@ query allPublishedPostsByCategorySlug(
     ...listingPagePost
   }
 
-  meta: _allPostsMeta(
-    sortBy: publishTime_DESC
+  _allPostsMeta(
     where: {
-      categories_some: { slug: $categorySlug }
+      state: published,
       slug_not_in: $filteredSlug,
-      state: published
+      categories_some: {
+        slug: $categorySlug
+      }
     }
-  ) {
+  ) @include(if: $withCount) {
     count
   }
 }

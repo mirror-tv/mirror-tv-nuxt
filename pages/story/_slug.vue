@@ -137,12 +137,22 @@
           :listTitle="'熱門新聞'"
           :listData="listArticleAsidepopularData"
         />
+        <ClientOnly>
+          <div v-if="!isTablet" class="micro-ad">
+            <MicroAd :unitId="microAdId" />
+          </div>
+        </ClientOnly>
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
         />
       </aside>
+      <ClientOnly>
+        <div v-if="isTablet" class="micro-ad">
+          <MicroAd :unitId="microAdId" />
+        </div>
+      </ClientOnly>
     </div>
   </section>
 </template>
@@ -171,6 +181,7 @@ import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
+import MicroAd from '~/components/MicroAd.vue'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
@@ -223,12 +234,15 @@ export default {
     ListArticleRelated,
     ShareFacebook,
     ShareLine,
+    MicroAd,
   },
   data() {
     return {
       postPublished: {},
       allPostsLatest: [],
       popularData: {},
+      isMobile: false,
+      isTablet: false,
       has404Err: false,
       shouldLoadPopinScript: false,
       shouldLoadDableScript: false,
@@ -586,6 +600,9 @@ export default {
     source() {
       return this.postPublished?.source
     },
+    microAdId() {
+      return this.isMobile ? '4300419' : '4300420'
+    },
     pdfUrl() {
       return getPdfUrl(this.$config, this.slug)
     },
@@ -599,6 +616,7 @@ export default {
     this.setGaDimensionOfSource()
   },
   mounted() {
+    this.detectViewport()
     if (this.has404Err) {
       this.$nuxt.error({ statusCode: 404 })
     }
@@ -615,6 +633,18 @@ export default {
     })
   },
   methods: {
+    detectViewport() {
+      const viewportWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      if (viewportWidth < 1200) {
+        this.isMobile = true
+      }
+      if (viewportWidth >= 768 && viewportWidth < 1200) {
+        this.isTablet = true
+      }
+    },
     formatDate(date) {
       return `${dayjs(date).format('YYYY.MM.DD HH:mm')} 臺北時間`
     },
@@ -883,5 +913,12 @@ export default {
 
 [isVideoNews='true'] {
   padding-bottom: 8px;
+}
+
+.micro-ad {
+  margin: 40px 0 0;
+  @include media-breakpoint-up(xl) {
+    margin: 48px 0 0;
+  }
 }
 </style>

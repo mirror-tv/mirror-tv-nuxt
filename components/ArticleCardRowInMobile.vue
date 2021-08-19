@@ -1,48 +1,60 @@
 <template>
-  <a
-    class="article-card"
-    :href="href"
-    target="_blank"
-    rel="noreferrer noopener"
-  >
-    <span class="top-wrapper">
-      <span
-        v-if="showLabelTitleWrapper(labelTitle)"
-        class="top-wrapper__label-title-wrapper label-title-wrapper"
-      >
-        <span class="label-title" v-text="labelTitle" />
-      </span>
-    </span>
-    <span
-      :class="['article-card__bottom-wrapper', 'bottom-wrapper', 'row-mobile']"
+  <div>
+    <MicroAd v-if="isMicroAd" :unitId="microAdId" class="micro-ad" />
+    <a
+      v-else
+      class="article-card"
+      :href="href"
+      target="_blank"
+      rel="noreferrer noopener"
     >
-      <span :class="['article-img-wrapper', 'shrink']">
-        <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
-        <span v-if="isVideoNews" class="g-video-news-img-icon-wrapper">
-          <span class="g-video-news-img-icon" />
+      <span class="top-wrapper">
+        <span
+          v-if="showLabelTitleWrapper(labelTitle)"
+          class="top-wrapper__label-title-wrapper label-title-wrapper"
+        >
+          <span class="label-title" v-text="labelTitle" />
         </span>
       </span>
       <span
         :class="[
-          'bottom-wrapper__info-wrapper',
-          'bottom-wrapper__info-wrapper--margin-left',
-          'info-wrapper',
+          'article-card__bottom-wrapper',
+          'bottom-wrapper',
+          'row-mobile',
         ]"
       >
-        <span class="article-title" v-text="articleTitle" />
+        <span :class="['article-img-wrapper', 'shrink']">
+          <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
+          <span v-if="isVideoNews" class="g-video-news-img-icon-wrapper">
+            <span class="g-video-news-img-icon" />
+          </span>
+        </span>
         <span
-          class="info-wrapper__article-date article-date"
-          v-text="formatDate(articleDate)"
-        />
+          :class="[
+            'bottom-wrapper__info-wrapper',
+            'bottom-wrapper__info-wrapper--margin-left',
+            'info-wrapper',
+          ]"
+        >
+          <span class="article-title" v-text="articleTitle" />
+          <span
+            class="info-wrapper__article-date article-date"
+            v-text="formatDate(articleDate)"
+          />
+        </span>
       </span>
-    </span>
-  </a>
+    </a>
+  </div>
 </template>
 
 <script>
 import dayjs from 'dayjs'
+import MicroAd from '~/components/MicroAd'
 
 export default {
+  components: {
+    MicroAd,
+  },
   props: {
     href: {
       type: String,
@@ -67,6 +79,14 @@ export default {
     articleStyle: {
       type: String,
       default: null,
+    },
+    isMicroAd: {
+      type: Boolean,
+      default: false,
+    },
+    microAdId: {
+      type: String,
+      default: '',
     },
   },
   computed: {

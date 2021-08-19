@@ -13,7 +13,7 @@
       >
         <a
           v-for="article in displayedArticles"
-          :key="article.slug"
+          :key="`flash-${article.slug}`"
           class="truncate-text-one-line"
           :href="`/story/${article.slug}`"
           target="_blank"
@@ -39,7 +39,7 @@ export default {
       type: Array,
       default: () => [],
       required: true,
-      validator: (values) => values.length >= 3,
+      // validator: (values) => values.length >= 3,
     },
   },
 
