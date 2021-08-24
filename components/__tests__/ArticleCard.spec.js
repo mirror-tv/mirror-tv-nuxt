@@ -174,47 +174,47 @@ describe('props', function () {
   })
 })
 
-describe('snapshot tests', function () {
-  test('Usage with provided labelTitle', async function () {
-    const wrapper = await mount(ArticleCard, {
-      propsData: {
-        href: 'https://www.mirrormedia.mg/story/20200715edi026/',
-        labelTitle: '生活',
-        articleImgURL:
-          'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
-        articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',
-        articleDate: new Date(2020, 0, 2, 3, 4, 5),
-      },
-    })
-    expect(wrapper.element).toMatchSnapshot()
-  })
+// describe('snapshot tests', function () {
+//   test('Usage with provided labelTitle', async function () {
+//     const wrapper = await mount(ArticleCard, {
+//       propsData: {
+//         href: 'https://www.mirrormedia.mg/story/20200715edi026/',
+//         labelTitle: '生活',
+//         articleImgURL:
+//           'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
+//         articleTitle: '振興券上路最大咖好禮黃偉哲：來台南旅遊消費抽房子',
+//         articleDate: new Date(2020, 0, 2, 3, 4, 5),
+//       },
+//     })
+//     expect(wrapper.element).toMatchSnapshot()
+//   })
 
-  test('Usage with not provided labelTitle', async function () {
-    const wrapper = await mount(ArticleCard, {
-      propsData: {
-        href: 'https://www.mirrormedia.mg/story/20200715edi026/',
-        // labelTitle: '生活',
-        articleImgURL:
-          'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
-        articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',
-        articleDate: new Date(2020, 0, 2, 3, 4, 5),
-      },
-    })
-    expect(wrapper.element).toMatchSnapshot()
-  })
+//   test('Usage with not provided labelTitle', async function () {
+//     const wrapper = await mount(ArticleCard, {
+//       propsData: {
+//         href: 'https://www.mirrormedia.mg/story/20200715edi026/',
+//         // labelTitle: '生活',
+//         articleImgURL:
+//           'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
+//         articleTitle: '振興券上路最大咖好禮黃偉哲：來台南旅遊消費抽房子',
+//         articleDate: new Date(2020, 0, 2, 3, 4, 5),
+//       },
+//     })
+//     expect(wrapper.element).toMatchSnapshot()
+//   })
 
-  test('Usage with provided mobileLayoutDirection', async function () {
-    const wrapper = await mount(ArticleCard, {
-      propsData: {
-        href: 'https://www.mirrormedia.mg/story/20200715edi026/',
-        labelTitle: '生活',
-        articleImgURL:
-          'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
-        articleTitle: '振興券上路最大咖好禮　黃偉哲：來台南旅遊消費抽房子',
-        articleDate: new Date(2020, 0, 2, 3, 4, 5),
-        mobileLayoutDirection: 'column',
-      },
-    })
-    expect(wrapper.element).toMatchSnapshot()
-  })
-})
+//   test('Usage with provided mobileLayoutDirection', async function () {
+//     const wrapper = await mount(ArticleCard, {
+//       propsData: {
+//         href: 'https://www.mirrormedia.mg/story/20200715edi026/',
+//         labelTitle: '生活',
+//         articleImgURL:
+//           'https://www.mirrormedia.com.tw/assets/images/20200715135810-51b41bed253ae37fe37c5f9972844e09-mobile.jpg',
+//         articleTitle: '振興券上路最大咖好禮黃偉哲：來台南旅遊消費抽房子',
+//         articleDate: new Date(2020, 0, 2, 3, 4, 5),
+//         mobileLayoutDirection: 'column',
+//       },
+//     })
+//     expect(wrapper.element).toMatchSnapshot()
+//   })
+// })

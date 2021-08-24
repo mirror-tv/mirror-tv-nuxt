@@ -57,6 +57,14 @@ export default {
       type: String,
       default: null,
     },
+    isMicroAd: {
+      type: Boolean,
+      default: false,
+    },
+    microAdId: {
+      type: String,
+      default: '',
+    },
 
     // Differentiate two usages in / and /category/:name pages
     mobileLayoutDirection: {
