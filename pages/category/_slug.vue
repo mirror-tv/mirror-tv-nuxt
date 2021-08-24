@@ -72,7 +72,7 @@
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
 import { SITE_NAME, FILTERED_SLUG } from '~/constants'
-import { MICRO_AD_UNITS } from '~/constants/micro-ad'
+// import { MICRO_AD_UNITS } from '~/constants/micro-ad'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -80,13 +80,13 @@ import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
 import ListArticleAside from '~/components/ListArticleAside'
-import MicroAd from '~/components/MicroAd.vue'
+// import MicroAd from '~/components/MicroAd.vue'
 import { allPublishedPostsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { getImageUrl } from '~/utils/post-image-handler'
 
-const MICRO_AD_INDEXES = [3, 5, 9, 11]
+// const MICRO_AD_INDEXES = [3, 5, 9, 11]
 
 export default {
   apollo: {
@@ -114,7 +114,8 @@ export default {
         }
       },
       update(data) {
-        this.postsCount = data._allPostsMeta?.count - MICRO_AD_INDEXES.length
+        this.postsCount = data._allPostsMeta?.count
+        // this.postsCount = data._allPostsMeta?.count - MICRO_AD_INDEXES.length
         return data.allPostsCategory
       },
     },
@@ -133,7 +134,7 @@ export default {
     ArticleCard,
     ButtonLoadmore,
     ListArticleAside,
-    MicroAd,
+    // MicroAd,
   },
   data() {
     return {
@@ -209,7 +210,8 @@ export default {
         ? [this.currentTopPost].concat(this.allPostsCategory)
         : this.allPostsCategory
       const reducedList = listData?.map((post) => this.reducerArticleCard(post))
-      return this.insertMicroAds(reducedList)
+      return reducedList
+      // return this.insertMicroAds(reducedList)
     },
     hasListArticleMainData() {
       return this.listArticleMainData.length
@@ -259,35 +261,35 @@ export default {
         this.isTablet = true
       }
     },
-    insertMicroAds(listData) {
-      const insertedListData = [...listData]
-      const device = this.isMobile ? 'MB' : 'PC'
-      const unitList = MICRO_AD_UNITS.HOME_CATEGORY[device]
-      const microAdList = MICRO_AD_INDEXES.map((item, i) => {
-        const unit = unitList.find(
-          (unit) => unit.name === `NA${i + 1}_${device}_HP`
-        )
-        return unit
-          ? {
-              insertIndex: item,
-              unitId: unit.id,
-            }
-          : {
-              insertIndex: item,
-              unitId: '',
-            }
-      })
-      microAdList.forEach((item, i) => {
-        if (insertedListData[item.insertIndex - 1]) {
-          insertedListData.splice(item.insertIndex, 0, {
-            isMicroAd: true,
-            microAdId: item.unitId,
-            id: `micro-ad-${i}`,
-          })
-        }
-      })
-      return insertedListData
-    },
+    // insertMicroAds(listData) {
+    //   const insertedListData = [...listData]
+    //   const device = this.isMobile ? 'MB' : 'PC'
+    //   const unitList = MICRO_AD_UNITS.HOME_CATEGORY[device]
+    //   const microAdList = MICRO_AD_INDEXES.map((item, i) => {
+    //     const unit = unitList.find(
+    //       (unit) => unit.name === `NA${i + 1}_${device}_HP`
+    //     )
+    //     return unit
+    //       ? {
+    //           insertIndex: item,
+    //           unitId: unit.id,
+    //         }
+    //       : {
+    //           insertIndex: item,
+    //           unitId: '',
+    //         }
+    //   })
+    //   microAdList.forEach((item, i) => {
+    //     if (insertedListData[item.insertIndex - 1]) {
+    //       insertedListData.splice(item.insertIndex, 0, {
+    //         isMicroAd: true,
+    //         microAdId: item.unitId,
+    //         id: `micro-ad-${i}`,
+    //       })
+    //     }
+    //   })
+    //   return insertedListData
+    // },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('category')('click')(label)
     },
@@ -315,7 +317,8 @@ export default {
       this.sendGaClickEvent('more')
     },
     getPageSize() {
-      return this.currentTopPostSlug ? 8 : 9
+      return this.currentTopPostSlug ? 12 : 13
+      // return this.currentTopPostSlug ? 8 : 9
     },
   },
 }

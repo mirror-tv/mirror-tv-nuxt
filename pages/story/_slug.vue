@@ -89,17 +89,10 @@
             @click.native="sendGaClickEvent('tag')"
           />
         </div>
-        <ClientOnly>
-          <LazyRenderer
-            v-if="shouldShowAds"
-            id="_popIn_recommend"
-            class="popin_recommend"
-            @load="handleLoadPopinWidget"
-          ></LazyRenderer>
-        </ClientOnly>
         <ListArticleRelated
           :listData="relatedPosts"
-          :hasAdContent="shouldShowAds"
+          :hasAdContent="hasArticleRelatedPopinContent"
+          class="post__related"
           @click-item="sendGaClickEvent('related articles')"
         >
           <template v-if="shouldShowAds" #ads>
@@ -108,27 +101,24 @@
                 id="_popIn_recommend_word"
                 @load="handleLoadPopinWidget"
               ></LazyRenderer>
-              <div class="dable-widget-innerText">
-                <LazyRenderer
-                  id="dablewidget_2o2ZAAoe_Ql9RwYX4"
-                  data-widget_id-pc="2o2ZAAoe"
-                  data-widget_id-mo="Ql9RwYX4"
-                  @load="handleLoadDableWidget"
-                ></LazyRenderer>
-              </div>
             </ClientOnly>
           </template>
         </ListArticleRelated>
         <ClientOnly>
-          <div class="dable-widget-last">
+          <template v-if="shouldShowAds">
             <LazyRenderer
-              v-if="shouldShowAds"
+              id="_popIn_recommend"
+              class="popin_recommend"
+              @load="handleLoadPopinWidget"
+            ></LazyRenderer>
+            <LazyRenderer
               id="dablewidget_2Xnxwk7d_xXAWmB7G"
               data-widget_id-pc="2Xnxwk7d"
               data-widget_id-mo="xXAWmB7G"
+              class="dable-widget-last"
               @load="handleLoadDableWidget"
             ></LazyRenderer>
-          </div>
+          </template>
         </ClientOnly>
       </main>
       <aside class="g-aside aside">
@@ -137,22 +127,22 @@
           :listTitle="'熱門新聞'"
           :listData="listArticleAsidepopularData"
         />
-        <ClientOnly>
+        <!-- <ClientOnly>
           <div v-if="!isTablet" class="micro-ad">
             <MicroAd :unitId="microAdId" />
           </div>
-        </ClientOnly>
+        </ClientOnly> -->
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
         />
       </aside>
-      <ClientOnly>
+      <!-- <ClientOnly>
         <div v-if="isTablet" class="micro-ad">
           <MicroAd :unitId="microAdId" />
         </div>
-      </ClientOnly>
+      </ClientOnly> -->
     </div>
   </section>
 </template>
@@ -181,7 +171,7 @@ import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
-import MicroAd from '~/components/MicroAd.vue'
+// import MicroAd from '~/components/MicroAd.vue'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
@@ -234,7 +224,7 @@ export default {
     ListArticleRelated,
     ShareFacebook,
     ShareLine,
-    MicroAd,
+    // MicroAd,
   },
   data() {
     return {
@@ -246,6 +236,7 @@ export default {
       has404Err: false,
       shouldLoadPopinScript: false,
       shouldLoadDableScript: false,
+      hasArticleRelatedPopinContent: false,
     }
   },
   async fetch() {
@@ -338,7 +329,6 @@ export default {
             dable('setService', 'mnews.tw')
             dable('sendLogOnce')
             dable('renderWidgetByWidth', 'dablewidget_2Xnxwk7d_xXAWmB7G')
-            dable('renderWidgetByWidth', 'dablewidget_2o2ZAAoe_Ql9RwYX4')
           `,
         },
         {
@@ -658,6 +648,9 @@ export default {
     },
     handleLoadPopinWidget() {
       this.shouldLoadPopinScript = true
+      const content =
+        document.querySelector('#_popIn_recommend_word')?.innerHTML ?? null
+      this.hasArticleRelatedPopinContent = !!content
     },
     handleLoadDableWidget() {
       this.shouldLoadDableScript = true
@@ -824,6 +817,9 @@ export default {
   &__tag {
     margin: 0 5px;
     padding: 8px 0;
+  }
+  &__related {
+    margin: 40px 0 0;
   }
 }
 
