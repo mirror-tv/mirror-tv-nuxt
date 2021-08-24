@@ -55,6 +55,15 @@ async function start() {
     }
   })
 
+  // Set ads.txt for dable, only for production
+  app.get('/ads.txt', (req, res, next) => {
+    if (process.env.RELEASE_TARGET === 'prod') {
+      res.type('text/plain').send('dable.io, pub-gvd0yp5z3dpm296l, DIRECT')
+      return
+    }
+    next()
+  })
+
   // Give nuxt middleware to express
   app.use(nuxt.render)
 

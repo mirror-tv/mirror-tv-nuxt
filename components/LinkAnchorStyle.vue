@@ -82,14 +82,11 @@ export default {}
     @include media-breakpoint-up(lg) {
       width: 120px;
     }
-
-    img {
-      height: 31px;
-    }
   }
 }
 .subscription-icon {
-  width: 26px;
+  width: 18px;
+  margin: 0 4px 0 0;
   //   transform: translateY(-12px);
 }
 </style>

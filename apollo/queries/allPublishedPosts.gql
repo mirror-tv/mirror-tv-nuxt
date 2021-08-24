@@ -20,6 +20,7 @@ query allPublishedPosts(
     id
     publishTime
     categories {
+      slug
       name
     }
     ...listingPagePost

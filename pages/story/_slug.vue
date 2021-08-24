@@ -90,30 +90,35 @@
           />
         </div>
         <ListArticleRelated
-          v-if="hasRelatedPosts"
           :listData="relatedPosts"
+          :hasAdContent="hasArticleRelatedPopinContent"
+          class="post__related"
           @click-item="sendGaClickEvent('related articles')"
         >
-          <template #ads>
+          <template v-if="shouldShowAds" #ads>
             <ClientOnly>
-              <div class="dable-widget-innerText">
-                <div
-                  id="dablewidget_2o2ZAAoe_Ql9RwYX4"
-                  data-widget_id-pc="2o2ZAAoe"
-                  data-widget_id-mo="Ql9RwYX4"
-                />
-              </div>
+              <LazyRenderer
+                id="_popIn_recommend_word"
+                @load="handleLoadPopinWidget"
+              ></LazyRenderer>
             </ClientOnly>
           </template>
         </ListArticleRelated>
         <ClientOnly>
-          <div class="dable-widget-last">
-            <div
+          <template v-if="shouldShowAds">
+            <LazyRenderer
+              id="_popIn_recommend"
+              class="popin_recommend"
+              @load="handleLoadPopinWidget"
+            ></LazyRenderer>
+            <LazyRenderer
               id="dablewidget_2Xnxwk7d_xXAWmB7G"
               data-widget_id-pc="2Xnxwk7d"
               data-widget_id-mo="xXAWmB7G"
-            />
-          </div>
+              class="dable-widget-last"
+              @load="handleLoadDableWidget"
+            ></LazyRenderer>
+          </template>
         </ClientOnly>
       </main>
       <aside class="g-aside aside">
@@ -122,12 +127,22 @@
           :listTitle="'熱門新聞'"
           :listData="listArticleAsidepopularData"
         />
+        <!-- <ClientOnly>
+          <div v-if="!isTablet" class="micro-ad">
+            <MicroAd :unitId="microAdId" />
+          </div>
+        </ClientOnly> -->
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
         />
       </aside>
+      <!-- <ClientOnly>
+        <div v-if="isTablet" class="micro-ad">
+          <MicroAd :unitId="microAdId" />
+        </div>
+      </ClientOnly> -->
     </div>
   </section>
 </template>
@@ -156,6 +171,7 @@ import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
+// import MicroAd from '~/components/MicroAd.vue'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
@@ -208,13 +224,19 @@ export default {
     ListArticleRelated,
     ShareFacebook,
     ShareLine,
+    // MicroAd,
   },
   data() {
     return {
       postPublished: {},
       allPostsLatest: [],
       popularData: {},
+      isMobile: false,
+      isTablet: false,
       has404Err: false,
+      shouldLoadPopinScript: false,
+      shouldLoadDableScript: false,
+      hasArticleRelatedPopinContent: false,
     }
   },
   async fetch() {
@@ -231,7 +253,8 @@ export default {
     const brief = this.generateBriefText()
     const tags = this.tags?.map?.((tag) => tag.name).join(', ')
     const image = this.image?.desktop
-    const dableImage = this.image?.tiny
+    // dable 圖片有大小限制，如果 mobile 過大，可換成 tiny
+    const dableImage = this.image?.mobile
     const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
     const writerName = this.writers?.[0] ?? ''
     const publishedDateIso = new Date(this.publishTime).toISOString()
@@ -290,6 +313,7 @@ export default {
         ...generateJsonLds.bind(this)(),
         {
           hid: 'dable',
+          skip: !this.shouldLoadDableScript,
           innerHTML: `
             (function(d,a,b,l,e,_) {
               d[b] = d[b] || function () {
@@ -305,12 +329,27 @@ export default {
             dable('setService', 'mnews.tw')
             dable('sendLogOnce')
             dable('renderWidgetByWidth', 'dablewidget_2Xnxwk7d_xXAWmB7G')
-            dable('renderWidgetByWidth', 'dablewidget_2o2ZAAoe_Ql9RwYX4')
+          `,
+        },
+        {
+          hid: 'popinAd',
+          skip: !this.shouldLoadPopinScript,
+          innerHTML: `
+            (function() {
+              var pa = document.createElement('script')
+              pa.type = 'text/javascript'
+              pa.charset = 'utf-8'
+              pa.async = true
+              pa.src = window.location.protocol + '//api.popin.cc/searchbox/mnews_tw.js'
+              var s = document.getElementsByTagName('script')[0]
+              s.parentNode.insertBefore(pa, s)
+            })()
           `,
         },
       ],
       __dangerouslyDisableSanitizersByTagID: {
         dable: ['innerHTML'],
+        popinAd: ['innerHTML'],
       },
     }
     function generateJsonLds() {
@@ -428,8 +467,8 @@ export default {
     showBrief() {
       const validateArray = this.brief?.map((briefContent) => {
         return (
-          briefContent.content?.length > 1 ||
-          briefContent.content[0]?.length > 0
+          briefContent?.content?.length > 1 ||
+          briefContent?.content[0]?.length > 0
         )
       })
 
@@ -477,18 +516,15 @@ export default {
     hasPostsLatest() {
       return this.allPostsLatest.length > 0
     },
-    hasRelatedPosts() {
-      return this.relatedPosts?.length > 0
-    },
     hasTags() {
       return this.tags?.length > 0
     },
     image() {
       return (
         this.postPublished?.heroImage ?? {
-          tiny: require('~/assets/img/image-default.png'),
-          mobile: require('~/assets/img/image-default.png'),
-          desktop: require('~/assets/img/image-default.png'),
+          tiny: require('~/assets/img/image-default.jpg'),
+          mobile: require('~/assets/img/image-default.jpg'),
+          desktop: require('~/assets/img/image-default.jpg'),
         }
       )
     },
@@ -518,7 +554,7 @@ export default {
       return this.postPublished?.otherbyline
     },
     publishTime() {
-      return this.postPublished?.publishTime
+      return this.postPublished?.publishTime ?? Date.now()
     },
     photographers() {
       return this.postPublished?.photographers
@@ -548,17 +584,29 @@ export default {
     categoryName() {
       return this.postPublished?.categories?.[0]?.name ?? ''
     },
+    categorySlug() {
+      return this.postPublished?.categories?.[0]?.slug ?? ''
+    },
     source() {
       return this.postPublished?.source
     },
+    microAdId() {
+      return this.isMobile ? '4300419' : '4300420'
+    },
     pdfUrl() {
       return getPdfUrl(this.$config, this.slug)
+    },
+    shouldShowAds() {
+      return (
+        this.categorySlug !== 'ombuds' && !FILTERED_SLUG.includes(this.slug)
+      )
     },
   },
   beforeMount() {
     this.setGaDimensionOfSource()
   },
   mounted() {
+    this.detectViewport()
     if (this.has404Err) {
       this.$nuxt.error({ statusCode: 404 })
     }
@@ -575,6 +623,18 @@ export default {
     })
   },
   methods: {
+    detectViewport() {
+      const viewportWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      if (viewportWidth < 1200) {
+        this.isMobile = true
+      }
+      if (viewportWidth >= 768 && viewportWidth < 1200) {
+        this.isTablet = true
+      }
+    },
     formatDate(date) {
       return `${dayjs(date).format('YYYY.MM.DD HH:mm')} 臺北時間`
     },
@@ -586,8 +646,17 @@ export default {
         articleDate: new Date(post.publishTime),
       }
     },
+    handleLoadPopinWidget() {
+      this.shouldLoadPopinScript = true
+      const content =
+        document.querySelector('#_popIn_recommend_word')?.innerHTML ?? null
+      this.hasArticleRelatedPopinContent = !!content
+    },
+    handleLoadDableWidget() {
+      this.shouldLoadDableScript = true
+    },
     generateBriefText() {
-      const rawText = this.brief?.[0].content?.[0] ?? ''
+      const rawText = this.brief?.[0]?.content?.[0] ?? ''
       return rawText.includes('&#') ? undefined : rawText
     },
     setGaDimensionOfSource() {
@@ -749,6 +818,17 @@ export default {
     margin: 0 5px;
     padding: 8px 0;
   }
+  &__related {
+    margin: 40px 0 0;
+  }
+}
+
+.popin_recommend {
+  margin: 40px 0 0;
+}
+
+.dable-widget-last {
+  margin: 40px 0 0;
 }
 
 .figcaption {
@@ -829,5 +909,12 @@ export default {
 
 [isVideoNews='true'] {
   padding-bottom: 8px;
+}
+
+.micro-ad {
+  margin: 40px 0 0;
+  @include media-breakpoint-up(xl) {
+    margin: 48px 0 0;
+  }
 }
 </style>

@@ -49,6 +49,8 @@
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
                 :articleStyle="post.articleStyle"
+                :isMicroAd="post.isMicroAd"
+                :microAdId="post.microAdId"
                 @click.native="sendGaClickEvent('latest articles')"
               />
             </li>
@@ -128,6 +130,8 @@
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
                 :articleStyle="post.articleStyle"
+                :isMicroAd="post.isMicroAd"
+                :microAdId="post.microAdId"
                 @click.native="sendGaClickEvent('latest articles')"
               />
             </li>
@@ -179,6 +183,7 @@ import { mapGetters } from 'vuex'
 import { getUrlOrigin } from '~/utils/meta'
 import { handleYoutubeId } from '~/utils/text-handler'
 import { FILTERED_SLUG } from '~/constants'
+// import { MICRO_AD_UNITS } from '~/constants/micro-ad'
 import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
@@ -201,7 +206,10 @@ import { fetchAllShows } from '~/apollo/queries/show.gql'
 import { fetchVideoByName } from '~/apollo/queries/video.gql'
 
 import { getImageUrl } from '~/utils/post-image-handler'
+
 const PAGE_SIZE = 12
+// const MICRO_AD_INDEXES = [2, 4, 8, 10]
+// const FIRST_PAGE_NUM = PAGE_SIZE - MICRO_AD_INDEXES.length
 
 export default {
   apollo: {
@@ -224,6 +232,7 @@ export default {
       query: fetchPosts,
       variables() {
         return {
+          // first: FIRST_PAGE_NUM,
           first: PAGE_SIZE,
           skip: 0,
           withCount: true,
@@ -233,6 +242,7 @@ export default {
       },
       update(data) {
         this.postsCount = data._allPostsMeta?.count
+        // this.postsCount = data._allPostsMeta?.count - MICRO_AD_INDEXES.length
         return data.allPosts
       },
       error(error) {
@@ -290,9 +300,9 @@ export default {
       promotionVideos: [],
       popularData: {},
       liveVideo: {},
-      testNum: 0,
       filteredSlug: [],
       hasPlaylistItems: false,
+      isMobile: false,
     }
   },
   async fetch() {
@@ -329,8 +339,11 @@ export default {
       return this.editorChoices?.length > 0
     },
     latestPosts() {
-      const listData = this.allPublishedPosts ?? []
-      return listData.map((post) => this.reducerArticleCard(post))
+      const listData =
+        this.allPublishedPosts?.map((post) => this.reducerArticleCard(post)) ??
+        []
+      return listData
+      // return this.insertMicroAds(listData)
     },
     showLoadMoreButton() {
       return this.allPublishedPosts?.length < this.postsCount
@@ -371,6 +384,7 @@ export default {
     },
   },
   mounted() {
+    this.detectViewport()
     setIntersectionObserver({
       elements: [document.querySelector('.button-load-more')],
       handler: (entries, observer) => {
@@ -414,9 +428,47 @@ export default {
         name: post.name,
       }
     },
+    detectViewport() {
+      const viewportWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      if (viewportWidth < 1200) {
+        this.isMobile = true
+      }
+    },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('home')('click')(label)
     },
+    // insertMicroAds(listData) {
+    //   const insertedListData = [...listData]
+    //   const device = this.isMobile ? 'MB' : 'PC'
+    //   const unitList = MICRO_AD_UNITS.HOME_CATEGORY[device]
+    //   const microAdList = MICRO_AD_INDEXES.map((item, i) => {
+    //     const unit = unitList.find(
+    //       (unit) => unit.name === `NA${i + 1}_${device}_HP`
+    //     )
+    //     return unit
+    //       ? {
+    //           insertIndex: item,
+    //           unitId: unit.id,
+    //         }
+    //       : {
+    //           insertIndex: item,
+    //           unitId: '',
+    //         }
+    //   })
+    //   microAdList.forEach((item, i) => {
+    //     if (insertedListData[item.insertIndex - 1]) {
+    //       insertedListData.splice(item.insertIndex, 0, {
+    //         isMicroAd: true,
+    //         microAdId: item.unitId,
+    //         id: `micro-ad-${i}`,
+    //       })
+    //     }
+    //   })
+    //   return insertedListData
+    // },
     handleClickMore() {
       this.page += 1
       this.$apollo.queries.allPublishedPosts.fetchMore({
@@ -618,6 +670,7 @@ export default {
     display: none;
     @include media-breakpoint-up(xl) {
       display: block;
+      margin: 0 0 48px;
     }
   }
   &.aside__popular-list {
@@ -752,7 +805,7 @@ export default {
 .g-button-load-more {
   margin: 24px auto 0;
   @include media-breakpoint-up(lg) {
-    margin: 32px auto 0;
+    margin: 32px auto 60px;
   }
 }
 </style>

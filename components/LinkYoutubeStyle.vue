@@ -84,6 +84,7 @@ export default {
   }
 }
 .subscription-icon {
-  width: 26px;
+  width: 22px;
+  margin: 0 2px 0 0;
 }
 </style>

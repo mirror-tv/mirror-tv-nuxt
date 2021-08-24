@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hasItems" class="list-wrapper">
+  <div v-if="shouldShowList" class="list-wrapper">
     <HeadingBordered text="相關新聞" />
     <ul class="list-wrapper__list list">
       <li
@@ -32,10 +32,14 @@ export default {
       type: Array,
       required: true,
     },
+    hasAdContent: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
-    hasItems() {
-      return this.listData?.length > 0
+    shouldShowList() {
+      return this.listData?.length > 0 || this.hasAdContent
     },
   },
 }

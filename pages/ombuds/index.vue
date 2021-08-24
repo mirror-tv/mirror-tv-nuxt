@@ -9,7 +9,11 @@
         <main class="ombuds__intro__main">
           <div class="ombuds__intro__main__wrapper">
             <div class="ombuds__intro__main__wrapper-video">
-              <ArticleContentVideo :video="video" />
+              <ArticleContentVideo
+                :video="video"
+                :shouldAutoPlay="true"
+                :shouldLoop="true"
+              />
             </div>
             <div class="ombuds__intro__main__wrapper-info">
               <p v-for="intro in ombudsIntroduction" :key="intro.id">
