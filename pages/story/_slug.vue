@@ -258,6 +258,8 @@ export default {
     const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
     const writerName = this.writers?.[0] ?? ''
     const publishedDateIso = new Date(this.publishTime).toISOString()
+    const dableSendLogScript =
+      this.$config.releaseTarget === 'prod' ? `dable('sendLogOnce')` : ''
     return {
       title,
       meta: [
@@ -327,7 +329,7 @@ export default {
               _.parentNode.insertBefore(e, _)
             })(window, document, 'dable', 'script')
             dable('setService', 'mnews.tw')
-            dable('sendLogOnce')
+            ${dableSendLogScript}
             dable('renderWidgetByWidth', 'dablewidget_2Xnxwk7d_xXAWmB7G')
           `,
         },
