@@ -46,13 +46,18 @@ async function start() {
             'Disallow: / \n' +
             '\n' +
             'User-agent: Mediapartners-Google \n' +
+            'Allow: / \n' +
+            '\n' +
+            'User-agent: popIn_Agent \n' +
             'Allow: /'
         )
-      next()
-    } else {
-      res.type('text/plain').send('User-agent: * \n' + 'Disallow: /')
-      next()
+      return
     }
+    if (process.env.RELEASE_TARGET !== 'prod') {
+      res.type('text/plain').send('User-agent: * \n' + 'Disallow: /')
+      return
+    }
+    next()
   })
 
   // Set ads.txt for dable, only for production

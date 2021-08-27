@@ -91,7 +91,7 @@
         </div>
         <ListArticleRelated
           :listData="relatedPosts"
-          :hasAdContent="hasArticleRelatedPopinContent"
+          :hasAdContent="shouldShowAds"
           class="post__related"
           @click-item="sendGaClickEvent('related articles')"
         >
@@ -100,6 +100,12 @@
               <LazyRenderer
                 id="_popIn_recommend_word"
                 @load="handleLoadPopinWidget"
+              ></LazyRenderer>
+              <LazyRenderer
+                id="dablewidget_klrnPJlm_Almaqnl1"
+                data-widget_id-pc="klrnPJlm"
+                data-widget_id-mo="Almaqnl1"
+                @load="handleLoadDableWidget"
               ></LazyRenderer>
             </ClientOnly>
           </template>
@@ -236,7 +242,6 @@ export default {
       has404Err: false,
       shouldLoadPopinScript: false,
       shouldLoadDableScript: false,
-      hasArticleRelatedPopinContent: false,
     }
   },
   async fetch() {
@@ -331,6 +336,7 @@ export default {
             dable('setService', 'mnews.tw')
             ${dableSendLogScript}
             dable('renderWidgetByWidth', 'dablewidget_2Xnxwk7d_xXAWmB7G')
+            dable('renderWidgetByWidth', 'dablewidget_klrnPJlm_Almaqnl1', {ignore_items: true})
           `,
         },
         {
@@ -634,9 +640,6 @@ export default {
     },
     handleLoadPopinWidget() {
       this.shouldLoadPopinScript = true
-      const content =
-        document.querySelector('#_popIn_recommend_word')?.innerHTML ?? null
-      this.hasArticleRelatedPopinContent = !!content
     },
     handleLoadDableWidget() {
       this.shouldLoadDableScript = true
