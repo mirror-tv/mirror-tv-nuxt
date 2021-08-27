@@ -2,7 +2,25 @@ query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $slug: String) {
   allArtShows(
     first: $first
     skip: $skip
-    where: { series_some: { section_some: { show_some: { slug: $slug } } } }
+    where: {
+      state: published
+      OR: [
+        {
+          show: {
+            slug: $slug
+          }
+        },
+        {
+          series_some: {
+            section_some: {
+              show_some: {
+                slug: $slug
+              }
+            }
+          }
+        },
+      ]
+    }
     sortBy: createdAt_DESC
   ) {
     slug
@@ -17,18 +35,28 @@ query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $slug: String) {
         urlOriginal
         urlMobileSized
       }
-      description
-      state
-    }
-    author {
-      name
-    }
-    series {
-      name
     }
   }
   _allArtShowsMeta(
-    where: { series_some: { section_some: { show_some: { slug: $slug } } } }
+    where: {
+      state: published
+      OR: [
+        {
+          show: {
+            slug: $slug
+          }
+        },
+        {
+          series_some: {
+            section_some: {
+              show_some: {
+                slug: $slug
+              }
+            }
+          }
+        },
+      ]
+    }
   ) {
     count
   }
@@ -42,6 +70,7 @@ query fetchAllArtShowsByAuthor(
 ) {
   allArtShows(
     where: {
+      state: published
       author_some: {
         slug: $authorSlug,
       },
@@ -68,11 +97,11 @@ query fetchAllArtShowsByAuthor(
         urlMobileSized
         urlOriginal
       }
-      state
     }
   }
   _allArtShowsMeta(
     where: {
+      state: published
       author_some: {
         slug: $authorSlug,
       },
@@ -96,6 +125,7 @@ query fetchAllArtShowsBySeries(
 ) {
   allArtShows(
     where: {
+      state: published
       series_some: {
         slug: $seriesSlug,
       },
@@ -115,11 +145,11 @@ query fetchAllArtShowsBySeries(
         urlMobileSized
         urlOriginal
       }
-      state
     }
   }
   _allArtShowsMeta(
-     where: {
+    where: {
+      state: published
       series_some: {
         slug: $seriesSlug,
       },
@@ -134,6 +164,7 @@ query fetchArtShowBySlug(
 ) {
   allArtShows(
     where: {
+      state: published
       slug: $episodeSlug
     },
   ) {

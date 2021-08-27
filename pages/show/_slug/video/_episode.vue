@@ -54,7 +54,7 @@
               :href="author.href"
               :name="author.name"
               :image="author.image"
-              :bio="author.bio[0].content"
+              :bio="author.bio.content"
               @click-director-card="sendGaClickEvent('producer')"
             />
           </li>
@@ -219,12 +219,13 @@ export default {
     },
     formatBio(item) {
       const bios = handleApiData(item.bioApiData)
-      return bios.map((item) => {
+      const array = bios.map((item) => {
         return {
           id: item.id || '',
           content: item.content?.[0] || '',
         }
       })
+      return array[0] ?? { id: '', content: '' }
     },
     handleAddSchedule() {
       this.sendGaClickEvent('加入行事曆')
