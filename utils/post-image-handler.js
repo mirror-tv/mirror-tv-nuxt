@@ -24,6 +24,7 @@ function getHostImageUrl(host) {
   return (
     host?.image?.urlMobileSized ||
     host?.image?.urlOriginal ||
+    host?.image?.urlTabletSized ||
     require('~/assets/img/image-default.jpg')
   )
 }

@@ -5,7 +5,6 @@ query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $slug: String) {
     where: { series_some: { section_some: { show_some: { slug: $slug } } } }
     sortBy: createdAt_DESC
   ) {
-    id
     slug
     name
     heroImage {
@@ -43,7 +42,7 @@ query fetchAllArtShowsByAuthor(
 ) {
   allArtShows(
     where: {
-      author: {
+      author_some: {
         slug: $authorSlug,
       },
       series_some: {
@@ -57,7 +56,7 @@ query fetchAllArtShowsByAuthor(
     first: $first,
     skip: $skip
   ) {
-    id
+    slug
     name
     heroImage {
       urlMobileSized
@@ -74,7 +73,7 @@ query fetchAllArtShowsByAuthor(
   }
   _allArtShowsMeta(
     where: {
-      author: {
+      author_some: {
         slug: $authorSlug,
       },
       series_some: {
@@ -104,7 +103,7 @@ query fetchAllArtShowsBySeries(
     first: $first,
     skip: $skip
   ) {
-    id
+    slug
     name
     heroImage {
       urlMobileSized
@@ -127,5 +126,47 @@ query fetchAllArtShowsBySeries(
     },
   ) {
     count
+  }
+}
+
+query fetchArtShowBySlug(
+  $episodeSlug: String!,
+) {
+  allArtShows(
+    where: {
+      slug: $episodeSlug
+    },
+  ) {
+    slug
+    name
+    heroImage {
+      urlDesktopSized
+      urlOriginal
+    }
+    heroVideo {
+      youtubeUrl
+      coverPhoto {
+        urlMobileSized
+        urlOriginal
+      }
+    }
+    series {
+      slug
+      name
+      section {
+        slug
+        name
+      }
+    }
+    author {
+      slug
+      name
+      bioApiData
+      image {
+        urlMobileSized
+        urlOriginal
+      }
+    }
+    contentApiData
   }
 }

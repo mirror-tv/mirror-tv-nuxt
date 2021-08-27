@@ -36,13 +36,11 @@ export default {
   props: {
     currentShow: {
       type: String,
-      required: true,
-      default: 'art',
+      default: '',
     },
     currentSection: {
       type: String,
-      required: true,
-      default: 'series',
+      default: '',
     },
     showName: {
       type: String,
@@ -63,7 +61,7 @@ export default {
     },
     gaCategory: {
       type: String,
-      default: 'ArtShow',
+      default: '',
     },
     sectionList: {
       type: Array,

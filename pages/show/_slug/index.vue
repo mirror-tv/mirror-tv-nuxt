@@ -11,24 +11,16 @@
         <ol class="host__container">
           <li v-for="host in hosts" :key="host.name">
             <a
-              :href="`/anchorperson/${host.slug}`"
+              :href="host.href"
               target="_blank"
               rel="noreferrer noopener"
               class="host__wrapper"
             >
-              <img
-                v-if="host.image"
-                v-lazy="host.image.urlMobileSized"
-                :alt="host.name"
-              />
-              <img
-                v-else
-                v-lazy="require('~/assets/img/image-default.jpg')"
-                alt="default image"
-              />
+              <img v-lazy="host.image" :alt="host.name" />
               <div class="host__wrapper-content">
                 <h3>主持人｜{{ host.name }}</h3>
-                <p v-if="host.bio">{{ host.bio }}</p>
+                <!-- eslint-disable vue/no-v-html -->
+                <p v-html="host.bio[0].content" />
               </div>
             </a>
           </li>
@@ -108,12 +100,13 @@
 <script>
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
+import { handleLineBreak, handleApiData } from '~/utils/text-handler'
+import { getHostImageUrl } from '~/utils/post-image-handler'
 import { sendGaEvent } from '~/utils/google-analytics'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
-import { handleLineBreak } from '~/utils/text-handler'
 
 export default {
   apollo: {
@@ -235,7 +228,7 @@ export default {
       return this.show.picture
     },
     hosts() {
-      return this.show.hostName ?? []
+      return this.show?.hostName?.map((item) => this.reduceHost(item)) ?? []
     },
     validPlaylists() {
       return this.playlists.filter((list) => list.items.length !== 0)
@@ -260,6 +253,14 @@ export default {
       return {
         id: item?.snippet?.resourceId?.videoId,
         title: item?.snippet?.title,
+      }
+    },
+    reduceHost(item) {
+      return {
+        href: `/anchorperson/${item.slug}`,
+        name: item.name,
+        image: getHostImageUrl(item),
+        bio: this.formatBio(item),
       }
     },
     async loadYoutubeListData(list) {
@@ -290,6 +291,15 @@ export default {
         return 9
       }
       return 8
+    },
+    formatBio(item) {
+      const bios = handleApiData(item.bioApiData)
+      return bios.map((item) => {
+        return {
+          id: item.id || '',
+          content: item.content?.[0] || '',
+        }
+      })
     },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('show')('click')(label)

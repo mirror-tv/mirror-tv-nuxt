@@ -161,7 +161,7 @@ import { getUrlOrigin } from '~/utils/meta'
 import { getPdfUrl } from '~/utils/story_pdf'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
-import { handleYoutubeId } from '~/utils/text-handler'
+import { handleYoutubeId, handleApiData } from '~/utils/text-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
@@ -458,13 +458,7 @@ export default {
   },
   computed: {
     brief() {
-      try {
-        const briefString = this.postPublished?.briefApiData.replace(/'/g, '"')
-        const brief = JSON.parse(briefString)
-        return brief?.filter((item) => item) || []
-      } catch {
-        return []
-      }
+      return handleApiData(this.postPublished.briefApiData)
     },
     showBrief() {
       const validateArray = this.brief?.map((briefContent) => {
@@ -485,17 +479,7 @@ export default {
       return this.postPublished?.cameraOperators
     },
     content() {
-      try {
-        const contentString = this.postPublished?.contentApiData.replace(
-          /'/g,
-          '"'
-        )
-        const content = JSON.parse(contentString)
-
-        return content?.filter((item) => item) || []
-      } catch {
-        return []
-      }
+      return handleApiData(this.postPublished.contentApiData)
     },
     heroVideoUrl() {
       const url = this.postPublished?.heroVideo?.youtubeUrl ?? ''
