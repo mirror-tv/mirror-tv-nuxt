@@ -1,5 +1,6 @@
 <template>
   <section class="g-page g-page--with-aside story" :isVideoNews="isVideoNews">
+    <Ui18Warning v-if="shouldShowAdultWarning" />
     <div class="g-page__wrapper">
       <main class="main">
         <template v-if="isVideoNews">
@@ -155,6 +156,7 @@
 
 <script>
 import dayjs from 'dayjs'
+import Cookie from 'vue-cookie'
 
 import {
   SITE_DESCRIPTION,
@@ -175,6 +177,7 @@ import ArticleTag from '~/components/ArticleTag.vue'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
+import Ui18Warning from '~/components/Ui18Warning'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
 // import MicroAd from '~/components/MicroAd.vue'
@@ -228,6 +231,7 @@ export default {
     YoutubeEmbedByIframeApi,
     ListArticleAside,
     ListArticleRelated,
+    Ui18Warning,
     ShareFacebook,
     ShareLine,
     // MicroAd,
@@ -240,6 +244,7 @@ export default {
       isMobile: false,
       isTablet: false,
       has404Err: false,
+      shouldShowAdultWarning: false,
       shouldLoadPopinScript: false,
       shouldLoadDableScript: false,
     }
@@ -582,6 +587,9 @@ export default {
     source() {
       return this.postPublished?.source
     },
+    isAdult() {
+      return this.postPublished?.isAdult
+    },
     microAdId() {
       return this.isMobile ? '4300419' : '4300420'
     },
@@ -601,6 +609,11 @@ export default {
     this.detectViewport()
     if (this.has404Err) {
       this.$nuxt.error({ statusCode: 404 })
+    }
+    if (window) {
+      const isAdultConfirmed = Cookie.get('article-confirmedAdult')
+      const isArticleAdult = this.isAdult
+      this.shouldShowAdultWarning = !isAdultConfirmed && isArticleAdult
     }
     setIntersectionObserver({
       elements: [document.querySelector('.list-wrapper')],
@@ -661,6 +674,7 @@ export default {
 
 <style lang="scss" scoped>
 .g-page--with-aside {
+  position: relative;
   padding-top: 50px;
   @include media-breakpoint-up(md) {
     padding-top: 36px;
