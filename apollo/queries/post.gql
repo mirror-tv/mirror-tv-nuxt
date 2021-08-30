@@ -8,6 +8,7 @@ query fetchPostPublishedBySlug($slug: String!) {
     publishTime
     updatedAt
     source
+    isAdult
     heroImage {
       tiny: urlTinySized
       mobile: urlMobileSized

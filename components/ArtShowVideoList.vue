@@ -1,9 +1,9 @@
 <template>
   <div class="artShow_list_wrapper">
     <ol>
-      <li v-for="artShow in artShowList" :key="artShow.id">
+      <li v-for="artShow in artShowList" :key="artShow.slug">
         <a
-          :href="`/show/${currentShow}/video/${artShow.id}`"
+          :href="`/show/${currentShow}/video/${artShow.slug}`"
           rel="noreferer noopener"
           @click="handleClickVideo"
         >

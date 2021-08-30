@@ -36,7 +36,7 @@ export default {
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
-    text-align: center;
+    text-align: left;
     color: #4a4a4a;
   }
 }

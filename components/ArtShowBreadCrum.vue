@@ -4,34 +4,28 @@
       <a
         :href="`/show/${currentShow}/${section.slug}`"
         rel="noreferer noopener"
-        class="breadcrum__item__section"
       >
         {{ section.name }}
       </a>
-    </li>
-    <li v-if="hasSeries" class="breadcrum__item">
       <div class="breadcrum__item-img">
         <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
       </div>
+    </li>
+    <li v-if="hasSeries" class="breadcrum__item">
       <a
+        v-if="hasArtShow"
         :href="`/show/${currentShow}/${section.slug}/${series.slug}`"
         rel="noreferer noopener"
-        class="breadcrum__item__section"
       >
         {{ series.name }}
       </a>
-    </li>
-    <li v-if="hasArtShow" class="breadcrum__item">
-      <div class="breadcrum__item-img">
+      <span v-else>{{ series.name }}</span>
+      <div v-if="hasArtShow" class="breadcrum__item-img">
         <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
       </div>
-      <a
-        :href="`/show/${currentShow}`"
-        rel="noreferer noopener"
-        class="breadcrum__item__section"
-      >
-        {{ artShow.name }}
-      </a>
+    </li>
+    <li v-if="hasArtShow" class="breadcrum__item">
+      <span>{{ artShow.name }}</span>
     </li>
   </ol>
 </template>
@@ -58,13 +52,18 @@ export default {
       return this.$route.params.slug ?? ''
     },
     hasSection() {
-      return this.section && Object.keys(this.section).length
+      return this.hasContent(this.section)
     },
     hasSeries() {
-      return this.series && Object.keys(this.series).length
+      return this.hasContent(this.series)
     },
     hasArtShow() {
-      return this.artShow && Object.keys(this.artShow).length
+      return this.hasContent(this.artShow)
+    },
+  },
+  methods: {
+    hasContent(item) {
+      return item && item.name && item.slug
     },
   },
 }
@@ -79,7 +78,7 @@ export default {
   font-weight: 500;
   font-size: 18px;
   line-height: 25px;
-  color: $color-blue;
+  color: #036;
   margin: 15px 0;
   @include media-breakpoint-up(md) {
     font-size: 20px;
@@ -106,6 +105,20 @@ export default {
         width: 100%;
         height: 100%;
       }
+    }
+    a {
+      display: block;
+      margin: 0 0 2px;
+      border-bottom: 2px solid #036;
+      &:hover,
+      &:focus,
+      &:active {
+        color: $color-blue;
+        border-bottom: 2px solid $color-blue;
+      }
+    }
+    span {
+      margin: 0 0 2px;
     }
   }
 }

@@ -55,8 +55,10 @@
           </div>
         </div>
         <div class="anchor__intro">
-          <!-- eslint-disable vue/no-v-html -->
-          <p v-html="anchorBio" />
+          <div v-for="paragraph in anchorBio" :key="paragraph.id">
+            <!-- eslint-disable vue/no-v-html -->
+            <p v-html="paragraph.content" />
+          </div>
         </div>
       </section>
     </div>
@@ -67,8 +69,8 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleApiData } from '~/utils/text-handler'
 import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
-import { handleLineBreak } from '~/utils/text-handler'
 
 export default {
   apollo: {
@@ -144,7 +146,13 @@ export default {
       return this.anchor.twitter
     },
     anchorBio() {
-      return handleLineBreak(this.anchor.bio)
+      const bios = handleApiData(this.anchor.bioApiData)
+      return bios.map((item) => {
+        return {
+          id: item.id || '',
+          content: item.content?.[0] || '',
+        }
+      })
     },
   },
   methods: {

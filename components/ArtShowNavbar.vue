@@ -1,12 +1,9 @@
 <template>
   <ol class="pages">
-    <li
-      v-for="page in formatSectionList"
-      :key="page.slug"
-      :class="{ 'pages__item-active': currentSection === page.slug }"
-      class="pages__item"
-    >
+    <li v-for="page in formatSectionList" :key="page.slug" class="pages__item">
+      <span v-if="currentSection === page.slug">{{ page.name }}</span>
       <a
+        v-else
         :href="`/show/${currentShow}/${page.slug}`"
         rel="noreferer noopener"
         @click="handleClickPageLink(page.name)"
@@ -83,7 +80,7 @@ export default {
     align-items: center;
     position: relative;
     width: 50%;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.87);
     font-size: 18px;
     line-height: 26px;
     font-weight: 500;
@@ -133,9 +130,6 @@ export default {
       text-align: center;
       padding: 0;
     }
-    &-active {
-      color: #ffdb49;
-    }
     @include media-breakpoint-up(md) {
       width: auto;
       font-size: 20px;
@@ -173,8 +167,13 @@ export default {
       &:hover,
       &:active,
       &:focus {
-        color: #ffdb49;
+        color: #fff;
       }
+    }
+    span {
+      display: block;
+      width: 100%;
+      color: #ffdb49;
     }
   }
 }

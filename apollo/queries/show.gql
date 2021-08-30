@@ -13,7 +13,7 @@ query fetchShowBySlug($slug: String!) {
     hostName {
       slug
       name
-      bio
+      bioApiData
       image {
         urlMobileSized
         urlOriginal

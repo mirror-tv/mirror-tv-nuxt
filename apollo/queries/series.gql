@@ -2,7 +2,7 @@ query fetchSeriesBySlug($slug: String) {
   allSeries(where: { slug: $slug }) {
     name
     slug
-    introduction
+    introductionApiData
     heroImage {
       urlDesktopSized,
       urlMobileSized

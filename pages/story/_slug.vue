@@ -1,5 +1,6 @@
 <template>
   <section class="g-page g-page--with-aside story" :isVideoNews="isVideoNews">
+    <Ui18Warning v-if="shouldShowAdultWarning" />
     <div class="g-page__wrapper">
       <main class="main">
         <template v-if="isVideoNews">
@@ -91,7 +92,7 @@
         </div>
         <ListArticleRelated
           :listData="relatedPosts"
-          :hasAdContent="hasArticleRelatedPopinContent"
+          :hasAdContent="shouldShowAds"
           class="post__related"
           @click-item="sendGaClickEvent('related articles')"
         >
@@ -100,6 +101,12 @@
               <LazyRenderer
                 id="_popIn_recommend_word"
                 @load="handleLoadPopinWidget"
+              ></LazyRenderer>
+              <LazyRenderer
+                id="dablewidget_klrnPJlm_Almaqnl1"
+                data-widget_id-pc="klrnPJlm"
+                data-widget_id-mo="Almaqnl1"
+                @load="handleLoadDableWidget"
               ></LazyRenderer>
             </ClientOnly>
           </template>
@@ -149,6 +156,7 @@
 
 <script>
 import dayjs from 'dayjs'
+import Cookie from 'vue-cookie'
 
 import {
   SITE_DESCRIPTION,
@@ -161,7 +169,7 @@ import { getUrlOrigin } from '~/utils/meta'
 import { getPdfUrl } from '~/utils/story_pdf'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
-import { handleYoutubeId } from '~/utils/text-handler'
+import { handleYoutubeId, handleApiData } from '~/utils/text-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
 import ArticleCredit from '~/components/ArticleCredit.vue'
@@ -169,6 +177,7 @@ import ArticleTag from '~/components/ArticleTag.vue'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
+import Ui18Warning from '~/components/Ui18Warning'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
 // import MicroAd from '~/components/MicroAd.vue'
@@ -222,6 +231,7 @@ export default {
     YoutubeEmbedByIframeApi,
     ListArticleAside,
     ListArticleRelated,
+    Ui18Warning,
     ShareFacebook,
     ShareLine,
     // MicroAd,
@@ -234,9 +244,9 @@ export default {
       isMobile: false,
       isTablet: false,
       has404Err: false,
+      shouldShowAdultWarning: false,
       shouldLoadPopinScript: false,
       shouldLoadDableScript: false,
-      hasArticleRelatedPopinContent: false,
     }
   },
   async fetch() {
@@ -258,6 +268,8 @@ export default {
     const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
     const writerName = this.writers?.[0] ?? ''
     const publishedDateIso = new Date(this.publishTime).toISOString()
+    const dableSendLogScript =
+      this.$config.releaseTarget === 'prod' ? `dable('sendLogOnce')` : ''
     return {
       title,
       meta: [
@@ -327,8 +339,9 @@ export default {
               _.parentNode.insertBefore(e, _)
             })(window, document, 'dable', 'script')
             dable('setService', 'mnews.tw')
-            dable('sendLogOnce')
+            ${dableSendLogScript}
             dable('renderWidgetByWidth', 'dablewidget_2Xnxwk7d_xXAWmB7G')
+            dable('renderWidgetByWidth', 'dablewidget_klrnPJlm_Almaqnl1', {ignore_items: true})
           `,
         },
         {
@@ -456,13 +469,7 @@ export default {
   },
   computed: {
     brief() {
-      try {
-        const briefString = this.postPublished?.briefApiData.replace(/'/g, '"')
-        const brief = JSON.parse(briefString)
-        return brief?.filter((item) => item) || []
-      } catch {
-        return []
-      }
+      return handleApiData(this.postPublished.briefApiData)
     },
     showBrief() {
       const validateArray = this.brief?.map((briefContent) => {
@@ -483,17 +490,7 @@ export default {
       return this.postPublished?.cameraOperators
     },
     content() {
-      try {
-        const contentString = this.postPublished?.contentApiData.replace(
-          /'/g,
-          '"'
-        )
-        const content = JSON.parse(contentString)
-
-        return content?.filter((item) => item) || []
-      } catch {
-        return []
-      }
+      return handleApiData(this.postPublished.contentApiData)
     },
     heroVideoUrl() {
       const url = this.postPublished?.heroVideo?.youtubeUrl ?? ''
@@ -590,6 +587,9 @@ export default {
     source() {
       return this.postPublished?.source
     },
+    isAdult() {
+      return this.postPublished?.isAdult
+    },
     microAdId() {
       return this.isMobile ? '4300419' : '4300420'
     },
@@ -609,6 +609,11 @@ export default {
     this.detectViewport()
     if (this.has404Err) {
       this.$nuxt.error({ statusCode: 404 })
+    }
+    if (window) {
+      const isAdultConfirmed = Cookie.get('article-confirmedAdult')
+      const isArticleAdult = this.isAdult
+      this.shouldShowAdultWarning = !isAdultConfirmed && isArticleAdult
     }
     setIntersectionObserver({
       elements: [document.querySelector('.list-wrapper')],
@@ -648,9 +653,6 @@ export default {
     },
     handleLoadPopinWidget() {
       this.shouldLoadPopinScript = true
-      const content =
-        document.querySelector('#_popIn_recommend_word')?.innerHTML ?? null
-      this.hasArticleRelatedPopinContent = !!content
     },
     handleLoadDableWidget() {
       this.shouldLoadDableScript = true
@@ -672,6 +674,7 @@ export default {
 
 <style lang="scss" scoped>
 .g-page--with-aside {
+  position: relative;
   padding-top: 50px;
   @include media-breakpoint-up(md) {
     padding-top: 36px;

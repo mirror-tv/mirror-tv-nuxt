@@ -30,6 +30,10 @@ export default {
       reqired: true,
       default: undefined,
     },
+    insertedYoutubeVideoTitle: {
+      type: String,
+      default: '',
+    },
   },
   render(h, { props }) {
     const content = props.paragraph.content?.[0]
@@ -101,10 +105,18 @@ export default {
         return <ArticleContentInfobox infobox={content} />
       case 'slideshow':
         return <ArticleContentSlideshow items={props.paragraph.content} />
-      case 'youtube':
-        return (
-          <YoutubeEmbedByIframeApi videoId={props.paragraph.content[0].id} />
+      case 'youtube': {
+        const youtubeTitle = props.insertedYoutubeVideoTitle
+        const id = props.paragraph.content[0].id
+        return youtubeTitle ? (
+          <div class="g-youtube-with-title">
+            <h2 class="g-article-heading">{youtubeTitle}</h2>
+            <YoutubeEmbedByIframeApi videoId={id} />
+          </div>
+        ) : (
+          <YoutubeEmbedByIframeApi videoId={id} />
         )
+      }
       case 'video':
         return <ArticleContentVideo video={content} />
       case 'image':

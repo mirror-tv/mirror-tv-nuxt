@@ -10,11 +10,18 @@
     :series="series"
   >
     <section class="artshow__series">
-      <main class="artshow__series__info">
-        <p v-for="(content, i) in introList" :key="`${content}-${i}`">
+      <article class="artshow__series__info">
+        <template v-if="isContentString">
           {{ content }}
-        </p>
-      </main>
+        </template>
+        <template v-else>
+          <ArticleContentHandler
+            v-for="paragraph in content"
+            :key="paragraph.id"
+            :paragraph="paragraph"
+          />
+        </template>
+      </article>
       <div v-if="shouldShowArtShowList" class="artshow__series__list">
         <h3>所有影片</h3>
         <ArtShowVideoList
@@ -33,8 +40,10 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleApiData } from '~/utils/text-handler'
 import ArtShowWrapper from '~/components/ArtShowWrapper'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
+import ArticleContentHandler from '~/components/ArticleContentHandler'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { fetchSectionBySlug } from '~/apollo/queries/section.gql'
 import { fetchSeriesBySlug } from '~/apollo/queries/series.gql'
@@ -87,6 +96,7 @@ export default {
   components: {
     ArtShowWrapper,
     ArtShowVideoList,
+    ArticleContentHandler,
   },
   data() {
     return {
@@ -114,26 +124,22 @@ export default {
           property: 'og:title',
           content: title,
         },
-        ...(image
-          ? [
-              {
-                hid: 'og:image',
-                property: 'og:image',
-                content: image,
-              },
-            ]
-          : []),
-        ...(this.introduction
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: image,
+        },
+        ...(this.showIntroduction
           ? [
               {
                 hid: 'description',
                 name: 'description',
-                content: this.introduction,
+                content: this.showIntroduction,
               },
               {
                 hid: 'og:description',
                 property: 'og:description',
-                content: this.introduction,
+                content: this.showIntroduction,
               },
             ]
           : []),
@@ -156,17 +162,11 @@ export default {
     sectionName() {
       return this.section.name ?? ''
     },
-    introList() {
-      const intro = this.series.introduction
-      const constentList = []
-      const blocks = JSON.parse(intro)?.draft?.blocks ?? []
-      blocks.forEach((item) => {
-        constentList.push(item.text)
-      })
-      return constentList
+    content() {
+      return handleApiData(this.series.introductionApiData)
     },
-    introduction() {
-      return this.introList?.join('') ?? ''
+    showIntroduction() {
+      return this.show?.introduction ?? ''
     },
     showLoadMoreButton() {
       return this.artShowList?.length < this.artShowCount
@@ -211,10 +211,12 @@ export default {
   }
   &__info {
     margin: 0 0 40px;
-    p {
-      font-size: 16px;
-      line-height: 1.8;
-      & + & {
+    color: #000;
+    font-size: 16px;
+    text-align: justify;
+    line-height: 1.8;
+    ::v-deep {
+      > * + * {
         margin: 16px 0 0;
       }
     }

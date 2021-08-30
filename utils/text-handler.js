@@ -16,4 +16,15 @@ function handleYoutubeId(url) {
   return ''
 }
 
-export { handleLineBreak, handleYoutubeId }
+function handleApiData(apiData) {
+  try {
+    const rawString = apiData.replace(/'/g, '"')
+    const content = JSON.parse(rawString)
+
+    return content?.filter((item) => item) || []
+  } catch {
+    return []
+  }
+}
+
+export { handleLineBreak, handleYoutubeId, handleApiData }
