@@ -11,7 +11,7 @@ query fetchContactBySlug($slug: String!) {
       urlOriginal
     }
     facebook
-    instatgram
+    instagram
     twitter
     bioApiData
   }

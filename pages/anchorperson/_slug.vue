@@ -30,8 +30,8 @@
               <img v-lazy="require('@/assets/img/flogo.svg')" alt="Facebook" />
             </a>
             <a
-              v-if="anchorInstatgram"
-              :href="anchorInstatgram"
+              v-if="anchorInstagram"
+              :href="anchorInstagram"
               target="_blank"
               rel="noreferrer noopener"
               class="anchor__info-link--instagram"
@@ -139,8 +139,8 @@ export default {
     anchorFacebook() {
       return this.anchor.facebook
     },
-    anchorInstatgram() {
-      return this.anchor.instatgram
+    anchorInstagram() {
+      return this.anchor.instagram
     },
     anchorTwitter() {
       return this.anchor.twitter
