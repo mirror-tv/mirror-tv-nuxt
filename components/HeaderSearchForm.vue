@@ -102,6 +102,7 @@ input {
 
   @include media-breakpoint-up(md) {
     height: 30px;
+    width: 152px;
     padding: 0 0 0 8px; // 修正 cursor/caret 的位置
     &:focus {
       outline: 1px solid #c1c2c2;

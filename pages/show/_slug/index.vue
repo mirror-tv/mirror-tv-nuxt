@@ -284,13 +284,7 @@ export default {
       }
     },
     formatVideoNum(innerWidth) {
-      if (innerWidth < 768) {
-        return 2
-      }
-      if (innerWidth >= 768 && innerWidth < 1200) {
-        return 9
-      }
-      return 8
+      return innerWidth < 768 ? 2 : 9
     },
     formatBio(item) {
       const bios = handleApiData(item.bioApiData)
@@ -382,9 +376,9 @@ export default {
   }
   &__collect {
     width: 100%;
-    margin-top: 12px;
+    margin: 12px 0;
     @include media-breakpoint-up(md) {
-      margin-top: 24px;
+      margin: 0 0 48px;
     }
     &__loadmore {
       display: flex;
@@ -412,36 +406,10 @@ export default {
           overflow: hidden;
         }
       }
-      @include media-breakpoint-up(xl) {
-        &::after {
-          content: '';
-          width: calc((100% - 96px) / 4);
-        }
-        .position-correct {
-          width: calc((100% - 96px) / 4);
-          overflow: hidden;
-        }
-      }
-      @include media-breakpoint-up(xxl) {
-        &::after {
-          content: '';
-          width: calc((100% - 48px) / 4);
-        }
-        .position-correct {
-          width: calc((100% - 48px) / 4);
-          overflow: hidden;
-        }
-      }
       li {
         margin-bottom: 24px;
         @include media-breakpoint-up(md) {
           width: calc((100% - 64px) / 3);
-        }
-        @include media-breakpoint-up(xl) {
-          width: calc((100% - 96px) / 4);
-        }
-        @include media-breakpoint-up(xxl) {
-          width: calc((100% - 48px) / 4);
         }
         h4 {
           font-size: 16px;
@@ -505,14 +473,18 @@ export default {
       );
     }
     img {
-      width: 70px;
-      height: 70px;
+      min-width: 70px;
+      max-width: 70px;
+      min-height: 70px;
+      max-height: 70px;
       object-fit: cover;
       object-position: center;
       @include default-background-image;
       @include media-breakpoint-up(md) {
-        width: 80px;
-        height: 80px;
+        min-width: 80px;
+        max-width: 80px;
+        min-height: 80px;
+        max-height: 80px;
       }
     }
     &-content {

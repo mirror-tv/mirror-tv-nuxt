@@ -1,6 +1,6 @@
 <template>
   <div class="g-page">
-    <div class="adsales__container">
+    <div v-if="adSalesUrl" class="adsales__container">
       <a :href="adSalesUrl" target="_blank" rel="noreferer noopener">
         <img src="~/static/default.jpg" alt="adsales picture" />
         <h3>點擊圖片觀看整合行銷內容</h3>
@@ -53,8 +53,13 @@ export default {
   },
   computed: {
     adSalesUrl() {
-      return this.adSales?.pdfUrl
+      return this.adSales?.pdfUrl ?? ''
     },
+  },
+  mounted() {
+    if (!this.adSalesUrl) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
 }
 </script>

@@ -252,6 +252,7 @@ export default {
       margin: 0 0 48px;
       @include media-breakpoint-up(md) {
         display: flex;
+        justify-content: space-between;
         flex-direction: row-reverse;
       }
       @include media-breakpoint-up(xl) {
@@ -267,10 +268,6 @@ export default {
         @include media-breakpoint-up(md) {
           width: 215px;
           height: 215px;
-          margin: 0 0 0 32px;
-        }
-        @include media-breakpoint-up(xl) {
-          margin: 0 0 0 92px;
         }
       }
       &-name {
@@ -278,8 +275,15 @@ export default {
         margin: 0 0 24px;
       }
       &-content {
+        width: 100%;
         font-size: 16px;
         line-height: 32px;
+        @include media-breakpoint-up(md) {
+          width: calc(100% - 215px - 32px);
+        }
+        @include media-breakpoint-up(xl) {
+          width: calc(100% - 215px - 92px);
+        }
         > * + * {
           margin: 16px 0 0;
         }

@@ -14,14 +14,14 @@
           <img src="~/assets/img/facebook-logo-grey-58.png" alt="Facebook" />
         </a>
         <a
-          v-if="instatgram"
-          :href="instatgram"
+          v-if="instagram"
+          :href="instagram"
           class="link"
           target="_blank"
           rel="noreferrer noopener"
           @click="sendGaClickEvent('author’s instagram')"
         >
-          <img src="~/assets/img/IG-logo.svg" alt="Instatgram" />
+          <img src="~/assets/img/IG-logo.svg" alt="Instagram" />
         </a>
       </div>
     </div>
@@ -49,7 +49,7 @@ export default {
       type: String,
       default: '',
     },
-    instatgram: {
+    instagram: {
       type: String,
       default: '',
     },
@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     hasSocialMedia() {
-      return this.facebook || this.instatgram
+      return this.facebook || this.instagram
     },
   },
   methods: {

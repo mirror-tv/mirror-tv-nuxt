@@ -47,15 +47,6 @@
             />
           </button>
         </div>
-        <div class="top-wrapper__adsales">
-          <a
-            href="/adsales"
-            rel="noreferrer noopener"
-            class="top-wrapper__adsales-button"
-          >
-            整合行銷
-          </a>
-        </div>
       </section>
     </div>
     <div
@@ -116,7 +107,6 @@
               href="/ombuds"
               rel="noreferrer noopener"
               class="category-nav__link"
-              @click="closeHamburgerButton"
               v-text="'公評人專區'"
             />
           </div>
@@ -125,8 +115,17 @@
               href="/story/aboutus"
               rel="noreferrer noopener"
               class="category-nav__link"
-              @click="closeHamburgerButton"
               v-text="'關於我們'"
+            />
+          </div>
+          <div
+            class="navs__category-nav category-nav category-nav-other category-nav-other-ads"
+          >
+            <a
+              href="/adsales"
+              rel="noreferrer noopener"
+              class="category-nav__link"
+              v-text="'整合行銷'"
             />
           </div>
         </nav>
@@ -278,27 +277,6 @@ export default {
   }
   &__search-form {
     display: none;
-  }
-  &__adsales {
-    text-align: center;
-    display: none;
-    margin-left: 14px;
-    &-button {
-      font-size: 13px;
-      line-height: 18px;
-      padding: 5px 8px;
-      color: #4a4a4a;
-      border: 1px solid #d8d8d8;
-      &:hover {
-        background-color: rgba(155, 155, 155, 0.05);
-      }
-      &:active {
-        background-color: rgba(155, 155, 155, 0.15);
-      }
-    }
-    @include media-breakpoint-up(md) {
-      display: block;
-    }
   }
   @include media-breakpoint-up(md) {
     padding: 0 20px 0 40px;
@@ -484,13 +462,13 @@ export default {
     @include media-breakpoint-up(md) {
       width: auto;
       margin: 0;
-      &::before {
+      &::after {
         @include separator_line;
 
         background-color: $color-grey-deep;
       }
-      &:last-child {
-        &::after {
+      &:first-child {
+        &::before {
           @include separator_line;
 
           background-color: $color-grey-deep;
@@ -534,9 +512,24 @@ export default {
       @include media-breakpoint-up(md) {
         display: flex;
       }
+      @include media-breakpoint-up(xl) {
+        font-size: 12px;
+        line-height: 28px;
+        a {
+          padding: 0 8px;
+        }
+      }
       &-ombuds {
         @include media-breakpoint-up(xl) {
           margin-left: auto;
+        }
+      }
+      &-ads {
+        @include media-breakpoint-up(xl) {
+          &::after {
+            display: none;
+            opacity: 0;
+          }
         }
       }
     }
@@ -565,14 +558,14 @@ export default {
         padding: 0 20px;
       }
     }
-    &::before {
+    &::after {
       background-color: $color-grey;
       @include media-breakpoint-up(md) {
         background-color: $color-blue-deep;
       }
     }
-    &:last-child {
-      &::after {
+    &:first-child {
+      &::before {
         background-color: $color-grey;
         @include media-breakpoint-up(md) {
           background-color: $color-blue-deep;
