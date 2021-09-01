@@ -469,7 +469,8 @@ export default {
   },
   computed: {
     brief() {
-      return handleApiData(this.postPublished.briefApiData)
+      const data = this.postPublished?.briefApiData ?? ''
+      return data ? handleApiData(data) : []
     },
     showBrief() {
       const validateArray = this.brief?.map((briefContent) => {
@@ -490,7 +491,8 @@ export default {
       return this.postPublished?.cameraOperators
     },
     content() {
-      return handleApiData(this.postPublished.contentApiData)
+      const data = this.postPublished?.contentApiData ?? ''
+      return data ? handleApiData(data) : []
     },
     heroVideoUrl() {
       const url = this.postPublished?.heroVideo?.youtubeUrl ?? ''

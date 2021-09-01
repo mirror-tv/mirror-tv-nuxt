@@ -473,14 +473,18 @@ export default {
       );
     }
     img {
-      width: 70px;
-      height: 70px;
+      min-width: 70px;
+      max-width: 70px;
+      min-height: 70px;
+      max-height: 70px;
       object-fit: cover;
       object-position: center;
       @include default-background-image;
       @include media-breakpoint-up(md) {
-        width: 80px;
-        height: 80px;
+        min-width: 80px;
+        max-width: 80px;
+        min-height: 80px;
+        max-height: 80px;
       }
     }
     &-content {
