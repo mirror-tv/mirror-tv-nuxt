@@ -7,8 +7,6 @@
       :ref="`player-${videoId}`"
       :videoId="videoId"
       :playerVars="playerVars"
-      width="320"
-      height="180"
       @ready="handlePlayerReady"
       @playing="handlePlayerPlaying"
       @ended="handlePlayerEnded"
@@ -77,7 +75,6 @@ export default {
       bottom: 0;
       width: 100%;
       height: 100%;
-      min-height: 181px; // 為了取得較大張的縮圖
       object-position: center;
     }
   }
