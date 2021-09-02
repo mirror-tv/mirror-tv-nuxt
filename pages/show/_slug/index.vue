@@ -20,7 +20,7 @@
               <div class="host__wrapper-content">
                 <h3>主持人｜{{ host.name }}</h3>
                 <!-- eslint-disable vue/no-v-html -->
-                <p v-html="host.bio[0].content" />
+                <p v-if="host.bio[0]" v-html="host.bio[0].content" />
               </div>
             </a>
           </li>
@@ -288,10 +288,10 @@ export default {
     },
     formatBio(item) {
       const bios = handleApiData(item.bioApiData)
-      return bios.map((item) => {
+      return bios?.map((item) => {
         return {
-          id: item.id || '',
-          content: item.content?.[0] || '',
+          id: item?.id || '',
+          content: item?.content?.[0] || '',
         }
       })
     },
