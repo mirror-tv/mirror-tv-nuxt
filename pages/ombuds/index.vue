@@ -20,7 +20,7 @@
                 {{ intro.content }}
               </p>
               <a
-                v-if="ombudsIntroduction.length"
+                v-if="ombudsIntroduction[0].content"
                 href="/story/biography"
                 target="_blank"
                 rel="noreferrer noopener"
