@@ -46,7 +46,6 @@ export default {
     return {
       pageForSlide: 1,
       pageForItems: 1,
-      isDesktop: false,
     }
   },
   computed: {
@@ -54,15 +53,14 @@ export default {
       return this.items?.length ?? 0
     },
     canSlideNext() {
-      return this.pageForSlide < Math.ceil(this.total / 4)
+      return this.pageForSlide < Math.ceil(this.total / 3)
     },
     canSlidePrev() {
-      return this.pageForSlide > 1 && this.items.length > 4
+      return this.pageForSlide > 1 && this.items.length > 3
     },
     transformStyle() {
-      const margin = this.isDesktop ? 24 : 20
       return `translateX(calc(-${(this.pageForSlide - 1) * 100}% - ${
-        (this.pageForSlide - 1) * margin
+        (this.pageForSlide - 1) * 20
       }px))`
     },
   },
@@ -73,19 +71,7 @@ export default {
       }
     },
   },
-  mounted() {
-    this.detectViewport()
-  },
   methods: {
-    detectViewport() {
-      const viewportWidth =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth
-      if (viewportWidth >= 1200) {
-        this.isDesktop = true
-      }
-    },
     handleClickVideo() {
       this.$emit('click-slide-item')
     },
@@ -117,16 +103,10 @@ export default {
   @include media-breakpoint-up(md) {
     width: calc((100% - 40px) / 3);
   }
-  @include media-breakpoint-up(xl) {
-    width: calc((100% - 72px) / 4);
-  }
   + .item {
     margin-left: 16px;
     @include media-breakpoint-up(md) {
       margin-left: 20px;
-    }
-    @include media-breakpoint-up(xl) {
-      margin-left: 24px;
     }
   }
   &__image {
@@ -172,7 +152,9 @@ export default {
     top: 22px;
   }
   @include media-breakpoint-up(xl) {
-    top: 36px;
+    width: 64px;
+    height: 96px;
+    top: 60px;
   }
   &__arrow {
     position: relative;
@@ -190,14 +172,7 @@ export default {
       border-color: transparent transparent #2c585e #2c585e;
       transform: translate(calc(-50% + 3px), -50%) rotate(45deg);
     }
-    &:hover {
-      background-color: #4a4a4a;
-      opacity: 0.8;
-      &::after {
-        border: 2px solid #fff;
-        border-color: transparent transparent #fff #fff;
-      }
-    }
+    &:hover,
     &:active {
       background-color: #4a4a4a;
       opacity: 0.8;
@@ -219,14 +194,7 @@ export default {
         border-color: #2c585e #2c585e transparent transparent;
         transform: translate(calc(-50% - 3px), -50%) rotate(45deg);
       }
-      &:hover {
-        background-color: #4a4a4a;
-        opacity: 0.8;
-        &::after {
-          border: 2px solid #fff;
-          border-color: #fff #fff transparent transparent;
-        }
-      }
+      &:hover,
       &:active {
         background-color: #4a4a4a;
         opacity: 0.8;

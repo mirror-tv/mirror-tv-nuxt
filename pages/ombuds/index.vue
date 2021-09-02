@@ -17,10 +17,10 @@
             </div>
             <div class="ombuds__intro__main__wrapper-info">
               <p v-for="intro in ombudsIntroduction" :key="intro.id">
-                {{ intro.content[0] }}
+                {{ intro.content }}
               </p>
               <a
-                v-if="ombudsIntroduction.length"
+                v-if="ombudsIntroduction[0].content"
                 href="/story/biography"
                 target="_blank"
                 rel="noreferrer noopener"
@@ -90,6 +90,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleApiData } from '~/utils/text-handler'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
 import { fetchVideoByName } from '~/apollo/queries/video.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
@@ -179,15 +180,19 @@ export default {
   },
   computed: {
     ombudsIntroduction() {
-      try {
-        const content = JSON.parse(this.postPublished?.briefApiData)
-        return content ?? []
-      } catch {
-        return []
-      }
+      return this.formatBio(this.postPublished?.briefApiData)
     },
   },
   methods: {
+    formatBio(item) {
+      const bios = handleApiData(item)
+      return bios.map((item) => {
+        return {
+          id: item.id || '',
+          content: item.content?.[0] || '',
+        }
+      })
+    },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('ombuds')('click')(label)
     },

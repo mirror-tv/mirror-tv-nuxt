@@ -2,7 +2,7 @@
   Plugin Github: https://github.com/anteriovieira/vue-youtube
   Youtube Doc: https://developers.google.com/youtube/iframe_api_reference -->
 <template>
-  <div class="iframe-wrapper">
+  <div v-if="videoId" class="iframe-wrapper">
     <youtube
       :ref="`player-${videoId}`"
       :videoId="videoId"
@@ -65,6 +65,7 @@ export default {
   position: relative;
   padding-top: 56.25%;
   overflow: hidden;
+  width: 100%;
   ::v-deep {
     iframe {
       position: absolute;

@@ -6,12 +6,14 @@ query fetchContactBySlug($slug: String!) {
   ) {
     name
     image {
+      urlMobileSized
       urlTabletSized
+      urlOriginal
     }
     facebook
-    instatgram
+    instagram
     twitter
-    bio
+    bioApiData
   }
 }
 
@@ -24,6 +26,8 @@ query fetchContactByAnchorPerson {
     name
     image {
       urlMobileSized
+      urlTabletSized
+      urlOriginal
     }
     slug
   }
@@ -38,6 +42,8 @@ query fetchContactByHosts {
     name
     image {
       urlMobileSized
+      urlTabletSized
+      urlOriginal
     }
     slug
   }

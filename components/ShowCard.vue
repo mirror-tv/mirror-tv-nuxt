@@ -70,6 +70,7 @@ export default {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      image-rendering: -webkit-optimize-contrast; // 避免 chrome 圖片模糊問題
     }
   }
 }

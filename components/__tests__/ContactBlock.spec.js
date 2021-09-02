@@ -46,14 +46,14 @@ describe('props', () => {
       '~/assets/img/facebook-logo-grey-58.png'
     )
   })
-  test('should render props instatgram', () => {
-    const instatgram = 'https://xxx.xxx.xx'
+  test('should render props instagram', () => {
+    const instagram = 'https://xxx.xxx.xx'
     const wrapper = createWrapper(ContactBlock, {
       propsData: {
-        instatgram,
+        instagram,
       },
     })
-    expect(wrapper.find('a').attributes().href).toBe(instatgram)
+    expect(wrapper.find('a').attributes().href).toBe(instagram)
     expect(wrapper.find('a img').attributes().src).toBe(
       '~/assets/img/IG-logo.svg'
     )

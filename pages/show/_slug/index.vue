@@ -11,24 +11,16 @@
         <ol class="host__container">
           <li v-for="host in hosts" :key="host.name">
             <a
-              :href="`/anchorperson/${host.slug}`"
+              :href="host.href"
               target="_blank"
               rel="noreferrer noopener"
               class="host__wrapper"
             >
-              <img
-                v-if="host.image"
-                v-lazy="host.image.urlMobileSized"
-                :alt="host.name"
-              />
-              <img
-                v-else
-                v-lazy="require('~/assets/img/image-default.jpg')"
-                alt="default image"
-              />
+              <img v-lazy="host.image" :alt="host.name" />
               <div class="host__wrapper-content">
                 <h3>主持人｜{{ host.name }}</h3>
-                <p v-if="host.bio">{{ host.bio }}</p>
+                <!-- eslint-disable vue/no-v-html -->
+                <p v-if="host.bio[0]" v-html="host.bio[0].content" />
               </div>
             </a>
           </li>
@@ -108,12 +100,13 @@
 <script>
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
+import { handleLineBreak, handleApiData } from '~/utils/text-handler'
+import { getHostImageUrl } from '~/utils/post-image-handler'
 import { sendGaEvent } from '~/utils/google-analytics'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
-import { handleLineBreak } from '~/utils/text-handler'
 
 export default {
   apollo: {
@@ -235,7 +228,7 @@ export default {
       return this.show.picture
     },
     hosts() {
-      return this.show.hostName ?? []
+      return this.show?.hostName?.map((item) => this.reduceHost(item)) ?? []
     },
     validPlaylists() {
       return this.playlists.filter((list) => list.items.length !== 0)
@@ -262,6 +255,14 @@ export default {
         title: item?.snippet?.title,
       }
     },
+    reduceHost(item) {
+      return {
+        href: `/anchorperson/${item.slug}`,
+        name: item.name,
+        image: getHostImageUrl(item),
+        bio: this.formatBio(item),
+      }
+    },
     async loadYoutubeListData(list) {
       if (list.id) {
         try {
@@ -283,13 +284,16 @@ export default {
       }
     },
     formatVideoNum(innerWidth) {
-      if (innerWidth < 768) {
-        return 2
-      }
-      if (innerWidth >= 768 && innerWidth < 1200) {
-        return 9
-      }
-      return 8
+      return innerWidth < 768 ? 2 : 9
+    },
+    formatBio(item) {
+      const bios = handleApiData(item.bioApiData)
+      return bios?.map((item) => {
+        return {
+          id: item?.id || '',
+          content: item?.content?.[0] || '',
+        }
+      })
     },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('show')('click')(label)
@@ -372,9 +376,9 @@ export default {
   }
   &__collect {
     width: 100%;
-    margin-top: 12px;
+    margin: 12px 0;
     @include media-breakpoint-up(md) {
-      margin-top: 24px;
+      margin: 0 0 48px;
     }
     &__loadmore {
       display: flex;
@@ -402,36 +406,10 @@ export default {
           overflow: hidden;
         }
       }
-      @include media-breakpoint-up(xl) {
-        &::after {
-          content: '';
-          width: calc((100% - 96px) / 4);
-        }
-        .position-correct {
-          width: calc((100% - 96px) / 4);
-          overflow: hidden;
-        }
-      }
-      @include media-breakpoint-up(xxl) {
-        &::after {
-          content: '';
-          width: calc((100% - 48px) / 4);
-        }
-        .position-correct {
-          width: calc((100% - 48px) / 4);
-          overflow: hidden;
-        }
-      }
       li {
         margin-bottom: 24px;
         @include media-breakpoint-up(md) {
           width: calc((100% - 64px) / 3);
-        }
-        @include media-breakpoint-up(xl) {
-          width: calc((100% - 96px) / 4);
-        }
-        @include media-breakpoint-up(xxl) {
-          width: calc((100% - 48px) / 4);
         }
         h4 {
           font-size: 16px;
@@ -495,14 +473,18 @@ export default {
       );
     }
     img {
-      width: 70px;
-      height: 70px;
+      min-width: 70px;
+      max-width: 70px;
+      min-height: 70px;
+      max-height: 70px;
       object-fit: cover;
       object-position: center;
       @include default-background-image;
       @include media-breakpoint-up(md) {
-        width: 80px;
-        height: 80px;
+        min-width: 80px;
+        max-width: 80px;
+        min-height: 80px;
+        max-height: 80px;
       }
     }
     &-content {

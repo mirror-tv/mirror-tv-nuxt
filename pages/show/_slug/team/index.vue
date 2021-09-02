@@ -178,11 +178,17 @@ export default {
       }
       img {
         width: 100%;
-        height: 100%;
+        height: calc((100vw - 32px) / 2 * 0.5625);
         background: $color-grey;
         object-fit: cover;
         transform: scale(1, 1);
         transition: all 1s ease-out;
+        @include media-breakpoint-up(md) {
+          height: 141px;
+        }
+        @include media-breakpoint-up(md) {
+          height: 144px;
+        }
         &:hover {
           transform: scale(1.1);
         }

@@ -10,33 +10,21 @@
     <section class="artshow__director">
       <HeadingBordered
         v-if="!isMobile"
-        :text="directorInfo.name"
+        :text="directorName"
         class="artshow__director__name"
       />
       <div class="artshow__director__info">
-        <img
-          v-if="directorInfo.image"
-          :src="directorInfo.image.urlTabletSized"
-          :alt="directorInfo.name"
-        />
-        <img
-          v-else
-          src="~assets/img/image-default.jpg"
-          :alt="directorInfo.name"
-        />
+        <img :src="directorImage" :alt="directorName" />
         <HeadingBordered
           v-if="isMobile"
           :text="directorInfo.name"
           class="artshow__director__info-name"
         />
-        <div v-if="hasBios">
-          <p
-            v-for="(bio, i) in bios"
-            :key="`${bio}-${i}`"
-            class="artshow__director__info-bio"
-          >
-            {{ bio }}
-          </p>
+        <div v-if="hasBio" class="artshow__director__info-content">
+          <div v-for="paragraph in bio" :key="paragraph.id">
+            <!-- eslint-disable vue/no-v-html -->
+            <p v-html="paragraph.content" />
+          </div>
         </div>
       </div>
       <div v-if="hasArtShowList" class="artshow__director__collect">
@@ -59,6 +47,8 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleApiData } from '~/utils/text-handler'
+import { getHostImageUrl } from '~/utils/post-image-handler'
 import ArtShowWrapper from '~/components/ArtShowWrapper.vue'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
 import HeadingBordered from '~/components/HeadingBordered'
@@ -131,9 +121,9 @@ export default {
   head() {
     const title = `${this.directorInfo.name} - ${SITE_NAME}`
     const image = this.show?.picture?.urlDesktopSized
+    const description = this.bio?.[0]?.content ?? ''
     return {
       title,
-      description: this.directorInfo.bio,
       meta: [
         {
           hid: 'og:url',
@@ -145,26 +135,22 @@ export default {
           property: 'og:title',
           content: title,
         },
-        ...(image
-          ? [
-              {
-                hid: 'og:image',
-                property: 'og:image',
-                content: image,
-              },
-            ]
-          : []),
-        ...(this.directorInfo.bio
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: image,
+        },
+        ...(description
           ? [
               {
                 hid: 'description',
                 name: 'description',
-                content: this.directorInfo.bio,
+                content: description,
               },
               {
                 hid: 'og:description',
                 property: 'og:description',
-                content: this.directorInfo.bio,
+                content: description,
               },
             ]
           : []),
@@ -181,11 +167,17 @@ export default {
     showLoadMoreButton() {
       return this.artShowList?.length < this.artShowCount
     },
-    bios() {
-      return this.directorInfo.bio?.split('\n') ?? []
+    directorName() {
+      return this.directorInfo?.name ?? ''
     },
-    hasBios() {
-      return this.bios.length
+    directorImage() {
+      return getHostImageUrl(this.directorInfo) ?? ''
+    },
+    bio() {
+      return this.formatBio(this.directorInfo.bioApiData)
+    },
+    hasBio() {
+      return this.bio.length
     },
     hasArtShowList() {
       return this.artShowList.length
@@ -203,6 +195,15 @@ export default {
       if (viewportWidth < 768) {
         this.isMobile = true
       }
+    },
+    formatBio(item) {
+      const bios = handleApiData(item)
+      return bios.map((item) => {
+        return {
+          id: item.id || '',
+          content: item.content?.[0] || '',
+        }
+      })
     },
     handleClickMore() {
       this.page++
@@ -251,6 +252,7 @@ export default {
       margin: 0 0 48px;
       @include media-breakpoint-up(md) {
         display: flex;
+        justify-content: space-between;
         flex-direction: row-reverse;
       }
       @include media-breakpoint-up(xl) {
@@ -266,25 +268,25 @@ export default {
         @include media-breakpoint-up(md) {
           width: 215px;
           height: 215px;
-          margin: 0 0 0 32px;
         }
-        @include media-breakpoint-up(xl) {
-          margin: 0 0 0 92px;
-        }
-      }
-      p {
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 32px;
-        color: #004dbc;
-        flex: 1;
-      }
-      p + p {
-        margin-top: 24px;
       }
       &-name {
         width: 130px;
         margin: 0 0 24px;
+      }
+      &-content {
+        width: 100%;
+        font-size: 16px;
+        line-height: 32px;
+        @include media-breakpoint-up(md) {
+          width: calc(100% - 215px - 32px);
+        }
+        @include media-breakpoint-up(xl) {
+          width: calc(100% - 215px - 92px);
+        }
+        > * + * {
+          margin: 16px 0 0;
+        }
       }
     }
     &__collect {
