@@ -134,22 +134,22 @@
           :listTitle="'熱門新聞'"
           :listData="listArticleAsidepopularData"
         />
-        <!-- <ClientOnly>
+        <ClientOnly>
           <div v-if="!isTablet" class="micro-ad">
             <MicroAd :unitId="microAdId" />
           </div>
-        </ClientOnly> -->
+        </ClientOnly>
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'最新新聞'"
           :listData="listArticleAsideLatestData"
         />
       </aside>
-      <!-- <ClientOnly>
+      <ClientOnly>
         <div v-if="isTablet" class="micro-ad">
           <MicroAd :unitId="microAdId" />
         </div>
-      </ClientOnly> -->
+      </ClientOnly>
     </div>
   </section>
 </template>
@@ -180,7 +180,7 @@ import ListArticleRelated from '~/components/ListArticleRelated'
 import Ui18Warning from '~/components/Ui18Warning'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
-// import MicroAd from '~/components/MicroAd.vue'
+import MicroAd from '~/components/MicroAd.vue'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
@@ -234,7 +234,7 @@ export default {
     Ui18Warning,
     ShareFacebook,
     ShareLine,
-    // MicroAd,
+    MicroAd,
   },
   data() {
     return {
