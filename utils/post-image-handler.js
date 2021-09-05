@@ -8,7 +8,9 @@ function getImageUrl(post) {
     )
   }
   return (
-    post.heroImage?.urlMobileSized || require('~/assets/img/image-default.jpg')
+    post.heroImage?.urlMobileSized ||
+    post.heroImage?.urlOriginal ||
+    require('~/assets/img/image-default.jpg')
   )
 }
 

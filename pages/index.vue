@@ -75,6 +75,15 @@
             </li>
           </ol>
         </div>
+        <div v-if="hasTopics" class="aside-list main__topic-list">
+          <div class="topic-list__heading">
+            <HeadingBordered class="home__heading" text="推薦專題" />
+            <a href="/topic" target="_blank" rel="noreferrer noopener">
+              更多專題
+            </a>
+          </div>
+          <UiTopicIntroList :topics="topics" />
+        </div>
       </main>
       <aside class="g-aside main__aside aside">
         <div v-if="liveVideoId" class="aside__live-stream live-stream">
@@ -158,6 +167,16 @@
           </ol>
         </div>
 
+        <div v-if="hasTopics" class="aside-list aside__topic-list">
+          <div class="topic-list__heading">
+            <HeadingBordered class="home__heading" text="推薦專題" />
+            <a href="/topic" target="_blank" rel="noreferrer noopener">
+              更多專題
+            </a>
+          </div>
+          <UiTopicIntroList :topics="topics" />
+        </div>
+
         <div v-if="hasShows" class="aside-list show-list">
           <HeadingBordered class="home__heading" text="節目" />
           <div class="show-list__wrapper">
@@ -198,12 +217,14 @@ import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi.vue'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
 import ShowCard from '~/components/ShowCard'
+import UiTopicIntroList from '~/components/UiTopicIntroList'
 import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
 import { fetchVideoByName } from '~/apollo/queries/video.gql'
+import { fetchFeaturedTopics } from '~/apollo/queries/topic.gql'
 
 import { getImageUrl } from '~/utils/post-image-handler'
 
@@ -256,6 +277,14 @@ export default {
           .map((item) => handleYoutubeId(item.ytUrl))
       },
     },
+    topics: {
+      query: fetchFeaturedTopics,
+      variables: {
+        topic_first: 4,
+        post_first: 3,
+      },
+      update: (data) => data?.allTopics,
+    },
     allShows: {
       query: fetchAllShows,
       update(data) {
@@ -285,6 +314,7 @@ export default {
     LinkYoutubeStyle,
     UiFlashNews,
     ShowCard,
+    UiTopicIntroList,
     LinkAnchorStyle,
   },
   data() {
@@ -298,6 +328,7 @@ export default {
       promotionVideos: [],
       popularData: {},
       liveVideo: {},
+      topics: [],
       filteredSlug: [],
       hasPlaylistItems: false,
       isMobile: false,
@@ -378,6 +409,9 @@ export default {
     // },
     hasPromotionVideos() {
       return this.promotionVideos?.length
+    },
+    hasTopics() {
+      return this.topics?.length
     },
   },
   mounted() {
@@ -721,6 +755,41 @@ export default {
         &:hover {
           border-bottom: 1px solid #000;
         }
+      }
+    }
+  }
+  &.main__topic-list {
+    display: none;
+    @include media-breakpoint-up(xl) {
+      display: block;
+      margin: 0 0 48px;
+    }
+    .topic-list__heading {
+      margin: 0 0 32px;
+      a {
+        display: inline-block;
+        font-size: 16px;
+        line-height: 22px;
+        color: $color-blue;
+        margin: 0 0 4px 16px;
+        border-bottom: 1px solid $color-blue;
+      }
+    }
+  }
+  &.aside__topic-list {
+    display: block;
+    @include media-breakpoint-up(xl) {
+      display: none;
+    }
+    .topic-list__heading {
+      margin: 0 0 28px;
+      a {
+        display: inline-block;
+        font-size: 16px;
+        line-height: 22px;
+        color: $color-blue;
+        margin: 0 0 4px 16px;
+        border-bottom: 1px solid $color-blue;
       }
     }
   }
