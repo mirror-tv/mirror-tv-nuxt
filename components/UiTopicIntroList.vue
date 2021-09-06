@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getImageUrl } from '~/utils/post-image-handler'
+import { getPostImageUrl } from '~/utils/image-handler'
 
 export default {
   props: {
@@ -54,7 +54,7 @@ export default {
           return {
             slug: topic.slug ?? '',
             name: topic.name ?? '',
-            image: getImageUrl(topic),
+            image: getPostImageUrl(topic),
             items: this.formatItems(topic.post),
           }
         }) ?? []

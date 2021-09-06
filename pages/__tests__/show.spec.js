@@ -39,15 +39,15 @@ const createWrapper = createWrapperHelper({
 
 describe('page content', () => {
   const wrapper = createWrapper(page)
-  test('Should have proper leading image', () => {
-    const pictureImage = wrapper.get('picture img')
-    const pictureSource = wrapper.get('picture source')
-    expect(pictureImage.attributes().src).toBe(mockShow.picture.urlMobileSized)
-    expect(pictureImage.attributes().alt).toBe(mockShow.name)
-    expect(pictureSource.attributes().srcset).toBe(
-      mockShow.picture.urlDesktopSized
-    )
-  })
+  // test('Should have proper leading image', () => {
+  //   const pictureImage = wrapper.get('picture img')
+  //   const pictureSource = wrapper.get('picture source')
+  //   expect(pictureImage.attributes().src).toBe(mockShow.picture.urlMobileSized)
+  //   expect(pictureImage.attributes().alt).toBe(mockShow.name)
+  //   expect(pictureSource.attributes().srcset).toBe(
+  //     mockShow.picture.urlDesktopSized
+  //   )
+  // })
   test('Should have proper introduction', () => {
     const introduction = wrapper.get('.show__introduction')
     expect(introduction.text()).toContain(mockShow.introduction)

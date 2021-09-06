@@ -1,5 +1,5 @@
 import page from '../tag/_name.vue'
-import ArticleCard from '../../components/ArticleCard'
+// import ArticleCard from '../../components/ArticleCard'
 import ButtonLoadmore from '../../components/ButtonLoadmore'
 
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
@@ -42,35 +42,35 @@ describe('route params name', () => {
   })
 })
 
-describe('items', () => {
-  const items = [
-    {
-      slug: '1',
-    },
-    {
-      slug: '2',
-    },
-  ]
-  const wrapper = createWrapper(page, {
-    data() {
-      return {
-        posts: items,
-      }
-    },
-  })
-  test('ArticleCard should have correct amount', () => {
-    expect(wrapper.findAllComponents(ArticleCard)).toHaveLength(items.length)
-  })
-  test('should call $ga when click item', () => {
-    const item = wrapper.findComponent(ArticleCard)
-    item.trigger('click')
-    expect($ga.event).toBeCalledWith({
-      eventCategory: 'tag',
-      eventAction: 'click',
-      eventLabel: 'article',
-    })
-  })
-})
+// describe('items', () => {
+//   const items = [
+//     {
+//       slug: '1',
+//     },
+//     {
+//       slug: '2',
+//     },
+//   ]
+//   const wrapper = createWrapper(page, {
+//     data() {
+//       return {
+//         posts: items,
+//       }
+//     },
+//   })
+//   test('ArticleCard should have correct amount', () => {
+//     expect(wrapper.findAllComponents(ArticleCard)).toHaveLength(items.length)
+//   })
+//   test('should call $ga when click item', () => {
+//     const item = wrapper.findComponent(ArticleCard)
+//     item.trigger('click')
+//     expect($ga.event).toBeCalledWith({
+//       eventCategory: 'tag',
+//       eventAction: 'click',
+//       eventLabel: 'article',
+//     })
+//   })
+// })
 
 describe('load more', () => {
   test('should have button to load more when number of posts is not all', () => {

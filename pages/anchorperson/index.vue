@@ -11,16 +11,7 @@
               rel="noreferrer noopener"
               @click="sendGaClickEvent('announcer')"
             >
-              <img
-                v-if="anchor.image"
-                :src="anchor.image.urlMobileSized"
-                :alt="anchor.name"
-              />
-              <img
-                v-else
-                src="~assets/img/image-default.jpg"
-                :alt="anchor.name"
-              />
+              <img :src="getImage(anchor)" :alt="anchor.name" />
             </a>
             <h3 v-text="anchor.name" />
           </li>
@@ -38,16 +29,7 @@
               rel="noreferrer noopener"
               @click="sendGaClickEvent('announcer')"
             >
-              <img
-                v-if="host.image"
-                :src="host.image.urlMobileSized"
-                :alt="host.name"
-              />
-              <img
-                v-else
-                src="~assets/img/image-default.jpg"
-                :alt="host.name"
-              />
+              <img :src="getImage(host)" :alt="host.name" />
             </a>
             <h3 v-text="host.name" />
           </li>
@@ -61,6 +43,7 @@
 <script>
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { getContactImageUrl } from '~/utils/image-handler'
 import {
   fetchContactByAnchorPerson,
   fetchContactByHosts,
@@ -119,6 +102,9 @@ export default {
     }
   },
   methods: {
+    getImage(contact) {
+      return getContactImageUrl(contact)
+    },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('anchorperson')('click')(label)
     },

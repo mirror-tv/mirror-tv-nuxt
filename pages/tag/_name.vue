@@ -3,19 +3,12 @@
     <div class="g-page__wrapper">
       <h1 class="tag__name" v-text="routeName" />
       <p v-if="!hasItems">目前沒有相關的文章</p>
-      <ol v-else class="tag__list">
-        <li v-for="post in posts" :key="post.slug" class="tag__list__item">
-          <ArticleCard
-            :href="post.href"
-            :articleImgURL="post.image"
-            :articleTitle="post.name"
-            :articleDate="post.publishTime"
-            mobileLayoutDirection="column"
-            @click.native="sendGaClickEvent('article')"
-          />
-        </li>
-        <div class="position-correct" />
-      </ol>
+      <UiListHandler
+        v-else
+        :posts="posts"
+        class="tag__list"
+        @click-item="sendGaClickEvent('article')"
+      />
       <ButtonLoadmore
         v-if="enableLoadMore"
         class="g-button-load-more"
@@ -32,14 +25,14 @@ import { getUrlOrigin } from '~/utils/meta'
 import { fetchPostsAndCountByTagName } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
-import ArticleCard from '~/components/ArticleCard'
-import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
+import UiListHandler from '~/components/UiListHandler'
+import ButtonLoadmore from '~/components/ButtonLoadmore'
 
 const MAX_RESULTS = 12
 
 export default {
   components: {
-    ArticleCard,
+    UiListHandler,
     ButtonLoadmore,
   },
   apollo: {
@@ -157,52 +150,6 @@ export default {
       font-size: 20px;
       line-height: 32px;
       letter-spacing: 0.5px;
-    }
-  }
-  &__list {
-    @include media-breakpoint-up(md) {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      &::after {
-        content: '';
-        width: calc((100% - 40px) / 3);
-      }
-    }
-    @include media-breakpoint-up(xl) {
-      &::after {
-        content: '';
-        width: calc((100% - 96px) / 4);
-      }
-      .position-correct {
-        width: calc((100% - 96px) / 4);
-        overflow: hidden;
-      }
-    }
-    @include media-breakpoint-up(xxl) {
-      &::after {
-        content: '';
-        width: calc((100% - 48px) / 4);
-      }
-      .position-correct {
-        width: calc((100% - 48px) / 4);
-        overflow: hidden;
-      }
-    }
-    &__item {
-      margin-bottom: 28px;
-      @include media-breakpoint-up(md) {
-        margin-bottom: 48px;
-        width: calc((100% - 40px) / 3);
-      }
-      @include media-breakpoint-up(xl) {
-        margin-bottom: 40px;
-        width: calc((100% - 96px) / 4);
-      }
-      @include media-breakpoint-up(xxl) {
-        width: calc((100% - 48px) / 4);
-      }
     }
   }
 }

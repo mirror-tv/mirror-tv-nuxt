@@ -200,20 +200,21 @@
 import { mapGetters } from 'vuex'
 
 import { getUrlOrigin } from '~/utils/meta'
-import { handleYoutubeId } from '~/utils/text-handler'
-import { FILTERED_SLUG } from '~/constants'
-import { MICRO_AD_UNITS } from '~/constants/micro-ad'
-import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
+import { handleYoutubeId } from '~/utils/content-handler'
+import { getPostImageUrl } from '~/utils/image-handler'
+import { FILTERED_SLUG } from '~/constants'
+import { MICRO_AD_UNITS } from '~/constants/micro-ad'
+import { fetchPosts } from '~/apollo/queries/posts.gql'
 import Swiper from '~/components/Swiper'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
-import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
-import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
-import YoutubeEmbed from '~/components/YoutubeEmbed.vue'
-import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi.vue'
+import ButtonLoadmore from '~/components/ButtonLoadmore'
+import FacebookPagePlugin from '~/components/FacebookPagePlugin'
+import YoutubeEmbed from '~/components/YoutubeEmbed'
+import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
 import ShowCard from '~/components/ShowCard'
@@ -225,8 +226,6 @@ import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
 import { fetchVideoByName } from '~/apollo/queries/video.gql'
 import { fetchFeaturedTopics } from '~/apollo/queries/topic.gql'
-
-import { getImageUrl } from '~/utils/post-image-handler'
 
 const PAGE_SIZE = 12
 const MICRO_AD_INDEXES = [2, 4, 8, 10]
@@ -435,7 +434,7 @@ export default {
         slug: post.slug,
         href: `/story/${post.slug}`,
         labelTitle: post.categories?.[0]?.name ?? ' ',
-        articleImgURL: getImageUrl(post),
+        articleImgURL: getPostImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
         articleStyle: post.style,

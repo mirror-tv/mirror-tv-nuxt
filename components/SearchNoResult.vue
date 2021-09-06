@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import SearchNoResultIcon from '~/components/SearchNoResultIcon.vue'
+import SearchNoResultIcon from '~/components/SearchNoResultIcon'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
-import { getImageUrl } from '~/utils/post-image-handler'
+import { getPostImageUrl } from '~/utils/image-handler'
 
 export default {
   components: {
@@ -78,7 +78,7 @@ export default {
     reducerArticleCard(post) {
       return {
         href: `/story/${post.slug}`,
-        articleImgURL: getImageUrl(post),
+        articleImgURL: getPostImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }

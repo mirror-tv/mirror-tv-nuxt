@@ -168,23 +168,23 @@ import {
 import { getUrlOrigin } from '~/utils/meta'
 import { getPdfUrl } from '~/utils/story_pdf'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { getPostImageUrl } from '~/utils/image-handler'
 import { handleError } from '~/utils/error-handler'
-import { handleYoutubeId, handleApiData } from '~/utils/text-handler'
+import { handleYoutubeId, handleApiData } from '~/utils/content-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
-import ArticleContentHandler from '~/components/ArticleContentHandler.vue'
-import ArticleCredit from '~/components/ArticleCredit.vue'
-import ArticleTag from '~/components/ArticleTag.vue'
+import ArticleContentHandler from '~/components/ArticleContentHandler'
+import ArticleCredit from '~/components/ArticleCredit'
+import ArticleTag from '~/components/ArticleTag'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import Ui18Warning from '~/components/Ui18Warning'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
-import MicroAd from '~/components/MicroAd.vue'
+import MicroAd from '~/components/MicroAd'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
-import { getImageUrl } from '~/utils/post-image-handler'
 
 const CREDIT_KEYS = [
   'writers',
@@ -648,7 +648,7 @@ export default {
     reducerArticleCard(post) {
       return {
         href: `/story/${post.slug}`,
-        articleImgURL: getImageUrl(post),
+        articleImgURL: getPostImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
       }

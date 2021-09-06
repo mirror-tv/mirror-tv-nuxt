@@ -68,8 +68,8 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleYoutubeId, handleApiData } from '~/utils/text-handler'
-import { getHostImageUrl } from '~/utils/post-image-handler'
+import { handleYoutubeId, handleApiData } from '~/utils/content-handler'
+import { getContactImageUrl, getVideoImageUrl } from '~/utils/image-handler'
 import ArtShowWrapper from '~/components/ArtShowWrapper'
 import ArticleContentHandler from '~/components/ArticleContentHandler'
 import ShareFacebook from '~/components/ShareFacebook'
@@ -185,11 +185,7 @@ export default {
       return this.artShow?.name ?? ''
     },
     artShowImage() {
-      return (
-        this.artShow?.heroImage?.urlDesktopSized ||
-        this.artShow?.heroImage?.urlOriginal ||
-        require('~/assets/img/image-default.jpg')
-      )
+      return getVideoImageUrl(this.artShow)
     },
     authors() {
       return (
@@ -213,7 +209,7 @@ export default {
       return {
         href: `/anchorperson/${item.slug}`,
         name: item.name,
-        image: getHostImageUrl(item),
+        image: getContactImageUrl(item),
         bio: this.formatBio(item),
       }
     },

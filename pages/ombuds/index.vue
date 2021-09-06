@@ -90,7 +90,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleApiData } from '~/utils/text-handler'
+import { handleApiData } from '~/utils/content-handler'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
 import { fetchVideoByName } from '~/apollo/queries/video.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'

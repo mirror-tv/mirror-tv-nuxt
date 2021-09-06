@@ -1,18 +1,7 @@
 <template>
   <section class="g-page anchor">
     <div class="anchor__content">
-      <img
-        v-if="anchorImage"
-        class="anchor__content__img"
-        :src="anchorImage"
-        :alt="anchorName"
-      />
-      <img
-        v-else
-        v-lazy="require('~/assets/img/image-default.jpg')"
-        class="anchor__content__img"
-        alt="default image"
-      />
+      <img :src="anchorImage" :alt="anchorName" class="anchor__content__img" />
       <section class="anchor__block">
         <div class="anchor__info">
           <div class="anchor__info-name">
@@ -69,7 +58,8 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleApiData } from '~/utils/text-handler'
+import { handleApiData } from '~/utils/content-handler'
+import { getContactImageUrl } from '~/utils/image-handler'
 import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
 
 export default {
@@ -134,7 +124,7 @@ export default {
       return this.anchor.name
     },
     anchorImage() {
-      return this.anchor.image?.urlTabletSized
+      return getContactImageUrl(this.anchor)
     },
     anchorFacebook() {
       return this.anchor.facebook

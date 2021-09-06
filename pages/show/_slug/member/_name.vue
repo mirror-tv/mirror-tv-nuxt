@@ -47,9 +47,9 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleApiData } from '~/utils/text-handler'
-import { getHostImageUrl } from '~/utils/post-image-handler'
-import ArtShowWrapper from '~/components/ArtShowWrapper.vue'
+import { handleApiData } from '~/utils/content-handler'
+import { getContactImageUrl } from '~/utils/image-handler'
+import ArtShowWrapper from '~/components/ArtShowWrapper'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
 import HeadingBordered from '~/components/HeadingBordered'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
@@ -171,7 +171,7 @@ export default {
       return this.directorInfo?.name ?? ''
     },
     directorImage() {
-      return getHostImageUrl(this.directorInfo) ?? ''
+      return getContactImageUrl(this.directorInfo) ?? ''
     },
     bio() {
       return this.formatBio(this.directorInfo.bioApiData)

@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { getPostImageUrl } from '~/utils/image-handler'
+
 export default {
   props: {
     items: {
@@ -122,10 +124,7 @@ export default {
       }
     },
     getImage(post) {
-      return (
-        post.heroImage?.urlMobileSized ??
-        require('~/assets/img/image-default.jpg')
-      )
+      return getPostImageUrl(post)
     },
     handleSlideNext() {
       this.pageForSlide += 1
