@@ -167,7 +167,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { sendGaEvent } from '~/utils/google-analytics'
-import HeaderSearchForm from '~/components/HeaderSearchForm.vue'
+import HeaderSearchForm from '~/components/HeaderSearchForm'
 
 export default {
   name: 'Header',

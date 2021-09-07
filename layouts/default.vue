@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import Header from '~/components/Header.vue'
-import Footer from '~/components/Footer.vue'
-import TheGdpr from '~/components/TheGdpr.vue'
+import Header from '~/components/Header'
+import Footer from '~/components/Footer'
+import TheGdpr from '~/components/TheGdpr'
 
 import { useViewport } from '~/composition/viewport.js'
 

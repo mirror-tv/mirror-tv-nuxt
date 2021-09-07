@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import HeadingBordered from './HeadingBordered.vue'
-import ArticleCardAside from './ArticleCardAside.vue'
+import HeadingBordered from '~/components/HeadingBordered'
+import ArticleCardAside from '~/components/ArticleCardAside'
 
 export default {
   components: {

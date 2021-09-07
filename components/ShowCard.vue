@@ -1,33 +1,33 @@
 <template>
   <div class="show-card">
-    <a class="show-card__banner" :href="handleShowSlug(show.slug)">
-      <img v-if="getBannerImgUrl" v-lazy="getBannerImgUrl" :alt="show.slug" />
-      <img v-else src="~assets/img/image-default.jpg" alt="default banner" />
+    <a class="show-card__banner" :href="href">
+      <img v-if="showBannerUrl" v-lazy="showBannerUrl" :alt="slug" />
     </a>
   </div>
 </template>
 
 <script>
+import { getBannerImageUrl } from '~/utils/image-handler'
+
 export default {
   props: {
     show: {
       type: Object,
       required: true,
+      default: () => {},
     },
   },
   computed: {
-    getBannerImgUrl() {
-      return (
-        this.show.bannerImage?.urlDesktopSized ||
-        this.show.bannerImg?.urlOriginal
-      )
+    slug() {
+      return this.show?.slug ?? ''
     },
-  },
-  methods: {
-    handleShowSlug(slug) {
-      return slug === 'art' || slug === 'doc'
-        ? `/show/${slug}/main`
-        : `/show/${slug}`
+    href() {
+      return this.slug === 'art' || this.slug === 'doc'
+        ? `/show/${this.slug}/main`
+        : `/show/${this.slug}`
+    },
+    showBannerUrl() {
+      return getBannerImageUrl(this.show) ?? ''
     },
   },
 }

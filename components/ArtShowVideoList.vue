@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { getVideoImageUrl } from '~/utils/post-image-handler'
+import { getVideoImageUrl } from '~/utils/image-handler'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 
 export default {

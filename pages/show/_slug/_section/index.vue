@@ -43,7 +43,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { getImageUrl } from '~/utils/post-image-handler'
+import { getPostImageUrl } from '~/utils/image-handler'
 import ArtShowWrapper from '~/components/ArtShowWrapper'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
@@ -93,15 +93,11 @@ export default {
           property: 'og:title',
           content: title,
         },
-        ...(image
-          ? [
-              {
-                hid: 'og:image',
-                property: 'og:image',
-                content: image,
-              },
-            ]
-          : []),
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: image,
+        },
         ...(this.show.introduction
           ? [
               {
@@ -142,7 +138,7 @@ export default {
   },
   methods: {
     getImage(series) {
-      return getImageUrl(series)
+      return getPostImageUrl(series)
     },
     getIntroList(intro) {
       const constentList = []

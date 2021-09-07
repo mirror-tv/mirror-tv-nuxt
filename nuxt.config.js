@@ -7,6 +7,7 @@ const {
   redisClient,
 } = require('./server-middleware/redis/utils')
 const { ENV = 'dev' } = require('./configs/config')
+const GOOGLE_OPT_CONTAINER_ID = ENV === 'dev' ? 'OPT-N56G7LW' : 'OPT-M64PDTC'
 
 const SITE_NAME = '鏡新聞'
 const SITE_DESCRIPTION =
@@ -60,6 +61,11 @@ module.exports = {
         property: 'fb:app_id',
         content: '',
       },
+      {
+        hid: 'fb:domain_verify',
+        name: 'facebook-domain-verification',
+        content: '7v0te27og6sce0l7pa5gziy1587j5r',
+      },
       { name: 'msapplication-TileColor', content: '#003366' },
       { name: 'theme-color', content: '#ffffff' },
     ],
@@ -105,7 +111,7 @@ module.exports = {
         : []),
       {
         hid: 'googleOptimize',
-        src: 'https://www.googleoptimize.com/optimize.js?id=OPT-N56G7LW',
+        src: `https://www.googleoptimize.com/optimize.js?id=${GOOGLE_OPT_CONTAINER_ID}`,
       },
 
       // https://developers.google.com/doubleclick-gpt/guides/general-best-practices#load_statically

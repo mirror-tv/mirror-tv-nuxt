@@ -39,8 +39,8 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { getHostImageUrl } from '~/utils/post-image-handler'
-import ArtShowWrapper from '~/components/ArtShowWrapper.vue'
+import { getContactImageUrl } from '~/utils/image-handler'
+import ArtShowWrapper from '~/components/ArtShowWrapper'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
 
@@ -91,15 +91,11 @@ export default {
           property: 'og:title',
           content: title,
         },
-        ...(image
-          ? [
-              {
-                hid: 'og:image',
-                property: 'og:image',
-                content: image,
-              },
-            ]
-          : []),
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: image,
+        },
         ...(this.show.introduction
           ? [
               {
@@ -127,7 +123,7 @@ export default {
   },
   methods: {
     getHostImage(member) {
-      return getHostImageUrl(member)
+      return getContactImageUrl(member)
     },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('ArtShow_directorlist')('click')(label)

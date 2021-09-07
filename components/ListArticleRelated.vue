@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import ArticleCardOnlyTitle from './ArticleCardOnlyTitle.vue'
+import ArticleCardOnlyTitle from '~/components/ArticleCardOnlyTitle'
 import HeadingBordered from '~/components/HeadingBordered'
 
 export default {

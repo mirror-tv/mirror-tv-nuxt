@@ -15,16 +15,7 @@
             :href="article.href"
             rel="noreferrer noopener"
           >
-            <img
-              v-if="article.imgURL"
-              :src="article.imgURL"
-              :alt="article.title"
-            />
-            <img
-              v-else
-              src="~assets/img/image-default.jpg"
-              :alt="article.title"
-            />
+            <img :src="article.imgURL" :alt="article.title" />
             <p>{{ article.title }}</p>
           </a>
         </div>
@@ -54,6 +45,8 @@
 </template>
 
 <script>
+import { getPostImageUrl } from '~/utils/image-handler'
+
 export default {
   layout: 'empty',
   props: {
@@ -91,7 +84,7 @@ export default {
       return {
         slug: post.slug,
         href: `/story/${post.slug}`,
-        imgURL: post.heroImage?.urlMobileSized,
+        imgURL: getPostImageUrl(post),
         title: post.name,
       }
     },
