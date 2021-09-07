@@ -48,7 +48,7 @@
           :hasBorderInXl="true"
         />
         <ClientOnly>
-          <div v-if="!isTablet" class="micro-ad">
+          <div v-if="!isTablet && microAdId" class="micro-ad">
             <MicroAd :unitId="microAdId" />
           </div>
         </ClientOnly>
@@ -60,7 +60,7 @@
         />
       </aside>
       <ClientOnly>
-        <div v-if="isTablet" class="micro-ad">
+        <div v-if="isTablet && microAdId" class="micro-ad">
           <MicroAd :unitId="microAdId" />
         </div>
       </ClientOnly>
@@ -114,6 +114,9 @@ export default {
         }
       },
       update(data) {
+        if (process.browser) {
+          this.innerWidth = window.innerWidth
+        }
         this.postsCount = data._allPostsMeta?.count - MICRO_AD_INDEXES.length
         return data.allPostsCategory
       },
@@ -144,8 +147,7 @@ export default {
       popularData: {},
       postsCount: 0,
       has404Err: false,
-      isMobile: false,
-      isTablet: false,
+      innerWidth: 0,
     }
   },
   async fetch() {
@@ -209,7 +211,7 @@ export default {
         ? [this.currentTopPost].concat(this.allPostsCategory)
         : this.allPostsCategory
       const reducedList = listData?.map((post) => this.reducerArticleCard(post))
-      return this.insertMicroAds(reducedList)
+      return this.innerWidth ? this.insertMicroAds(reducedList) : reducedList
     },
     hasListArticleMainData() {
       return this.listArticleMainData.length
@@ -228,11 +230,16 @@ export default {
       return this.allPostsCategory?.length < this.postsCount
     },
     microAdId() {
-      return this.isMobile ? '4300419' : '4300420'
+      if (this.innerWidth) {
+        return this.innerWidth >= 1200 ? '4300419' : '4300420'
+      }
+      return ''
+    },
+    isTablet() {
+      return this.innerWidth >= 768 && this.innerWidth < 1200
     },
   },
   mounted() {
-    this.detectViewport()
     if (this.has404Err) {
       this.$nuxt.error({ statusCode: 404 })
     }
@@ -247,21 +254,9 @@ export default {
         articleDate: new Date(post.publishTime),
       }
     },
-    detectViewport() {
-      const viewportWidth =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth
-      if (viewportWidth < 1200) {
-        this.isMobile = true
-      }
-      if (viewportWidth >= 768 && viewportWidth < 1200) {
-        this.isTablet = true
-      }
-    },
     insertMicroAds(listData) {
       const insertedListData = [...listData]
-      const device = this.isMobile ? 'MB' : 'PC'
+      const device = this.innerWidth < 768 ? 'MB' : 'PC'
       const unitList = MICRO_AD_UNITS.HOME_CATEGORY[device]
       const microAdList = MICRO_AD_INDEXES.map((item, i) => {
         const unit = unitList.find(

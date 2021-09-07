@@ -135,7 +135,7 @@
           :listData="listArticleAsidepopularData"
         />
         <ClientOnly>
-          <div v-if="!isTablet" class="micro-ad">
+          <div v-if="!isTablet && microAdId" class="micro-ad">
             <MicroAd :unitId="microAdId" />
           </div>
         </ClientOnly>
@@ -146,7 +146,7 @@
         />
       </aside>
       <ClientOnly>
-        <div v-if="isTablet" class="micro-ad">
+        <div v-if="isTablet && microAdId" class="micro-ad">
           <MicroAd :unitId="microAdId" />
         </div>
       </ClientOnly>
@@ -209,6 +209,9 @@ export default {
         if (!data.postPublished?.[0]?.name) {
           this.has404Err = true
         }
+        if (process.browser) {
+          this.innerWidth = window.innerWidth
+        }
         return data.postPublished?.[0]
       },
       error(error) {
@@ -241,9 +244,8 @@ export default {
       postPublished: {},
       allPostsLatest: [],
       popularData: {},
-      isMobile: false,
-      isTablet: false,
       has404Err: false,
+      innerWidth: 0,
       shouldShowAdultWarning: false,
       shouldLoadPopinScript: false,
       shouldLoadDableScript: false,
@@ -593,7 +595,10 @@ export default {
       return this.postPublished?.isAdult
     },
     microAdId() {
-      return this.isMobile ? '4300419' : '4300420'
+      if (this.innerWidth) {
+        return this.innerWidth >= 1200 ? '4300419' : '4300420'
+      }
+      return ''
     },
     pdfUrl() {
       return getPdfUrl(this.$config, this.slug)
@@ -603,12 +608,14 @@ export default {
         this.categorySlug !== 'ombuds' && !FILTERED_SLUG.includes(this.slug)
       )
     },
+    isTablet() {
+      return this.innerWidth >= 768 && this.innerWidth < 1200
+    },
   },
   beforeMount() {
     this.setGaDimensionOfSource()
   },
   mounted() {
-    this.detectViewport()
     if (this.has404Err) {
       this.$nuxt.error({ statusCode: 404 })
     }
@@ -630,18 +637,6 @@ export default {
     })
   },
   methods: {
-    detectViewport() {
-      const viewportWidth =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth
-      if (viewportWidth < 1200) {
-        this.isMobile = true
-      }
-      if (viewportWidth >= 768 && viewportWidth < 1200) {
-        this.isTablet = true
-      }
-    },
     formatDate(date) {
       return `${dayjs(date).format('YYYY.MM.DD HH:mm')} 臺北時間`
     },

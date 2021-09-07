@@ -36,7 +36,7 @@
           />
         </div>
         <div
-          v-if="hasLatestPosts"
+          v-if="shouldShowMainLatestPosts"
           class="main__list-latest-wrapper list-latest-wrapper"
         >
           <HeadingBordered text="最新新聞" class="home__heading" />
@@ -75,7 +75,7 @@
             </li>
           </ol>
         </div>
-        <div v-if="hasTopics" class="aside-list main__topic-list">
+        <div v-if="shouldShowTopics" class="aside-list main__topic-list">
           <div class="topic-list__heading">
             <HeadingBordered class="home__heading" text="推薦專題" />
             <a href="/topic" target="_blank" rel="noreferrer noopener">
@@ -126,7 +126,7 @@
         </div>
 
         <div
-          v-if="hasLatestPosts"
+          v-if="shouldShowAsideLatestPosts"
           class="aside__list-latest-wrapper list-latest-wrapper"
         >
           <HeadingBordered text="最新新聞" class="home__heading" />
@@ -167,7 +167,7 @@
           </ol>
         </div>
 
-        <div v-if="hasTopics" class="aside-list aside__topic-list">
+        <div v-if="shouldShowTopics" class="aside-list aside__topic-list">
           <div class="topic-list__heading">
             <HeadingBordered class="home__heading" text="推薦專題" />
             <a href="/topic" target="_blank" rel="noreferrer noopener">
@@ -260,6 +260,9 @@ export default {
         }
       },
       update(data) {
+        if (process.browser) {
+          this.innerWidth = window.innerWidth
+        }
         this.postsCount = data._allPostsMeta?.count - MICRO_AD_INDEXES.length
         return data.allPosts
       },
@@ -330,7 +333,7 @@ export default {
       topics: [],
       filteredSlug: [],
       hasPlaylistItems: false,
-      isMobile: false,
+      innerWidth: 0,
     }
   },
   async fetch() {
@@ -367,10 +370,10 @@ export default {
       return this.editorChoices?.length > 0
     },
     latestPosts() {
-      const listData =
-        this.allPublishedPosts?.map((post) => this.reducerArticleCard(post)) ??
-        []
-      return this.insertMicroAds(listData)
+      const listData = this.allPublishedPosts?.map((post) =>
+        this.reducerArticleCard(post)
+      )
+      return this.innerWidth ? this.insertMicroAds(listData) : listData
     },
     showLoadMoreButton() {
       return this.allPublishedPosts?.length < this.postsCount
@@ -397,8 +400,11 @@ export default {
     hasShows() {
       return this.allShows?.length
     },
-    hasLatestPosts() {
-      return this.latestPosts?.length
+    shouldShowMainLatestPosts() {
+      return this.latestPosts?.length && this.innerWidth >= 1200
+    },
+    shouldShowAsideLatestPosts() {
+      return this.latestPosts?.length && this.innerWidth < 1200
     },
     hasListPopularData() {
       return this.listPopularData?.length
@@ -409,12 +415,15 @@ export default {
     hasPromotionVideos() {
       return this.promotionVideos?.length
     },
-    hasTopics() {
-      return this.topics?.length
+    shouldShowTopics() {
+      return (
+        this.topics?.length &&
+        this.innerWidth &&
+        this.$config.releaseTarget !== 'prod'
+      )
     },
   },
   mounted() {
-    this.detectViewport()
     setIntersectionObserver({
       elements: [document.querySelector('.button-load-more')],
       handler: (entries, observer) => {
@@ -458,21 +467,12 @@ export default {
         name: post.name,
       }
     },
-    detectViewport() {
-      const viewportWidth =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth
-      if (viewportWidth < 1200) {
-        this.isMobile = true
-      }
-    },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('home')('click')(label)
     },
     insertMicroAds(listData) {
       const insertedListData = [...listData]
-      const device = this.isMobile ? 'MB' : 'PC'
+      const device = this.innerWidth < 768 ? 'MB' : 'PC'
       const unitList = MICRO_AD_UNITS.HOME_CATEGORY[device]
       const microAdList = MICRO_AD_INDEXES.map((item, i) => {
         const unit = unitList.find(
