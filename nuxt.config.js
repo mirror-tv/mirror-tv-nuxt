@@ -7,7 +7,8 @@ const {
   redisClient,
 } = require('./server-middleware/redis/utils')
 const { ENV = 'dev' } = require('./configs/config')
-const GOOGLE_OPT_CONTAINER_ID = ENV === 'dev' ? 'OPT-N56G7LW' : 'OPT-M64PDTC'
+const GOOGLE_OPT_CONTAINER_ID =
+  ENV === 'dev' || ENV === 'local' ? 'OPT-N56G7LW' : 'OPT-M64PDTC'
 
 const SITE_NAME = '鏡新聞'
 const SITE_DESCRIPTION =
