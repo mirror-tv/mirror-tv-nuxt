@@ -34,13 +34,25 @@ function getVideoImageUrl(post) {
 }
 
 function getContactImageUrl(contact) {
-  return (
-    contact.image?.urlMobileSized ||
-    contact.image?.urlDesktopSized ||
-    contact.image?.urlTabletSized ||
-    contact.image?.urlOriginal ||
-    require('~/assets/img/image-default.jpg')
-  )
+  if (contact.anchorImg) {
+    return (
+      contact.anchorImg?.urlMobileSized ||
+      contact.anchorImg?.urlDesktopSized ||
+      contact.anchorImg?.urlTabletSized ||
+      contact.anchorImg?.urlOriginal ||
+      require('~/assets/img/image-default.jpg')
+    )
+  }
+  if (contact.showhostImg) {
+    return (
+      contact.showhostImg?.urlMobileSized ||
+      contact.showhostImg?.urlDesktopSized ||
+      contact.showhostImg?.urlTabletSized ||
+      contact.showhostImg?.urlOriginal ||
+      require('~/assets/img/image-default.jpg')
+    )
+  }
+  return require('~/assets/img/image-default.jpg')
 }
 
 function getBannerImageUrl(show) {

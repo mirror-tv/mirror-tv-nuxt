@@ -198,13 +198,13 @@ export default {
       }
     },
     initTrailerList(data) {
-      const { playList01 = '' } = data?.allShows?.[0] || {}
+      const { trailerPlaylist = '' } = data?.allShows?.[0] || {}
       if (process.browser) {
         this.isMobile = window.innerWidth < 768
       }
-      if (playList01) {
-        this.slideName = playList01?.split('：')[1] ?? '最新預告'
-        const url = playList01?.split('：')[0]
+      if (trailerPlaylist) {
+        this.slideName = trailerPlaylist?.split('：')[1] ?? '最新預告'
+        const url = trailerPlaylist?.split('：')[0]
         const id = url.includes('playlist?list=')
           ? url.split('list=')[1]
           : url.split('https://youtu.be/')[1]

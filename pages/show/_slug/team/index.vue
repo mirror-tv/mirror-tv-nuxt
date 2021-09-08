@@ -51,6 +51,7 @@ export default {
       variables() {
         return {
           slug: this.currentShow,
+          rectHostImg: true,
         }
       },
       update: (data) => data.allShows?.[0] || {},

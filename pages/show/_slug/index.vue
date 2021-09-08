@@ -99,6 +99,7 @@ export default {
       variables() {
         return {
           slug: this.$route.params.slug,
+          squareHostImg: true,
         }
       },
       update(data) {

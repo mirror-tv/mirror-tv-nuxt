@@ -5,9 +5,9 @@ query fetchContactBySlug($slug: String!) {
     }
   ) {
     name
-    image {
-      urlMobileSized
+    showhostImg {
       urlTabletSized
+      urlDesktopSized
       urlOriginal
     }
     facebook
@@ -24,9 +24,9 @@ query fetchContactByAnchorPerson {
     }
   ) {
     name
-    image {
-      urlMobileSized
+    anchorImg {
       urlTabletSized
+      urlMobileSized
       urlOriginal
     }
     slug
@@ -40,9 +40,9 @@ query fetchContactByHosts {
     }
   ) {
     name
-    image {
-      urlMobileSized
+    anchorImg {
       urlTabletSized
+      urlMobileSized
       urlOriginal
     }
     slug

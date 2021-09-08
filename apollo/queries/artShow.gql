@@ -193,7 +193,7 @@ query fetchArtShowBySlug(
       slug
       name
       bioApiData
-      image {
+      showhostImg {
         urlMobileSized
         urlOriginal
       }
