@@ -76,7 +76,7 @@ export default {
         }
       },
       update(data) {
-        this.initTrailerList()
+        this.initTrailerList(data)
         return data.allShows?.[0] || {}
       },
     },

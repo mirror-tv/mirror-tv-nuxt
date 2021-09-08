@@ -703,7 +703,7 @@ export default {
     display: none;
     @include media-breakpoint-up(xl) {
       display: block;
-      margin: 0 0 48px;
+      margin: 48px 0;
     }
   }
   &.aside__popular-list {

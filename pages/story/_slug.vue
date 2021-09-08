@@ -114,16 +114,16 @@
         <ClientOnly>
           <template v-if="shouldShowAds">
             <LazyRenderer
-              id="_popIn_recommend"
-              class="popin_recommend"
-              @load="handleLoadPopinWidget"
-            ></LazyRenderer>
-            <LazyRenderer
               id="dablewidget_2Xnxwk7d_xXAWmB7G"
               data-widget_id-pc="2Xnxwk7d"
               data-widget_id-mo="xXAWmB7G"
               class="dable-widget-last"
               @load="handleLoadDableWidget"
+            ></LazyRenderer>
+            <LazyRenderer
+              id="_popIn_recommend"
+              class="popin_recommend"
+              @load="handleLoadPopinWidget"
             ></LazyRenderer>
           </template>
         </ClientOnly>
