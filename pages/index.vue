@@ -61,7 +61,7 @@
             @click.native="handleClickMore"
           />
         </div>
-        <div v-if="hasListPopularData" class="aside-list main__popular-list">
+        <div v-if="shouldShowPopularList" class="aside-list main__popular-list">
           <HeadingBordered class="home__heading" text="熱門新聞" />
           <ol class="popular-list">
             <li
@@ -152,7 +152,10 @@
           />
         </div>
 
-        <div v-if="hasListPopularData" class="aside-list aside__popular-list">
+        <div
+          v-if="shouldShowPopularList"
+          class="aside-list aside__popular-list"
+        >
           <HeadingBordered class="home__heading" text="熱門文章" />
           <ol class="popular-list">
             <li
@@ -406,8 +409,8 @@ export default {
     shouldShowAsideLatestPosts() {
       return this.latestPosts?.length && this.innerWidth < 1200
     },
-    hasListPopularData() {
-      return this.listPopularData?.length
+    shouldShowPopularList() {
+      return this.listPopularData?.length && this.innerWidth
     },
     // hasPlaylistItems() {
     //   return this.playlistItems?.length
@@ -700,7 +703,7 @@ export default {
     display: none;
     @include media-breakpoint-up(xl) {
       display: block;
-      margin: 0 0 48px;
+      margin: 48px 0;
     }
   }
   &.aside__popular-list {

@@ -1,5 +1,13 @@
-query fetchShowBySlug($slug: String!) {
-  allShows(where: { slug: $slug }) {
+query fetchShowBySlug(
+  $slug: String!
+  $squareHostImg: Boolean = false,
+  $rectHostImg: Boolean = false,
+) {
+  allShows(
+    where: {
+      slug: $slug
+    }
+  ) {
     slug
     name
     bannerImg {
@@ -14,7 +22,11 @@ query fetchShowBySlug($slug: String!) {
       slug
       name
       bioApiData
-      image {
+      showhostImg @include(if: $squareHostImg) {
+        urlMobileSized
+        urlOriginal
+      }
+      anchorImg @include(if: $rectHostImg) {
         urlMobileSized
         urlOriginal
       }
@@ -23,6 +35,7 @@ query fetchShowBySlug($slug: String!) {
     facebookUrl
     playList01
     playList02
+    trailerPlaylist
   }
 }
 query fetchAllShows {

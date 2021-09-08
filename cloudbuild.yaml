@@ -9,12 +9,12 @@ steps:
   - name: bash
     args:
       - cp
-      - ./dockerignore/kubernetes-configs/mirror-tv-nuxt/overlays/dev/configs/config.js
+      - ./dockerignore/kubernetes-configs/mirror-tv-nuxt/overlays/${BRANCH_NAME}/configs/config.js
       - ./configs/config.js
   - name: bash
     args:
       - cp
-      - ./dockerignore/kubernetes-configs/mirror-tv-nuxt/overlays/dev/configs/gcskeyfile.json
+      - ./dockerignore/kubernetes-configs/mirror-tv-nuxt/overlays/${BRANCH_NAME}/configs/gcskeyfile.json
       - ./gcskeyfile.json
   - name: gcr.io/cloud-builders/docker
     args:
