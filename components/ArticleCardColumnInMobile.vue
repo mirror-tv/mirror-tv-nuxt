@@ -5,7 +5,7 @@
         <MicroAd :unitId="microAdId" class="micro-ad" />
       </ClientOnly>
     </template> -->
-    <MicroAd v-if="isMicroAd" :unitId="microAdId" class="micro-ad" />
+    <MicroAd v-if="isMicroAd" :unitId="microAdId" />
     <a
       v-else
       class="article-card"

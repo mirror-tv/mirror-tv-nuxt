@@ -1,0 +1,27 @@
+query fetchFeaturedTopics(
+  $topic_first: Int = 4,
+  $post_first: Int = 3,
+) {
+  allTopics(
+    where: {
+      state: published,
+      isFeatured: true
+    },
+    first: $topic_first,
+    sortBy: [sortOrder_ASC, updatedAt_DESC ]
+  ) {
+    slug
+    name
+    heroImage {
+      urlMobileSized
+      urlOriginal
+    }
+    post(
+      first: $post_first,
+      sortBy: updatedAt_DESC
+    ) {
+      slug
+      name
+    }
+  }
+}

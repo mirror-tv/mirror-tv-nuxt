@@ -36,7 +36,7 @@
           />
         </div>
         <div
-          v-if="hasLatestPosts"
+          v-if="shouldShowMainLatestPosts"
           class="main__list-latest-wrapper list-latest-wrapper"
         >
           <HeadingBordered text="最新新聞" class="home__heading" />
@@ -61,7 +61,7 @@
             @click.native="handleClickMore"
           />
         </div>
-        <div v-if="hasListPopularData" class="aside-list main__popular-list">
+        <div v-if="shouldShowPopularList" class="aside-list main__popular-list">
           <HeadingBordered class="home__heading" text="熱門新聞" />
           <ol class="popular-list">
             <li
@@ -74,6 +74,15 @@
               </a>
             </li>
           </ol>
+        </div>
+        <div v-if="shouldShowTopics" class="aside-list main__topic-list">
+          <div class="topic-list__heading">
+            <HeadingBordered class="home__heading" text="推薦專題" />
+            <a href="/topic" target="_blank" rel="noreferrer noopener">
+              更多專題
+            </a>
+          </div>
+          <UiTopicIntroList :topics="topics" />
         </div>
       </main>
       <aside class="g-aside main__aside aside">
@@ -117,7 +126,7 @@
         </div>
 
         <div
-          v-if="hasLatestPosts"
+          v-if="shouldShowAsideLatestPosts"
           class="aside__list-latest-wrapper list-latest-wrapper"
         >
           <HeadingBordered text="最新新聞" class="home__heading" />
@@ -143,7 +152,10 @@
           />
         </div>
 
-        <div v-if="hasListPopularData" class="aside-list aside__popular-list">
+        <div
+          v-if="shouldShowPopularList"
+          class="aside-list aside__popular-list"
+        >
           <HeadingBordered class="home__heading" text="熱門文章" />
           <ol class="popular-list">
             <li
@@ -156,6 +168,16 @@
               </a>
             </li>
           </ol>
+        </div>
+
+        <div v-if="shouldShowTopics" class="aside-list aside__topic-list">
+          <div class="topic-list__heading">
+            <HeadingBordered class="home__heading" text="推薦專題" />
+            <a href="/topic" target="_blank" rel="noreferrer noopener">
+              更多專題
+            </a>
+          </div>
+          <UiTopicIntroList :topics="topics" />
         </div>
 
         <div v-if="hasShows" class="aside-list show-list">
@@ -181,31 +203,32 @@
 import { mapGetters } from 'vuex'
 
 import { getUrlOrigin } from '~/utils/meta'
-import { handleYoutubeId } from '~/utils/text-handler'
-import { FILTERED_SLUG } from '~/constants'
-import { MICRO_AD_UNITS } from '~/constants/micro-ad'
-import { fetchPosts } from '~/apollo/queries/posts.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
+import { handleYoutubeId } from '~/utils/content-handler'
+import { getPostImageUrl } from '~/utils/image-handler'
+import { FILTERED_SLUG } from '~/constants'
+import { MICRO_AD_UNITS } from '~/constants/micro-ad'
+import { fetchPosts } from '~/apollo/queries/posts.gql'
 import Swiper from '~/components/Swiper'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
-import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
-import FacebookPagePlugin from '~/components/FacebookPagePlugin.vue'
-import YoutubeEmbed from '~/components/YoutubeEmbed.vue'
-import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi.vue'
+import ButtonLoadmore from '~/components/ButtonLoadmore'
+import FacebookPagePlugin from '~/components/FacebookPagePlugin'
+import YoutubeEmbed from '~/components/YoutubeEmbed'
+import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
 import ShowCard from '~/components/ShowCard'
+import UiTopicIntroList from '~/components/UiTopicIntroList'
 import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
 import { fetchVideoByName } from '~/apollo/queries/video.gql'
-
-import { getImageUrl } from '~/utils/post-image-handler'
+import { fetchFeaturedTopics } from '~/apollo/queries/topic.gql'
 
 const PAGE_SIZE = 12
 const MICRO_AD_INDEXES = [2, 4, 8, 10]
@@ -240,6 +263,9 @@ export default {
         }
       },
       update(data) {
+        if (process.browser) {
+          this.innerWidth = window.innerWidth
+        }
         this.postsCount = data._allPostsMeta?.count - MICRO_AD_INDEXES.length
         return data.allPosts
       },
@@ -255,6 +281,14 @@ export default {
           .filter((item, i) => i < 5)
           .map((item) => handleYoutubeId(item.ytUrl))
       },
+    },
+    topics: {
+      query: fetchFeaturedTopics,
+      variables: {
+        topic_first: 4,
+        post_first: 3,
+      },
+      update: (data) => data?.allTopics,
     },
     allShows: {
       query: fetchAllShows,
@@ -285,6 +319,7 @@ export default {
     LinkYoutubeStyle,
     UiFlashNews,
     ShowCard,
+    UiTopicIntroList,
     LinkAnchorStyle,
   },
   data() {
@@ -298,9 +333,10 @@ export default {
       promotionVideos: [],
       popularData: {},
       liveVideo: {},
+      topics: [],
       filteredSlug: [],
       hasPlaylistItems: false,
-      isMobile: false,
+      innerWidth: 0,
     }
   },
   async fetch() {
@@ -337,10 +373,10 @@ export default {
       return this.editorChoices?.length > 0
     },
     latestPosts() {
-      const listData =
-        this.allPublishedPosts?.map((post) => this.reducerArticleCard(post)) ??
-        []
-      return this.insertMicroAds(listData)
+      const listData = this.allPublishedPosts?.map((post) =>
+        this.reducerArticleCard(post)
+      )
+      return this.innerWidth ? this.insertMicroAds(listData) : listData
     },
     showLoadMoreButton() {
       return this.allPublishedPosts?.length < this.postsCount
@@ -367,11 +403,14 @@ export default {
     hasShows() {
       return this.allShows?.length
     },
-    hasLatestPosts() {
-      return this.latestPosts?.length
+    shouldShowMainLatestPosts() {
+      return this.latestPosts?.length && this.innerWidth >= 1200
     },
-    hasListPopularData() {
-      return this.listPopularData?.length
+    shouldShowAsideLatestPosts() {
+      return this.latestPosts?.length && this.innerWidth < 1200
+    },
+    shouldShowPopularList() {
+      return this.listPopularData?.length && this.innerWidth
     },
     // hasPlaylistItems() {
     //   return this.playlistItems?.length
@@ -379,9 +418,15 @@ export default {
     hasPromotionVideos() {
       return this.promotionVideos?.length
     },
+    shouldShowTopics() {
+      return (
+        this.topics?.length &&
+        this.innerWidth &&
+        this.$config.releaseTarget !== 'prod'
+      )
+    },
   },
   mounted() {
-    this.detectViewport()
     setIntersectionObserver({
       elements: [document.querySelector('.button-load-more')],
       handler: (entries, observer) => {
@@ -401,7 +446,7 @@ export default {
         slug: post.slug,
         href: `/story/${post.slug}`,
         labelTitle: post.categories?.[0]?.name ?? ' ',
-        articleImgURL: getImageUrl(post),
+        articleImgURL: getPostImageUrl(post),
         articleTitle: post.name,
         articleDate: new Date(post.publishTime),
         articleStyle: post.style,
@@ -425,21 +470,12 @@ export default {
         name: post.name,
       }
     },
-    detectViewport() {
-      const viewportWidth =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth
-      if (viewportWidth < 1200) {
-        this.isMobile = true
-      }
-    },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('home')('click')(label)
     },
     insertMicroAds(listData) {
       const insertedListData = [...listData]
-      const device = this.isMobile ? 'MB' : 'PC'
+      const device = this.innerWidth < 768 ? 'MB' : 'PC'
       const unitList = MICRO_AD_UNITS.HOME_CATEGORY[device]
       const microAdList = MICRO_AD_INDEXES.map((item, i) => {
         const unit = unitList.find(
@@ -667,7 +703,7 @@ export default {
     display: none;
     @include media-breakpoint-up(xl) {
       display: block;
-      margin: 0 0 48px;
+      margin: 48px 0;
     }
   }
   &.aside__popular-list {
@@ -721,6 +757,41 @@ export default {
         &:hover {
           border-bottom: 1px solid #000;
         }
+      }
+    }
+  }
+  &.main__topic-list {
+    display: none;
+    @include media-breakpoint-up(xl) {
+      display: block;
+      margin: 0 0 48px;
+    }
+    .topic-list__heading {
+      margin: 0 0 32px;
+      a {
+        display: inline-block;
+        font-size: 16px;
+        line-height: 22px;
+        color: $color-blue;
+        margin: 0 0 4px 16px;
+        border-bottom: 1px solid $color-blue;
+      }
+    }
+  }
+  &.aside__topic-list {
+    display: block;
+    @include media-breakpoint-up(xl) {
+      display: none;
+    }
+    .topic-list__heading {
+      margin: 0 0 28px;
+      a {
+        display: inline-block;
+        font-size: 16px;
+        line-height: 22px;
+        color: $color-blue;
+        margin: 0 0 4px 16px;
+        border-bottom: 1px solid $color-blue;
       }
     }
   }

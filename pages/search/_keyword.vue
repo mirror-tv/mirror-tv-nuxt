@@ -41,10 +41,10 @@ import axios from 'axios'
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { getPostImageUrl } from '~/utils/image-handler'
 import ArticleCard from '~/components/ArticleCard'
-import ButtonLoadmore from '~/components/ButtonLoadmore.vue'
-import SearchNoResult from '~/components/SearchNoResult.vue'
-import { getImageUrl } from '~/utils/post-image-handler'
+import ButtonLoadmore from '~/components/ButtonLoadmore'
+import SearchNoResult from '~/components/SearchNoResult'
 
 export default {
   components: {
@@ -118,10 +118,10 @@ export default {
       return {
         id: source.id,
         href: `/story/${source.slug}`,
-        articleImgURL: getImageUrl(source),
-        articleTitle: source.name,
-        articleDescription: this.stripHtmlTag(source.brief),
-        articleDate: new Date(source.publishTime),
+        image: getPostImageUrl(source),
+        name: source.name,
+        description: this.stripHtmlTag(source.brief),
+        publishTime: new Date(source.publishTime),
       }
     },
     sendGaClickEvent(label) {

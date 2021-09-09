@@ -36,7 +36,8 @@
 
 <script>
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleYoutubeId } from '~/utils/text-handler'
+import { handleYoutubeId } from '~/utils/content-handler'
+import { getVideoImageUrl } from '~/utils/image-handler'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 
 export default {
@@ -107,12 +108,7 @@ export default {
       }
     },
     getImage(item) {
-      return (
-        (item.heroImage?.urlMobileSized ||
-          item.heroVideo?.coverPhoto?.urlDesktopSized ||
-          item.heroVideo?.coverPhoto?.urlOriginal) ??
-        require('~/assets/img/image-default.jpg')
-      )
+      return getVideoImageUrl(item)
     },
   },
 }

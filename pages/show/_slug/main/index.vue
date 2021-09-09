@@ -57,7 +57,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import ArtShowWrapper from '~/components/ArtShowWrapper.vue'
+import ArtShowWrapper from '~/components/ArtShowWrapper'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import VideoListSlides from '~/components/VideoListSlides'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
@@ -75,27 +75,10 @@ export default {
           slug: this.currentShow,
         }
       },
-      result({ data, loading }) {
-        if (!loading) {
-          const { playList01 = '' } = data.allShows?.[0] || {}
-          if (process.browser) {
-            this.isMobile = window.innerWidth < 768
-          }
-          if (playList01) {
-            this.slideName = playList01?.split('：')[1] ?? '最新預告'
-            const url = playList01?.split('：')[0]
-            const id = url.includes('playlist?list=')
-              ? url.split('list=')[1]
-              : url.split('https://youtu.be/')[1]
-            this.trailerList = {
-              id,
-              items: [],
-            }
-            this.loadYoutubeListData(this.trailerList)
-          }
-        }
+      update(data) {
+        this.initTrailerList(data)
+        return data.allShows?.[0] || {}
       },
-      update: (data) => data.allShows?.[0] || {},
     },
     sectionList: {
       query: fetchSectionByShowSlug,
@@ -157,15 +140,11 @@ export default {
           property: 'og:title',
           content: title,
         },
-        ...(image
-          ? [
-              {
-                hid: 'og:image',
-                property: 'og:image',
-                content: image,
-              },
-            ]
-          : []),
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: image,
+        },
         ...(this.introduction
           ? [
               {
@@ -216,6 +195,24 @@ export default {
       return {
         id: item?.snippet?.resourceId?.videoId,
         title: item?.snippet?.title,
+      }
+    },
+    initTrailerList(data) {
+      const { trailerPlaylist = '' } = data?.allShows?.[0] || {}
+      if (process.browser) {
+        this.isMobile = window.innerWidth < 768
+      }
+      if (trailerPlaylist) {
+        this.slideName = trailerPlaylist?.split('：')[1] ?? '最新預告'
+        const url = trailerPlaylist?.split('：')[0]
+        const id = url.includes('playlist?list=')
+          ? url.split('list=')[1]
+          : url.split('https://youtu.be/')[1]
+        this.trailerList = {
+          id,
+          items: [],
+        }
+        this.loadYoutubeListData(this.trailerList)
       }
     },
     async loadYoutubeListData(list) {

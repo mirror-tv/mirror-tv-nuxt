@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import HeaderSearchFormClearButton from './HeaderSearchFormClearButton.vue'
+import HeaderSearchFormClearButton from '~/components/HeaderSearchFormClearButton'
 
 export default {
   components: {

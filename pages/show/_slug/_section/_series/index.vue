@@ -40,7 +40,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleApiData } from '~/utils/text-handler'
+import { handleApiData } from '~/utils/content-handler'
 import ArtShowWrapper from '~/components/ArtShowWrapper'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
 import ArticleContentHandler from '~/components/ArticleContentHandler'
