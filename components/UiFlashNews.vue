@@ -1,6 +1,6 @@
 <template>
   <div v-if="hasArticles" class="flash-news">
-    <h2>快訊</h2>
+    <h2>最新</h2>
 
     <div class="container">
       <div
