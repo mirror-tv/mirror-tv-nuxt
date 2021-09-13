@@ -39,7 +39,7 @@
           v-if="shouldShowMainLatestPosts"
           class="main__list-latest-wrapper list-latest-wrapper"
         >
-          <HeadingBordered text="最新新聞" class="home__heading" />
+          <HeadingBordered text="即時新聞" class="home__heading" />
           <ol class="list-latest">
             <li v-for="post in latestPosts" :key="post.id">
               <ArticleCard
@@ -129,7 +129,7 @@
           v-if="shouldShowAsideLatestPosts"
           class="aside__list-latest-wrapper list-latest-wrapper"
         >
-          <HeadingBordered text="最新新聞" class="home__heading" />
+          <HeadingBordered text="即時新聞" class="home__heading" />
           <ol class="list-latest">
             <li v-for="post in latestPosts" :key="post.id">
               <ArticleCard
@@ -156,7 +156,7 @@
           v-if="shouldShowPopularList"
           class="aside-list aside__popular-list"
         >
-          <HeadingBordered class="home__heading" text="熱門文章" />
+          <HeadingBordered class="home__heading" text="熱門新聞" />
           <ol class="popular-list">
             <li
               v-for="item in listPopularData"
@@ -183,7 +183,13 @@
         <div v-if="hasShows" class="aside-list show-list">
           <HeadingBordered class="home__heading" text="節目" />
           <div class="show-list__wrapper">
-            <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
+            <ShowCard
+              v-for="show in allShows"
+              :key="show.slug"
+              :slug="show.slug"
+              :imageUrl="show.bannerImg"
+              :isArtShow="show.isArtShow"
+            />
           </div>
         </div>
 

@@ -150,7 +150,13 @@
         <div v-if="hasShows" class="aside-list aside-show-list">
           <HeadingBordered class="home__heading" text="節目" />
           <div class="show-list__wrapper">
-            <ShowCard v-for="show in allShows" :key="show.slug" :show="show" />
+            <ShowCard
+              v-for="show in allShows"
+              :key="show.slug"
+              :slug="show.slug"
+              :imageUrl="show.bannerImg"
+              :isArtShow="show.isArtShow"
+            />
           </div>
         </div>
 
