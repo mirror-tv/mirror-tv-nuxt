@@ -11,23 +11,25 @@ import { getBannerImageUrl } from '~/utils/image-handler'
 
 export default {
   props: {
-    show: {
+    slug: {
+      type: String,
+      default: '',
+    },
+    imageUrl: {
       type: Object,
-      required: true,
       default: () => {},
+    },
+    isArtShow: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
-    slug() {
-      return this.show?.slug ?? ''
-    },
     href() {
-      return this.slug === 'art' || this.slug === 'doc'
-        ? `/show/${this.slug}/main`
-        : `/show/${this.slug}`
+      return this.isArtShow ? `/show/${this.slug}/main` : `/show/${this.slug}`
     },
     showBannerUrl() {
-      return getBannerImageUrl(this.show) ?? ''
+      return getBannerImageUrl(this.imageUrl) ?? ''
     },
   },
 }

@@ -7,7 +7,7 @@
       </div>
 
       <div class="article_container">
-        <h3 v-if="listArticlePopularData.length">熱門文章</h3>
+        <h3 v-if="listArticlePopularData.length">熱門新聞</h3>
         <div class="article_list">
           <a
             v-for="article in listArticlePopularData"

@@ -157,6 +157,13 @@ export default {
           herf: '/story/faq',
           ga: '常見問題FAQ',
         },
+        {
+          img: require('~/assets/img/ombuds/icon-p6.svg'),
+          t1: '季報',
+          t2: '年報',
+          herf: '/story/reports',
+          ga: '季報年報',
+        },
       ],
     }
   },

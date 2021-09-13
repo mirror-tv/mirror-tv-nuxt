@@ -54,7 +54,7 @@
         </ClientOnly>
         <ListArticleAside
           class="aside__list-latest"
-          :listTitle="'最新新聞'"
+          :listTitle="'即時新聞'"
           :listData="listArticleAsideLatestData"
           :hasBorderInXl="true"
         />
