@@ -71,8 +71,9 @@ export default {
         from: 0,
         size: this.listDataMaxResults,
       })
+      console.log('fff', response)
     } catch (err) {
-      //   console.log('err happended when fetching search respond', err)
+      console.log('err happended when fetching search respond', err)
     }
     this.setListData(response)
     this.setListDataTotal(response)
@@ -129,8 +130,11 @@ export default {
     },
     setListData(response = {}) {
       let listData = response?.body?.hits?.hits ?? []
+      console.log('aaa', listData)
       listData = listData.map(this.mapDataToComponentProps)
+      console.log('hhh', listData)
       this.listData.push(...listData)
+      console.log('qqq', this.listData)
     },
     setListDataTotal(response = {}) {
       this.listDataTotal = response.data?.body?.hits?.total?.value ?? 0
