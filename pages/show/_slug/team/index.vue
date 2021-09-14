@@ -54,7 +54,16 @@ export default {
           rectHostImg: true,
         }
       },
-      update: (data) => data.allShows?.[0] || {},
+      update(data) {
+        const item = data.allShows?.[0] || {}
+        if (!item?.name || !item.isArtShow) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return item
+      },
     },
     sectionList: {
       query: fetchSectionByShowSlug,
@@ -73,6 +82,7 @@ export default {
     return {
       show: {},
       sectionList: [],
+      has404Err: false,
     }
   },
   head() {
@@ -121,6 +131,11 @@ export default {
     members() {
       return this.show.hostName ?? []
     },
+  },
+  mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
   methods: {
     getHostImage(member) {
