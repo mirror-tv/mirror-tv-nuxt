@@ -46,7 +46,11 @@ import { sendGaEvent } from '~/utils/google-analytics'
 import { getPostImageUrl } from '~/utils/image-handler'
 import ShowWrapper from '~/components/ShowWrapper'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
-import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
+import {
+  fetchSectionBySlug,
+  fetchSectionByShowSlug,
+} from '~/apollo/queries/section.gql'
+
 export default {
   apollo: {
     show: {
@@ -56,7 +60,33 @@ export default {
           slug: this.currentShow,
         }
       },
-      update: (data) => data.allShows?.[0] || {},
+      update(data) {
+        const item = data.allShows?.[0] || {}
+        if (!item?.name || !item.isArtShow) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return item
+      },
+    },
+    section: {
+      query: fetchSectionBySlug,
+      variables() {
+        return {
+          slug: this.currentSectionSlug,
+        }
+      },
+      update(data) {
+        if (!data.allSections?.[0]?.name) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return data.allSections?.[0] || {}
+      },
     },
     sectionList: {
       query: fetchSectionByShowSlug,
@@ -74,7 +104,9 @@ export default {
   data() {
     return {
       show: {},
+      section: {},
       sectionList: [],
+      has404Err: false,
     }
   },
   head() {
@@ -122,19 +154,17 @@ export default {
     currentSectionSlug() {
       return this.$route.params.section ?? ''
     },
-    currentSection() {
-      return (
-        this.sectionList.find(
-          (item) => item.slug === this.currentSectionSlug
-        ) ?? {}
-      )
-    },
     sectionName() {
-      return this.currentSection?.name ?? ''
+      return this.section?.name ?? ''
     },
     seriesList() {
-      return this.currentSection?.series ?? []
+      return this.section?.series ?? []
     },
+  },
+  mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
   methods: {
     getImage(series) {

@@ -208,6 +208,9 @@ export default {
       update(data) {
         if (!data.postPublished?.[0]?.name) {
           this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
         }
         if (process.browser) {
           this.innerWidth = window.innerWidth

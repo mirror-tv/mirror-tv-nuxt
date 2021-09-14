@@ -72,6 +72,12 @@ export default {
         }
       },
       update(data) {
+        if (!data.allContacts?.[0]?.name) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
         return data.allContacts?.[0] || {}
       },
     },
@@ -79,6 +85,7 @@ export default {
   data() {
     return {
       anchor: {},
+      has404Err: false,
     }
   },
   head() {
@@ -144,6 +151,11 @@ export default {
         }
       })
     },
+  },
+  mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
   methods: {
     sendGaClickEvent(label) {

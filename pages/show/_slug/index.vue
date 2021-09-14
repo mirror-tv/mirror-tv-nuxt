@@ -106,11 +106,15 @@ export default {
         }
       },
       update(data) {
-        if (!data.allShows?.[0]?.name) {
+        const item = data.allShows?.[0] || {}
+        if (!item?.name || item?.isArtShow) {
           this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
         }
         this.initShowList(data)
-        return data.allShows?.[0] || {}
+        return item
       },
     },
   },

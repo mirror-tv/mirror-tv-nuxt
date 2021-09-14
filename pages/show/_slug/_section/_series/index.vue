@@ -58,7 +58,16 @@ export default {
           slug: this.$route.params.slug,
         }
       },
-      update: (data) => data.allShows?.[0] || {},
+      update(data) {
+        const item = data.allShows?.[0] || {}
+        if (!item?.name || !item.isArtShow) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return item
+      },
     },
     section: {
       query: fetchSectionBySlug,
@@ -67,7 +76,15 @@ export default {
           slug: this.currentSection,
         }
       },
-      update: (data) => data.allSections?.[0] || {},
+      update(data) {
+        if (!data.allSections?.[0]?.name) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return data.allSections?.[0] || {}
+      },
     },
     series: {
       query: fetchSeriesBySlug,
@@ -76,7 +93,15 @@ export default {
           slug: this.currentSeries,
         }
       },
-      update: (data) => data.allSeries?.[0] || {},
+      update(data) {
+        if (!data.allSeries?.[0]?.name) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return data.allSeries?.[0] || {}
+      },
     },
     artShowList: {
       query: fetchAllArtShowsBySeries,
@@ -106,6 +131,7 @@ export default {
       artShowList: [],
       page: 0,
       artShowCount: 0,
+      has404Err: false,
     }
   },
   head() {
@@ -165,6 +191,9 @@ export default {
     content() {
       return handleApiData(this.series.introductionApiData)
     },
+    isContentString() {
+      return typeof this.content === 'string'
+    },
     showIntroduction() {
       return this.show?.introduction ?? ''
     },
@@ -174,6 +203,11 @@ export default {
     shouldShowArtShowList() {
       return this.artShowList && this.artShowList?.length
     },
+  },
+  mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
   methods: {
     handleClickMore() {

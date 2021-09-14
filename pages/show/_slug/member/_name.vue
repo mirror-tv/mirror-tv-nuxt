@@ -66,7 +66,16 @@ export default {
           slug: this.$route.params.slug,
         }
       },
-      update: (data) => data.allShows?.[0] || {},
+      update(data) {
+        const item = data.allShows?.[0] || {}
+        if (!item?.name || !item.isArtShow) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return item
+      },
     },
     directorInfo: {
       query: fetchContactBySlug,
@@ -75,7 +84,15 @@ export default {
           slug: this.$route.params.name,
         }
       },
-      update: (data) => data.allContacts?.[0] || {},
+      update(data) {
+        if (!data.allContacts?.[0]?.name) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return data.allContacts?.[0] || {}
+      },
     },
     sectionList: {
       query: fetchSectionByShowSlug,
@@ -115,6 +132,7 @@ export default {
       artShowList: [],
       artShowCount: 0,
       isMobile: false,
+      has404Err: false,
       page: 0,
     }
   },
@@ -184,6 +202,9 @@ export default {
     },
   },
   mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
     this.detectViewport()
   },
   methods: {
