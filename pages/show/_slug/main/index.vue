@@ -76,8 +76,15 @@ export default {
         }
       },
       update(data) {
+        const item = data.allShows?.[0] || {}
+        if (!item?.name || !item?.isArtShow) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
         this.initTrailerList(data)
-        return data.allShows?.[0] || {}
+        return item
       },
     },
     sectionList: {
@@ -117,6 +124,7 @@ export default {
       artShowList: [],
       trailerList: {},
       isMobile: false,
+      has404Err: false,
       page: 0,
       slideName: '最新預告',
       sectionList: [],
@@ -189,6 +197,11 @@ export default {
     shouldShowArtShowList() {
       return this.artShowList && this.artShowList?.length
     },
+  },
+  mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
   methods: {
     reducePlaylistItems(item) {

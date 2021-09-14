@@ -2,6 +2,13 @@ query fetchSectionByShowSlug($showSlug: String) {
   allSections(where: { show_some: { slug: $showSlug } }, sortBy: id_ASC) {
     name
     slug
+  }
+}
+
+query fetchSectionBySlug($slug: String) {
+  allSections(where: { slug: $slug }) {
+    name
+    slug
     series {
       name
       slug
@@ -11,12 +18,5 @@ query fetchSectionByShowSlug($showSlug: String) {
         urlMobileSized
       }
     }
-  }
-}
-
-query fetchSectionBySlug($slug: String) {
-  allSections(where: { slug: $slug }) {
-    name
-    slug
   }
 }

@@ -98,6 +98,9 @@ export default {
         )
         if (!hasCategory) {
           this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
         }
         return data.allCategories
       },

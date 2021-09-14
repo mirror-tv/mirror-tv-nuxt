@@ -88,7 +88,16 @@ export default {
           slug: this.currentShow,
         }
       },
-      update: (data) => data.allShows?.[0] || {},
+      update(data) {
+        const item = data.allShows?.[0] || {}
+        if (!item?.name || !item.isArtShow) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return item
+      },
     },
     artShow: {
       query: fetchArtShowBySlug,
@@ -97,7 +106,15 @@ export default {
           episodeSlug: this.currentArtShow,
         }
       },
-      update: (data) => data.allArtShows?.[0] || {},
+      update(data) {
+        if (!data.allArtShows?.[0]?.name) {
+          this.has404Err = true
+          if (process.server) {
+            this.$nuxt.context.res.statusCode = 404
+          }
+        }
+        return data.allArtShows?.[0] || {}
+      },
     },
   },
   components: {
@@ -112,6 +129,7 @@ export default {
     return {
       show: {},
       artShow: {},
+      has404Err: false,
     }
   },
   head() {
@@ -203,6 +221,11 @@ export default {
     hasAuthors() {
       return this.authors && this.authors.length
     },
+  },
+  mounted() {
+    if (this.has404Err) {
+      this.$nuxt.error({ statusCode: 404 })
+    }
   },
   methods: {
     reduceAuthor(item) {
