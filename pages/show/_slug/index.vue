@@ -1,19 +1,22 @@
 <template>
-  <ArtShowWrapper :showName="showName" :picture="picture">
-    <section class="show">
-      <div class="show__info">
+  <ShowWrapper :showName="showName" :picture="picture">
+    <section class="show__main">
+      <div class="show__main__info">
         <main class="main">
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <div class="show__introduction" v-html="introduction" />
+          <div class="show__main__introduction" v-html="introduction" />
           <UiHostList v-if="hasHosts" :hosts="hosts" />
         </main>
         <aside class="g-aside">
           <FacebookPagePlugin v-if="facebookUrl" :href="facebookUrl" />
         </aside>
       </div>
-      <section class="show__collect__wrapper">
+      <section class="show__main__collect__wrapper">
         <template v-if="isMobile">
-          <div v-if="validPlaylists.length > 1" class="show__button__wrapper">
+          <div
+            v-if="validPlaylists.length > 1"
+            class="show__main__button__wrapper"
+          >
             <button :class="{ active: isActive }" @click="isActive = true">
               <span>{{ firstName }}</span>
             </button>
@@ -24,7 +27,7 @@
           <div
             v-for="(list, i) in validPlaylists"
             :key="list.sectionName"
-            class="show__collect"
+            class="show__main__collect"
           >
             <template v-if="(i === 0 && isActive) || (i === 1 && !isActive)">
               <h3 v-if="validPlaylists.length <= 1" v-text="list.sectionName" />
@@ -52,7 +55,7 @@
           <div
             v-for="list in validPlaylists"
             :key="list.sectionName"
-            class="show__collect"
+            class="show__main__collect"
           >
             <h3 v-text="list.sectionName" />
             <ol>
@@ -76,7 +79,7 @@
         </template>
       </section>
     </section>
-  </ArtShowWrapper>
+  </ShowWrapper>
 </template>
 
 <script>
@@ -85,7 +88,7 @@ import { getUrlOrigin } from '~/utils/meta'
 import { handleLineBreak, handleApiData } from '~/utils/content-handler'
 import { getContactImageUrl } from '~/utils/image-handler'
 import { sendGaEvent } from '~/utils/google-analytics'
-import ArtShowWrapper from '~/components/ArtShowWrapper'
+import ShowWrapper from '~/components/ShowWrapper'
 import UiHostList from '~/components/UiHostList'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
@@ -112,7 +115,7 @@ export default {
     },
   },
   components: {
-    ArtShowWrapper,
+    ShowWrapper,
     UiHostList,
     FacebookPagePlugin,
     YoutubeEmbedByIframeApi,
@@ -292,44 +295,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.show {
-  padding-bottom: 8px;
-  &.g-page--with-aside {
-    .g-page__wrapper {
-      @include media-breakpoint-up(md) {
-        flex-wrap: wrap;
-      }
-      .main {
-        margin: 24px auto 0;
-        @include media-breakpoint-up(md) {
-          width: 308px;
-          margin: 24px 0 0;
-        }
-        @include media-breakpoint-up(xl) {
-          width: 600px;
-        }
-      }
-      .g-aside {
-        width: 100%;
-        margin: 48px auto 0;
-        @include media-breakpoint-up(md) {
-          width: 320px;
-          padding: 0;
-          margin: 24px 0 0 auto;
-        }
-        @include media-breakpoint-up(xxl) {
-          width: 320px;
-          padding: 0;
-        }
-      }
+.show__main {
+  flex: 1;
+  margin: 24px 0 0;
+  @include media-breakpoint-up(md) {
+    margin: 40px 0 0;
+  }
+  @include media-breakpoint-up(xl) {
+    margin: 48px 0 0;
+  }
+  .main {
+    margin: 0;
+  }
+  .g-aside {
+    width: 100%;
+    margin: 16px auto 0;
+    @include media-breakpoint-up(md) {
+      min-width: 320px;
+      max-width: 320px;
+      padding: 0;
+      margin: 0 0 0 auto;
+    }
+  }
+  &__info {
+    margin: 0 0 50px;
+    @include media-breakpoint-up(md) {
+      display: flex;
+      margin: 0 0 60px;
     }
   }
   &__introduction {
+    text-align: justify;
+    font-weight: 400;
     font-size: 16px;
     line-height: 32px;
-    margin-bottom: 24px;
+    margin: 24px 0;
     @include media-breakpoint-up(md) {
-      margin-bottom: 48px;
+      width: 308px;
+      margin: 0 0 48px;
+    }
+    @include media-breakpoint-up(xl) {
+      width: 600px;
     }
   }
   &__collect {

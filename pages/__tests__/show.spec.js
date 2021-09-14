@@ -49,7 +49,7 @@ describe('page content', () => {
   //   )
   // })
   test('Should have proper introduction', () => {
-    const introduction = wrapper.get('.show__introduction')
+    const introduction = wrapper.get('.show__main__introduction')
     expect(introduction.text()).toContain(mockShow.introduction)
   })
   test('Should have facebook page plugin', () => {
