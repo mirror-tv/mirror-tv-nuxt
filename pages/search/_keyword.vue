@@ -13,12 +13,12 @@
           >
             <ArticleCard
               :href="post.href"
-              :articleImgURL="post.articleImgURL"
-              :articleTitle="post.articleTitle"
+              :articleImgURL="post.image"
+              :articleTitle="post.name"
               :articleTitleStyle="'bold'"
               :articleTitleHighlightText="keywordDecoded"
-              :articleDescription="post.articleDescription"
-              :articleDate="post.articleDate"
+              :articleDescription="post.description"
+              :articleDate="post.publishTime"
               :mobileLayoutDirection="'column'"
               @click.native="sendGaClickEvent('related articles')"
             />
@@ -72,7 +72,7 @@ export default {
         size: this.listDataMaxResults,
       })
     } catch (err) {
-      //   console.log('err happended when fetching search respond', err)
+      // console.log('err happended when fetching search respond', err)
     }
     this.setListData(response)
     this.setListDataTotal(response)

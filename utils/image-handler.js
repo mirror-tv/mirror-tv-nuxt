@@ -55,12 +55,12 @@ function getContactImageUrl(contact) {
   return require('~/assets/img/image-default.jpg')
 }
 
-function getBannerImageUrl(show) {
+function getBannerImageUrl(bannerImg) {
   return (
-    show.bannerImg?.urlDesktopSized ||
-    show.bannerImg?.urlTabletSized ||
-    show.bannerImg?.urlMobileSized ||
-    show.bannerImg?.urlOriginal ||
+    bannerImg?.urlDesktopSized ||
+    bannerImg?.urlTabletSized ||
+    bannerImg?.urlMobileSized ||
+    bannerImg?.urlOriginal ||
     require('~/assets/img/image-default.jpg')
   )
 }

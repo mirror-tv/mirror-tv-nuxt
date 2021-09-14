@@ -36,6 +36,7 @@ query fetchShowBySlug(
     playList01
     playList02
     trailerPlaylist
+    isArtShow
   }
 }
 query fetchAllShows {
@@ -51,5 +52,6 @@ query fetchAllShows {
     introduction
     facebookUrl
     playList01
+    isArtShow
   }
 }
