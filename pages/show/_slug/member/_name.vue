@@ -1,5 +1,5 @@
 <template>
-  <ArtShowWrapper
+  <ShowWrapper
     currentSection="director"
     :currentShow="currentShow"
     :showName="show.name"
@@ -40,7 +40,7 @@
         </ClientOnly>
       </div>
     </section>
-  </ArtShowWrapper>
+  </ShowWrapper>
 </template>
 
 <script>
@@ -49,7 +49,7 @@ import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleApiData } from '~/utils/content-handler'
 import { getContactImageUrl } from '~/utils/image-handler'
-import ArtShowWrapper from '~/components/ArtShowWrapper'
+import ShowWrapper from '~/components/ShowWrapper'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
 import HeadingBordered from '~/components/HeadingBordered'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
@@ -104,7 +104,7 @@ export default {
   },
   components: {
     ArtShowVideoList,
-    ArtShowWrapper,
+    ShowWrapper,
     HeadingBordered,
   },
   data() {

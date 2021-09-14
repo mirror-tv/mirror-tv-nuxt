@@ -1,5 +1,5 @@
 <template>
-  <ArtShowWrapper
+  <ShowWrapper
     gaCategory="ArtShow"
     :currentShow="currentShow"
     :showName="showName"
@@ -61,7 +61,7 @@
         </ul>
       </aside>
     </section>
-  </ArtShowWrapper>
+  </ShowWrapper>
 </template>
 
 <script>
@@ -70,7 +70,7 @@ import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleYoutubeId, handleApiData } from '~/utils/content-handler'
 import { getContactImageUrl, getVideoImageUrl } from '~/utils/image-handler'
-import ArtShowWrapper from '~/components/ArtShowWrapper'
+import ShowWrapper from '~/components/ShowWrapper'
 import ArticleContentHandler from '~/components/ArticleContentHandler'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
@@ -101,7 +101,7 @@ export default {
     },
   },
   components: {
-    ArtShowWrapper,
+    ShowWrapper,
     ArticleContentHandler,
     ShareFacebook,
     ShareLine,

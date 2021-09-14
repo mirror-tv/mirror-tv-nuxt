@@ -1,5 +1,5 @@
 <template>
-  <ArtShowWrapper
+  <ShowWrapper
     currentSection="main"
     gaCategory="ArtShow_main"
     :currentShow="currentShow"
@@ -50,14 +50,14 @@
         </ClientOnly>
       </section>
     </section>
-  </ArtShowWrapper>
+  </ShowWrapper>
 </template>
 
 <script>
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import ArtShowWrapper from '~/components/ArtShowWrapper'
+import ShowWrapper from '~/components/ShowWrapper'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import VideoListSlides from '~/components/VideoListSlides'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
@@ -105,7 +105,7 @@ export default {
     },
   },
   components: {
-    ArtShowWrapper,
+    ShowWrapper,
     FacebookPagePlugin,
     YoutubeEmbedByIframeApi,
     ArtShowVideoList,

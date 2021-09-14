@@ -1,5 +1,5 @@
 <template>
-  <ArtShowWrapper
+  <ShowWrapper
     :currentSection="currentSectionSlug"
     gaCategory="ArtShow_serieslist"
     :currentShow="currentShow"
@@ -36,7 +36,7 @@
         </a>
       </li>
     </ul>
-  </ArtShowWrapper>
+  </ShowWrapper>
 </template>
 
 <script>
@@ -44,7 +44,7 @@ import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { getPostImageUrl } from '~/utils/image-handler'
-import ArtShowWrapper from '~/components/ArtShowWrapper'
+import ShowWrapper from '~/components/ShowWrapper'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
 export default {
@@ -69,7 +69,7 @@ export default {
     },
   },
   components: {
-    ArtShowWrapper,
+    ShowWrapper,
   },
   data() {
     return {
