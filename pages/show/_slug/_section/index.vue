@@ -79,13 +79,14 @@ export default {
         }
       },
       update(data) {
-        if (!data.allSections?.[0]?.name) {
+        const item = data.allSections?.[0] || {}
+        if (!item?.name || item?.show?.[0].slug !== this.currentShow) {
           this.has404Err = true
           if (process.server) {
             this.$nuxt.context.res.statusCode = 404
           }
         }
-        return data.allSections?.[0] || {}
+        return item
       },
     },
     sectionList: {

@@ -9,6 +9,9 @@ query fetchSectionBySlug($slug: String) {
   allSections(where: { slug: $slug }) {
     name
     slug
+    show {
+      slug
+    }
     series {
       name
       slug
