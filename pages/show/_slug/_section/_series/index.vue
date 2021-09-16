@@ -55,7 +55,7 @@ export default {
       query: fetchShowBySlug,
       variables() {
         return {
-          slug: this.$route.params.slug,
+          slug: this.currentShow,
         }
       },
       update(data) {
@@ -94,13 +94,17 @@ export default {
         }
       },
       update(data) {
-        if (!data.allSeries?.[0]?.name) {
+        const item = data.allSeries?.[0] || {}
+        if (
+          !item?.name ||
+          item?.section?.[0]?.show?.[0]?.slug !== this.currentShow
+        ) {
           this.has404Err = true
           if (process.server) {
             this.$nuxt.context.res.statusCode = 404
           }
         }
-        return data.allSeries?.[0] || {}
+        return item
       },
     },
     artShowList: {
@@ -239,6 +243,7 @@ export default {
 
 <style lang="scss" scoped>
 .artshow__series {
+  width: 100%;
   margin: 16px 0 0;
   @include media-breakpoint-up(md) {
     margin: 20px 0 0;
@@ -259,6 +264,7 @@ export default {
     }
   }
   &__list {
+    width: 100%;
     h3 {
       font-size: 18px;
       font-weight: 500;

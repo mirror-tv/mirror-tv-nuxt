@@ -3,6 +3,11 @@ query fetchSeriesBySlug($slug: String) {
     name
     slug
     introductionApiData
+    section {
+      show {
+        slug
+      }
+    }
     heroImage {
       urlDesktopSized,
       urlMobileSized
