@@ -188,6 +188,7 @@ export default {
 
 <style lang="scss" scoped>
 .series__list {
+  width: 100%;
   margin: 24px 0 0;
   @include media-breakpoint-up(md) {
     margin: 40px 0 0;

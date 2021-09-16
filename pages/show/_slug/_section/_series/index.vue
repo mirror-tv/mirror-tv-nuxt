@@ -243,6 +243,7 @@ export default {
 
 <style lang="scss" scoped>
 .artshow__series {
+  width: 100%;
   margin: 16px 0 0;
   @include media-breakpoint-up(md) {
     margin: 20px 0 0;
@@ -263,6 +264,7 @@ export default {
     }
   }
   &__list {
+    width: 100%;
     h3 {
       font-size: 18px;
       font-weight: 500;
