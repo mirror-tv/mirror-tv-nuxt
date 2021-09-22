@@ -22,6 +22,17 @@
             />
           </a>
           <a
+            href="https://lin.ee/4XsO8xi"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <img
+              v-lazy="require('~/assets/img/LINE_logo.svg')"
+              class="social-network-service-img"
+              alt="line"
+            />
+          </a>
+          <a
             href="https://www.instagram.com/mnewstw"
             target="_blank"
             rel="noreferrer noopener"
@@ -206,6 +217,10 @@ export default {
   &[alt='facebook'],
   &[alt='instagram'] {
     height: 20px;
+  }
+  &[alt='line'] {
+    width: 35px;
+    height: 35px;
   }
 }
 

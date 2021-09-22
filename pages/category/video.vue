@@ -539,6 +539,12 @@ export default {
   .home__heading {
     min-width: 110px;
   }
+  &.aside-promotion-list {
+    @include media-breakpoint-up(xl) {
+      width: calc(100% + 4px); // 使影片寬於320px，以取得較大預覽圖
+      transform: translateX(-2px);
+    }
+  }
   .promotion-list {
     margin-top: 12px;
     &__item {
