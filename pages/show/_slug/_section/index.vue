@@ -20,17 +20,20 @@
           rel="noreferrer noopener"
         >
           <div class="series__list_item_image">
-            <img :src="getImage(series)" :alt="series.name" />
+            <img :src="series.image" :alt="series.name" />
           </div>
           <div class="series__list_item_info">
             <h3>{{ series.name }}</h3>
+            <!-- <div
+              v-for="item in series.intro"
+              :key="item.id"
+              class="series__list_item_info_content"
+            >
+              <p v-html="item.content" />
+            </div> -->
             <div class="series__list_item_info_content">
-              <p
-                v-for="content in getIntroList(series.introduction)"
-                :key="content"
-              >
-                {{ content }}
-              </p>
+              <!-- eslint-disable vue/no-v-html -->
+              <p v-if="series.intro" v-html="series.intro" />
             </div>
           </div>
         </a>
@@ -44,6 +47,7 @@ import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { getPostImageUrl } from '~/utils/image-handler'
+import { handleApiData } from '~/utils/content-handler'
 import ShowWrapper from '~/components/ShowWrapper'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import {
@@ -159,7 +163,7 @@ export default {
       return this.section?.name ?? ''
     },
     seriesList() {
-      return this.section?.series ?? []
+      return this.section?.series?.map((item) => this.reduceSeries(item)) ?? []
     },
   },
   mounted() {
@@ -168,16 +172,18 @@ export default {
     }
   },
   methods: {
-    getImage(series) {
-      return getPostImageUrl(series)
+    reduceSeries(item) {
+      return {
+        name: item.name ?? '',
+        slug: item.slug ?? '',
+        image: getPostImageUrl(item) ?? '',
+        intro: this.formatIntro(item),
+      }
     },
-    getIntroList(intro) {
-      const constentList = []
-      const blocks = JSON.parse(intro)?.draft?.blocks ?? []
-      blocks.forEach((item) => {
-        constentList.push(item.text)
-      })
-      return constentList
+    formatIntro(item) {
+      const intros = handleApiData(item.introductionApiData)
+      const str = intros?.map((item) => item?.content?.[0] || '')
+      return str.join('<br>')
     },
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('ArtShow_serieslist')('click')(label)

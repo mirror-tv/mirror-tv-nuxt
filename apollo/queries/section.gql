@@ -15,7 +15,7 @@ query fetchSectionBySlug($slug: String) {
     series {
       name
       slug
-      introduction
+      introductionApiData
       heroImage {
         urlDesktopSized
         urlMobileSized
