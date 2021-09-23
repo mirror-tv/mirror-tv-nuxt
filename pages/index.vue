@@ -32,17 +32,20 @@
             />
           </ClientOnly>
         </div>
-        <div v-if="hasPlaylistItems" class="main__live-stream live-stream">
+        <div v-if="hasLivePlayListItems" class="main__live-stream live-stream">
           <HeadingBordered
             :showIcon="true"
             class="home__heading"
             text="直播現場"
           />
-          <YoutubeEmbed
-            v-for="item in playlistItems"
-            :key="item"
-            :videoId="item"
-          />
+          <ClientOnly>
+            <YoutubeEmbedByIframeApi
+              v-for="item in livePlayListIds"
+              :key="item"
+              :videoId="item"
+              :enableAutoplay="true"
+            />
+          </ClientOnly>
         </div>
         <div
           v-if="shouldShowMainLatestPosts"
@@ -116,28 +119,33 @@
             />
           </ClientOnly>
         </div>
-        <div v-if="hasPlaylistItems" class="aside__live-stream live-stream">
+        <div v-if="hasLivePlayListItems" class="aside__live-stream live-stream">
           <HeadingBordered
             :showIcon="true"
             class="home__heading"
             text="直播現場"
           />
-          <YoutubeEmbed
-            v-for="item in playlistItems"
-            :key="item"
-            :videoId="item"
-          />
+          <ClientOnly>
+            <YoutubeEmbedByIframeApi
+              v-for="item in livePlayListIds"
+              :key="item"
+              :videoId="item"
+              :enableAutoplay="true"
+            />
+          </ClientOnly>
         </div>
 
         <div v-if="hasPromotionVideos" class="aside-list promotion-list">
           <HeadingBordered class="home__heading" text="發燒單元" />
           <div class="promotion-list">
-            <YoutubeEmbed
-              v-for="item in promotionVideos"
-              :key="item"
-              :videoId="item"
-              class="promotion-list__item"
-            />
+            <ClientOnly>
+              <YoutubeEmbedByIframeApi
+                v-for="item in promotionVideos"
+                :key="item"
+                :videoId="item"
+                class="promotion-list__item"
+              />
+            </ClientOnly>
           </div>
         </div>
 
@@ -211,8 +219,8 @@
           <div class="link-list__wrapper">
             <LinkAnchorStyle />
             <LinkYoutubeStyle />
+            <FacebookPagePlugin href="https://www.facebook.com/mnewsTW/" />
           </div>
-          <FacebookPagePlugin />
         </div>
       </aside>
     </div>
@@ -236,7 +244,6 @@ import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
-import YoutubeEmbed from '~/components/YoutubeEmbed'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import UiFlashNews from '~/components/UiFlashNews'
@@ -247,8 +254,11 @@ import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
-import { fetchVideoByName } from '~/apollo/queries/video.gql'
 import { fetchFeaturedTopics } from '~/apollo/queries/topic.gql'
+import {
+  fetchVideoByName,
+  fetchVideoByCategory,
+} from '~/apollo/queries/video.gql'
 
 const PAGE_SIZE = 12
 // const MICRO_AD_INDEXES = [2, 4, 8, 10]
@@ -340,6 +350,17 @@ export default {
         return data.allVideos?.[0]
       },
     },
+    livePlayList: {
+      query: fetchVideoByCategory,
+      variables() {
+        return {
+          slug: 'stream',
+        }
+      },
+      update(data) {
+        return data.allVideos ?? []
+      },
+    },
   },
   components: {
     Swiper,
@@ -347,7 +368,6 @@ export default {
     ArticleCard,
     ButtonLoadmore,
     FacebookPagePlugin,
-    YoutubeEmbed,
     YoutubeEmbedByIframeApi,
     LinkYoutubeStyle,
     UiFlashNews,
@@ -360,7 +380,7 @@ export default {
       allPublishedPosts: [],
       editorChoices: [],
       page: 0,
-      playlistItems: [],
+      livePlayList: [],
       postsCount: 0,
       allShows: [],
       promotionVideos: [],
@@ -369,18 +389,12 @@ export default {
       houseVideo: {},
       topics: [],
       filteredSlug: [],
-      hasPlaylistItems: false,
       innerWidth: 0,
     }
   },
   async fetch() {
     try {
       this.popularData = await this.$fetchGcsData('/popularlist')
-      const reponse = await this.$fetchYoutubeData(
-        '/playlistItems?part=snippet&playlistId=PLT6yxVwBEbi2dWegLu37V63_tP-nI6em_&maxResults=3'
-      )
-      this.playlistItems =
-        reponse?.items?.map((item) => item?.snippet?.resourceId?.videoId) ?? []
     } catch (error) {
       if (process.server) {
         // eslint-disable-next-line no-console
@@ -430,6 +444,12 @@ export default {
       const url = this.houseVideo?.youtubeUrl ?? ''
       return url ? handleYoutubeId(url) : ''
     },
+    livePlayListIds() {
+      return this.livePlayList.map((item) => {
+        const url = item?.youtubeUrl ?? ''
+        return url ? handleYoutubeId(item.youtubeUrl) : ''
+      })
+    },
     flashNews() {
       const editorData = this.editorChoices.map((post) =>
         this.reducerEditorData(post)
@@ -451,9 +471,9 @@ export default {
     shouldShowPopularList() {
       return this.listPopularData?.length && this.innerWidth
     },
-    // hasPlaylistItems() {
-    //   return this.playlistItems?.length
-    // },
+    hasLivePlayListItems() {
+      return this.livePlayList?.length
+    },
     hasPromotionVideos() {
       return this.promotionVideos?.length
     },
@@ -842,29 +862,13 @@ export default {
 }
 
 .link-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  // tablet range
-  @include media-breakpoint-up(md) {
-    flex-direction: row;
-  }
-
-  // desktop  range
-  @include media-breakpoint-up(xl) {
-    flex-direction: column;
-  }
-
+  margin: 0 0 8px;
   &__wrapper {
-    flex: 1;
-    // tablet range
     @include media-breakpoint-up(md) {
-      margin-right: 16px;
+      width: 336px;
     }
-
-    // desktop  range
     @include media-breakpoint-up(xl) {
-      margin-right: 0;
+      width: 100%;
     }
   }
 }

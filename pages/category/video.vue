@@ -73,17 +73,20 @@
             />
           </ClientOnly>
         </div>
-        <div v-if="hasPlaylistItems" class="live-stream">
+        <div v-if="hasLivePlayListItems" class="live-stream">
           <HeadingBordered
             :showIcon="true"
             text="直播現場"
             class="video__heading"
           />
-          <YoutubeEmbed
-            v-for="item in playlistItems"
-            :key="item"
-            :videoId="item"
-          />
+          <ClientOnly>
+            <YoutubeEmbedByIframeApi
+              v-for="item in livePlayListIds"
+              :key="item"
+              :videoId="item"
+              :enableAutoplay="true"
+            />
+          </ClientOnly>
         </div>
 
         <div class="aside__category-posts-wrapper category-posts-wrapper">
@@ -138,12 +141,14 @@
         <div v-if="hasPromotionVideos" class="aside-list aside-promotion-list">
           <HeadingBordered class="home__heading" text="發燒單元" />
           <div class="promotion-list">
-            <YoutubeEmbed
-              v-for="item in promotionVideos"
-              :key="item"
-              :videoId="item"
-              class="promotion-list__item"
-            />
+            <ClientOnly>
+              <YoutubeEmbedByIframeApi
+                v-for="item in promotionVideos"
+                :key="item"
+                :videoId="item"
+                class="promotion-list__item"
+              />
+            </ClientOnly>
           </div>
         </div>
 
@@ -164,7 +169,7 @@
           <div class="link-list__wrapper">
             <LinkAnchorStyle />
             <LinkYoutubeStyle />
-            <FacebookPagePlugin />
+            <FacebookPagePlugin href="https://www.facebook.com/mnewsTW/" />
           </div>
         </div>
       </aside>
@@ -182,7 +187,6 @@ import ArticleListSlides from '~/components/ArticleListSlides'
 import EditorChoicesVideoNews from '~/components/EditorChoicesVideoNews'
 import HeadingBordered from '~/components/HeadingBordered'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
-import YoutubeEmbed from '~/components/YoutubeEmbed'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
 import ShowCard from '~/components/ShowCard'
@@ -193,7 +197,10 @@ import { fetchVideoEditorChoices } from '~/apollo/queries/videoEditorChoices.gql
 import { fetchPostsByCategorySlug } from '~/apollo/queries/posts.gql'
 import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchAllShows } from '~/apollo/queries/show.gql'
-import { fetchVideoByName } from '~/apollo/queries/video.gql'
+import {
+  fetchVideoByName,
+  fetchVideoByCategory,
+} from '~/apollo/queries/video.gql'
 
 export default {
   apollo: {
@@ -238,13 +245,23 @@ export default {
         return data.allVideos?.[0]
       },
     },
+    livePlayList: {
+      query: fetchVideoByCategory,
+      variables() {
+        return {
+          slug: 'stream',
+        }
+      },
+      update(data) {
+        return data.allVideos ?? []
+      },
+    },
   },
   components: {
     ArticleListSlides,
     EditorChoicesVideoNews,
     HeadingBordered,
     FacebookPagePlugin,
-    YoutubeEmbed,
     YoutubeEmbedByIframeApi,
     LinkYoutubeStyle,
     ShowCard,
@@ -253,7 +270,7 @@ export default {
   data() {
     return {
       allCategories: [],
-      playlistItems: [],
+      livePlayList: [],
       promotionVideos: [],
       videoEditorChoices: [],
 
@@ -285,13 +302,7 @@ export default {
   async fetch() {
     try {
       const videoRes = await this.$fetchGcsData('/popular-videonews-list')
-      const youtubeRes = await this.$fetchYoutubeData(
-        '/playlistItems?part=snippet&playlistId=PLT6yxVwBEbi2dWegLu37V63_tP-nI6em_&maxResults=3'
-      )
       this.popularVideo = videoRes?.report
-      this.playlistItems =
-        youtubeRes?.items?.map((item) => item?.snippet?.resourceId?.videoId) ??
-        []
     } catch (error) {
       if (process.server) {
         // eslint-disable-next-line no-console
@@ -330,15 +341,21 @@ export default {
       const url = this.liveVideo?.youtubeUrl ?? ''
       return url ? handleYoutubeId(url) : ''
     },
+    livePlayListIds() {
+      return this.livePlayList.map((item) => {
+        const url = item?.youtubeUrl ?? ''
+        return url ? handleYoutubeId(item.youtubeUrl) : ''
+      })
+    },
     hasShows() {
       return this.allShows?.length
     },
     hasPopularVideo() {
       return this.popularVideo?.length
     },
-    // hasPlaylistItems() {
-    //   return this.playlistItems?.length
-    // },
+    hasLivePlayListItems() {
+      return this.livePlayList?.length
+    },
     hasPromotionVideos() {
       return this.promotionVideos?.length
     },
@@ -566,16 +583,11 @@ export default {
 }
 
 .link-list {
-  display: flex;
-  justify-content: flex-end;
+  margin: 0 0 8px;
   &__wrapper {
-    width: 100%;
-    // tablet range
     @include media-breakpoint-up(md) {
-      width: 50%;
+      width: 336px;
     }
-
-    // desktop  range
     @include media-breakpoint-up(xl) {
       width: 100%;
     }

@@ -16,13 +16,13 @@
             <ShareFacebook class="community-fb" />
             <ShareLine class="community-line" />
           </div>
-          <button
+          <!-- <button
             type="button"
             class="artshow__episode__main__links-schedule"
             @click="handleAddSchedule"
           >
             加入行事曆
-          </button>
+          </button> -->
         </div>
         <div class="artshow__episode__main__herovideo">
           <ClientOnly>

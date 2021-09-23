@@ -79,7 +79,7 @@
           target="_blank"
           rel="noreferrer noopener"
         >
-          新聞自律綱要
+          新聞自律
         </a>
       </div>
     </div>
@@ -208,7 +208,7 @@ export default {
   justify-content: center;
   align-items: center;
   a {
-    padding: 14px;
+    padding: 14px 8px;
   }
 }
 
