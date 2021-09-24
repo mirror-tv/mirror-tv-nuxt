@@ -22,6 +22,7 @@ query fetchContactByAnchorPerson {
     where: {
       anchorperson: true
     }
+    sortBy: updatedAt_DESC
   ) {
     name
     anchorImg {
@@ -38,6 +39,7 @@ query fetchContactByHosts {
     where: {
       host: true
     }
+    sortBy: updatedAt_DESC
   ) {
     name
     anchorImg {

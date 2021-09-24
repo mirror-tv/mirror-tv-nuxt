@@ -13,7 +13,7 @@
           @click.native="$emit('click-item')"
         />
       </li>
-      <slot name="ads"></slot>
+      <!-- <slot name="ads"></slot> -->
     </ul>
   </div>
 </template>
@@ -32,14 +32,15 @@ export default {
       type: Array,
       required: true,
     },
-    hasAdContent: {
-      type: Boolean,
-      default: false,
-    },
+    // hasAdContent: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   computed: {
     shouldShowList() {
-      return this.listData?.length > 0 || this.hasAdContent
+      // return this.listData?.length > 0 || this.hasAdContent
+      return this.listData?.length > 0
     },
   },
 }

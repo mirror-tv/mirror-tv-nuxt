@@ -114,20 +114,18 @@ module.exports = {
         hid: 'googleOptimize',
         src: `https://www.googleoptimize.com/optimize.js?id=${GOOGLE_OPT_CONTAINER_ID}`,
       },
-
       // https://developers.google.com/doubleclick-gpt/guides/general-best-practices#load_statically
-      {
-        hid: 'gptScript',
-        src: 'https://securepubads.g.doubleclick.net/tag/js/gpt.js',
-        async: true,
-      },
-
-      {
-        hid: 'adSense',
-        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
-        'data-ad-client': 'ca-pub-6117138886514853',
-        async: true,
-      },
+      // {
+      //   hid: 'gptScript',
+      //   src: 'https://securepubads.g.doubleclick.net/tag/js/gpt.js',
+      //   async: true,
+      // },
+      // {
+      //   hid: 'adSense',
+      //   src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+      //   'data-ad-client': 'ca-pub-6117138886514853',
+      //   async: true,
+      // },
     ],
     noscript: [
       // comScore Tag
@@ -156,7 +154,7 @@ module.exports = {
     '~/plugins/requests/index.js',
     '~/plugins/user-behavior-log/index.client.js',
     '~/plugins/vuePluginsGlobal.js',
-    '~/plugins/vuePluginsGlobal.client.js',
+    // '~/plugins/vuePluginsGlobal.client.js',
   ],
   /*
    ** Nuxt.js Server Middleware

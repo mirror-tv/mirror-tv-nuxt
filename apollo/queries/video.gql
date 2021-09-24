@@ -6,3 +6,12 @@ query fetchVideoByName($name: String!) {
     url
   }
 }
+
+query fetchVideoByCategory($slug: String!) {
+  allVideos(
+    where: { categories_some: { slug: $slug } }
+  ) {
+    youtubeUrl
+    url
+  }
+}

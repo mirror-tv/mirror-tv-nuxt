@@ -38,7 +38,6 @@ export default {
   render(h, { props }) {
     const content = props.paragraph.content?.[0]
     const type = props.paragraph?.type
-    console.log(props.paragraph)
     switch (type) {
       case 'header-one':
       case 'header-two': {
