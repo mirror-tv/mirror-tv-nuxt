@@ -39,18 +39,7 @@ async function start() {
 
   app.get('/robots.txt', (req, res, next) => {
     if (process.env.RELEASE_TARGET === 'prod') {
-      res
-        .type('text/plain')
-        .send(
-          'User-agent: * \n' +
-            'Disallow: / \n' +
-            '\n' +
-            'User-agent: Mediapartners-Google \n' +
-            'Allow: / \n' +
-            '\n' +
-            'User-agent: popIn_Agent \n' +
-            'Allow: /'
-        )
+      res.type('text/plain').send('User-agent: * \n' + 'Allow: /')
       return
     }
     if (process.env.RELEASE_TARGET !== 'prod') {
