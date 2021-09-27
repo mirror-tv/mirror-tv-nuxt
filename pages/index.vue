@@ -24,6 +24,11 @@
           </ClientOnly>
         </div>
         <div v-if="houseVideoId" class="main__live-stream live-stream">
+          <HeadingBordered
+            :showIcon="true"
+            class="home__heading"
+            text="形象廣告"
+          />
           <ClientOnly>
             <YoutubeEmbedByIframeApi
               v-if="!isViewportWidthUpXl"
@@ -111,6 +116,11 @@
           </ClientOnly>
         </div>
         <div v-if="houseVideoId" class="aside__live-stream live-stream">
+          <HeadingBordered
+            :showIcon="true"
+            class="home__heading"
+            text="形象廣告"
+          />
           <ClientOnly>
             <YoutubeEmbedByIframeApi
               v-if="isViewportWidthUpXl"

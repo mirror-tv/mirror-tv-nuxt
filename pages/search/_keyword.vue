@@ -101,6 +101,9 @@ export default {
       return decodeURI(this.$route.params.keyword)
     },
     enableLoadMore() {
+      console.log('listDataMaxResults', this.listDataMaxResults)
+      console.log('listDataCurrentPage', this.listDataCurrentPage)
+      console.log('listDataTotal', this.listDataTotal)
       return (
         this.listDataMaxResults * this.listDataCurrentPage < this.listDataTotal
       )
@@ -131,9 +134,11 @@ export default {
       let listData = response?.body?.hits?.hits ?? []
       listData = listData.map(this.mapDataToComponentProps)
       this.listData.push(...listData)
+      console.log('setListData', this.listData)
     },
     setListDataTotal(response = {}) {
       this.listDataTotal = response.data?.body?.hits?.total?.value ?? 0
+      console.log('listDataTotal', this.listDataTotal)
     },
     async handleClickMore() {
       const query = this.keywordDecoded
@@ -142,6 +147,7 @@ export default {
         from: this.listDataMaxResults * this.listDataCurrentPage,
         size: this.listDataMaxResults,
       })
+      console.log('response', response)
       this.setListData(response)
       this.listDataCurrentPage += 1
       this.sendGaClickEvent('more')

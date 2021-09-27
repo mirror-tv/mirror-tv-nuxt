@@ -44,7 +44,11 @@
           </div>
         </div>
         <div class="anchor__intro">
-          <div v-for="paragraph in anchorBio" :key="paragraph.id">
+          <div
+            v-for="paragraph in anchorBio"
+            :key="paragraph.id"
+            class="paragraph"
+          >
             <!-- eslint-disable vue/no-v-html -->
             <p v-html="paragraph.content" />
           </div>
@@ -265,6 +269,9 @@ export default {
       @include media-breakpoint-up(md) {
         line-height: 1.8;
       }
+    }
+    .paragraph + .paragraph {
+      margin: 16px 0 0;
     }
   }
 }
