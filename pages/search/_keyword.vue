@@ -150,7 +150,8 @@ export default {
         size: this.listDataMaxResults,
       })
       console.log('response', response)
-      this.setListData(response)
+      const data = response?.data ?? {}
+      this.setListData(data)
       this.listDataCurrentPage += 1
       this.sendGaClickEvent('more')
     },
