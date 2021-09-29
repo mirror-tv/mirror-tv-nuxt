@@ -139,7 +139,7 @@ export default {
     }
   },
   head() {
-    const title = `${this.sectionName} - ${this.showName} - ${SITE_NAME}`
+    const title = `${this.seriesName} - ${this.showName} - ${SITE_NAME}`
     const image = this.series?.heroImage?.urlDesktopSized
     const description = handleMetaDesc(this.showIntroduction)
     return {
@@ -192,6 +192,9 @@ export default {
     },
     sectionName() {
       return this.section.name ?? ''
+    },
+    seriesName() {
+      return this.series.name ?? ''
     },
     content() {
       return handleApiData(this.series.introductionApiData)

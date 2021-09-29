@@ -638,7 +638,6 @@ export default {
     if (this.has404Err) {
       this.$nuxt.error({ statusCode: 404 })
     }
-    this.shouldLoadDableScript = true
     if (window) {
       const isAdultConfirmed = Cookie.get('article-confirmedAdult')
       const isArticleAdult = this.isAdult
