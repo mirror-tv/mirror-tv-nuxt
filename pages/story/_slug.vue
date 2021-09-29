@@ -100,11 +100,6 @@
         </div>
         <ListArticleRelated
           :listData="relatedPosts"
-          class="post__related"
-          @click-item="sendGaClickEvent('related articles')"
-        ></ListArticleRelated>
-        <!-- <ListArticleRelated
-          :listData="relatedPosts"
           :hasAdContent="shouldShowAds"
           class="post__related"
           @click-item="sendGaClickEvent('related articles')"
@@ -123,8 +118,8 @@
               ></LazyRenderer>
             </ClientOnly>
           </template>
-        </ListArticleRelated> -->
-        <!-- <ClientOnly>
+        </ListArticleRelated>
+        <ClientOnly>
           <template v-if="shouldShowAds">
             <LazyRenderer
               id="dablewidget_2Xnxwk7d_xXAWmB7G"
@@ -139,7 +134,7 @@
               @load="handleLoadPopinWidget"
             ></LazyRenderer>
           </template>
-        </ClientOnly> -->
+        </ClientOnly>
       </main>
       <aside class="g-aside aside">
         <ListArticleAside
@@ -147,22 +142,22 @@
           :listTitle="'熱門新聞'"
           :listData="listArticleAsidepopularData"
         />
-        <!-- <ClientOnly>
+        <ClientOnly>
           <div v-if="!isTablet && microAdId" class="micro-ad">
             <MicroAd :unitId="microAdId" />
           </div>
-        </ClientOnly> -->
+        </ClientOnly>
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'即時新聞'"
           :listData="listArticleAsideLatestData"
         />
       </aside>
-      <!-- <ClientOnly>
+      <ClientOnly>
         <div v-if="isTablet && microAdId" class="micro-ad">
           <MicroAd :unitId="microAdId" />
         </div>
-      </ClientOnly> -->
+      </ClientOnly>
     </div>
   </section>
 </template>
@@ -194,7 +189,7 @@ import ListArticleRelated from '~/components/ListArticleRelated'
 import Ui18Warning from '~/components/Ui18Warning'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
-// import MicroAd from '~/components/MicroAd'
+import MicroAd from '~/components/MicroAd'
 
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
@@ -253,7 +248,7 @@ export default {
     Ui18Warning,
     ShareFacebook,
     ShareLine,
-    // MicroAd,
+    MicroAd,
   },
   data() {
     return {
@@ -263,7 +258,7 @@ export default {
       has404Err: false,
       innerWidth: 0,
       shouldShowAdultWarning: false,
-      // shouldLoadPopinScript: false,
+      shouldLoadPopinScript: false,
       shouldLoadDableScript: false,
     }
   },
@@ -358,11 +353,29 @@ export default {
             })(window, document, 'dable', 'script')
             dable('setService', 'mnews.tw')
             ${dableSendLogScript}
+            dable('renderWidgetByWidth', 'dablewidget_2Xnxwk7d_xXAWmB7G')
+            dable('renderWidgetByWidth', 'dablewidget_klrnPJlm_Almaqnl1', {ignore_items: true})
+          `,
+        },
+        {
+          hid: 'popinAd',
+          skip: !this.shouldLoadPopinScript,
+          innerHTML: `
+            (function() {
+              var pa = document.createElement('script')
+              pa.type = 'text/javascript'
+              pa.charset = 'utf-8'
+              pa.async = true
+              pa.src = window.location.protocol + '//api.popin.cc/searchbox/mnews_tw.js'
+              var s = document.getElementsByTagName('script')[0]
+              s.parentNode.insertBefore(pa, s)
+            })()
           `,
         },
       ],
       __dangerouslyDisableSanitizersByTagID: {
         dable: ['innerHTML'],
+        popinAd: ['innerHTML'],
       },
     }
     function generateJsonLds() {
@@ -596,23 +609,23 @@ export default {
     isAdult() {
       return this.postPublished?.isAdult
     },
-    // microAdId() {
-    //   if (this.innerWidth) {
-    //     return this.innerWidth >= 1200 ? '4300419' : '4300420'
-    //   }
-    //   return ''
-    // },
+    microAdId() {
+      if (this.innerWidth) {
+        return this.innerWidth >= 1200 ? '4300419' : '4300420'
+      }
+      return ''
+    },
     pdfUrl() {
       return getPdfUrl(this.$config, this.slug)
     },
-    // shouldShowAds() {
-    //   return (
-    //     this.categorySlug !== 'ombuds' && !FILTERED_SLUG.includes(this.slug)
-    //   )
-    // },
-    // isTablet() {
-    //   return this.innerWidth >= 768 && this.innerWidth < 1200
-    // },
+    shouldShowAds() {
+      return (
+        this.categorySlug !== 'ombuds' && !FILTERED_SLUG.includes(this.slug)
+      )
+    },
+    isTablet() {
+      return this.innerWidth >= 768 && this.innerWidth < 1200
+    },
   },
   beforeMount() {
     this.setGaDimensionOfSource()
@@ -654,12 +667,12 @@ export default {
         articleDate: new Date(post.publishTime),
       }
     },
-    // handleLoadPopinWidget() {
-    //   this.shouldLoadPopinScript = true
-    // },
-    // handleLoadDableWidget() {
-    //   this.shouldLoadDableScript = true
-    // },
+    handleLoadPopinWidget() {
+      this.shouldLoadPopinScript = true
+    },
+    handleLoadDableWidget() {
+      this.shouldLoadDableScript = true
+    },
     generateBriefText() {
       const rawText = this.brief?.[0]?.content?.[0] ?? ''
       return rawText.includes('&#') ? undefined : rawText
