@@ -178,7 +178,11 @@ import { getPdfUrl } from '~/utils/story_pdf'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { getPostImageUrl } from '~/utils/image-handler'
 import { handleError } from '~/utils/error-handler'
-import { handleYoutubeId, handleApiData } from '~/utils/content-handler'
+import {
+  handleYoutubeId,
+  handleApiData,
+  handleMetaDesc,
+} from '~/utils/content-handler'
 import { setIntersectionObserver } from '~/utils/intersection-observer'
 import ArticleContentHandler from '~/components/ArticleContentHandler'
 import ArticleCredit from '~/components/ArticleCredit'
@@ -675,7 +679,7 @@ export default {
     },
     generateBriefText() {
       const rawText = this.brief?.[0]?.content?.[0] ?? ''
-      return rawText.includes('&#') ? undefined : rawText
+      return rawText.includes('&#') ? undefined : handleMetaDesc(rawText)
     },
     setGaDimensionOfSource() {
       const dimensionSource = this.source ?? ''

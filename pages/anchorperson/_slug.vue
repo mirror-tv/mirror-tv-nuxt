@@ -62,7 +62,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleApiData } from '~/utils/content-handler'
+import { handleApiData, handleMetaDesc } from '~/utils/content-handler'
 import { getContactImageUrl } from '~/utils/image-handler'
 import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
 
@@ -95,7 +95,8 @@ export default {
   head() {
     const title = `${this.anchorName} - ${SITE_NAME}`
     const image = this.anchor?.image?.urlTabletSized
-    const descrition = this.anchor?.bio ? this.anchor.bio.slice(0, 19) : ''
+    const bioStr = this.anchorBio?.[0]?.content ?? ''
+    const description = handleMetaDesc(bioStr)
     return {
       title,
       meta: [
@@ -110,20 +111,24 @@ export default {
           content: title,
         },
         {
-          hid: 'description',
-          name: 'description',
-          content: descrition,
-        },
-        {
-          hid: 'og:description',
-          property: 'og:description',
-          content: descrition,
-        },
-        {
           hid: 'og:image',
           property: 'og:image',
           content: image,
         },
+        ...(description
+          ? [
+              {
+                hid: 'description',
+                name: 'description',
+                content: description,
+              },
+              {
+                hid: 'og:description',
+                property: 'og:description',
+                content: description,
+              },
+            ]
+          : []),
       ],
     }
   },

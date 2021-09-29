@@ -74,6 +74,7 @@ export default {
     } catch (err) {
       // console.log('err happended when fetching search respond', err)
     }
+    console.log('raw-response', response)
     this.setListData(response)
     this.setListDataTotal(response)
     this.listDataCurrentPage += 1

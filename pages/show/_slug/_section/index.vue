@@ -47,7 +47,7 @@ import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { getPostImageUrl } from '~/utils/image-handler'
-import { handleApiData } from '~/utils/content-handler'
+import { handleApiData, handleMetaDesc } from '~/utils/content-handler'
 import ShowWrapper from '~/components/ShowWrapper'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import {
@@ -117,6 +117,7 @@ export default {
   head() {
     const title = `${this.sectionName} - ${this.show.name} - ${SITE_NAME}`
     const image = this.show?.picture?.urlDesktopSized
+    const description = handleMetaDesc(this.show.introduction)
     return {
       title,
       meta: [
@@ -135,17 +136,17 @@ export default {
           property: 'og:image',
           content: image,
         },
-        ...(this.show.introduction
+        ...(description
           ? [
               {
                 hid: 'description',
                 name: 'description',
-                content: this.show.introduction,
+                content: description,
               },
               {
                 hid: 'og:description',
                 property: 'og:description',
-                content: this.show.introduction,
+                content: description,
               },
             ]
           : []),

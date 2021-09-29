@@ -44,4 +44,19 @@ function handleArticleContent(post) {
   }
 }
 
-export { handleLineBreak, handleYoutubeId, handleApiData, handleArticleContent }
+function handleMetaDesc(str) {
+  if (!str || typeof str !== 'string') {
+    return ''
+  }
+  // remove html tags and set length limit for meta descripton
+  const formatedStr = str?.replace(/<\/?[^>]+(>|$)/g, '').slice(0, 124) ?? ''
+  return str.length > formatedStr.length ? formatedStr + '...' : formatedStr
+}
+
+export {
+  handleLineBreak,
+  handleYoutubeId,
+  handleApiData,
+  handleArticleContent,
+  handleMetaDesc,
+}
