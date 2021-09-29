@@ -74,7 +74,6 @@ export default {
     } catch (err) {
       // console.log('err happended when fetching search respond', err)
     }
-    console.log('raw-response', response)
     this.setListData(response)
     this.setListDataTotal(response)
     this.listDataCurrentPage += 1
@@ -132,12 +131,14 @@ export default {
       sendGaEvent(this.$ga)('search')('click')(label)
     },
     setListData(response = {}) {
+      console.log('set-response', response)
       let listData = response?.body?.hits?.hits ?? []
       listData = listData.map(this.mapDataToComponentProps)
       this.listData.push(...listData)
       console.log('setListData', this.listData)
     },
     setListDataTotal(response = {}) {
+      console.log('raw-response', response)
       this.listDataTotal = response.data?.body?.hits?.total?.value ?? 0
       console.log('listDataTotal', this.listDataTotal)
     },

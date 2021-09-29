@@ -48,9 +48,12 @@ function handleMetaDesc(str) {
   if (!str || typeof str !== 'string') {
     return ''
   }
+  console.log('purestr', str)
   // remove html tags and set length limit for meta descripton
-  const formatedStr = str?.replace(/<\/?[^>]+(>|$)/g, '').slice(0, 124) ?? ''
-  return str.length > formatedStr.length ? formatedStr + '...' : formatedStr
+  const pureStr = str?.replace(/<[^>]*>?/gm, '')
+  const formatedStr = pureStr?.slice(0, 124) ?? ''
+  console.log('str', formatedStr)
+  return formatedStr.length > 124 ? formatedStr + '...' : formatedStr
 }
 
 export {

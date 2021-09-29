@@ -135,10 +135,9 @@ export default {
   head() {
     const title = `${this.show.name} - ${SITE_NAME}`
     const image = this.show?.picture?.urlDesktopSized
-    const description = handleMetaDesc(this.introduction)
+    const description = handleMetaDesc(this.show.introduction)
     return {
       title,
-      description: this.introduction,
       meta: [
         {
           hid: 'og:url',
