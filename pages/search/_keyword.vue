@@ -139,7 +139,7 @@ export default {
     },
     setListDataTotal(response = {}) {
       console.log('raw-response', response)
-      this.listDataTotal = response.data?.body?.hits?.total?.value ?? 0
+      this.listDataTotal = response?.body?.hits?.total?.value ?? 0
       console.log('listDataTotal', this.listDataTotal)
     },
     async handleClickMore() {
