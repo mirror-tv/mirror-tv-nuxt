@@ -85,8 +85,12 @@
 <script>
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
-import { handleLineBreak, handleApiData } from '~/utils/content-handler'
 import { getContactImageUrl } from '~/utils/image-handler'
+import {
+  handleLineBreak,
+  handleApiData,
+  handleMetaDesc,
+} from '~/utils/content-handler'
 import { sendGaEvent } from '~/utils/google-analytics'
 import ShowWrapper from '~/components/ShowWrapper'
 import UiHostList from '~/components/UiHostList'
@@ -137,6 +141,7 @@ export default {
   head() {
     const title = this.showName ? `${this.showName} - ${SITE_NAME}` : SITE_NAME
     const image = this.show?.picture?.urlDesktopSized
+    const description = handleMetaDesc(this.introduction)
     return {
       title,
       meta: [
@@ -155,17 +160,17 @@ export default {
           property: 'og:image',
           content: image,
         },
-        ...(this.introduction
+        ...(description
           ? [
               {
                 hid: 'description',
                 name: 'description',
-                content: this.introduction,
+                content: description,
               },
               {
                 hid: 'og:description',
                 property: 'og:description',
-                content: this.introduction,
+                content: description,
               },
             ]
           : []),

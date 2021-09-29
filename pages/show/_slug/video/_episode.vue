@@ -68,8 +68,12 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleYoutubeId, handleApiData } from '~/utils/content-handler'
 import { getContactImageUrl, getVideoImageUrl } from '~/utils/image-handler'
+import {
+  handleYoutubeId,
+  handleApiData,
+  handleMetaDesc,
+} from '~/utils/content-handler'
 import ShowWrapper from '~/components/ShowWrapper'
 import ArticleContentHandler from '~/components/ArticleContentHandler'
 import ShareFacebook from '~/components/ShareFacebook'
@@ -138,6 +142,7 @@ export default {
       : SITE_NAME
     const image = this.artShowImage ?? ''
     const ogUrl = `${getUrlOrigin(this.$config)}${this.$route.path}`
+    const description = handleMetaDesc(this.showIntroduction)
     return {
       title,
       meta: [
@@ -156,17 +161,17 @@ export default {
           property: 'og:image',
           content: image,
         },
-        ...(this.showIntroduction
+        ...(description
           ? [
               {
                 hid: 'description',
                 name: 'description',
-                content: this.showIntroduction,
+                content: description,
               },
               {
                 hid: 'og:description',
                 property: 'og:description',
-                content: this.showIntroduction,
+                content: description,
               },
             ]
           : []),

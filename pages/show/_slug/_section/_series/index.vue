@@ -40,7 +40,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleApiData } from '~/utils/content-handler'
+import { handleApiData, handleMetaDesc } from '~/utils/content-handler'
 import ShowWrapper from '~/components/ShowWrapper'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
 import ArticleContentHandler from '~/components/ArticleContentHandler'
@@ -139,8 +139,9 @@ export default {
     }
   },
   head() {
-    const title = `${this.sectionName} - ${this.showName} - ${SITE_NAME}`
+    const title = `${this.seriesName} - ${this.showName} - ${SITE_NAME}`
     const image = this.series?.heroImage?.urlDesktopSized
+    const description = handleMetaDesc(this.showIntroduction)
     return {
       title,
       meta: [
@@ -159,17 +160,17 @@ export default {
           property: 'og:image',
           content: image,
         },
-        ...(this.showIntroduction
+        ...(description
           ? [
               {
                 hid: 'description',
                 name: 'description',
-                content: this.showIntroduction,
+                content: description,
               },
               {
                 hid: 'og:description',
                 property: 'og:description',
-                content: this.showIntroduction,
+                content: description,
               },
             ]
           : []),
@@ -191,6 +192,9 @@ export default {
     },
     sectionName() {
       return this.section.name ?? ''
+    },
+    seriesName() {
+      return this.series.name ?? ''
     },
     content() {
       return handleApiData(this.series.introductionApiData)

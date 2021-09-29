@@ -72,8 +72,6 @@ export default {
   },
   head() {
     const title = '鏡主播 - 鏡電視'
-    const description =
-      '鏡新聞與鏡電視是一個由全方位媒體人用專業跟熱情澆灌出來的新聞平台！'
 
     return {
       title,
@@ -87,16 +85,6 @@ export default {
           hid: 'og:title',
           property: 'og:title',
           content: title,
-        },
-        {
-          hid: 'description',
-          name: 'description',
-          content: description,
-        },
-        {
-          hid: 'og:description',
-          property: 'og:description',
-          content: description,
         },
       ],
     }

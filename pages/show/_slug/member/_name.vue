@@ -47,7 +47,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
-import { handleApiData } from '~/utils/content-handler'
+import { handleApiData, handleMetaDesc } from '~/utils/content-handler'
 import { getContactImageUrl } from '~/utils/image-handler'
 import ShowWrapper from '~/components/ShowWrapper'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
@@ -139,7 +139,8 @@ export default {
   head() {
     const title = `${this.directorInfo.name} - ${SITE_NAME}`
     const image = this.show?.picture?.urlDesktopSized
-    const description = this.bio?.[0]?.content ?? ''
+    const bioStr = this.bio?.[0]?.content ?? ''
+    const description = handleMetaDesc(bioStr)
     return {
       title,
       meta: [
