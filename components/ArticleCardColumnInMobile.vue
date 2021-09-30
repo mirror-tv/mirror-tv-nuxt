@@ -1,7 +1,8 @@
 <template>
   <div>
-    <!-- <MicroAd v-if="isMicroAd" :unitId="microAdId" /> -->
+    <MicroAd v-if="isMicroAd" :unitId="microAdId" />
     <a
+      v-else
       class="article-card"
       :href="href"
       target="_blank"
@@ -49,12 +50,12 @@
 
 <script>
 import dayjs from 'dayjs'
-// import MicroAd from '~/components/MicroAd'
+import MicroAd from '~/components/MicroAd'
 
 export default {
-  // components: {
-  //   MicroAd,
-  // },
+  components: {
+    MicroAd,
+  },
   props: {
     href: {
       type: String,
@@ -88,14 +89,14 @@ export default {
       type: String,
       default: null,
     },
-    // isMicroAd: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // microAdId: {
-    //   type: String,
-    //   default: '',
-    // },
+    isMicroAd: {
+      type: Boolean,
+      default: false,
+    },
+    microAdId: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     articleDescriptionTruncated() {

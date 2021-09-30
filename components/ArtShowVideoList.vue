@@ -7,9 +7,11 @@
           rel="noreferer noopener"
           @click="handleClickVideo"
         >
-          <img :src="getVideoImage(artShow)" :alt="artShow.name" />
+          <div class="artshow-image">
+            <img :src="getVideoImage(artShow)" :alt="artShow.name" />
+          </div>
+          <h4 v-text="artShow.name" />
         </a>
-        <h4 v-text="artShow.name" />
       </li>
       <div class="position-correct" />
     </ol>
@@ -124,27 +126,30 @@ ol {
     @include media-breakpoint-up(xxl) {
       width: calc((100% - 48px) / 4);
     }
-    h4 {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 22px;
-      margin-top: 12px;
-    }
     a {
       display: block;
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      background-color: $color-grey;
-      overflow: hidden;
-      img {
-        position: absolute;
-        top: 0;
-        left: 0;
+      .artshow-image {
+        display: block;
+        position: relative;
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center center;
+        padding-top: 56.25%;
+        background-color: $color-grey;
+        overflow: hidden;
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center center;
+        }
+      }
+      h4 {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        margin-top: 12px;
       }
     }
   }

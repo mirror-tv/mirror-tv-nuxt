@@ -133,7 +133,7 @@ export default {
       this.listData.push(...listData)
     },
     setListDataTotal(response = {}) {
-      this.listDataTotal = response.data?.body?.hits?.total?.value ?? 0
+      this.listDataTotal = response?.body?.hits?.total?.value ?? 0
     },
     async handleClickMore() {
       const query = this.keywordDecoded
@@ -142,7 +142,8 @@ export default {
         from: this.listDataMaxResults * this.listDataCurrentPage,
         size: this.listDataMaxResults,
       })
-      this.setListData(response)
+      const data = response?.data ?? {}
+      this.setListData(data)
       this.listDataCurrentPage += 1
       this.sendGaClickEvent('more')
     },

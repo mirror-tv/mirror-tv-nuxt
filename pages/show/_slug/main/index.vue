@@ -57,6 +57,7 @@
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { handleMetaDesc } from '~/utils/content-handler'
 import ShowWrapper from '~/components/ShowWrapper'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import VideoListSlides from '~/components/VideoListSlides'
@@ -134,9 +135,9 @@ export default {
   head() {
     const title = `${this.show.name} - ${SITE_NAME}`
     const image = this.show?.picture?.urlDesktopSized
+    const description = handleMetaDesc(this.show.introduction)
     return {
       title,
-      description: this.introduction,
       meta: [
         {
           hid: 'og:url',
@@ -153,17 +154,17 @@ export default {
           property: 'og:image',
           content: image,
         },
-        ...(this.introduction
+        ...(description
           ? [
               {
                 hid: 'description',
                 name: 'description',
-                content: this.introduction,
+                content: description,
               },
               {
                 hid: 'og:description',
                 property: 'og:description',
-                content: this.introduction,
+                content: description,
               },
             ]
           : []),

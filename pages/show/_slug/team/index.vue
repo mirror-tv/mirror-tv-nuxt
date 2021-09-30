@@ -40,6 +40,7 @@ import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { getContactImageUrl } from '~/utils/image-handler'
+import { handleMetaDesc } from '~/utils/content-handler'
 import ShowWrapper from '~/components/ShowWrapper'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
@@ -88,6 +89,7 @@ export default {
   head() {
     const title = `創作團隊 - ${this.show.name} - ${SITE_NAME}`
     const image = this.show?.picture?.urlDesktopSized
+    const description = handleMetaDesc(this.show.introduction)
     return {
       title,
       description: this.show.introduction,
@@ -107,17 +109,17 @@ export default {
           property: 'og:image',
           content: image,
         },
-        ...(this.show.introduction
+        ...(description
           ? [
               {
                 hid: 'description',
                 name: 'description',
-                content: this.show.introduction,
+                content: description,
               },
               {
                 hid: 'og:description',
                 property: 'og:description',
-                content: this.show.introduction,
+                content: description,
               },
             ]
           : []),
