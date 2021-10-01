@@ -107,7 +107,7 @@ export default {
       query: fetchArtShowBySlug,
       variables() {
         return {
-          episodeSlug: this.currentArtShow,
+          slug: this.currentArtShow,
         }
       },
       update(data) {

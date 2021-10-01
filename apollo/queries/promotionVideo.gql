@@ -1,4 +1,4 @@
-query fetchAllPromotionVideos {
+query fetchPromotionVideos {
   allPromotionVideos(
     where: {
       state: published

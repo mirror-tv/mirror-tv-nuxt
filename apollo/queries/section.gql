@@ -5,7 +5,7 @@ query fetchSectionByShowSlug($showSlug: String) {
   }
 }
 
-query fetchSectionBySlug($slug: String) {
+query fetchSectionBySlug($slug: String!) {
   allSections(where: { slug: $slug }) {
     name
     slug
@@ -13,13 +13,7 @@ query fetchSectionBySlug($slug: String) {
       slug
     }
     series {
-      name
-      slug
-      introductionApiData
-      heroImage {
-        urlDesktopSized
-        urlMobileSized
-      }
+      ...listingSeries
     }
   }
 }

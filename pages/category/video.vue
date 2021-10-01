@@ -195,11 +195,11 @@ import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import { fetchVideoEditorChoices } from '~/apollo/queries/videoEditorChoices.gql'
 import { fetchPostsByCategorySlug } from '~/apollo/queries/posts.gql'
-import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
-import { fetchAllShows } from '~/apollo/queries/show.gql'
+import { fetchPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
+import { fetchShows } from '~/apollo/queries/show.gql'
 import {
   fetchVideoByName,
-  fetchVideoByCategory,
+  fetchVideoByCategorySlug,
 } from '~/apollo/queries/video.gql'
 
 export default {
@@ -220,7 +220,7 @@ export default {
       },
     },
     promotionVideos: {
-      query: fetchAllPromotionVideos,
+      query: fetchPromotionVideos,
       update(data) {
         return data?.allPromotionVideos
           .filter((item) => item.ytUrl)
@@ -229,7 +229,7 @@ export default {
       },
     },
     allShows: {
-      query: fetchAllShows,
+      query: fetchShows,
       update(data) {
         return data.allShows
       },
@@ -246,7 +246,7 @@ export default {
       },
     },
     livePlayList: {
-      query: fetchVideoByCategory,
+      query: fetchVideoByCategorySlug,
       variables() {
         return {
           slug: 'stream',

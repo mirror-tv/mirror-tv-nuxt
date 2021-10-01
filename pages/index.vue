@@ -266,12 +266,12 @@ import UiTopicIntroList from '~/components/UiTopicIntroList'
 import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 
 import { fetchEditorChoices } from '~/apollo/queries/editorChoices.gql'
-import { fetchAllPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
-import { fetchAllShows } from '~/apollo/queries/show.gql'
+import { fetchPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
+import { fetchShows } from '~/apollo/queries/show.gql'
 import { fetchFeaturedTopics } from '~/apollo/queries/topic.gql'
 import {
   fetchVideoByName,
-  fetchVideoByCategory,
+  fetchVideoByCategorySlug,
 } from '~/apollo/queries/video.gql'
 
 const PAGE_SIZE = 12
@@ -318,7 +318,7 @@ export default {
       },
     },
     promotionVideos: {
-      query: fetchAllPromotionVideos,
+      query: fetchPromotionVideos,
       update(data) {
         return data?.allPromotionVideos
           .filter((item) => item.ytUrl)
@@ -335,7 +335,7 @@ export default {
       update: (data) => data?.allTopics,
     },
     allShows: {
-      query: fetchAllShows,
+      query: fetchShows,
       update(data) {
         return data.allShows
       },
@@ -363,7 +363,7 @@ export default {
       },
     },
     livePlayList: {
-      query: fetchVideoByCategory,
+      query: fetchVideoByCategorySlug,
       variables() {
         return {
           slug: 'stream',

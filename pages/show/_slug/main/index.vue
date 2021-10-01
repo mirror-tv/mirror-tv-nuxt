@@ -64,7 +64,7 @@ import VideoListSlides from '~/components/VideoListSlides'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
-import { fetchAllArtShowsByShowLatest } from '~/apollo/queries/artShow.gql'
+import { fetchArtShowsByShowSlug } from '~/apollo/queries/artShow.gql'
 import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
 
 export default {
@@ -98,7 +98,7 @@ export default {
       update: (data) => data.allSections || [],
     },
     artShowList: {
-      query: fetchAllArtShowsByShowLatest,
+      query: fetchArtShowsByShowSlug,
       variables() {
         return {
           first: 8,
@@ -251,7 +251,7 @@ export default {
         variables: {
           first: 8,
           skip: 8 * this.page,
-          show: this.show.slug,
+          slug: this.show.slug,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           return {

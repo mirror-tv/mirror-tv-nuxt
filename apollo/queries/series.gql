@@ -1,16 +1,10 @@
-query fetchSeriesBySlug($slug: String) {
+query fetchSeriesBySlug($slug: String!) {
   allSeries(where: { slug: $slug }) {
-    name
-    slug
-    introductionApiData
+    ...listingSeries
     section {
       show {
         slug
       }
-    }
-    heroImage {
-      urlDesktopSized,
-      urlMobileSized
     }
   }
 }

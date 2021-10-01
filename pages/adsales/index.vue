@@ -17,12 +17,12 @@
 <script>
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
-import { fetchAllSales } from '~/apollo/queries/allSales.gql'
+import { fetchFirstAdSales } from '~/apollo/queries/adSale.gql'
 
 export default {
   apollo: {
     adSales: {
-      query: fetchAllSales,
+      query: fetchFirstAdSales,
       update(data) {
         return data.allSales?.[0]
       },

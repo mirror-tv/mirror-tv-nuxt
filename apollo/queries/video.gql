@@ -7,7 +7,7 @@ query fetchVideoByName($name: String!) {
   }
 }
 
-query fetchVideoByCategory($slug: String!) {
+query fetchVideoByCategorySlug($slug: String!) {
   allVideos(
     where: { categories_some: { slug: $slug } }
   ) {
