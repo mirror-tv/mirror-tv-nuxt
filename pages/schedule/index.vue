@@ -10,7 +10,7 @@
       <template v-else>
         <img
           class="schedule__image"
-          src="~/assets/img/magnifier-with-question-mark.png"
+          src="~/assets/img/icon/magnifier-with-question-mark.png"
           alt="找不到當日節目表"
         />
         <span>找不到當日節目表</span><br />

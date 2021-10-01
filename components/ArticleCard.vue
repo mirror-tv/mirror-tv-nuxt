@@ -39,7 +39,7 @@ export default {
     },
     articleImgURL: {
       type: String,
-      default: require('~/assets/img/image-default.jpg'),
+      default: require('~/assets/img/default/image-default.jpg'),
     },
     articleTitle: {
       type: String,

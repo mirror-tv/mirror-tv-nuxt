@@ -10,9 +10,9 @@
         <picture>
           <source
             media="(min-width: 768px)"
-            srcset="~/assets/img/Mnews_Logo-b.svg"
+            srcset="~/assets/img/site-logo/mnews-blue.svg"
           />
-          <img src="~/assets/img/Mnews_Logo_mobile-white.svg" alt="logo" />
+          <img src="~/assets/img/site-logo/mnews-white-sm.svg" alt="logo" />
         </picture>
       </a>
       <section class="top-wrapper__right">
@@ -42,7 +42,7 @@
           >
             <img
               class="search-icon"
-              src="~/assets/img/search.svg"
+              src="~/assets/img/icon/search.svg"
               alt="search"
             />
           </button>

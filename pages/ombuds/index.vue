@@ -1,7 +1,7 @@
 <template>
   <div class="g-page ombuds">
     <section class="ombuds__banner">
-      <img src="~assets/img/ombuds-banner.jpg" alt="ombudsman banner" />
+      <img src="~assets/img/ombuds/om-banner.jpg" alt="ombudsman banner" />
     </section>
     <div class="ombuds__content">
       <h2>外部公評人翁秀琪</h2>

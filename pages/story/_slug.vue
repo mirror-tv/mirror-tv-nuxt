@@ -538,9 +538,9 @@ export default {
     image() {
       return (
         this.postPublished?.heroImage ?? {
-          tiny: require('~/assets/img/image-default.jpg'),
-          mobile: require('~/assets/img/image-default.jpg'),
-          desktop: require('~/assets/img/image-default.jpg'),
+          tiny: require('~/assets/img/default/image-default.jpg'),
+          mobile: require('~/assets/img/default/image-default.jpg'),
+          desktop: require('~/assets/img/default/image-default.jpg'),
         }
       )
     },

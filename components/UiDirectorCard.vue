@@ -26,7 +26,7 @@ export default {
     },
     image: {
       type: String,
-      default: require('~/assets/img/image-default.jpg'),
+      default: require('~/assets/img/default/image-default.jpg'),
     },
     name: {
       type: String,
