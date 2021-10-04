@@ -47,11 +47,11 @@
           :listData="listArticleAsidepopularData"
           :hasBorderInXl="true"
         />
-        <ClientOnly>
+        <!-- <ClientOnly>
           <div v-if="!isTablet && microAdId" class="micro-ad">
             <MicroAd :unitId="microAdId" />
           </div>
-        </ClientOnly>
+        </ClientOnly> -->
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'即時新聞'"
@@ -59,11 +59,11 @@
           :hasBorderInXl="true"
         />
       </aside>
-      <ClientOnly>
+      <!-- <ClientOnly>
         <div v-if="isTablet && microAdId" class="micro-ad">
           <MicroAd :unitId="microAdId" />
         </div>
-      </ClientOnly>
+      </ClientOnly> -->
     </div>
   </section>
 </template>
@@ -81,7 +81,7 @@ import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import ListArticleAside from '~/components/ListArticleAside'
-import MicroAd from '~/components/MicroAd'
+// import MicroAd from '~/components/MicroAd'
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import {
   allPublishedPosts,
@@ -141,7 +141,7 @@ export default {
     ArticleCard,
     ButtonLoadmore,
     ListArticleAside,
-    MicroAd,
+    // MicroAd,
   },
   data() {
     return {
