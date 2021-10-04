@@ -73,16 +73,18 @@ import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 import { MICRO_AD_UNITS } from '~/constants/micro-ad'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
+import { getPostImageUrl } from '~/utils/image-handler'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import ListArticleAside from '~/components/ListArticleAside'
 // import MicroAd from '~/components/MicroAd'
-import { allPublishedPostsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
-import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
-import { getPostImageUrl } from '~/utils/image-handler'
+import {
+  allPublishedPosts,
+  allPublishedPostsByCategorySlug,
+} from '~/apollo/queries/post.gql'
 
 const MICRO_AD_INDEXES = []
 // const MICRO_AD_INDEXES = [3, 5, 9, 11]

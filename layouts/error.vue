@@ -22,13 +22,13 @@
       </div>
 
       <div class="error__wire_left">
-        <img class="error__icon plug" src="~/assets/img/plug.svg" />
+        <img class="error__icon plug" src="~/assets/img/icon/plug.svg" />
         <div class="error__wire_1" />
         <div class="error__wire_2" />
       </div>
 
       <div class="error__wire_right">
-        <img class="error__icon socket" src="~/assets/img/socket.svg" />
+        <img class="error__icon socket" src="~/assets/img/icon/socket.svg" />
         <div class="error__wire_1" />
         <div class="error__wire_2" />
       </div>

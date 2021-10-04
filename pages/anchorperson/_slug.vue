@@ -16,7 +16,10 @@
               class="anchor__info-link--facebook"
               @click="sendGaClickEvent('主播 fb')"
             >
-              <img v-lazy="require('@/assets/img/flogo.svg')" alt="Facebook" />
+              <img
+                v-lazy="require('@/assets/img/social-media/fb-square.svg')"
+                alt="Facebook"
+              />
             </a>
             <a
               v-if="anchorInstagram"
@@ -27,7 +30,7 @@
               @click="sendGaClickEvent('主播 instagram')"
             >
               <img
-                v-lazy="require('~/assets/img/IG-logo.svg')"
+                v-lazy="require('~/assets/img/social-media//ig-logo.svg')"
                 alt="Instagram"
               />
             </a>
@@ -39,7 +42,10 @@
               class="anchor__info-link--twitter"
               @click="sendGaClickEvent('主播 twitter')"
             >
-              <img src="~/assets/img/twitter-anchor-link.svg" alt="Twitter" />
+              <img
+                src="~/assets/img/social-media/twitter-logo.svg"
+                alt="Twitter"
+              />
             </a>
           </div>
         </div>

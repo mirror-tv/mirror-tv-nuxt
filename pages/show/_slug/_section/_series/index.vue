@@ -47,7 +47,7 @@ import ArticleContentHandler from '~/components/ArticleContentHandler'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { fetchSectionBySlug } from '~/apollo/queries/section.gql'
 import { fetchSeriesBySlug } from '~/apollo/queries/series.gql'
-import { fetchAllArtShowsBySeries } from '~/apollo/queries/artShow.gql'
+import { fetchArtShowsBySeriesSlug } from '~/apollo/queries/artShow.gql'
 
 export default {
   apollo: {
@@ -108,7 +108,7 @@ export default {
       },
     },
     artShowList: {
-      query: fetchAllArtShowsBySeries,
+      query: fetchArtShowsBySeriesSlug,
       variables() {
         return {
           seriesSlug: this.currentSeries,

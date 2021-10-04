@@ -6,8 +6,8 @@ query fetchEditorChoices {
         state: published,
       }
     },
-    sortBy: [sortOrder_ASC,  createdAt_DESC]
-    first: 8
+    sortBy: [sortOrder_ASC,  createdAt_DESC],
+    first: 8,
   ) {
     choice {
       id

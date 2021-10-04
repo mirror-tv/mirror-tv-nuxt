@@ -1,0 +1,9 @@
+fragment listingSeries on Serie {
+  name
+  slug
+  introductionApiData
+  heroImage {
+    urlDesktopSized
+    urlMobileSized
+  }
+}

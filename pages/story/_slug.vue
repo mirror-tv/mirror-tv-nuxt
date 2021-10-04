@@ -194,9 +194,10 @@ import Ui18Warning from '~/components/Ui18Warning'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
 import MicroAd from '~/components/MicroAd'
-
-import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
-import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
+import {
+  allPublishedPosts,
+  fetchPostPublishedBySlug,
+} from '~/apollo/queries/post.gql'
 
 const CREDIT_KEYS = [
   'writers',
@@ -538,9 +539,9 @@ export default {
     image() {
       return (
         this.postPublished?.heroImage ?? {
-          tiny: require('~/assets/img/image-default.jpg'),
-          mobile: require('~/assets/img/image-default.jpg'),
-          desktop: require('~/assets/img/image-default.jpg'),
+          tiny: require('~/assets/img/default/image-default.jpg'),
+          mobile: require('~/assets/img/default/image-default.jpg'),
+          desktop: require('~/assets/img/default/image-default.jpg'),
         }
       )
     },

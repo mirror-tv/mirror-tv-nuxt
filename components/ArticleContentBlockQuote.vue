@@ -33,7 +33,7 @@ export default {
     position: absolute;
     width: 30px;
     height: 30px;
-    background-image: url('~assets/img/quote.svg');
+    background-image: url('~assets/img/article/quote.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;

@@ -7,7 +7,7 @@
   >
     <span>
       <img
-        src="~/assets/img/facebook-anchor-link.svg"
+        src="~/assets/img/social-media/fb-round.svg"
         alt="分享至 Facebook"
         loading="lazy"
       />
