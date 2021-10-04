@@ -194,7 +194,7 @@ import LinkAnchorStyle from '~/components/LinkAnchorStyle'
 
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import { fetchVideoEditorChoices } from '~/apollo/queries/videoEditorChoices.gql'
-import { fetchPostsByCategorySlug } from '~/apollo/queries/posts.gql'
+import { fetchPostsByCategorySlug } from '~/apollo/queries/post.gql'
 import { fetchPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchShows } from '~/apollo/queries/show.gql'
 import {

@@ -22,7 +22,7 @@
 import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 
 import { getUrlOrigin } from '~/utils/meta'
-import { fetchPostsAndCountByTagName } from '~/apollo/queries/posts.gql'
+import { fetchPostsAndCountByTagName } from '~/apollo/queries/post.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
 import UiListHandler from '~/components/UiListHandler'
