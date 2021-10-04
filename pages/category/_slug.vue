@@ -27,8 +27,6 @@
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
                 :articleStyle="post.articleStyle"
-                :isMicroAd="post.isMicroAd"
-                :microAdId="post.microAdId"
                 @click.native="sendGaClickEvent('category latest')"
               />
             </li>
@@ -88,7 +86,8 @@ import {
   allPublishedPostsByCategorySlug,
 } from '~/apollo/queries/post.gql'
 
-const MICRO_AD_INDEXES = [3, 5, 9, 11]
+const MICRO_AD_INDEXES = []
+// const MICRO_AD_INDEXES = [3, 5, 9, 11]
 
 export default {
   apollo: {
@@ -216,7 +215,8 @@ export default {
         ? [this.currentTopPost].concat(this.allPostsCategory)
         : this.allPostsCategory
       const reducedList = listData?.map((post) => this.reducerArticleCard(post))
-      return this.innerWidth ? this.insertMicroAds(reducedList) : reducedList
+      return reducedList
+      // return this.innerWidth ? this.insertMicroAds(reducedList) : reducedList
     },
     hasListArticleMainData() {
       return this.listArticleMainData.length
@@ -234,15 +234,15 @@ export default {
     showLoadMoreButton() {
       return this.allPostsCategory?.length < this.postsCount
     },
-    microAdId() {
-      if (this.innerWidth) {
-        return this.innerWidth >= 1200 ? '4300419' : '4300420'
-      }
-      return ''
-    },
-    isTablet() {
-      return this.innerWidth >= 768 && this.innerWidth < 1200
-    },
+    // microAdId() {
+    //   if (this.innerWidth) {
+    //     return this.innerWidth >= 1200 ? '4300419' : '4300420'
+    //   }
+    //   return ''
+    // },
+    // isTablet() {
+    //   return this.innerWidth >= 768 && this.innerWidth < 1200
+    // },
   },
   mounted() {
     if (this.has404Err) {
@@ -315,7 +315,8 @@ export default {
       this.sendGaClickEvent('more')
     },
     getPageSize() {
-      return this.currentTopPostSlug ? 8 : 9
+      return this.currentTopPostSlug ? 12 : 13
+      // return this.currentTopPostSlug ? 8 : 9
     },
   },
 }

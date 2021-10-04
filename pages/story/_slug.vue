@@ -615,18 +615,20 @@ export default {
       return this.postPublished?.isAdult
     },
     microAdId() {
-      if (this.innerWidth) {
-        return this.innerWidth >= 1200 ? '4300419' : '4300420'
-      }
       return ''
+      // if (this.innerWidth) {
+      //   return this.innerWidth >= 1200 ? '4300419' : '4300420'
+      // }
+      // return ''
     },
     pdfUrl() {
       return getPdfUrl(this.$config, this.slug)
     },
     shouldShowAds() {
-      return (
-        this.categorySlug !== 'ombuds' && !FILTERED_SLUG.includes(this.slug)
-      )
+      return false
+      // return (
+      //   this.categorySlug !== 'ombuds' && !FILTERED_SLUG.includes(this.slug)
+      // )
     },
     isTablet() {
       return this.innerWidth >= 768 && this.innerWidth < 1200
