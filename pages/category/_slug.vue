@@ -27,8 +27,6 @@
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
                 :articleStyle="post.articleStyle"
-                :isMicroAd="post.isMicroAd"
-                :microAdId="post.microAdId"
                 @click.native="sendGaClickEvent('category latest')"
               />
             </li>
@@ -47,11 +45,11 @@
           :listData="listArticleAsidepopularData"
           :hasBorderInXl="true"
         />
-        <ClientOnly>
+        <!-- <ClientOnly>
           <div v-if="!isTablet && microAdId" class="micro-ad">
             <MicroAd :unitId="microAdId" />
           </div>
-        </ClientOnly>
+        </ClientOnly> -->
         <ListArticleAside
           class="aside__list-latest"
           :listTitle="'即時新聞'"
@@ -59,11 +57,11 @@
           :hasBorderInXl="true"
         />
       </aside>
-      <ClientOnly>
+      <!-- <ClientOnly>
         <div v-if="isTablet && microAdId" class="micro-ad">
           <MicroAd :unitId="microAdId" />
         </div>
-      </ClientOnly>
+      </ClientOnly> -->
     </div>
   </section>
 </template>
@@ -80,13 +78,14 @@ import ArticleCardFeatured from '~/components/ArticleCardFeatured'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import ListArticleAside from '~/components/ListArticleAside'
-import MicroAd from '~/components/MicroAd'
+// import MicroAd from '~/components/MicroAd'
 import { allPublishedPostsByCategorySlug } from '~/apollo/queries/allPublishedPostsByCategorySlug.gql'
 import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
 import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
 import { getPostImageUrl } from '~/utils/image-handler'
 
-const MICRO_AD_INDEXES = [3, 5, 9, 11]
+const MICRO_AD_INDEXES = []
+// const MICRO_AD_INDEXES = [3, 5, 9, 11]
 
 export default {
   apollo: {
@@ -139,7 +138,7 @@ export default {
     ArticleCard,
     ButtonLoadmore,
     ListArticleAside,
-    MicroAd,
+    // MicroAd,
   },
   data() {
     return {
@@ -214,7 +213,8 @@ export default {
         ? [this.currentTopPost].concat(this.allPostsCategory)
         : this.allPostsCategory
       const reducedList = listData?.map((post) => this.reducerArticleCard(post))
-      return this.innerWidth ? this.insertMicroAds(reducedList) : reducedList
+      return reducedList
+      // return this.innerWidth ? this.insertMicroAds(reducedList) : reducedList
     },
     hasListArticleMainData() {
       return this.listArticleMainData.length
@@ -232,15 +232,15 @@ export default {
     showLoadMoreButton() {
       return this.allPostsCategory?.length < this.postsCount
     },
-    microAdId() {
-      if (this.innerWidth) {
-        return this.innerWidth >= 1200 ? '4300419' : '4300420'
-      }
-      return ''
-    },
-    isTablet() {
-      return this.innerWidth >= 768 && this.innerWidth < 1200
-    },
+    // microAdId() {
+    //   if (this.innerWidth) {
+    //     return this.innerWidth >= 1200 ? '4300419' : '4300420'
+    //   }
+    //   return ''
+    // },
+    // isTablet() {
+    //   return this.innerWidth >= 768 && this.innerWidth < 1200
+    // },
   },
   mounted() {
     if (this.has404Err) {
@@ -313,7 +313,8 @@ export default {
       this.sendGaClickEvent('more')
     },
     getPageSize() {
-      return this.currentTopPostSlug ? 8 : 9
+      return this.currentTopPostSlug ? 12 : 13
+      // return this.currentTopPostSlug ? 8 : 9
     },
   },
 }
