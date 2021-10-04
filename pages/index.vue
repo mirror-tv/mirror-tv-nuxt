@@ -66,8 +66,6 @@
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
                 :articleStyle="post.articleStyle"
-                :isMicroAd="post.isMicroAd"
-                :microAdId="post.microAdId"
                 @click.native="sendGaClickEvent('latest articles')"
               />
             </li>
@@ -175,8 +173,6 @@
                 :articleTitle="post.articleTitle"
                 :articleDate="post.articleDate"
                 :articleStyle="post.articleStyle"
-                :isMicroAd="post.isMicroAd"
-                :microAdId="post.microAdId"
                 @click.native="sendGaClickEvent('latest articles')"
               />
             </li>
@@ -275,7 +271,8 @@ import {
 } from '~/apollo/queries/video.gql'
 
 const PAGE_SIZE = 12
-const MICRO_AD_INDEXES = [2, 4, 8, 10]
+const MICRO_AD_INDEXES = []
+// const MICRO_AD_INDEXES = [3, 5, 9, 11]
 const FIRST_PAGE_NUM = PAGE_SIZE - MICRO_AD_INDEXES.length
 
 export default {
@@ -436,7 +433,8 @@ export default {
       const listData = this.allPublishedPosts?.map((post) =>
         this.reducerArticleCard(post)
       )
-      return this.innerWidth ? this.insertMicroAds(listData) : listData
+      return listData
+      // return this.innerWidth ? this.insertMicroAds(listData) : listData
     },
     showLoadMoreButton() {
       return this.allPublishedPosts?.length < this.postsCount
