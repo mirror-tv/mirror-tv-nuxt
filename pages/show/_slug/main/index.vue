@@ -103,7 +103,7 @@ export default {
         return {
           first: 8,
           skip: 0,
-          slug: this.show.slug,
+          slug: this.currentShow,
         }
       },
       update(data) {

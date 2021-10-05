@@ -63,6 +63,9 @@ export default {
   @include media-breakpoint-up(md) {
     margin: 0 0 24px;
   }
+  @include media-breakpoint-up(xl) {
+    margin: 0 0 48px;
+  }
   h3 {
     color: $color-blue;
     font-size: 20px;
