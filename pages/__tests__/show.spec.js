@@ -1,6 +1,5 @@
 import page from '../show/_slug/index.vue'
 import FacebookPagePlugin from '../../components/FacebookPagePlugin'
-import YoutubeEmbedByIframeApi from '../../components/YoutubeEmbedByIframeApi'
 
 import createWrapperHelper from '~/test/helpers/createWrapperHelper'
 
@@ -49,13 +48,10 @@ describe('page content', () => {
   //   )
   // })
   test('Should have proper introduction', () => {
-    const introduction = wrapper.get('.show__main__introduction')
+    const introduction = wrapper.get('.normal-show__introduction')
     expect(introduction.text()).toContain(mockShow.introduction)
   })
   test('Should have facebook page plugin', () => {
     expect(wrapper.findComponent(FacebookPagePlugin).exists()).toBe(true)
-  })
-  test('Should have youtube play list', () => {
-    expect(wrapper.findComponent(YoutubeEmbedByIframeApi).exists()).toBe(true)
   })
 })

@@ -1,13 +1,13 @@
 query fetchFeaturedTopics(
-  $topic_first: Int = 4,
-  $post_first: Int = 3,
+  $topicFirst: Int = 4,
+  $postFirst: Int = 3,
 ) {
   allTopics(
     where: {
       state: published,
       isFeatured: true
     },
-    first: $topic_first,
+    first: $topicFirst,
     sortBy: [sortOrder_ASC, updatedAt_DESC ]
   ) {
     slug
@@ -17,7 +17,7 @@ query fetchFeaturedTopics(
       urlOriginal
     }
     post(
-      first: $post_first,
+      first: $postFirst,
       sortBy: updatedAt_DESC
     ) {
       slug

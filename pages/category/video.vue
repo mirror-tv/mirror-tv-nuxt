@@ -2,7 +2,7 @@
   <section class="g-page g-page--with-aside video">
     <div class="g-page__wrapper">
       <EditorChoicesVideoNews
-        :items="videoEditorChoices"
+        :items="videoEditorChoicesItems"
         class="editor-choices"
         @click="sendGaClickEvent('editors choice')"
       >
@@ -60,35 +60,13 @@
         </div>
       </main>
       <aside class="g-aside">
-        <div v-if="liveVideoId" class="live-stream">
-          <HeadingBordered
-            :showIcon="true"
-            text="鏡電視LIVE"
-            class="video__heading"
-          />
-          <ClientOnly>
-            <YoutubeEmbedByIframeApi
-              :enableAutoplay="true"
-              :videoId="liveVideoId"
-            />
-          </ClientOnly>
-        </div>
-        <div v-if="hasLivePlayListItems" class="live-stream">
-          <HeadingBordered
-            :showIcon="true"
-            text="直播現場"
-            class="video__heading"
-          />
-          <ClientOnly>
-            <YoutubeEmbedByIframeApi
-              v-for="item in livePlayListIds"
-              :key="item"
-              :videoId="item"
-              :enableAutoplay="true"
-            />
-          </ClientOnly>
-        </div>
-
+        <UiLiveLists
+          liveTitle="鏡電視LIVE"
+          streamTitle="直播現場"
+          :liveVideoId="liveVideoId"
+          :livePlayListIds="livePlayListIds"
+          class="aside__item"
+        />
         <div class="aside__category-posts-wrapper category-posts-wrapper">
           <div v-if="hasPopularVideo" class="category-posts">
             <HeadingBordered class="category-posts__heading" text="熱門影音" />
@@ -138,40 +116,22 @@
           </div>
         </div>
 
-        <div v-if="hasPromotionVideos" class="aside-list aside-promotion-list">
-          <HeadingBordered class="home__heading" text="發燒單元" />
-          <div class="promotion-list">
-            <ClientOnly>
-              <YoutubeEmbedByIframeApi
-                v-for="item in promotionVideos"
-                :key="item"
-                :videoId="item"
-                class="promotion-list__item"
-              />
-            </ClientOnly>
-          </div>
-        </div>
-
-        <div v-if="hasShows" class="aside-list aside-show-list">
-          <HeadingBordered class="home__heading" text="節目" />
-          <div class="show-list__wrapper">
-            <ShowCard
-              v-for="show in allShows"
-              :key="show.slug"
-              :slug="show.slug"
-              :imageUrl="show.bannerImg"
-              :isArtShow="show.isArtShow"
-            />
-          </div>
-        </div>
-
-        <div class="aside__link-list link-list">
-          <div class="link-list__wrapper">
-            <LinkAnchorStyle />
-            <LinkYoutubeStyle />
-            <FacebookPagePlugin href="https://www.facebook.com/mnewsTW/" />
-          </div>
-        </div>
+        <UiPromotionList
+          v-if="hasPromotionVideos"
+          title="發燒單元"
+          :promotionVideoIds="promotionVideoIds"
+          class="aside__item"
+        />
+        <UiShowList
+          v-if="hasShows"
+          title="節目"
+          :shows="allShows"
+          class="aside__item"
+        />
+        <UiLinkList
+          fbHref="https://www.facebook.com/mnewsTW/"
+          class="aside__item"
+        />
       </aside>
     </div>
   </section>
@@ -186,21 +146,22 @@ import { handleYoutubeId } from '~/utils/content-handler'
 import ArticleListSlides from '~/components/ArticleListSlides'
 import EditorChoicesVideoNews from '~/components/EditorChoicesVideoNews'
 import HeadingBordered from '~/components/HeadingBordered'
-import FacebookPagePlugin from '~/components/FacebookPagePlugin'
-import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
-import LinkYoutubeStyle from '~/components/LinkYoutubeStyle'
-import ShowCard from '~/components/ShowCard'
-import LinkAnchorStyle from '~/components/LinkAnchorStyle'
+import UiLiveLists from '~/components/UiLiveLists'
+import UiPromotionList from '~/components/UiPromotionList'
+import UiShowList from '~/components/UiShowList'
+import UiLinkList from '~/components/UiLinkList'
 
-import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
+import { fetchFeaturedCategories } from '~/apollo/queries/category.gql'
 import { fetchVideoEditorChoices } from '~/apollo/queries/videoEditorChoices.gql'
-import { fetchPostsByCategorySlug } from '~/apollo/queries/post.gql'
+import { fetchVideoPostsByCategorySlug } from '~/apollo/queries/post.gql'
 import { fetchPromotionVideos } from '~/apollo/queries/promotionVideo.gql'
 import { fetchShows } from '~/apollo/queries/show.gql'
 import {
   fetchVideoByName,
   fetchVideoByCategorySlug,
 } from '~/apollo/queries/video.gql'
+
+const PAGE_SIZE = 12
 
 export default {
   apollo: {
@@ -213,26 +174,15 @@ export default {
     },
     videoEditorChoices: {
       query: fetchVideoEditorChoices,
-      update: (data) => {
-        return data.allVideoEditorChoices
-          .filter((item) => item.videoEditor)
-          .map((item) => item.videoEditor)
-      },
+      update: (data) => data.allVideoEditorChoices,
     },
     promotionVideos: {
       query: fetchPromotionVideos,
-      update(data) {
-        return data?.allPromotionVideos
-          .filter((item) => item.ytUrl)
-          .filter((item, i) => i < 5)
-          .map((item) => handleYoutubeId(item.ytUrl))
-      },
+      update: (data) => data?.allPromotionVideos,
     },
     allShows: {
       query: fetchShows,
-      update(data) {
-        return data.allShows
-      },
+      update: (data) => data.allShows,
     },
     liveVideo: {
       query: fetchVideoByName,
@@ -241,9 +191,7 @@ export default {
           name: 'mnews-live',
         }
       },
-      update(data) {
-        return data.allVideos?.[0]
-      },
+      update: (data) => data.allVideos?.[0],
     },
     livePlayList: {
       query: fetchVideoByCategorySlug,
@@ -252,20 +200,17 @@ export default {
           slug: 'stream',
         }
       },
-      update(data) {
-        return data.allVideos ?? []
-      },
+      update: (data) => data.allVideos,
     },
   },
   components: {
     ArticleListSlides,
     EditorChoicesVideoNews,
     HeadingBordered,
-    FacebookPagePlugin,
-    YoutubeEmbedByIframeApi,
-    LinkYoutubeStyle,
-    ShowCard,
-    LinkAnchorStyle,
+    UiLiveLists,
+    UiPromotionList,
+    UiShowList,
+    UiLinkList,
   },
   data() {
     return {
@@ -337,6 +282,9 @@ export default {
     categoriesSlug() {
       return this.allCategories?.map((category) => category.slug)
     },
+    videoEditorChoicesItems() {
+      return this.videoEditorChoices.map((item) => item.videoEditor) ?? []
+    },
     liveVideoId() {
       const url = this.liveVideo?.youtubeUrl ?? ''
       return url ? handleYoutubeId(url) : ''
@@ -347,17 +295,19 @@ export default {
         return url ? handleYoutubeId(item.youtubeUrl) : ''
       })
     },
+    promotionVideoIds() {
+      return (
+        this.promotionVideos.map((item) => handleYoutubeId(item.ytUrl)) ?? []
+      )
+    },
     hasShows() {
       return this.allShows?.length
     },
     hasPopularVideo() {
       return this.popularVideo?.length
     },
-    hasLivePlayListItems() {
-      return this.livePlayList?.length
-    },
     hasPromotionVideos() {
-      return this.promotionVideos?.length
+      return this.promotionVideoIds?.length
     },
   },
   mounted() {
@@ -369,9 +319,9 @@ export default {
     fetchPostsByCategory() {
       this.categoriesSlug.forEach((slug) => {
         this.$apollo.addSmartQuery(`${slug}Posts`, {
-          query: fetchPostsByCategorySlug,
+          query: fetchVideoPostsByCategorySlug,
           variables: () => ({
-            first: 12,
+            first: PAGE_SIZE,
             category: slug,
             style: 'videoNews',
             withCount: true,
@@ -396,8 +346,8 @@ export default {
       this.$apollo.queries?.[`${slug}Posts`]?.fetchMore({
         variables: {
           category: slug,
-          first: 12,
-          skip: (page - 1) * 12,
+          first: PAGE_SIZE,
+          skip: (page - 1) * PAGE_SIZE,
           withCount: false,
           filteredSlug: FILTERED_SLUG,
         },
@@ -426,8 +376,6 @@ export default {
       }
       .main {
         margin-top: 32px;
-
-        // desktop  range
         @include media-breakpoint-up(xl) {
           width: calc(100% - 384px - 64px);
           margin-top: 60px;
@@ -435,7 +383,6 @@ export default {
 
         &__category-posts-wrapper {
           display: none;
-          // desktop range
           @include media-breakpoint-up(xl) {
             display: block;
           }
@@ -445,7 +392,6 @@ export default {
       .aside {
         &__category-posts-wrapper {
           display: block;
-          // desktop range
           @include media-breakpoint-up(xl) {
             display: none;
           }
@@ -461,7 +407,6 @@ export default {
         margin-top: 48px;
       }
     }
-    // desktop  range
     @include media-breakpoint-up(xl) {
       margin-top: 60px;
       padding-top: 8px;
@@ -469,23 +414,6 @@ export default {
       border-left: 1px solid #d8d8d8;
       border-right: 1px solid #d8d8d8;
     }
-
-    // .heading-bordered-wrapper {
-    //   margin-top: 48px;
-
-    //   &:first-child {
-    //     margin-top: 0;
-    //   }
-    // }
-  }
-}
-
-.live-stream {
-  * + .video__heading {
-    margin: 48px 0 0;
-  }
-  .iframe-wrapper {
-    margin-top: 16px;
   }
 }
 
@@ -534,62 +462,6 @@ export default {
     margin-top: 20px;
     @include media-breakpoint-up(md) {
       padding: 0;
-    }
-  }
-}
-
-.live-iframe {
-  position: relative;
-  padding-top: 56.25%;
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.aside-list {
-  .home__heading {
-    min-width: 110px;
-  }
-  &.aside-promotion-list {
-    @include media-breakpoint-up(xl) {
-      width: calc(100% + 4px); // 使影片寬於320px，以取得較大預覽圖
-      transform: translateX(-2px);
-    }
-  }
-  .promotion-list {
-    margin-top: 12px;
-    &__item {
-      margin-bottom: 12px;
-    }
-  }
-  .show-list__wrapper {
-    margin-top: 12px;
-    padding-bottom: 12px;
-
-    // tablet range
-    @include media-breakpoint-up(md) {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      padding-bottom: 4px;
-    }
-  }
-}
-
-.link-list {
-  margin: 0 0 8px;
-  &__wrapper {
-    @include media-breakpoint-up(md) {
-      width: 336px;
-    }
-    @include media-breakpoint-up(xl) {
-      width: 100%;
     }
   }
 }

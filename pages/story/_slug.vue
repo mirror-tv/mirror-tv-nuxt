@@ -1,5 +1,5 @@
 <template>
-  <section class="g-page g-page--with-aside story" :isVideoNews="isVideoNews">
+  <section class="g-page g-page--with-aside story">
     <Ui18Warning v-if="shouldShowAdultWarning" />
     <div class="g-page__wrapper">
       <main class="main">
@@ -195,8 +195,8 @@ import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
 import MicroAd from '~/components/MicroAd'
 import {
-  allPublishedPosts,
-  fetchPostPublishedBySlug,
+  FetchLatestPostsForAside,
+  fetchPostBySlug,
 } from '~/apollo/queries/post.gql'
 
 const CREDIT_KEYS = [
@@ -212,14 +212,14 @@ const CREDIT_KEYS = [
 export default {
   apollo: {
     postPublished: {
-      query: fetchPostPublishedBySlug,
+      query: fetchPostBySlug,
       variables() {
         return {
           slug: this.$route.params.slug,
         }
       },
       update(data) {
-        if (!data.postPublished?.[0]?.name) {
+        if (!data.allPosts?.[0]?.name) {
           this.has404Err = true
           if (process.server) {
             this.$nuxt.context.res.statusCode = 404
@@ -228,19 +228,19 @@ export default {
         if (process.browser) {
           this.innerWidth = window.innerWidth
         }
-        return data.postPublished?.[0]
+        return data.allPosts?.[0]
       },
       error(error) {
         handleError(this.$nuxt, error.networkError.statusCode)
       },
     },
     allPostsLatest: {
-      query: allPublishedPosts,
+      query: FetchLatestPostsForAside,
       variables: {
         first: 5,
         filteredSlug: FILTERED_SLUG,
       },
-      update: (data) => data.allPublishedPosts,
+      update: (data) => data.allPosts,
     },
   },
   components: {
@@ -670,7 +670,6 @@ export default {
         href: `/story/${post.slug}`,
         articleImgURL: getPostImageUrl(post),
         articleTitle: post.name,
-        articleDate: new Date(post.publishTime),
       }
     },
     handleLoadPopinWidget() {
@@ -949,10 +948,6 @@ export default {
   & .list-title {
     margin-top: 30px !important;
   }
-}
-
-[isVideoNews='true'] {
-  padding-bottom: 8px;
 }
 
 .micro-ad {

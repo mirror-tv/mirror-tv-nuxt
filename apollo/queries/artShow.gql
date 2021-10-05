@@ -1,9 +1,9 @@
 #import "~/apollo/fragments/listingArtShow.gql"
 
 query fetchArtShowsByShowSlug(
+  $slug: String!,
   $first: Int = 8,
   $skip: Int = 0,
-  $slug: String,
 ) {
   allArtShows(
     where: {

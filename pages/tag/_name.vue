@@ -5,7 +5,7 @@
       <p v-if="!hasItems">目前沒有相關的文章</p>
       <UiListHandler
         v-else
-        :posts="posts"
+        :posts="formatedMatchedPosts"
         class="tag__list"
         @click-item="sendGaClickEvent('article')"
       />
@@ -22,13 +22,13 @@
 import { SITE_NAME, FILTERED_SLUG } from '~/constants'
 
 import { getUrlOrigin } from '~/utils/meta'
-import { fetchPostsAndCountByTagName } from '~/apollo/queries/post.gql'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleError } from '~/utils/error-handler'
 import UiListHandler from '~/components/UiListHandler'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
+import { fetchPostsByTagName } from '~/apollo/queries/post.gql'
 
-const MAX_RESULTS = 12
+const PAGE_SIZE = 12
 
 export default {
   components: {
@@ -36,19 +36,19 @@ export default {
     ButtonLoadmore,
   },
   apollo: {
-    posts: {
-      query: fetchPostsAndCountByTagName,
+    allPublishedPosts: {
+      query: fetchPostsByTagName,
       variables() {
         return {
           tagName: this.routeName,
-          maxResults: MAX_RESULTS,
+          first: PAGE_SIZE,
           withCount: true,
           filteredSlug: FILTERED_SLUG,
         }
       },
       update(data) {
         this.postsCount = data._allPostsMeta?.count
-        return data.allPosts?.map(this.restructurePost)
+        return data.allPosts
       },
       error(error) {
         handleError(this.$nuxt, error.networkError.statusCode)
@@ -58,6 +58,7 @@ export default {
   data() {
     return {
       page: 1,
+      allPublishedPosts: [],
       postsCount: 0,
     }
   },
@@ -80,11 +81,17 @@ export default {
     }
   },
   computed: {
+    formatedMatchedPosts() {
+      return (
+        this.allPublishedPosts.map((item) => this.reducerArticleCard(item)) ??
+        []
+      )
+    },
     enableLoadMore() {
-      return this.posts.length < this.postsCount
+      return this.allPublishedPosts.length < this.postsCount
     },
     hasItems() {
-      return this.posts?.length > 0
+      return this.allPublishedPosts?.length > 0
     },
     routeName() {
       return this.$route.params.name
@@ -92,11 +99,11 @@ export default {
   },
   methods: {
     handleLoadMore() {
-      this.$apollo.queries.posts.fetchMore({
+      this.$apollo.queries.allPublishedPosts.fetchMore({
         variables: {
           tagName: this.routeName,
-          maxResults: MAX_RESULTS,
-          skip: this.page * MAX_RESULTS,
+          maxResults: PAGE_SIZE,
+          skip: this.page * PAGE_SIZE,
           filteredSlug: FILTERED_SLUG,
           withCount: false,
         },
@@ -117,7 +124,7 @@ export default {
       })
       this.sendGaClickEvent('more')
     },
-    restructurePost(post) {
+    reducerArticleCard(post) {
       return {
         href: `/story/${post.slug}`,
         slug: post.slug,

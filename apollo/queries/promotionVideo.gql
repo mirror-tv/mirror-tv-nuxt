@@ -1,9 +1,12 @@
-query fetchPromotionVideos {
+query fetchPromotionVideos(
+  $first: Int = 5,
+) {
   allPromotionVideos(
     where: {
       state: published
-    }
-    sortBy: [ sortOrder_ASC, updatedAt_DESC ]
+    },
+    first: $first,
+    sortBy: [ sortOrder_ASC, updatedAt_DESC ],
   ) {
     ytUrl
   }

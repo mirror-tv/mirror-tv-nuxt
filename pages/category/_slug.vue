@@ -80,10 +80,10 @@ import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
 import ListArticleAside from '~/components/ListArticleAside'
 // import MicroAd from '~/components/MicroAd'
-import { fetchFeaturedCategories } from '~/apollo/queries/categories.gql'
+import { fetchFeaturedCategories } from '~/apollo/queries/category.gql'
 import {
-  allPublishedPosts,
-  allPublishedPostsByCategorySlug,
+  FetchLatestPostsForAside,
+  fetchPostsByCategorySlug,
 } from '~/apollo/queries/post.gql'
 
 const MICRO_AD_INDEXES = []
@@ -107,7 +107,7 @@ export default {
       },
     },
     allPostsCategory: {
-      query: allPublishedPostsByCategorySlug,
+      query: fetchPostsByCategorySlug,
       variables() {
         return {
           categorySlug: this.pageSlug,
@@ -122,16 +122,16 @@ export default {
           this.innerWidth = window.innerWidth
         }
         this.postsCount = data._allPostsMeta?.count - MICRO_AD_INDEXES.length
-        return data.allPostsCategory
+        return data.allPosts
       },
     },
     allPostsLatest: {
-      query: allPublishedPosts,
+      query: FetchLatestPostsForAside,
       variables: {
         first: 5,
         filteredSlug: FILTERED_SLUG,
       },
-      update: (data) => data.allPublishedPosts,
+      update: (data) => data.allPosts,
     },
   },
   components: {
@@ -302,9 +302,8 @@ export default {
           skip: 12 * this.page,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
-          const newPosts = fetchMoreResult.allPostsCategory
           return {
-            allPostsCategory: [...previousResult.allPostsCategory, ...newPosts],
+            allPosts: [...previousResult.allPosts, ...fetchMoreResult.allPosts],
             _allPostsMeta: {
               __typename: '_QueryMeta',
               count: this.postsCount,

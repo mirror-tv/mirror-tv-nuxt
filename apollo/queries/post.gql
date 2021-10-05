@@ -1,7 +1,7 @@
-#import "~/apollo/fragments/listingPagePost.gql"
+#import "~/apollo/fragments/listingPost.gql"
 
-query fetchPostPublishedBySlug($slug: String!) {
-  postPublished: allPosts(where: { slug: $slug }) {
+query fetchPostBySlug($slug: String!) {
+  allPosts(where: { slug: $slug }) {
     style
     name
     brief
@@ -18,13 +18,6 @@ query fetchPostPublishedBySlug($slug: String!) {
     }
     heroVideo {
       youtubeUrl
-      coverPhoto {
-        tiny: urlTinySized
-        mobile: urlMobileSized
-        tablet: urlTabletSized
-        desktop: urlDesktopSized
-        original: urlOriginal
-      }
     }
     heroCaption
     categories {
@@ -67,13 +60,11 @@ query fetchPostPublishedBySlug($slug: String!) {
   }
 }
 
-query allPublishedPosts(
-  $first: Int = 12,
+query FetchLatestPostsForAside(
+  $first: Int = 5,
   $filteredSlug: [String] = [""],
-  $skip: Int = 0
 ) {
-  allPublishedPosts: allPosts(
-    sortBy: publishTime_DESC,
+  allPosts(
     where: {
       slug_not_in: $filteredSlug,
       categories_every: {
@@ -82,40 +73,20 @@ query allPublishedPosts(
       state: published
     },
     first: $first,
-    skip: $skip
-  ) {
-    id
-    publishTime
-    categories {
-      slug
-      name
-    }
-    ...listingPagePost
-  }
-
-  meta: _allPostsMeta(
     sortBy: publishTime_DESC,
-    where: {
-      slug_not_in: $filteredSlug,
-      categories_every: {
-        slug_not_in: "ombuds"
-      },
-      state: published
-    }
   ) {
-    count
+    ...listingPost
   }
 }
 
-query allPublishedPostsByCategorySlug(
+query fetchPostsByCategorySlug(
   $categorySlug: String!,
-  $filteredSlug: [String] = [""],
-  $withCount: Boolean = false,
   $first: Int = 13,
   $skip: Int = 0,
+  $withCount: Boolean = false,
+  $filteredSlug: [String] = [""],
 ) {
-  allPostsCategory: allPosts(
-    sortBy: publishTime_DESC
+  allPosts(
     where: {
       state: published,
       slug_not_in: $filteredSlug,
@@ -123,12 +94,12 @@ query allPublishedPostsByCategorySlug(
         slug: $categorySlug
       }
     }
-    first: $first
-    skip: $skip
+    first: $first,
+    skip: $skip,
+    sortBy: publishTime_DESC,
   ) {
-    id
     publishTime
-    ...listingPagePost
+    ...listingPost
   }
 
   _allPostsMeta(
@@ -144,9 +115,9 @@ query allPublishedPostsByCategorySlug(
   }
 }
 
-query fetchPostsAndCountByTagName (
-  $tagName: String,
-  $maxResults: Int = 12,
+query fetchPostsByTagName (
+  $tagName: String!,
+  $first: Int = 12,
   $skip: Int = 0,
   $withCount: Boolean = false,
   $filteredSlug: [String] = [""],
@@ -162,12 +133,12 @@ query fetchPostsAndCountByTagName (
         name: $tagName
       }
     },
-    first: $maxResults,
+    first: $first,
     skip: $skip,
     sortBy: publishTime_DESC,
   ) {
     publishTime
-    ...listingPagePost
+    ...listingPost
   }
   _allPostsMeta(
     where: {
@@ -185,8 +156,8 @@ query fetchPostsAndCountByTagName (
   }
 }
 
-query fetchPostsByCategorySlug (
-  $category: String,
+query fetchVideoPostsByCategorySlug (
+  $category: String!,
   $first: Int = 10,
   $skip: Int = 0,
   $style: PostStyleType,
@@ -194,7 +165,6 @@ query fetchPostsByCategorySlug (
   $filteredSlug: [String] = [""],
 ) {
   allPosts(
-    sortBy: publishTime_DESC,
     where: {
       categories_some: {
         slug: $category
@@ -207,9 +177,10 @@ query fetchPostsByCategorySlug (
       style: $style
     },
     first: $first,
-    skip: $skip
+    skip: $skip,
+    sortBy: publishTime_DESC,
   ) {
-    ...listingPagePost
+    ...listingPost
   }
   _allPostsMeta(
     where: {
@@ -232,11 +203,9 @@ query fetchPosts(
   $first: Int = 12,
   $skip: Int = 0,
   $withCount: Boolean = false,
-  $withCoverPhoto: Boolean = false,
   $filteredSlug: [String] = [""],
 ) {
   allPosts(
-    sortBy: publishTime_DESC,
     where: {
       state: published,
       slug_not_in: $filteredSlug,
@@ -246,16 +215,16 @@ query fetchPosts(
       style_not_in: [wide, projects, script, campaign, readr]
     },
     first: $first,
-    skip: $skip
+    skip: $skip,
+    sortBy: publishTime_DESC,
   ) {
-    id
     publishTime
     categories {
       slug
       name
     }
-    ...listingPagePost
-    heroVideo @include(if: $withCoverPhoto) {
+    ...listingPost
+    heroVideo {
       coverPhoto {
         urlMobileSized
       }
