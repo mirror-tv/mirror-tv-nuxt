@@ -47,6 +47,8 @@
         <div class="post__social-media-share">
           <ShareFacebook @click.native="sendGaClickEvent('facebook icon')" />
           <ShareLine @click.native="sendGaClickEvent('line icon')" />
+          <ShareTwitter @click.native="sendGaClickEvent('twitter icon')" />
+          <ShareCopy @click.native="sendGaClickEvent('copy icon')" />
         </div>
 
         <!-- eslint-disable vue/no-v-html -->
@@ -98,6 +100,7 @@
             @click.native="sendGaClickEvent('tag')"
           />
         </div>
+        <UiArticleSocialList class="post__social-list" />
         <ListArticleRelated
           :listData="relatedPosts"
           :hasAdContent="shouldShowAds"
@@ -191,8 +194,11 @@ import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import Ui18Warning from '~/components/Ui18Warning'
+import UiArticleSocialList from '~/components/UiArticleSocialList'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
+import ShareTwitter from '~/components/ShareTwitter'
+import ShareCopy from '~/components/ShareCopy'
 import MicroAd from '~/components/MicroAd'
 import {
   FetchLatestPostsForAside,
@@ -251,8 +257,11 @@ export default {
     ListArticleAside,
     ListArticleRelated,
     Ui18Warning,
+    UiArticleSocialList,
     ShareFacebook,
     ShareLine,
+    ShareTwitter,
+    ShareCopy,
     MicroAd,
   },
   data() {
@@ -301,11 +310,21 @@ export default {
           property: 'og:title',
           content: title,
         },
+        {
+          hid: 'twitter:title',
+          name: 'twitter:title',
+          content: title,
+        },
         ...(image
           ? [
               {
                 hid: 'og:image',
                 property: 'og:image',
+                content: image,
+              },
+              {
+                hid: 'twitter:image',
+                name: 'twitter:image',
                 content: image,
               },
             ]
@@ -322,6 +341,11 @@ export default {
                 property: 'og:description',
                 content: brief,
               },
+              {
+                hid: 'twitter:description',
+                name: 'twitter:description',
+                content: brief,
+              },
             ]
           : []),
         ...(tags
@@ -333,6 +357,7 @@ export default {
               },
             ]
           : []),
+        { name: 'twitter:card', content: 'summary' },
         { property: 'dable:item_id', content: this.slug },
         { property: 'dable:author', content: writerName },
         { property: 'dable:image', content: dableImage },
@@ -779,6 +804,12 @@ export default {
     transform: translateX(-5px);
     + * {
       margin-top: 48px;
+    }
+  }
+  &__social-list {
+    margin: 0 0 40px;
+    @include media-breakpoint-up(md) {
+      margin: 0 0 48px;
     }
   }
   &__brief {
