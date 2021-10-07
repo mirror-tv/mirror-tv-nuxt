@@ -42,7 +42,7 @@ export default {
       display: inline-block;
       width: 14px;
       height: 14px;
-      background-image: url('~assets/img/annotation.svg');
+      background-image: url('~assets/img/article/annotation.svg');
       background-size: 14px 14px;
       transition: transform 0.7s ease;
     }

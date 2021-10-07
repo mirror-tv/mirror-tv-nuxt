@@ -8,7 +8,7 @@
         {{ section.name }}
       </a>
       <div class="breadcrum__item-img">
-        <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
+        <img src="~assets/img/icon/arrow-blue-dark.svg" alt="right arrow" />
       </div>
     </li>
     <li v-if="hasSeries" class="breadcrum__item">
@@ -21,7 +21,7 @@
       </a>
       <span v-else>{{ series.name }}</span>
       <div v-if="hasArtShow" class="breadcrum__item-img">
-        <img src="~assets/img/art-show-arrow.svg" alt="right arrow" />
+        <img src="~assets/img/icon/arrow-blue-dark.svg" alt="right arrow" />
       </div>
     </li>
     <li v-if="hasArtShow" class="breadcrum__item">

@@ -1,0 +1,16 @@
+fragment listingArtShow on ArtShow {
+  slug
+  name
+  heroImage {
+    urlMobileSized
+    urlDesktopSized
+    urlOriginal
+  }
+  heroVideo {
+    youtubeUrl
+    coverPhoto {
+      urlMobileSized
+      urlOriginal
+    }
+  }
+}

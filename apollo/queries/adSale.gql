@@ -1,0 +1,7 @@
+query fetchFirstAdSales {
+  allSales(
+    first: 1
+  ) {
+    pdfUrl
+  }
+}

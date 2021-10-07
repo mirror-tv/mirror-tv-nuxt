@@ -1,52 +1,41 @@
-query fetchContactBySlug($slug: String!) {
+query fetchContactBySlug(
+  $slug: String!
+) {
   allContacts(
     where: {
       slug: $slug
     }
   ) {
     name
+    facebook
+    instagram
+    twitter
+    bioApiData
     showhostImg {
       urlTabletSized
       urlDesktopSized
       urlOriginal
     }
-    facebook
-    instagram
-    twitter
-    bioApiData
   }
 }
 
-query fetchContactByAnchorPerson {
+query fetchContactsByRole(
+  $isAnchorperson: Boolean = false,
+  $isHost: Boolean = false,
+) {
   allContacts(
     where: {
-      anchorperson: true
+      anchorperson: $isAnchorperson,
+      host: $isHost,
     }
     sortBy: updatedAt_DESC
   ) {
     name
+    slug
     anchorImg {
       urlTabletSized
       urlMobileSized
       urlOriginal
     }
-    slug
-  }
-}
-
-query fetchContactByHosts {
-  allContacts(
-    where: {
-      host: true
-    }
-    sortBy: updatedAt_DESC
-  ) {
-    name
-    anchorImg {
-      urlTabletSized
-      urlMobileSized
-      urlOriginal
-    }
-    slug
   }
 }

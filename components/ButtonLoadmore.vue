@@ -2,6 +2,15 @@
   <button>看更多</button>
 </template>
 
+<script>
+export default {
+  // for setting intersection-observer in index page
+  mounted() {
+    this.$emit('button-mounted')
+  },
+}
+</script>
+
 <style lang="scss" scoped>
 button {
   padding: 8px 0;

@@ -6,7 +6,7 @@ function getPostImageUrl(post) {
       coverPhoto?.urlDesktopSized ||
       coverPhoto?.urlTabletSized ||
       coverPhoto?.urlOriginal ||
-      require('~/assets/img/image-default.jpg')
+      require('~/assets/img/default/image-default.jpg')
     )
   }
   return (
@@ -14,7 +14,7 @@ function getPostImageUrl(post) {
     post.heroImage?.urlDesktopSized ||
     post.heroImage?.urlTabletSized ||
     post.heroImage?.urlOriginal ||
-    require('~/assets/img/image-default.jpg')
+    require('~/assets/img/default/image-default.jpg')
   )
 }
 
@@ -25,12 +25,12 @@ function getVideoImageUrl(post) {
         coverPhoto.urlDesktopSized ||
         coverPhoto.urlTabletSized ||
         coverPhoto.urlOriginal ||
-        require('~/assets/img/image-default.jpg')
+        require('~/assets/img/default/image-default.jpg')
     : post.heroImage?.urlMobileSized ||
         post.heroImage?.urlDesktopSized ||
         post.heroImage?.urlTabletSized ||
         post.heroImage?.urlOriginal ||
-        require('~/assets/img/image-default.jpg')
+        require('~/assets/img/default/image-default.jpg')
 }
 
 function getContactImageUrl(contact) {
@@ -40,7 +40,7 @@ function getContactImageUrl(contact) {
       contact.anchorImg?.urlDesktopSized ||
       contact.anchorImg?.urlTabletSized ||
       contact.anchorImg?.urlOriginal ||
-      require('~/assets/img/image-default.jpg')
+      require('~/assets/img/default/image-default.jpg')
     )
   }
   if (contact.showhostImg) {
@@ -49,10 +49,10 @@ function getContactImageUrl(contact) {
       contact.showhostImg?.urlDesktopSized ||
       contact.showhostImg?.urlTabletSized ||
       contact.showhostImg?.urlOriginal ||
-      require('~/assets/img/image-default.jpg')
+      require('~/assets/img/default/image-default.jpg')
     )
   }
-  return require('~/assets/img/image-default.jpg')
+  return require('~/assets/img/default/image-default.jpg')
 }
 
 function getBannerImageUrl(bannerImg) {
@@ -61,7 +61,7 @@ function getBannerImageUrl(bannerImg) {
     bannerImg?.urlTabletSized ||
     bannerImg?.urlMobileSized ||
     bannerImg?.urlOriginal ||
-    require('~/assets/img/image-default.jpg')
+    require('~/assets/img/default/image-default.jpg')
   )
 }
 

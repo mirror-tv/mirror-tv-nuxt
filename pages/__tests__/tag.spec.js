@@ -12,7 +12,7 @@ const $ga = {
 
 const $apollo = {
   queries: {
-    posts: {
+    allPublishedPosts: {
       fetchMore: jest.fn(),
     },
   },
@@ -30,7 +30,7 @@ const createWrapper = createWrapperHelper({
   },
   data() {
     return {
-      posts: [],
+      allPublishedPosts: [],
     }
   },
 })
@@ -77,7 +77,7 @@ describe('load more', () => {
     const wrapper = createWrapper(page, {
       data() {
         return {
-          posts: [],
+          allPublishedPosts: [],
           postsCount: 20,
         }
       },
@@ -88,7 +88,7 @@ describe('load more', () => {
     const wrapper = createWrapper(page, {
       data() {
         return {
-          posts: [{}],
+          allPublishedPosts: [{}],
           postsCount: 1,
         }
       },
@@ -99,20 +99,20 @@ describe('load more', () => {
     const wrapper = createWrapper(page, {
       data() {
         return {
-          posts: [],
+          allPublishedPosts: [],
           postsCount: 20,
         }
       },
     })
     const loadMore = wrapper.findComponent(ButtonLoadmore)
     loadMore.trigger('click')
-    expect($apollo.queries.posts.fetchMore).toBeCalled()
+    expect($apollo.queries.allPublishedPosts.fetchMore).toBeCalled()
   })
   test('should call $ga when click load more button', () => {
     const wrapper = createWrapper(page, {
       data() {
         return {
-          posts: [],
+          allPublishedPosts: [],
           postsCount: 20,
         }
       },

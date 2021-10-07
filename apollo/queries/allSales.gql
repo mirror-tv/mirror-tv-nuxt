@@ -1,7 +1,0 @@
-query fetchAllSales {
-  allSales(first: 1) {
-    id
-    name
-    pdfUrl
-  }
-}

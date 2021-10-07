@@ -1,7 +1,11 @@
-query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $slug: String) {
+#import "~/apollo/fragments/listingArtShow.gql"
+
+query fetchArtShowsByShowSlug(
+  $slug: String!,
+  $first: Int = 8,
+  $skip: Int = 0,
+) {
   allArtShows(
-    first: $first
-    skip: $skip
     where: {
       state: published
       OR: [
@@ -20,22 +24,12 @@ query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $slug: String) {
           }
         },
       ]
-    }
-    sortBy: createdAt_DESC
+    },
+    first: $first,
+    skip: $skip,
+    sortBy: createdAt_DESC,
   ) {
-    slug
-    name
-    heroImage {
-      urlMobileSized
-      urlOriginal
-    }
-    heroVideo {
-      youtubeUrl
-      coverPhoto {
-        urlOriginal
-        urlMobileSized
-      }
-    }
+    ...listingArtShow
   }
   _allArtShowsMeta(
     where: {
@@ -62,11 +56,11 @@ query fetchAllArtShowsByShowLatest($first: Int, $skip: Int, $slug: String) {
   }
 }
 
-query fetchAllArtShowsByAuthor(
+query fetchArtShowsByAuthorSlug(
   $authorSlug: String!,
   $showSlug: String!,
-  $first: Int,
-  $skip: Int
+  $first: Int = 8,
+  $skip: Int = 0,
 ) {
   allArtShows(
     where: {
@@ -83,21 +77,10 @@ query fetchAllArtShowsByAuthor(
       },
     },
     first: $first,
-    skip: $skip
+    skip: $skip,
+    sortBy: createdAt_DESC,
   ) {
-    slug
-    name
-    heroImage {
-      urlMobileSized
-      urlOriginal
-    }
-    heroVideo {
-      youtubeUrl
-      coverPhoto {
-        urlMobileSized
-        urlOriginal
-      }
-    }
+    ...listingArtShow
   }
   _allArtShowsMeta(
     where: {
@@ -118,10 +101,10 @@ query fetchAllArtShowsByAuthor(
   }
 }
 
-query fetchAllArtShowsBySeries(
+query fetchArtShowsBySeriesSlug(
   $seriesSlug: String!,
-  $first: Int,
-  $skip: Int
+  $first: Int = 8,
+  $skip: Int = 0,
 ) {
   allArtShows(
     where: {
@@ -131,21 +114,9 @@ query fetchAllArtShowsBySeries(
       },
     },
     first: $first,
-    skip: $skip
+    skip: $skip,
   ) {
-    slug
-    name
-    heroImage {
-      urlMobileSized
-      urlOriginal
-    }
-    heroVideo {
-      youtubeUrl
-      coverPhoto {
-        urlMobileSized
-        urlOriginal
-      }
-    }
+    ...listingArtShow
   }
   _allArtShowsMeta(
     where: {
@@ -160,27 +131,16 @@ query fetchAllArtShowsBySeries(
 }
 
 query fetchArtShowBySlug(
-  $episodeSlug: String!,
+  $slug: String!,
 ) {
   allArtShows(
     where: {
       state: published
-      slug: $episodeSlug
+      slug: $slug
     },
   ) {
-    slug
-    name
-    heroImage {
-      urlDesktopSized
-      urlOriginal
-    }
-    heroVideo {
-      youtubeUrl
-      coverPhoto {
-        urlMobileSized
-        urlOriginal
-      }
-    }
+    contentApiData
+    ...listingArtShow
     series {
       slug
       name
@@ -198,6 +158,5 @@ query fetchArtShowBySlug(
         urlOriginal
       }
     }
-    contentApiData
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="g-page ombuds">
     <section class="ombuds__banner">
-      <img src="~assets/img/ombuds-banner.jpg" alt="ombudsman banner" />
+      <img src="~assets/img/ombuds/om-banner.jpg" alt="ombudsman banner" />
     </section>
     <div class="ombuds__content">
       <h2>外部公評人翁秀琪</h2>
@@ -93,7 +93,7 @@ import { sendGaEvent } from '~/utils/google-analytics'
 import { handleApiData } from '~/utils/content-handler'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
 import { fetchVideoByName } from '~/apollo/queries/video.gql'
-import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
+import { fetchPostBySlug } from '~/apollo/queries/post.gql'
 
 export default {
   components: {
@@ -110,13 +110,13 @@ export default {
       update: (data) => data.allVideos?.[0],
     },
     postPublished: {
-      query: fetchPostPublishedBySlug,
+      query: fetchPostBySlug,
       variables() {
         return {
           slug: 'biography',
         }
       },
-      update: (data) => data.postPublished?.[0],
+      update: (data) => data.allPosts?.[0],
     },
   },
   data() {

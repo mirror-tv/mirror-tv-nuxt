@@ -1,5 +1,5 @@
 <template>
-  <section class="g-page g-page--with-aside story" :isVideoNews="isVideoNews">
+  <section class="g-page g-page--with-aside story">
     <Ui18Warning v-if="shouldShowAdultWarning" />
     <div class="g-page__wrapper">
       <main class="main">
@@ -47,6 +47,8 @@
         <div class="post__social-media-share">
           <ShareFacebook @click.native="sendGaClickEvent('facebook icon')" />
           <ShareLine @click.native="sendGaClickEvent('line icon')" />
+          <ShareTwitter @click.native="sendGaClickEvent('twitter icon')" />
+          <ShareCopy @click.native="sendGaClickEvent('copy icon')" />
         </div>
 
         <!-- eslint-disable vue/no-v-html -->
@@ -98,6 +100,7 @@
             @click.native="sendGaClickEvent('tag')"
           />
         </div>
+        <UiArticleSocialList class="post__social-list" />
         <ListArticleRelated
           :listData="relatedPosts"
           :hasAdContent="shouldShowAds"
@@ -191,12 +194,16 @@ import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import ListArticleAside from '~/components/ListArticleAside'
 import ListArticleRelated from '~/components/ListArticleRelated'
 import Ui18Warning from '~/components/Ui18Warning'
+import UiArticleSocialList from '~/components/UiArticleSocialList'
 import ShareFacebook from '~/components/ShareFacebook'
 import ShareLine from '~/components/ShareLine'
+import ShareTwitter from '~/components/ShareTwitter'
+import ShareCopy from '~/components/ShareCopy'
 import MicroAd from '~/components/MicroAd'
-
-import allPublishedPosts from '~/apollo/queries/allPublishedPosts.gql'
-import { fetchPostPublishedBySlug } from '~/apollo/queries/post.gql'
+import {
+  FetchLatestPostsForAside,
+  fetchPostBySlug,
+} from '~/apollo/queries/post.gql'
 
 const CREDIT_KEYS = [
   'writers',
@@ -211,14 +218,14 @@ const CREDIT_KEYS = [
 export default {
   apollo: {
     postPublished: {
-      query: fetchPostPublishedBySlug,
+      query: fetchPostBySlug,
       variables() {
         return {
           slug: this.$route.params.slug,
         }
       },
       update(data) {
-        if (!data.postPublished?.[0]?.name) {
+        if (!data.allPosts?.[0]?.name) {
           this.has404Err = true
           if (process.server) {
             this.$nuxt.context.res.statusCode = 404
@@ -227,19 +234,19 @@ export default {
         if (process.browser) {
           this.innerWidth = window.innerWidth
         }
-        return data.postPublished?.[0]
+        return data.allPosts?.[0]
       },
       error(error) {
         handleError(this.$nuxt, error.networkError.statusCode)
       },
     },
     allPostsLatest: {
-      query: allPublishedPosts,
+      query: FetchLatestPostsForAside,
       variables: {
         first: 5,
         filteredSlug: FILTERED_SLUG,
       },
-      update: (data) => data.allPublishedPosts,
+      update: (data) => data.allPosts,
     },
   },
   components: {
@@ -250,8 +257,11 @@ export default {
     ListArticleAside,
     ListArticleRelated,
     Ui18Warning,
+    UiArticleSocialList,
     ShareFacebook,
     ShareLine,
+    ShareTwitter,
+    ShareCopy,
     MicroAd,
   },
   data() {
@@ -300,11 +310,21 @@ export default {
           property: 'og:title',
           content: title,
         },
+        {
+          hid: 'twitter:title',
+          name: 'twitter:title',
+          content: title,
+        },
         ...(image
           ? [
               {
                 hid: 'og:image',
                 property: 'og:image',
+                content: image,
+              },
+              {
+                hid: 'twitter:image',
+                name: 'twitter:image',
                 content: image,
               },
             ]
@@ -321,6 +341,11 @@ export default {
                 property: 'og:description',
                 content: brief,
               },
+              {
+                hid: 'twitter:description',
+                name: 'twitter:description',
+                content: brief,
+              },
             ]
           : []),
         ...(tags
@@ -332,6 +357,7 @@ export default {
               },
             ]
           : []),
+        { name: 'twitter:card', content: 'summary' },
         { property: 'dable:item_id', content: this.slug },
         { property: 'dable:author', content: writerName },
         { property: 'dable:image', content: dableImage },
@@ -538,9 +564,9 @@ export default {
     image() {
       return (
         this.postPublished?.heroImage ?? {
-          tiny: require('~/assets/img/image-default.jpg'),
-          mobile: require('~/assets/img/image-default.jpg'),
-          desktop: require('~/assets/img/image-default.jpg'),
+          tiny: require('~/assets/img/default/image-default.jpg'),
+          mobile: require('~/assets/img/default/image-default.jpg'),
+          desktop: require('~/assets/img/default/image-default.jpg'),
         }
       )
     },
@@ -669,7 +695,6 @@ export default {
         href: `/story/${post.slug}`,
         articleImgURL: getPostImageUrl(post),
         articleTitle: post.name,
-        articleDate: new Date(post.publishTime),
       }
     },
     handleLoadPopinWidget() {
@@ -779,6 +804,12 @@ export default {
     transform: translateX(-5px);
     + * {
       margin-top: 48px;
+    }
+  }
+  &__social-list {
+    margin: 0 0 40px;
+    @include media-breakpoint-up(md) {
+      margin: 0 0 48px;
     }
   }
   &__brief {
@@ -948,10 +979,6 @@ export default {
   & .list-title {
     margin-top: 30px !important;
   }
-}
-
-[isVideoNews='true'] {
-  padding-bottom: 8px;
 }
 
 .micro-ad {
