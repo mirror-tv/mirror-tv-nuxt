@@ -34,7 +34,7 @@ export default {
           text: '訂閱',
         },
         {
-          href: '/',
+          href: 'https://www.instagram.com/mnewstw/',
           image: require('~/assets/img/social-media/ig-rgb.svg'),
           text: '追蹤',
         },
