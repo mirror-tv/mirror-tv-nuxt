@@ -54,7 +54,7 @@ import ArtShowVideoList from '~/components/ArtShowVideoList'
 import HeadingBordered from '~/components/HeadingBordered'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
 import { fetchContactBySlug } from '~/apollo/queries/contact.gql'
-import { fetchAllArtShowsByAuthor } from '~/apollo/queries/artShow.gql'
+import { fetchArtShowsByAuthorSlug } from '~/apollo/queries/artShow.gql'
 import { fetchSectionByShowSlug } from '~/apollo/queries/section.gql'
 
 export default {
@@ -104,7 +104,7 @@ export default {
       update: (data) => data.allSections || [],
     },
     artShowList: {
-      query: fetchAllArtShowsByAuthor,
+      query: fetchArtShowsByAuthorSlug,
       variables() {
         return {
           authorSlug: this.$route.params.name,

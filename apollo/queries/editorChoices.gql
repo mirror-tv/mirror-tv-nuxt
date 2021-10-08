@@ -1,4 +1,6 @@
-query fetchEditorChoices {
+query fetchEditorChoices(
+  $first: Int = 5,
+) {
   allEditorChoices(
     where: {
       state: published,
@@ -6,11 +8,10 @@ query fetchEditorChoices {
         state: published,
       }
     },
-    sortBy: [sortOrder_ASC,  createdAt_DESC]
-    first: 8
+    first: $first,
+    sortBy: [sortOrder_ASC,  createdAt_DESC],
   ) {
     choice {
-      id
       name
       slug
       style

@@ -7,7 +7,7 @@ query fetchVideoEditorChoices {
         style: videoNews
       }
     },
-    sortBy: order_ASC
+    sortBy: order_ASC,
   ) {
     videoEditor {
       slug

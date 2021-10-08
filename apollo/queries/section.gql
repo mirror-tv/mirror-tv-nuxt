@@ -1,11 +1,13 @@
-query fetchSectionByShowSlug($showSlug: String) {
+#import "~/apollo/fragments/listingSeries.gql"
+
+query fetchSectionByShowSlug($showSlug: String!) {
   allSections(where: { show_some: { slug: $showSlug } }, sortBy: id_ASC) {
     name
     slug
   }
 }
 
-query fetchSectionBySlug($slug: String) {
+query fetchSectionBySlug($slug: String!) {
   allSections(where: { slug: $slug }) {
     name
     slug
@@ -13,13 +15,7 @@ query fetchSectionBySlug($slug: String) {
       slug
     }
     series {
-      name
-      slug
-      introductionApiData
-      heroImage {
-        urlDesktopSized
-        urlMobileSized
-      }
+      ...listingSeries
     }
   }
 }

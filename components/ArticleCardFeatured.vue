@@ -9,7 +9,7 @@
       <img v-lazy="articleImgURL" class="article-img" alt="article-img" />
       <span v-if="isVideoNews" class="article-video-icon-wrapper">
         <img
-          src="~/assets/img/video-play-icon.svg"
+          src="~/assets/img/article/video-play.svg"
           alt="play icon"
           class="article-video-icon-img"
         />
@@ -36,7 +36,7 @@ export default {
     },
     articleImgURL: {
       type: String,
-      default: require('~/assets/img/image-default.jpg'),
+      default: require('~/assets/img/default/image-default.jpg'),
     },
     articleTitle: {
       type: String,

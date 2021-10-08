@@ -6,7 +6,11 @@
     rel="noopener noreferrer"
   >
     <span>
-      <img src="~/assets/img/line-icon.svg" alt="分享至 Line" loading="lazy" />
+      <img
+        src="~/assets/img/social-media/line-round.svg"
+        alt="分享至 Line"
+        loading="lazy"
+      />
     </span>
   </a>
 </template>

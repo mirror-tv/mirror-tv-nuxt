@@ -1,4 +1,4 @@
-fragment listingPagePost on Post {
+fragment listingPost on Post {
   slug
   style
   name

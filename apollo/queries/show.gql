@@ -39,19 +39,14 @@ query fetchShowBySlug(
     isArtShow
   }
 }
-query fetchAllShows {
+
+query fetchShows {
   allShows(sortBy: [sortOrder_ASC, updatedAt_DESC]) {
     slug
-    name
-    sortOrder
+    isArtShow
     bannerImg {
       urlDesktopSized
       urlOriginal
     }
-
-    introduction
-    facebookUrl
-    playList01
-    isArtShow
   }
 }
