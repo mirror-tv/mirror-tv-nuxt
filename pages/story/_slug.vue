@@ -800,10 +800,10 @@ export default {
     display: flex;
     flex-wrap: wrap;
     width: calc(100% + 10px);
-    margin-top: 25px;
+    margin: 0 0 16px;
     transform: translateX(-5px);
-    + * {
-      margin-top: 48px;
+    @include media-breakpoint-up(md) {
+      margin: 0 0 24px;
     }
   }
   &__social-list {
@@ -874,6 +874,9 @@ export default {
     line-height: 22px;
     color: #9b9b9b;
     margin: 16px 0;
+    @include media-breakpoint-up(md) {
+      margin: 16px 0 24px;
+    }
     &__title {
       position: relative;
       padding: 0 16px 0 0;
