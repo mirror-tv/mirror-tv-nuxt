@@ -20,7 +20,7 @@ function handleYoutubeId(url) {
 
 function handleApiData(apiData) {
   try {
-    const rawString = apiData.replace(/'/g, '"')
+    const rawString = apiData ?? ''
     const content = JSON.parse(rawString)
 
     return content?.filter((item) => item) || []
