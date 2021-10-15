@@ -44,28 +44,21 @@
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { getContactImageUrl } from '~/utils/image-handler'
-import { fetchContactsByRole } from '~/apollo/queries/contact.gql'
+import {
+  fetchContactsByAnchorPerson,
+  fetchContactsByHost,
+} from '~/apollo/queries/contact.gql'
 
 export default {
   apollo: {
     anchors: {
-      query: fetchContactsByRole,
-      variables() {
-        return {
-          isAnchorperson: true,
-        }
-      },
+      query: fetchContactsByAnchorPerson,
       update(data) {
         return data.allContacts
       },
     },
     hosts: {
-      query: fetchContactsByRole,
-      variables() {
-        return {
-          isHost: true,
-        }
-      },
+      query: fetchContactsByHost,
       update(data) {
         return data.allContacts
       },
