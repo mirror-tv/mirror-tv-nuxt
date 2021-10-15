@@ -181,7 +181,7 @@ export default {
   &__middle {
     margin: 20px 0 0 0;
     @include media-breakpoint-up(xl) {
-      margin-left: 48px;
+      margin: 0 0 0 48px;
       width: 618px;
     }
   }

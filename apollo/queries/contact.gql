@@ -19,14 +19,27 @@ query fetchContactBySlug(
   }
 }
 
-query fetchContactsByRole(
-  $isAnchorperson: Boolean = false,
-  $isHost: Boolean = false,
-) {
+query fetchContactsByAnchorPerson {
   allContacts(
     where: {
-      anchorperson: $isAnchorperson,
-      host: $isHost,
+      anchorperson: true,
+    }
+    sortBy: updatedAt_DESC
+  ) {
+    name
+    slug
+    anchorImg {
+      urlTabletSized
+      urlMobileSized
+      urlOriginal
+    }
+  }
+}
+
+query fetchContactsByHost {
+  allContacts(
+    where: {
+      host: true,
     }
     sortBy: updatedAt_DESC
   ) {
