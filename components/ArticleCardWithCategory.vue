@@ -101,7 +101,6 @@ export default {
     line-height: 1.63;
     text-align: justify;
     word-wrap: break-word;
-    word-break: break-all;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -118,7 +117,6 @@ export default {
     line-height: 1.57;
     text-align: justify;
     word-wrap: break-word;
-    word-break: break-all;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;

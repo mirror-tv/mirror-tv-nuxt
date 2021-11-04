@@ -189,7 +189,6 @@ $font: Arial Rounded MT Bold, Arial;
           line-height: 22px;
           color: #fff;
           word-wrap: break-word;
-          word-break: break-all;
           -webkit-line-clamp: 2;
           display: -webkit-box;
           -webkit-box-orient: vertical;

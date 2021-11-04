@@ -94,7 +94,6 @@ export default {
       font-size: 16px;
       line-height: 1.8;
       word-wrap: break-word;
-      word-break: break-all;
       -webkit-line-clamp: 3;
       display: -webkit-box;
       -webkit-box-orient: vertical;

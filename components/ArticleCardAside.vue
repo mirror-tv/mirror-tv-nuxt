@@ -83,7 +83,6 @@ export default {
   text-align: left;
   line-height: 1.3;
   word-wrap: break-word;
-  word-break: break-all;
   -webkit-line-clamp: 4;
   display: -webkit-box;
   -webkit-box-orient: vertical;

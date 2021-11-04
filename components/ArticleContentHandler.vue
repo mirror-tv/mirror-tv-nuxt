@@ -137,12 +137,14 @@ export default {
     font-size: 20px;
     font-weight: 500;
     line-height: 1.4;
+    word-wrap: break-word;
   }
   &-paragraph {
     color: #000;
     font-size: 16px;
     line-height: 1.75;
     text-align: justify;
+    word-wrap: break-word;
     > * {
       max-width: 100%;
     }
