@@ -90,7 +90,6 @@ export default {
   color: #fff;
   text-align: left;
   word-wrap: break-word;
-  word-break: break-all;
   -webkit-line-clamp: 2;
   display: -webkit-box;
   -webkit-box-orient: vertical;

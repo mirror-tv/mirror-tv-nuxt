@@ -17,6 +17,7 @@
           :liveVideoId="liveVideoId"
           :houseVideoId="houseVideoId"
           :livePlayListIds="livePlayListIds"
+          class="live-wrapper"
         />
         <div v-if="shouldShowLatestPosts" class="list-latest-wrapper">
           <HeadingBordered text="即時新聞" class="heading" />
@@ -508,6 +509,12 @@ export default {
       &__heading {
         display: inline-block;
       }
+    }
+  }
+  .live-wrapper {
+    margin: 0 0 48px;
+    @include media-breakpoint-up(md) {
+      margin: 0 0 60px;
     }
   }
   .list-latest-wrapper {

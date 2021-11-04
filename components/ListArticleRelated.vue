@@ -1,6 +1,6 @@
 <template>
   <div v-if="shouldShowList" class="list-wrapper">
-    <HeadingBordered text="相關新聞" />
+    <HeadingBordered text="更多新聞" />
     <ul class="list-wrapper__list list">
       <li
         v-for="item in listData"

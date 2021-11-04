@@ -27,7 +27,7 @@ export default {
 .article-card {
   color: #4a4a4a;
   font-size: 16px;
-  word-break: break-word;
+  word-wrap: break-word;
   overflow-wrap: break-word;
   &:hover {
     border-bottom: 1px solid #000;
