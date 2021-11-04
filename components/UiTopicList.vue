@@ -159,7 +159,6 @@ export default {
               font-size: 16px;
               line-height: 22px;
               word-wrap: break-word;
-              word-break: break-all;
               -webkit-line-clamp: 1;
               display: -webkit-box;
               -webkit-box-orient: vertical;
