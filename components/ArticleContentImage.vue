@@ -21,10 +21,25 @@ export default {
 
 <style lang="scss" scoped>
 .image {
+  width: 100%;
   &__image {
-    width: 100%;
+    width: auto;
+    height: auto;
+    @include media-breakpoint-up(md) {
+      max-width: 100%;
+      max-height: 100vh;
+    }
     img {
       width: 100%;
+      height: 100%;
+      @include media-breakpoint-up(md) {
+        width: auto;
+        max-width: 100%;
+        max-height: 100vh;
+        min-height: 400px;
+        margin-right: auto;
+        margin-left: auto;
+      }
     }
   }
 
