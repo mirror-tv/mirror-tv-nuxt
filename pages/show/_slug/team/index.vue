@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
@@ -131,7 +132,8 @@ export default {
       return this.$route.params.slug ?? ''
     },
     members() {
-      return this.show.hostName ?? []
+      const sortedData = _.sortBy(this.show.hostName, 'sortOrder') ?? []
+      return sortedData
     },
   },
   mounted() {

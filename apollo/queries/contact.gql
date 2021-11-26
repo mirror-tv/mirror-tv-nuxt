@@ -24,7 +24,7 @@ query fetchContactsByAnchorPerson {
     where: {
       anchorperson: true,
     }
-    sortBy: updatedAt_DESC
+    sortBy: [sortOrder_ASC, updatedAt_DESC]
   ) {
     name
     slug
@@ -41,7 +41,7 @@ query fetchContactsByHost {
     where: {
       host: true,
     }
-    sortBy: updatedAt_DESC
+    sortBy: [sortOrder_ASC, updatedAt_DESC]
   ) {
     name
     slug

@@ -21,6 +21,7 @@ query fetchShowBySlug(
     hostName {
       slug
       name
+      sortOrder
       bioApiData
       showhostImg @include(if: $squareHostImg) {
         urlMobileSized
