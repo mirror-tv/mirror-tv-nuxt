@@ -17,7 +17,9 @@
           class="topic__list__item__header"
         >
           <img :src="topic.image" :alt="topic.name" />
-          <h4>{{ topic.name }}</h4>
+          <h4>
+            <span>{{ topic.name }}</span>
+          </h4>
         </a>
         <ul class="topic__list__item__list">
           <li v-for="item in topic.items" :key="item.slug">
@@ -26,7 +28,7 @@
               target="_blank"
               rel="noreferrer noopener"
             >
-              <span>{{ item.title }}</span>
+              <span class="title">{{ item.title }}</span>
             </a>
           </li>
         </ul>
@@ -141,11 +143,18 @@ export default {
           }
         }
         h4 {
-          font-size: 16px;
-          line-height: 22px;
-          font-weight: 500;
-          color: $color-blue;
           margin: 0 0 8px;
+          span {
+            font-size: 16px;
+            line-height: 22px;
+            font-weight: 500;
+            color: $color-blue;
+            &:hover,
+            &:focus {
+              color: $color-blue-deep;
+              border-bottom: 2px solid $color-blue-deep;
+            }
+          }
         }
       }
       &__list {
@@ -155,7 +164,7 @@ export default {
           border-bottom: 1px solid $color-grey-deep;
           a {
             display: inline-block;
-            span {
+            .title {
               font-size: 16px;
               line-height: 22px;
               word-wrap: break-word;
@@ -163,6 +172,9 @@ export default {
               display: -webkit-box;
               -webkit-box-orient: vertical;
               overflow: hidden;
+            }
+            &:hover {
+              border-bottom: 1px solid #4a4a4a;
             }
           }
         }
@@ -176,6 +188,12 @@ export default {
         color: $color-grey-deep;
         padding: 4px 8px;
         border: 1px solid $color-grey-deep;
+        &:hover,
+        &:focus {
+          font-weight: 600;
+          color: #000;
+          border: 1px solid #000;
+        }
       }
       &:last-child {
         margin: 0;
