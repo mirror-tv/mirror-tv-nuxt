@@ -78,7 +78,7 @@
           class="aside__item"
         />
         <UiLinkList
-          fbHref="https://www.facebook.com/mnewsTW/"
+          fbHref="https://www.facebook.com/mnewstw/"
           class="aside__item"
         />
       </aside>

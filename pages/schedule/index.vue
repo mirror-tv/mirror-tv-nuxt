@@ -55,7 +55,7 @@ export default {
   async fetch() {
     try {
       const day = dayOfWeek[dayjs().day()]
-      const data = await this.$fetchGcsData('/program_list')
+      const data = await this.$fetchGcsData('/tv-schedule')
       this.schedules = this.initData(data)
       this.requestData = this.getData(day)
     } catch (err) {
