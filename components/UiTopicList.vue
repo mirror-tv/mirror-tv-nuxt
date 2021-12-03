@@ -161,7 +161,7 @@ export default {
         margin: 0 0 16px;
         li {
           margin: 8px 0;
-          border-bottom: 1px solid $color-grey-deep;
+          border-bottom: 1px solid #f4f5f7;
           a {
             display: inline-block;
             .title {
@@ -188,8 +188,7 @@ export default {
         color: $color-grey-deep;
         padding: 4px 8px;
         border: 1px solid $color-grey-deep;
-        &:hover,
-        &:focus {
+        &:hover {
           font-weight: 600;
           color: #000;
           border: 1px solid #000;

@@ -37,6 +37,8 @@ export default {
 a {
   display: block;
   position: relative;
+  width: 100%;
+  height: 100%;
   background-color: #d8d8d8;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   padding: 12px;
@@ -72,6 +74,10 @@ a {
     text-align: justify;
     color: #4a4a4a;
     word-wrap: break-word;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     @include media-breakpoint-up(xl) {
       font-size: 16px;
     }

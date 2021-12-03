@@ -280,7 +280,7 @@ export default {
     align-items: center;
     width: calc(100% + 32px);
     height: auto;
-    min-height: calc(100vw * 0.66);
+    min-height: calc(100vw * 0.75);
     transform: translateX(-16px);
     background-repeat: no-repeat;
     background-size: cover;
@@ -289,7 +289,7 @@ export default {
     margin: 0 auto 28px;
     @include media-breakpoint-up(md) {
       width: 100%;
-      min-height: calc(100vw * 0.25);
+      min-height: calc(100vw * 0.4166);
       transform: none;
     }
     .video {
@@ -297,6 +297,9 @@ export default {
       width: 100%;
       max-width: 300px;
       @include media-breakpoint-up(md) {
+        max-width: 458px;
+      }
+      @include media-breakpoint-up(xl) {
         max-width: 720px;
       }
     }

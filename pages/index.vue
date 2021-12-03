@@ -322,11 +322,7 @@ export default {
       return this.promotionVideoIds?.length
     },
     shouldShowTopics() {
-      return (
-        this.topics?.length &&
-        this.innerWidth &&
-        this.$config.releaseTarget !== 'prod'
-      )
+      return this.topics?.length && this.innerWidth
     },
   },
   // mounted() {
