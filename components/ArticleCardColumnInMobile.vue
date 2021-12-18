@@ -211,6 +211,7 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
   @include media-breakpoint-up(xl) {
+    margin-top: 12px;
     -webkit-line-clamp: 3;
   }
 }

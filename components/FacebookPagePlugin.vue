@@ -22,7 +22,7 @@ export default {
   props: {
     href: {
       type: String,
-      default: 'https://www.facebook.com/mnewsTW/',
+      default: 'https://www.facebook.com/mnewstw/',
     },
     pageName: {
       type: String,
