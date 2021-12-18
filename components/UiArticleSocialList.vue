@@ -2,10 +2,7 @@
   <div class="social-list">
     <h4>追蹤我們</h4>
     <div class="social-list__list">
-      <FacebookPagePlugin
-        class="fb"
-        href="https://www.facebook.com/readr.tw/"
-      />
+      <FacebookPagePlugin class="fb" href="https://www.facebook.com/mnewstw" />
       <ul>
         <li v-for="item in listData" :key="item.href">
           <a :href="item.href" target="_blank" rel="noreferrer noopener">
