@@ -1,6 +1,5 @@
 <template>
   <section class="g-page g-page--with-aside home">
-    <ReferendumIframe v-if="innerWidth" />
     <div v-if="innerWidth" class="g-page__wrapper">
       <main class="main">
         <UiFlashNews :articles="flashNews" class="flash-news-wrapper" />
@@ -98,7 +97,6 @@ import { setIntersectionObserver } from '~/utils/intersection-observer'
 import { handleYoutubeId } from '~/utils/content-handler'
 import { getPostImageUrl } from '~/utils/image-handler'
 import Swiper from '~/components/Swiper'
-import ReferendumIframe from '~/components/ReferendumIframe'
 import HeadingBordered from '~/components/HeadingBordered'
 import ArticleCard from '~/components/ArticleCard'
 import ButtonLoadmore from '~/components/ButtonLoadmore'
@@ -204,7 +202,6 @@ export default {
   },
   components: {
     Swiper,
-    ReferendumIframe,
     HeadingBordered,
     ArticleCard,
     ButtonLoadmore,
@@ -602,14 +599,6 @@ export default {
     @include media-breakpoint-up(md) {
       margin: 0 0 48px;
     }
-  }
-}
-
-// for frerndum iframe
-.home {
-  padding-top: 60px;
-  @include media-breakpoint-up(md) {
-    padding-top: 12px;
   }
 }
 </style>
