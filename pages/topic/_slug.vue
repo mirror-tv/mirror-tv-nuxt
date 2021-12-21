@@ -1,28 +1,48 @@
 <template>
   <div class="g-page topic">
     <div
-      v-show="isMounted"
       class="topic__hero"
-      :style="{ backgroundImage: `url(${topicImage})` }"
+      :style="{
+        backgroundImage: `url(${topicImage})`,
+        opacity: isMounted ? 1 : 0,
+      }"
     >
-      <div class="video">
-        <ClientOnly>
-          <YoutubeEmbedByIframeApi
-            v-if="doeshaveYoutubeUrl && shouldShowVideo"
-            :enableAutoplay="true"
-            :videoId="youtubeId"
-          />
-        </ClientOnly>
+      <div v-if="shouldShowSlide" class="slide">
+        <div class="slide-bg" />
+        <UiTopicSwiper
+          :slideshow="slideshow"
+          :multivideo="multivideo"
+          :isVideo="isVideo"
+          class="swiper"
+        />
       </div>
-      <ArticleContentVideo
-        v-if="!doeshaveYoutubeUrl && shouldShowVideo"
-        :shouldAutoPlay="true"
-        :video="video"
-        class="video"
-      />
+      <div v-if="shouldShowHeroVideo" class="video-wrapper">
+        <div v-if="doeshaveYoutubeUrl" class="video">
+          <ClientOnly>
+            <YoutubeEmbedByIframeApi
+              :enableAutoplay="true"
+              :videoId="youtubeId"
+            />
+          </ClientOnly>
+        </div>
+        <ArticleContentVideo
+          v-else
+          :shouldAutoPlay="true"
+          :video="topicVideo"
+          class="video"
+        />
+      </div>
     </div>
     <div v-show="isMounted" class="topic__content">
-      <h2>{{ topicName }}</h2>
+      <div class="topic__content__header">
+        <h2>{{ topicName }}</h2>
+        <UiTopicSocialLinks
+          :fbUrl="topic.facebook"
+          :igUrl="topic.instagram"
+          :lineUrl="topic.line"
+          class="social-links"
+        />
+      </div>
       <ul>
         <li v-for="post in formatedPosts" :key="post.id">
           <UiSingleTopicListingCard
@@ -52,6 +72,8 @@ import InfiniteLoading from 'vue-infinite-loading'
 import { SITE_NAME } from '~/constants'
 import { getUrlOrigin } from '~/utils/meta'
 import { handleYoutubeId } from '~/utils/content-handler'
+import UiTopicSwiper from '~/components/UiTopicSwiper'
+import UiTopicSocialLinks from '~/components/UiTopicSocialLinks'
 import ArticleContentVideo from '~/components/ArticleContentVideo'
 import YoutubeEmbedByIframeApi from '~/components/YoutubeEmbedByIframeApi'
 import UiSingleTopicListingCard from '~/components/UiSingleTopicListingCard'
@@ -62,6 +84,8 @@ const PAGE_SIZE = 12
 export default {
   components: {
     InfiniteLoading,
+    UiTopicSwiper,
+    UiTopicSocialLinks,
     YoutubeEmbedByIframeApi,
     ArticleContentVideo,
     UiSingleTopicListingCard,
@@ -154,23 +178,62 @@ export default {
     topicName() {
       return this.topic?.title ?? ''
     },
+    leading() {
+      return this.topic?.leading ?? 'image'
+    },
     topicImage() {
       return (
         this.topic?.heroImage?.urlDesktopSized ||
+        this.topic?.heroImage?.urlTabletSized ||
         require('~/assets/img/default/image-default.jpg')
       )
     },
-    video() {
+    topicVideo() {
       const url = this.topic?.heroVideo?.url ?? ''
       return this.handleVideoUrl(url)
+    },
+    slideshow() {
+      return this.topic?.slideshow?.map((post) => {
+        const { id = '', slug = '', name = '', heroImage = {} } = post || {}
+
+        return {
+          id,
+          name,
+          href: `/story/${slug}`,
+          image:
+            heroImage?.urlTabletSized ||
+            heroImage?.urlDesktopSized ||
+            require('~/assets/img/default/image-default.jpg'),
+        }
+      })
+    },
+    multivideo() {
+      return this.topic?.multivideo.map((post) => {
+        const { id = '', youtubeUrl = '' } = post || {}
+        const item = this.handleVideoUrl(youtubeUrl)
+        const youtubeId = handleYoutubeId(item.url) || ''
+
+        return { id, youtubeId }
+      })
     },
     sortDir() {
       return this.topic?.sortDir ?? 'asc'
     },
     formatedPosts() {
-      const sortedData =
-        _.sortBy(this.topic?.items, 'publishTime', this.topic.sortDir) ?? []
+      const sortedData = _.sortBy(this.topic?.items, 'publishTime') ?? []
       return this.sortDir === 'asc' ? sortedData : sortedData.reverse()
+    },
+    isVideo() {
+      return this.leading === 'multivideo'
+    },
+    shouldShowHeroVideo() {
+      return this.leading === 'video' && this.topicVideo
+    },
+    shouldShowSlide() {
+      return (
+        (this.leading === 'slideshow' && this.slideshow?.length) ||
+        (this.leading === 'multivideo' && this.multivideo?.length)
+      )
     },
     shouldMountInfiniteLoading() {
       return this.totalItems > 0
@@ -182,7 +245,7 @@ export default {
       return this.topic?.items?.length
     },
     shouldShowVideo() {
-      return this.video?.url?.length > 0
+      return this.topicVideo?.url?.length > 0
     },
   },
   mounted() {
@@ -194,8 +257,10 @@ export default {
   methods: {
     handleVideoUrl(url = '') {
       if (url.includes('youtube') || url.includes('youtu.be')) {
-        this.doeshaveYoutubeUrl = true
-        this.youtubeId = url ? handleYoutubeId(url) : ''
+        if (!this.isVideo) {
+          this.doeshaveYoutubeUrl = true
+          this.youtubeId = url ? handleYoutubeId(url) : ''
+        }
       }
       return { url }
     },
@@ -205,6 +270,9 @@ export default {
           id = '',
           slug = '',
           title = '',
+          facebook = '',
+          instagram = '',
+          line = '',
           heroImage = {},
           categories = [],
         } = post || {}
@@ -213,6 +281,9 @@ export default {
           id,
           title,
           href: `/story/${slug}`,
+          facebook,
+          instagram,
+          line,
           image: {
             src:
               heroImage?.urlMobileSized ||
@@ -275,6 +346,7 @@ export default {
 }
 .topic {
   &__hero {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -292,15 +364,30 @@ export default {
       min-height: calc(100vw * 0.4166);
       transform: none;
     }
-    .video {
+    .slide {
+      width: 100%;
+      &-bg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(50, 50, 50, 0.7);
+      }
+    }
+    .video-wrapper {
       display: block;
       width: 100%;
-      max-width: 300px;
+      max-width: calc(300px + 24px);
+      padding: 0 12px;
       @include media-breakpoint-up(md) {
         max-width: 458px;
       }
       @include media-breakpoint-up(xl) {
         max-width: 720px;
+      }
+      .video {
+        width: 100%;
       }
     }
   }
@@ -316,13 +403,20 @@ export default {
     @include media-breakpoint-up(xxl) {
       max-width: 1200px;
     }
-    h2 {
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 1.6;
-      letter-spacing: 0.5px;
-      color: $color-blue-deep;
+    &__header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin: 0 0 28px;
+      h2 {
+        display: block;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 1.6;
+        letter-spacing: 0.5px;
+        color: $color-blue-deep;
+      }
     }
     ul {
       width: 100%;

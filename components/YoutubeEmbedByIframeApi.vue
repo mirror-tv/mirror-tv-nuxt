@@ -9,6 +9,7 @@
       :playerVars="playerVars"
       @ready="handlePlayerReady"
       @playing="handlePlayerPlaying"
+      @paused="handlePlayerPaused"
       @ended="handlePlayerEnded"
     />
   </div>
@@ -47,11 +48,14 @@ export default {
       }
     },
     handlePlayerPlaying() {
-      this.$emit('is-playing')
+      this.$emit('is-playing', { ref: `player-${this.videoId}` })
       if (!this.hasSentPlayEvent) {
         this.hasSentPlayEvent = true
         this.$emit('send-first-play-ga')
       }
+    },
+    handlePlayerPaused() {
+      this.$emit('is-paused')
     },
     handlePlayerEnded() {
       this.$emit('is-ended')

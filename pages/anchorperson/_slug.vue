@@ -30,7 +30,7 @@
               @click="sendGaClickEvent('主播 instagram')"
             >
               <img
-                v-lazy="require('~/assets/img/social-media//ig-logo.svg')"
+                v-lazy="require('~/assets/img/social-media/ig-logo.svg')"
                 alt="Instagram"
               />
             </a>

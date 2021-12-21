@@ -33,12 +33,29 @@ query fetchPostsByTopicSlug(
     id
     title: name
     sortDir
+    leading
+    facebook
+    instagram
+    line
     heroImage {
       urlDesktopSized
       urlTabletSized
     }
     heroVideo {
       url
+    }
+    slideshow {
+      id
+      slug
+      name
+      heroImage {
+        urlTabletSized
+        urlDesktopSized
+      }
+    }
+    multivideo {
+      id
+      youtubeUrl
     }
     items: post(
       where: { state: published }

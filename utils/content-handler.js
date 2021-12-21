@@ -8,7 +8,7 @@ function handleLineBreak(text) {
   }
 }
 
-function handleYoutubeId(url) {
+function handleYoutubeId(url = '') {
   if (url?.includes('watch?v=')) {
     return url.split('watch?v=')[1] ?? ''
   }
