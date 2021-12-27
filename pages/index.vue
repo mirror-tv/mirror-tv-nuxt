@@ -88,6 +88,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 import { FILTERED_SLUG } from '~/constants'
 import { MICRO_AD_UNITS } from '~/constants/micro-ad'
 import { getUrlOrigin } from '~/utils/meta'
@@ -118,7 +119,14 @@ import {
   fetchVideoByCategorySlug,
 } from '~/apollo/queries/video.gql'
 
-const PAGE_SIZE = 12
+/**
+ * PAGE_SIZE is the amount of posts per fetch,
+ * RENDER_PAGE_SIZE is the the amount of posts everytime we render,
+ * PAGE_SIZE is larger than RENDER_PAGE_SIZE to prepare extra posts
+ * when the duplicted post were removed in erery single fetchmore.
+ * **/
+const PAGE_SIZE = 18
+const RENDER_PAGE_SIZE = 12
 const MICRO_AD_INDEXES = []
 // const MICRO_AD_INDEXES = [3, 5, 9, 11]
 const FIRST_PAGE_NUM = PAGE_SIZE - MICRO_AD_INDEXES.length
@@ -259,10 +267,12 @@ export default {
       return this.editorChoices?.length > 0
     },
     latestPosts() {
-      const listData = this.allPublishedPosts?.map((post) =>
+      const listData = this.allPublishedPosts ?? []
+      const slicedList = listData?.slice(0, (this.page + 1) * RENDER_PAGE_SIZE)
+      const reducedList = slicedList?.map((post) =>
         this.reducerArticleCard(post)
       )
-      return listData
+      return reducedList
       // return this.innerWidth ? this.insertMicroAds(listData) : listData
     },
     formatedEditorChoices() {
@@ -273,7 +283,7 @@ export default {
       )
     },
     showLoadMoreButton() {
-      return this.allPublishedPosts?.length < this.postsCount
+      return this.latestPosts?.length < this.postsCount
     },
     listPopularData() {
       const listData = this.popularData?.report ?? []
@@ -415,6 +425,7 @@ export default {
     },
     handleClickMore() {
       this.page += 1
+      if (this.postsCount <= PAGE_SIZE * this.page) return
       this.$apollo.queries.allPublishedPosts.fetchMore({
         variables: {
           first: PAGE_SIZE,
@@ -423,9 +434,14 @@ export default {
           filteredSlug: this.filteredSlug,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
+          const prevPosts = previousResult.allPosts
           const newPosts = fetchMoreResult.allPosts
+          const uniquePosts = _.uniqBy(
+            [...prevPosts, ...newPosts],
+            (d) => d.slug
+          )
           return {
-            allPosts: [...previousResult.allPosts, ...newPosts],
+            allPosts: uniquePosts,
             _allPostsMeta: {
               __typename: '_QueryMeta',
               count: this.postsCount,

@@ -86,6 +86,14 @@ import {
   fetchPostsByCategorySlug,
 } from '~/apollo/queries/post.gql'
 
+/**
+ * PAGE_SIZE is the amount of posts per fetch,
+ * RENDER_PAGE_SIZE is the the amount of posts everytime we render,
+ * PAGE_SIZE is larger than RENDER_PAGE_SIZE to prepare extra posts
+ * when the duplicted post were removed in erery single fetchmore.
+ * **/
+const PAGE_SIZE = 18
+const RENDER_PAGE_SIZE = 12
 const MICRO_AD_INDEXES = []
 // const MICRO_AD_INDEXES = [3, 5, 9, 11]
 
@@ -113,7 +121,7 @@ export default {
           categorySlug: this.pageSlug,
           filteredSlug: this.filteredSlug,
           withCount: true,
-          first: this.getPageSize(),
+          first: PAGE_SIZE,
           skip: 0,
         }
       },
@@ -211,10 +219,12 @@ export default {
       return this.$route.params.slug
     },
     listArticleMainData() {
-      const listData = this.currentTopPostSlug
-        ? [this.currentTopPost].concat(this.allPostsCategory)
-        : this.allPostsCategory
-      const reducedList = listData?.map((post) => this.reducerArticleCard(post))
+      const listData = this.handleTopPostConcat()
+      const pageSize = this.handlePageSize()
+      const slicedList = listData.slice(0, pageSize)
+      const reducedList = slicedList?.map((post) =>
+        this.reducerArticleCard(post)
+      )
       return reducedList
       // return this.innerWidth ? this.insertMicroAds(reducedList) : reducedList
     },
@@ -232,7 +242,7 @@ export default {
         .map((report) => this.reducerArticleCard(report))
     },
     showLoadMoreButton() {
-      return this.allPostsCategory?.length < this.postsCount
+      return this.listArticleMainData?.length < this.postsCount
     },
     // microAdId() {
     //   if (this.innerWidth) {
@@ -291,19 +301,41 @@ export default {
     sendGaClickEvent(label) {
       sendGaEvent(this.$ga)('category')('click')(label)
     },
+    handlePageSize() {
+      const firstPageSize = this.currentTopPostSlug
+        ? RENDER_PAGE_SIZE + 1
+        : RENDER_PAGE_SIZE
+      const pageSize =
+        this.page === 0
+          ? firstPageSize
+          : firstPageSize + this.page * RENDER_PAGE_SIZE
+      return pageSize
+    },
+    handleTopPostConcat() {
+      return this.currentTopPostSlug
+        ? [this.currentTopPost].concat(this.allPostsCategory)
+        : this.allPostsCategory
+    },
     handleClickMore() {
       this.page += 1
+      if (this.postsCount <= PAGE_SIZE * this.page) return
       this.$apollo.queries.allPostsCategory.fetchMore({
         variables: {
           categorySlug: this.pageSlug,
           filteredSlug: this.filteredSlug,
           withCount: false,
-          first: 12,
-          skip: 12 * this.page,
+          first: PAGE_SIZE,
+          skip: PAGE_SIZE * this.page,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
+          const prevPosts = previousResult.allPosts
+          const newPosts = fetchMoreResult.allPosts
+          const uniquePosts = _.uniqBy(
+            [...prevPosts, ...newPosts],
+            (d) => d.slug
+          )
           return {
-            allPosts: [...previousResult.allPosts, ...fetchMoreResult.allPosts],
+            allPosts: uniquePosts,
             _allPostsMeta: {
               __typename: '_QueryMeta',
               count: this.postsCount,
@@ -312,10 +344,6 @@ export default {
         },
       })
       this.sendGaClickEvent('more')
-    },
-    getPageSize() {
-      return this.currentTopPostSlug ? 12 : 13
-      // return this.currentTopPostSlug ? 8 : 9
     },
   },
 }
