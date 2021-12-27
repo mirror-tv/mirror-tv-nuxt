@@ -751,16 +751,18 @@ export default {
       margin-top: 30px;
     }
     &_image_wrapper {
-      width: 100%;
-      padding-top: 56.25%;
-      position: relative;
+      width: auto;
+      height: auto;
+      max-height: 100vh;
+      max-width: 100%;
       img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        width: auto;
+        max-width: 100%;
+        max-height: 100vh;
+        margin-right: auto;
+        margin-left: auto;
         object-fit: cover;
+        object-position: center;
       }
     }
   }
