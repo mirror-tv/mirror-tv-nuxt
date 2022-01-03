@@ -1,8 +1,24 @@
 #import "~/apollo/fragments/listingSeries.gql"
 
-query fetchSeriesBySlug($slug: String!) {
+query fetchSeriesBySlug(
+  $slug: String!
+  $squareHostImg: Boolean = false
+  $rectHostImg: Boolean = false
+) {
   allSeries(where: { slug: $slug }) {
     ...listingSeries
+    relatedContacts {
+      slug
+      name
+      showhostImg @include(if: $squareHostImg) {
+        urlMobileSized
+        urlOriginal
+      }
+      anchorImg @include(if: $rectHostImg) {
+        urlMobileSized
+        urlOriginal
+      }
+    }
     section {
       show {
         slug

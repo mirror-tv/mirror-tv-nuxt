@@ -22,6 +22,10 @@
           />
         </template>
       </article>
+      <div v-if="shouldShowHostList" class="artshow__series__host">
+        <h3>主持人</h3>
+        <UiArtshowHostList :hostList="hostList" :shouldWidthFixed="true" />
+      </div>
       <div v-if="shouldShowArtShowList" class="artshow__series__list">
         <h3>所有影片</h3>
         <ArtShowVideoList
@@ -42,6 +46,7 @@ import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleApiData, handleMetaDesc } from '~/utils/content-handler'
 import ShowWrapper from '~/components/ShowWrapper'
+import UiArtshowHostList from '~/components/UiArtshowHostList'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
 import ArticleContentHandler from '~/components/ArticleContentHandler'
 import { fetchShowBySlug } from '~/apollo/queries/show.gql'
@@ -91,6 +96,7 @@ export default {
       variables() {
         return {
           slug: this.currentSeries,
+          squareHostImg: true,
         }
       },
       update(data) {
@@ -124,6 +130,7 @@ export default {
   },
   components: {
     ShowWrapper,
+    UiArtshowHostList,
     ArtShowVideoList,
     ArticleContentHandler,
   },
@@ -199,6 +206,9 @@ export default {
     content() {
       return handleApiData(this.series.introductionApiData)
     },
+    hostList() {
+      return this.series?.relatedContacts ?? []
+    },
     isContentString() {
       return typeof this.content === 'string'
     },
@@ -210,6 +220,9 @@ export default {
     },
     shouldShowArtShowList() {
       return this.artShowList && this.artShowList?.length
+    },
+    shouldShowHostList() {
+      return this.hostList?.length
     },
   },
   mounted() {
@@ -253,7 +266,7 @@ export default {
     margin: 20px 0 0;
   }
   &__info {
-    margin: 0 0 40px;
+    margin: 0 0 28px;
     color: #000;
     font-size: 16px;
     text-align: justify;
@@ -265,6 +278,23 @@ export default {
     }
     @include media-breakpoint-up(md) {
       margin: 0 0 48px;
+    }
+  }
+  &__host {
+    margin: 0 0 40px;
+    @include media-breakpoint-up(md) {
+      margin: 0 0 48px;
+    }
+    h3 {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.6;
+      color: $color-blue;
+      margin: 0 0 16px;
+      @include media-breakpoint-up(xl) {
+        font-size: 20px;
+        margin: 0 0 20px;
+      }
     }
   }
   &__list {

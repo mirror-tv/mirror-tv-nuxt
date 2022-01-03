@@ -13,6 +13,10 @@
         <main class="main">
           <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="artshow__main__introduction" v-html="introduction" />
+          <div v-if="shouldShowHostList" class="artshow__main__host-list">
+            <h3>主持人</h3>
+            <UiArtshowHostList :hostList="hostList" />
+          </div>
         </main>
         <aside class="g-aside">
           <FacebookPagePlugin v-if="facebookUrl" :href="facebookUrl" />
@@ -59,6 +63,7 @@ import { getUrlOrigin } from '~/utils/meta'
 import { sendGaEvent } from '~/utils/google-analytics'
 import { handleMetaDesc } from '~/utils/content-handler'
 import ShowWrapper from '~/components/ShowWrapper'
+import UiArtshowHostList from '~/components/UiArtshowHostList'
 import FacebookPagePlugin from '~/components/FacebookPagePlugin'
 import VideoListSlides from '~/components/VideoListSlides'
 import ArtShowVideoList from '~/components/ArtShowVideoList'
@@ -74,6 +79,8 @@ export default {
       variables() {
         return {
           slug: this.currentShow,
+          shouldFetchHost: true,
+          squareHostImg: true,
         }
       },
       update(data) {
@@ -114,6 +121,7 @@ export default {
   },
   components: {
     ShowWrapper,
+    UiArtshowHostList,
     FacebookPagePlugin,
     YoutubeEmbedByIframeApi,
     ArtShowVideoList,
@@ -189,8 +197,14 @@ export default {
         return null
       }
     },
+    hostList() {
+      return this.show?.hostName ?? []
+    },
     facebookUrl() {
       return this.show.facebookUrl ?? ''
+    },
+    shouldShowHostList() {
+      return this.hostList?.length
     },
     shouldShowTrailerList() {
       return this.trailerList?.items?.length
@@ -310,6 +324,27 @@ export default {
       }
       @include media-breakpoint-up(xl) {
         width: 600px;
+      }
+    }
+    &__host-list {
+      margin: 24px 0 0;
+      @include media-breakpoint-up(md) {
+        margin: 60px 0 0;
+      }
+      @include media-breakpoint-up(xl) {
+        width: 600px;
+        margin: 100px 0 0;
+      }
+      h3 {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 1.6;
+        color: $color-blue;
+        margin: 0 0 16px;
+        @include media-breakpoint-up(xl) {
+          font-size: 20px;
+          margin: 0 0 20px;
+        }
       }
     }
     &__collect {

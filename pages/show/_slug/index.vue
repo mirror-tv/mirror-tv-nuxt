@@ -57,6 +57,7 @@ export default {
       variables() {
         return {
           slug: this.$route.params.slug,
+          shouldFetchHost: true,
           squareHostImg: true,
         }
       },

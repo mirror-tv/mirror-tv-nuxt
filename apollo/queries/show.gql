@@ -1,5 +1,7 @@
 query fetchShowBySlug(
   $slug: String!
+  $shouldFetchHost: Boolean = false,
+  $shouldFetchStaff: Boolean = false,
   $squareHostImg: Boolean = false,
   $rectHostImg: Boolean = false,
 ) {
@@ -18,7 +20,21 @@ query fetchShowBySlug(
       urlDesktopSized
       urlMobileSized
     }
-    hostName {
+    hostName(sortBy: [sortOrder_ASC, id_DESC]) @include(if: $shouldFetchHost)  {
+      slug
+      name
+      sortOrder
+      bioApiData
+      showhostImg @include(if: $squareHostImg) {
+        urlMobileSized
+        urlOriginal
+      }
+      anchorImg @include(if: $rectHostImg) {
+        urlMobileSized
+        urlOriginal
+      }
+    }
+    staffName(sortBy: [sortOrder_ASC, id_DESC]) @include(if: $shouldFetchStaff) {
       slug
       name
       sortOrder
