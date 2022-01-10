@@ -27,7 +27,7 @@ query fetchArtShowsByShowSlug(
     },
     first: $first,
     skip: $skip,
-    sortBy: createdAt_DESC,
+    sortBy: publishTime_DESC,
   ) {
     ...listingArtShow
   }
@@ -78,7 +78,7 @@ query fetchArtShowsByAuthorSlug(
     },
     first: $first,
     skip: $skip,
-    sortBy: createdAt_DESC,
+    sortBy: publishTime_DESC,
   ) {
     ...listingArtShow
   }
@@ -115,6 +115,7 @@ query fetchArtShowsBySeriesSlug(
     },
     first: $first,
     skip: $skip,
+    sortBy: publishTime_DESC,
   ) {
     ...listingArtShow
   }
