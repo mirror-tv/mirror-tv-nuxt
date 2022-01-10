@@ -1,6 +1,6 @@
 <template>
-  <ol v-if="hasSection" class="breadcrum">
-    <li class="breadcrum__item">
+  <ol v-if="hasSection || hasSeries || hasArtShow" class="breadcrum">
+    <li v-if="hasSection" class="breadcrum__item">
       <a
         :href="`/show/${currentShow}/${section.slug}`"
         rel="noreferer noopener"
